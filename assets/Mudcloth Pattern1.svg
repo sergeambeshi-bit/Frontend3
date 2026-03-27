@@ -1,0 +1,7 @@
+<svg width="300" height="300" xmlns="http://www.w3.org/2000/svg">
+  <rect width="300" height="300" fill="#f0e7d8"></rect>
+  <rect x="30" y="30" width="240" height="240" fill="#d4a373"></rect>
+  <text x="150" y="160" font-family="Arial, sans-serif" font-size="24" fill="#fff" text-anchor="middle">
+    Album Cover
+  </text>
+</svg>
