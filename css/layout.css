@@ -1,62 +1,141 @@
 /* layout.css */
+/* ----------------------------------------------------------
+   HERO SECTION
+----------------------------------------------------------- */
 
-/* Fullscreen hero */
 .hero {
   position: relative;
   width: 100%;
   height: 100vh;
-  background: var(--bg-gradient) center/cover no-repeat;
+  background: var(--black-matte);
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  padding: 0 2rem;
   overflow: hidden;
 }
 
-/* Pattern overlays */
+/* Pattern overlays (clean, subtle, no neon) */
 .pattern-overlay {
   position: absolute;
-  top: 0;
-  left: 0;
+  inset: 0;
   width: 100%;
   height: 100%;
-  mix-blend-mode: screen;
-  opacity: 0.3;
+  object-fit: cover;
+  opacity: 0.15;
+  mix-blend-mode: multiply;
+  pointer-events: none;
 }
 
-/* Section layouts */
+/* Hero content */
+.hero-content {
+  z-index: 2;
+  text-align: center;
+  max-width: 780px;
+}
+
+.hero h1 {
+  font-size: 3.4rem;
+  font-weight: 700;
+  color: var(--white);
+  margin-bottom: 1rem;
+}
+
+.hero p {
+  font-size: 1.2rem;
+  color: var(--gray);
+  max-width: 650px;
+  margin: 0 auto 2rem;
+}
+
+
+/* ----------------------------------------------------------
+   GENERIC SECTION STYLE
+----------------------------------------------------------- */
+
 .section {
-  padding: 6rem 2rem;
+  padding: 5rem 2rem;
   display: flex;
   flex-direction: column;
   gap: 2rem;
 }
 
 .section h2 {
-  font-size: 2rem;
-  margin-bottom: 1rem;
-  text-shadow: var(--neon-glow);
+  font-size: 1.9rem;
+  color: var(--white);
+  margin-bottom: 0.6rem;
+  font-weight: 700;
+  letter-spacing: 0.2px;
+  text-transform: capitalize;
 }
 
-/* Responsive grids */
+
+/* ----------------------------------------------------------
+   GRID LAYOUTS
+----------------------------------------------------------- */
+
 .grid {
   display: grid;
-  gap: 1.5rem;
+  gap: 1.6rem;
 }
 
 .grid-4 {
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
 }
 
 .grid-3 {
-  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
 }
 
-/* Footer */
+
+/* Wider card rows with horizontal scroll (like Spotify) */
+.scroll-row {
+  display: flex;
+  gap: 1.4rem;
+  overflow-x: auto;
+  padding-bottom: 1rem;
+}
+
+.scroll-row::-webkit-scrollbar {
+  height: 6px;
+}
+
+.scroll-row::-webkit-scrollbar-thumb {
+  background: var(--border-light);
+  border-radius: 10px;
+}
+
+
+/* ----------------------------------------------------------
+   FOOTER
+----------------------------------------------------------- */
+
 footer {
-  background: #111;
-  color: var(--text-gray);
-  padding: 2rem;
+  background: var(--black-soft);
+  padding: 3rem 2rem;
   text-align: center;
+  color: var(--gray);
+  border-top: 1px solid var(--border-light);
+}
+
+footer p {
   font-size: 0.9rem;
+}
+
+
+/* ----------------------------------------------------------
+   RESPONSIVE
+----------------------------------------------------------- */
+
+@media (max-width: 768px) {
+  .hero h1 {
+    font-size: 2.4rem;
+  }
+  .hero p {
+    font-size: 1rem;
+  }
+  .section {
+    padding: 4rem 1.5rem;
+  }
 }

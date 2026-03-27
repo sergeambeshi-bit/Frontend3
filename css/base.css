@@ -1,7 +1,10 @@
 /* base.css */
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap');
+/* ----------------------------------------------------------
+   FONTS & RESET
+----------------------------------------------------------- */
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap');
 
-/* Reset default browser styles */
 * {
   margin: 0;
   padding: 0;
@@ -10,20 +13,172 @@
 
 html, body {
   height: 100%;
-  font-family: 'Montserrat', sans-serif;
-  background: var(--bg-dark);
-  color: var(--text-white);
+  font-family: 'Inter', 'Montserrat', sans-serif;
+  background-color: #0E0E0E;
+  color: #FFFFFF;
   scroll-behavior: smooth;
 }
 
-/* Global variables */
+
+/* ----------------------------------------------------------
+   GLOBAL COLOR SYSTEM
+   (Afro–Modern Theme)
+----------------------------------------------------------- */
 :root {
-  --primary-neon: #01d4ab;
-  --bg-dark: #0a0a0a;
-  --bg-gradient: linear-gradient(180deg, #000 0%, #111 50%, #1a1a1a 100%);
-  --text-white: #ffffff;
-  --text-gray: #aaaaaa;
-  --neon-glow: 0 0 8px var(--primary-neon), 0 0 16px var(--primary-neon);
-  --border-radius: 12px;
-  --transition-fast: 0.2s ease-in-out;
+  --black: #0E0E0E;
+  --black-soft: #141414;
+  --black-matte: #1C1C1C;
+
+  --white: #FFFFFF;
+  --white-soft: #F2F2F2;
+
+  --gray: #BEBEBE;
+  --gray-light: #D5D5D5;
+
+  --accent-gold: #E3B56B;      /* Subtle premium gold tone */
+  --accent-orange: #F9A45A;    /* Warm afro-inspired highlight */
+
+  --card-bg: #141414;
+  --border-light: rgba(255,255,255,0.08);
+
+  --transition: 0.25s ease;
+  --radius: 12px;
 }
+
+
+/* ----------------------------------------------------------
+   GLOBAL PAGE BEHAVIOR
+----------------------------------------------------------- */
+body {
+  background: var(--black);
+  overflow-x: hidden;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+  transition: var(--transition);
+}
+
+button {
+  font-family: inherit;
+  border: none;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+ul {
+  list-style: none;
+}
+
+
+/* ----------------------------------------------------------
+   UTILITY CLASSES
+----------------------------------------------------------- */
+.container {
+  width: 90%;
+  max-width: 1400px;
+  margin: auto;
+}
+
+.flex {
+  display: flex;
+  align-items: center;
+}
+
+.grid {
+  display: grid;
+  gap: 1.6rem;
+}
+
+.text-muted {
+  color: var(--gray);
+}
+
+.section-title {
+  font-size: 1.6rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
+
+
+/* ----------------------------------------------------------
+   GLOBAL CARD STYLING
+----------------------------------------------------------- */
+.card {
+  background: var(--card-bg);
+  border-radius: var(--radius);
+  padding: 1rem;
+  border: 1px solid var(--border-light);
+  transition: var(--transition);
+}
+
+.card:hover {
+  border-color: rgba(227, 181, 107, 0.6);
+}
+
+
+/* ----------------------------------------------------------
+   BACKGROUND THEME PATTERN SYSTEM
+   (Toghu / Kuba / Mudcloth)
+----------------------------------------------------------- */
+
+body.pattern-bg {
+  background-image: 
+    url("../assets/patterns/toghu.svg"),
+    url("../assets/patterns/kuba.svg"),
+    url("../assets/patterns/mudcloth.svg");
+  background-size: 600px, 500px, 550px;
+  background-position: top left, center right, bottom left;
+  background-repeat: no-repeat;
+  opacity: 0.06; /* soft blended aesthetic */
+}
+
+/* IMPORTANT:
+   When you don’t want patterns on specific pages,
+   add: <body class="no-patterns"> 
+*/
+body.no-patterns {
+  background-image: none !important;
+}
+
+
+/* ----------------------------------------------------------
+   HEADINGS (Clean + Bold)
+----------------------------------------------------------- */
+h1, h2, h3, h4 {
+  font-family: "Montserrat", sans-serif;
+  font-weight: 600;
+  letter-spacing: -0.5px;
+}
+
+h1 {
+  font-size: 2.2rem;
+}
+
+h2 {
+  font-size: 1.7rem;
+}
+
+h3 {
+  font-size: 1.3rem;
+}
+
+
+/* ----------------------------------------------------------
+   SPACING SYSTEM
+----------------------------------------------------------- */
+.section {
+  padding: 3rem 0;
+}
+
+.mb-1 { margin-bottom: 0.5rem; }
+.mb-2 { margin-bottom: 1rem; }
+.mb-3 { margin-bottom: 1.5rem; }
+.mb-4 { margin-bottom: 2rem; }
+.mb-5 { margin-bottom: 3rem; }

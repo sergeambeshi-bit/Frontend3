@@ -1,138 +1,85 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>JENGU – Discover African Music</title>
-  <!-- CSS System -->
-  <link rel="stylesheet" href="/css/base.css">
-  <link rel="stylesheet" href="/css/layout.css">
-  <link rel="stylesheet" href="/css/components.css">
-  <link rel="stylesheet" href="/css/theme-afro.css">
-</head>
-<body class="dark-theme">
-  <!-- HERO SECTION -->
-  <section class="hero">
-    <div class="hero-overlay">
-      <img src="/assets/patterns/toghu.svg" class="pattern toghu" alt="Toghu pattern">
-      <img src="/assets/patterns/kuba.svg" class="pattern kuba" alt="Kuba pattern">
-      <img src="/assets/patterns/mudcloth.svg" class="pattern mudcloth" alt="Mudcloth pattern">
-    </div>
-    <div class="hero-content">
-      <img src="/assets/logo.svg" class="logo" alt="JENGU Logo">
-      <h1 class="hero-title">Discover African Music</h1>
-      <div class="hero-cta">
-        <a href="/browse.html" class="btn btn-neon">Browse</a>
-        <a href="/new-releases.html" class="btn btn-neon-outline">New Releases</a>
-      </div>
-      <div class="scroll-indicator">↓ Scroll</div>
-    </div>
-  </section>
 
-  <!-- NEW RELEASES SECTION -->
-  <section class="new-releases">
-    <h2>New Releases</h2>
-    <div class="album-grid" id="new-releases-grid">
-      <!-- JS will populate -->
+  <link rel="stylesheet" href="/css/app.css">
+</head>
+
+<body>
+
+  <!-- HEADER -->
+  <header class="header">
+    <button class="menu-btn">☰</button>
+    <img src="/assets/logo.svg" class="logo" alt="JENGU">
+    <div class="lang-switch">FR ▾</div>
+  </header>
+
+  <!-- HERO CAROUSEL -->
+  <section class="hero-carousel">
+    <div class="hero-card">
+      <img src="/assets/banners/naija.jpg" alt="Naija Vibes">
+      <div class="hero-info">
+        <h3>Naija Vibes</h3>
+        <p>AfroStar • Nouvel Album Disponible</p>
+        <button class="btn-primary">ACHETER</button>
+      </div>
     </div>
   </section>
 
   <!-- TRENDING SECTION -->
-  <section class="trending">
-    <h2>Trending in Your Country — Cameroon</h2>
-    <div class="track-list" id="trending-grid">
-      <!-- JS will populate -->
+  <section class="section">
+    <h2>Tendance au Cameroun</h2>
+    <p class="subtitle">À la Une au Cameroun</p>
+
+    <div class="card-row">
+      <div class="card">
+        <img src="/assets/tracks/mboko.jpg">
+        <span class="price">200 XAF</span>
+      </div>
+      <div class="card">
+        <img src="/assets/tracks/zouk.jpg">
+        <span class="price">1200 XAF</span>
+      </div>
+      <div class="card">
+        <img src="/assets/tracks/rap237.jpg">
+        <span class="price">300 XAF</span>
+      </div>
     </div>
   </section>
 
-  <!-- TOP ARTISTS SECTION -->
-  <section class="top-artists">
-    <h2>Top Artists</h2>
-    <div class="artist-grid" id="top-artists-grid">
-      <!-- JS will populate -->
+  <!-- NEW RELEASES -->
+  <section class="section">
+    <h2>Nouvelles Sorties</h2>
+
+    <div class="card-row">
+      <div class="card"><img src="/assets/albums/sunset.jpg"><span class="price">1000 XAF</span></div>
+      <div class="card"><img src="/assets/albums/mali.jpg"><span class="price">150 XAF</span></div>
+      <div class="card"><img src="/assets/albums/bikutsi.jpg"><span class="price">250 XAF</span></div>
     </div>
   </section>
 
-  <!-- GENRES GRID -->
-  <section class="genres">
-    <h2>Genres</h2>
-    <div class="genres-grid" id="genres-grid">
-      <!-- JS will populate -->
+  <!-- GENRES -->
+  <section class="section">
+    <h2>Explorer les Genres</h2>
+    <div class="genre-grid">
+      <div class="genre">Makossa</div>
+      <div class="genre">AfroPop</div>
+      <div class="genre">Ndombolo</div>
+      <div class="genre">Rap / Drill</div>
     </div>
   </section>
 
-  <!-- JS System -->
-  <script src="/js/api.js"></script>
-  <script src="/js/ui.js"></script>
-  <script src="/js/cart.js"></script>
-  <script>
-    document.addEventListener('DOMContentLoaded', async () => {
-      initHeroScrollIndicator();
+  <!-- SUPPORT -->
+  <footer class="support">
+    <img src="/assets/icons/whatsapp.svg">
+    <div>
+      <strong>Support WhatsApp</strong><br>
+      Besoin d’aide? Contactez-nous!
+    </div>
+  </footer>
 
-      // Populate new releases
-      const newReleasesGrid = document.getElementById('new-releases-grid');
-      const loaderNR = showLoading(newReleasesGrid);
-      try {
-        const newReleases = await fetchNewReleases();
-        hideLoading(loaderNR);
-        newReleases.forEach(album => {
-          const div = document.createElement('div');
-          div.className = 'album-card';
-          div.innerHTML = `<img src="${album.cover}" alt="${album.title}">
-                           <h3>${album.title}</h3>
-                           <p>${album.artist}</p>`;
-          newReleasesGrid.appendChild(div);
-        });
-      } catch (err) { hideLoading(loaderNR); console.error(err); }
-
-      // Populate trending
-      const trendingGrid = document.getElementById('trending-grid');
-      const loaderTrend = showLoading(trendingGrid);
-      try {
-        const trending = await fetchTrending();
-        hideLoading(loaderTrend);
-        trending.forEach(track => {
-          const div = document.createElement('div');
-          div.className = 'track-card';
-          div.innerHTML = `<img src="${track.cover}" alt="${track.title}">
-                           <h4>${track.title}</h4>
-                           <p>${track.artist}</p>
-                           <button class="add-to-cart" data-track-id="${track.id}">Add</button>`;
-          trendingGrid.appendChild(div);
-        });
-      } catch (err) { hideLoading(loaderTrend); console.error(err); }
-
-      // Populate top artists
-      const topArtistsGrid = document.getElementById('top-artists-grid');
-      const loaderArtists = showLoading(topArtistsGrid);
-      try {
-        const artists = await fetchTopArtists();
-        hideLoading(loaderArtists);
-        artists.forEach(artist => {
-          const div = document.createElement('div');
-          div.className = 'artist-card';
-          div.innerHTML = `<img src="${artist.photo}" alt="${artist.name}">
-                           <h4>${artist.name}</h4>`;
-          topArtistsGrid.appendChild(div);
-        });
-      } catch (err) { hideLoading(loaderArtists); console.error(err); }
-
-      // Populate genres
-      const genresGrid = document.getElementById('genres-grid');
-      const loaderGenres = showLoading(genresGrid);
-      try {
-        const genres = await fetchGenres();
-        hideLoading(loaderGenres);
-        genres.forEach(genre => {
-          const div = document.createElement('div');
-          div.className = 'genre-card';
-          div.innerHTML = `<h4>${genre.name}</h4>`;
-          genresGrid.appendChild(div);
-        });
-      } catch (err) { hideLoading(loaderGenres); console.error(err); }
-
-      addNeonHover(document.querySelectorAll('.btn-neon, .btn-neon-outline'));
-    });
-  </script>
 </body>
 </html>
