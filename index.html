@@ -13,49 +13,46 @@
 <!-- HERO -->
 <section class="hero">
 
-  <!-- BACKGROUND -->
   <div class="hero-bg"></div>
   <div class="hero-patterns"></div>
 
-  <!-- CONTENT -->
   <div class="hero-content">
 
     <div class="topbar">
       <span class="menu">☰</span>
-      <img src="/assets/logo.svg" class="logo">
-      <span class="lang">FR ▾</span>
+      <img src="/assets/logo.png" class="logo">
+      <span class="lang" onclick="toggleLang()">FR ▾</span>
     </div>
 
-    <h1>Download African Music</h1>
+    <h1 id="heroText">Télécharger la musique africaine</h1>
 
     <div class="cta">
-      <a href="/browse.html" class="btn-primary">Browse</a>
-      <a href="/new-releases.html" class="btn-outline">New Releases</a>
+      <a href="/browse.html" class="btn-primary" id="browseBtn">Parcourir</a>
+      <a href="/new-releases.html" class="btn-outline" id="newBtn">Nouveautés</a>
     </div>
 
     <div class="scroll">↓ Scroll</div>
 
   </div>
-
 </section>
 
 <!-- TRENDING -->
 <section class="section">
-  <h3>Tendance au Cameroun</h3>
-  <p class="sub">À la Une au Cameroun</p>
+  <h3 id="trendingTitle">Tendance au Cameroun</h3>
+  <p class="sub" id="trendingSub">À la Une au Cameroun</p>
   <div class="scroll-row" id="trending"></div>
 </section>
 
 <!-- NEW RELEASES -->
 <section class="section">
-  <h3>Nouvelles Sorties</h3>
+  <h3 id="releasesTitle">Nouvelles Sorties</h3>
   <div class="scroll-row" id="releases"></div>
 </section>
 
 <!-- TOP CHARTS -->
 <section class="section">
   <div class="row-between">
-    <h3>Top Charts</h3>
+    <h3 id="chartsTitle">Top Charts</h3>
     <span class="view">VOIR TOUT</span>
   </div>
   <div id="charts"></div>
@@ -63,7 +60,7 @@
 
 <!-- GENRES -->
 <section class="section">
-  <h3>Explorer les Genres</h3>
+  <h3 id="genresTitle">Explorer les Genres</h3>
 
   <div class="genres">
     <div class="genre">Makossa</div>
@@ -73,12 +70,107 @@
   </div>
 </section>
 
+/* =========================
+   PAYMENT + DOWNLOAD SYSTEM
+========================= */
+
+let selectedMethod = null;
+let selectedTrack = null;
+
+document.addEventListener("click", e => {
+
+  /* OPEN PAYMENT */
+  if(e.target.classList.contains("buy")){
+    selectedTrack = e.target.closest(".card").querySelector("img").src;
+    document.getElementById("paymentModal").classList.remove("hidden");
+  }
+
+  /* SELECT METHOD */
+  if(e.target.classList.contains("pay-btn")){
+    selectedMethod = e.target.dataset.method;
+
+    document.querySelectorAll(".pay-btn").forEach(btn=>{
+      btn.style.background = "#222";
+      btn.style.color = "white";
+    });
+
+    e.target.style.background = "#01d4ab";
+    e.target.style.color = "black";
+  }
+
+  /* CONFIRM PAYMENT */
+  if(e.target.classList.contains("confirm")){
+
+    if(!selectedMethod){
+      alert("Choisissez un moyen de paiement");
+      return;
+    }
+
+    document.getElementById("paymentModal").classList.add("hidden");
+
+    showDownloadModal();
+  }
+
+});
+
+/* =========================
+   DOWNLOAD MODAL
+========================= */
+
+function showDownloadModal(){
+  const modal = document.createElement("div");
+
+  modal.className = "modal";
+
+  modal.innerHTML = `
+    <div class="modal-content">
+
+      <h3>Téléchargement prêt</h3>
+
+      <p>Votre achat a été confirmé.</p>
+
+      <a href="/assets/sample.mp3" download class="download-btn">
+        Télécharger
+      </a>
+
+      <button class="close-download">Fermer</button>
+
+    </div>
+  `;
+
+  document.body.appendChild(modal);
+
+  modal.addEventListener("click", e=>{
+    if(e.target.classList.contains("close-download")){
+      modal.remove();
+    }
+  });
+}
+
 <script type="module">
 import { fetchBrowseResults } from "/js/api.js";
 
+/* HERO ROTATION */
+const heroImages = [
+  "/assets/hero/hero1.png",
+  "/assets/hero/hero2.png",
+  "/assets/hero/hero3.png"
+];
+
+let heroIndex = 0;
+
+function rotateHero() {
+  const hero = document.querySelector(".hero-bg");
+  hero.style.backgroundImage = `url(${heroImages[heroIndex]})`;
+  heroIndex = (heroIndex + 1) % heroImages.length;
+}
+
+setInterval(rotateHero, 5000);
+rotateHero();
+
+/* DATA */
 const data = await fetchBrowseResults();
 
-/* CARDS */
 function createCard(item){
   return `
     <div class="card">
@@ -86,13 +178,17 @@ function createCard(item){
         <img src="${item.cover}">
         <button class="play">▶</button>
       </div>
+
       <div class="title">${item.name}</div>
-      <div class="price">${Math.floor(Math.random()*1000)} XAF</div>
+
+      <div class="card-bottom">
+        <span class="price">${Math.floor(Math.random()*1000)} XAF</span>
+        <button class="buy">Buy</button>
+      </div>
     </div>
   `;
 }
 
-/* TRENDING + RELEASES */
 const trending = document.getElementById("trending");
 const releases = document.getElementById("releases");
 
@@ -126,6 +222,96 @@ document.addEventListener("click", e=>{
     setTimeout(()=>audio.pause(),30000);
   }
 });
+
+/* PAYMENT */
+let selectedMethod = null;
+
+document.addEventListener("click", e => {
+
+  if(e.target.classList.contains("buy")){
+    document.getElementById("paymentModal").classList.remove("hidden");
+  }
+
+  if(e.target.classList.contains("pay-btn")){
+    selectedMethod = e.target.dataset.method;
+
+    document.querySelectorAll(".pay-btn").forEach(btn=>{
+      btn.style.background = "#222";
+      btn.style.color = "white";
+    });
+
+    e.target.style.background = "#01d4ab";
+    e.target.style.color = "black";
+  }
+
+  if(e.target.classList.contains("confirm")){
+    if(!selectedMethod){
+      alert("Choisissez un moyen de paiement");
+      return;
+    }
+
+    if(selectedMethod === "card"){
+      alert("Redirecting to card payment...");
+    } else {
+      const phone = document.getElementById("phone").value;
+      alert("Paiement Mobile Money envoyé à " + phone);
+    }
+
+    document.getElementById("paymentModal").classList.add("hidden");
+  }
+
+});
+
+/* LANGUAGE */
+const translations = {
+  en: {
+    hero: "Download African Music",
+    trending: "Trending in Cameroon",
+    subTrending: "Top in Cameroon",
+    releases: "New Releases",
+    charts: "Top Charts",
+    genres: "Explore Genres",
+    browse: "Browse",
+    new: "New Releases"
+  },
+  fr: {
+    hero: "Télécharger la musique africaine",
+    trending: "Tendance au Cameroun",
+    subTrending: "À la Une au Cameroun",
+    releases: "Nouvelles Sorties",
+    charts: "Top Charts",
+    genres: "Explorer les Genres",
+    browse: "Parcourir",
+    new: "Nouveautés"
+  }
+};
+
+let currentLang = localStorage.getItem("lang") || "fr";
+
+function applyLang() {
+  const t = translations[currentLang];
+
+  document.getElementById("heroText").textContent = t.hero;
+  document.getElementById("trendingTitle").textContent = t.trending;
+  document.getElementById("trendingSub").textContent = t.subTrending;
+  document.getElementById("releasesTitle").textContent = t.releases;
+  document.getElementById("chartsTitle").textContent = t.charts;
+  document.getElementById("genresTitle").textContent = t.genres;
+  document.getElementById("browseBtn").textContent = t.browse;
+  document.getElementById("newBtn").textContent = t.new;
+
+  document.querySelector(".lang").textContent =
+    currentLang === "fr" ? "FR ▾" : "EN ▾";
+}
+
+window.toggleLang = function () {
+  currentLang = currentLang === "fr" ? "en" : "fr";
+  localStorage.setItem("lang", currentLang);
+  applyLang();
+};
+
+applyLang();
+
 </script>
 
 </body>

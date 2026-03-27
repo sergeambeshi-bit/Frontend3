@@ -1,11 +1,20 @@
+/* =========================
+   GLOBAL
+========================= */
 body {
   margin:0;
   font-family: Inter, sans-serif;
   background:#0b0b0f;
   color:white;
+
+  max-width:420px;
+  margin-left:auto;
+  margin-right:auto;
 }
 
-/* HERO */
+/* =========================
+   HERO
+========================= */
 .hero {
   height:100vh;
   position:relative;
@@ -14,18 +23,32 @@ body {
 .hero-bg {
   position:absolute;
   inset:0;
-  background:url('/assets/placeholders/artist.svg') center/cover;
+  background:center/cover no-repeat;
   filter:brightness(0.4);
 }
 
 .hero-patterns {
   position:absolute;
   inset:0;
+
   background-image:
     url('/assets/patterns/toghu.svg'),
     url('/assets/patterns/kuba.svg'),
     url('/assets/patterns/mudcloth.svg');
-  opacity:0.15;
+
+  background-repeat:no-repeat;
+  background-position:
+    top left,
+    top right,
+    bottom left;
+
+  background-size:
+    350px,
+    250px,
+    300px;
+
+  opacity:0.08;
+  mix-blend-mode:screen;
 }
 
 .hero::after {
@@ -44,9 +67,12 @@ body {
   justify-content:center;
   align-items:center;
   text-align:center;
+  padding:20px;
 }
 
-/* HEADER */
+/* =========================
+   HEADER
+========================= */
 .topbar {
   position:absolute;
   top:15px;
@@ -54,6 +80,7 @@ body {
   display:flex;
   justify-content:space-between;
   padding:0 16px;
+  font-size:18px;
 }
 
 .logo {
@@ -61,14 +88,20 @@ body {
   filter:drop-shadow(0 0 10px #01d4ab);
 }
 
-/* TITLE */
+/* =========================
+   TITLE
+========================= */
 .hero h1 {
   font-size:28px;
   color:#01d4ab;
-  text-shadow:0 0 10px #01d4ab;
+  text-shadow:
+    0 0 10px #01d4ab,
+    0 0 20px rgba(1,212,171,0.4);
 }
 
-/* BUTTONS */
+/* =========================
+   BUTTONS
+========================= */
 .cta {
   margin-top:20px;
   display:flex;
@@ -80,6 +113,7 @@ body {
   color:black;
   padding:10px 18px;
   border-radius:25px;
+  font-weight:600;
 }
 
 .btn-outline {
@@ -89,33 +123,54 @@ body {
   color:#01d4ab;
 }
 
-/* SCROLL */
+/* =========================
+   SCROLL
+========================= */
 .scroll {
   position:absolute;
   bottom:20px;
   color:#01d4ab;
+  animation:bounce 2s infinite;
 }
 
-/* SECTION */
+@keyframes bounce {
+  0%,100% { transform:translateY(0); }
+  50% { transform:translateY(-6px); }
+}
+
+/* =========================
+   SECTION
+========================= */
 .section {
-  padding:20px;
+  padding:16px;
+}
+
+h3 {
+  font-size:18px;
+  margin-bottom:6px;
 }
 
 .sub {
   color:#aaa;
   font-size:13px;
+  margin-bottom:12px;
 }
 
-/* SCROLL ROW */
+/* =========================
+   SCROLL ROW
+========================= */
 .scroll-row {
   display:flex;
   gap:12px;
   overflow-x:auto;
+  padding-bottom:5px;
 }
 
-/* CARD */
+/* =========================
+   CARD
+========================= */
 .card {
-  min-width:130px;
+  min-width:140px;
 }
 
 .cover {
@@ -136,18 +191,48 @@ body {
   border-radius:50%;
   width:32px;
   height:32px;
+  color:black;
+  font-weight:bold;
+}
+
+/* CARD FOOTER */
+.card-bottom {
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-top:6px;
+}
+
+.buy {
+  background:#01d4ab;
+  border:none;
+  color:black;
+  padding:4px 10px;
+  border-radius:20px;
+  font-size:12px;
+  font-weight:600;
 }
 
 /* TEXT */
-.title { font-size:13px; }
-.price { font-size:12px; color:#01d4ab; }
+.title {
+  font-size:13px;
+  margin-top:6px;
+}
 
-/* CHART */
+.price {
+  font-size:12px;
+  color:#01d4ab;
+}
+
+/* =========================
+   CHART
+========================= */
 .chart-item {
   display:flex;
   gap:10px;
-  margin:10px 0;
+  padding:8px 0;
   align-items:center;
+  border-bottom:1px solid rgba(255,255,255,0.05);
 }
 
 .chart-item img {
@@ -155,11 +240,13 @@ body {
   border-radius:8px;
 }
 
-/* GENRES */
+/* =========================
+   GENRES
+========================= */
 .genres {
   display:grid;
   grid-template-columns:1fr 1fr;
-  gap:10px;
+  gap:12px;
 }
 
 .genre {
@@ -167,4 +254,103 @@ body {
   padding:14px;
   border-radius:10px;
   text-align:center;
+}
+
+/* =========================
+   PAYMENT MODAL
+========================= */
+.modal {
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,0.7);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  z-index:100;
+}
+
+.hidden {
+  display:none;
+}
+
+.modal-content {
+  background:#15151a;
+  padding:20px;
+  border-radius:12px;
+  width:90%;
+}
+
+/* PAYMENT */
+.pay-section {
+  margin:10px 0;
+}
+
+.label {
+  font-size:12px;
+  color:#aaa;
+  margin-bottom:5px;
+}
+
+.pay-btn {
+  width:100%;
+  margin:5px 0;
+  padding:10px;
+  border-radius:8px;
+  border:none;
+  background:#222;
+  color:white;
+}
+
+.pay-btn.momo {
+  border:1px solid #01d4ab;
+}
+
+.pay-btn.card {
+  border:1px solid #888;
+}
+
+.confirm {
+  margin-top:10px;
+  width:100%;
+  background:#01d4ab;
+  padding:10px;
+  border:none;
+  border-radius:8px;
+  color:black;
+  font-weight:600;
+}
+
+#phone {
+  width:100%;
+  padding:10px;
+  margin-top:10px;
+  border-radius:8px;
+  border:none;
+  background:#222;
+  color:white;
+}
+
+/* =========================
+   DOWNLOAD SYSTEM (NEW)
+========================= */
+.download-btn {
+  display:block;
+  margin-top:10px;
+  text-align:center;
+  background:#01d4ab;
+  color:black;
+  padding:10px;
+  border-radius:8px;
+  font-weight:600;
+  text-decoration:none;
+}
+
+.close-download {
+  margin-top:10px;
+  width:100%;
+  background:#222;
+  color:white;
+  padding:10px;
+  border:none;
+  border-radius:8px;
 }
