@@ -12,7 +12,6 @@
 
 <!-- HERO -->
 <section class="hero">
-
   <div class="hero-bg"></div>
   <div class="hero-patterns"></div>
 
@@ -70,82 +69,31 @@
   </div>
 </section>
 
-/* =========================
-   PAYMENT + DOWNLOAD SYSTEM
-========================= */
+<!-- PAYMENT MODAL -->
+<div id="paymentModal" class="modal hidden">
+  <div class="modal-content">
 
-let selectedMethod = null;
-let selectedTrack = null;
+    <h3>Paiement</h3>
 
-document.addEventListener("click", e => {
-
-  /* OPEN PAYMENT */
-  if(e.target.classList.contains("buy")){
-    selectedTrack = e.target.closest(".card").querySelector("img").src;
-    document.getElementById("paymentModal").classList.remove("hidden");
-  }
-
-  /* SELECT METHOD */
-  if(e.target.classList.contains("pay-btn")){
-    selectedMethod = e.target.dataset.method;
-
-    document.querySelectorAll(".pay-btn").forEach(btn=>{
-      btn.style.background = "#222";
-      btn.style.color = "white";
-    });
-
-    e.target.style.background = "#01d4ab";
-    e.target.style.color = "black";
-  }
-
-  /* CONFIRM PAYMENT */
-  if(e.target.classList.contains("confirm")){
-
-    if(!selectedMethod){
-      alert("Choisissez un moyen de paiement");
-      return;
-    }
-
-    document.getElementById("paymentModal").classList.add("hidden");
-
-    showDownloadModal();
-  }
-
-});
-
-/* =========================
-   DOWNLOAD MODAL
-========================= */
-
-function showDownloadModal(){
-  const modal = document.createElement("div");
-
-  modal.className = "modal";
-
-  modal.innerHTML = `
-    <div class="modal-content">
-
-      <h3>Téléchargement prêt</h3>
-
-      <p>Votre achat a été confirmé.</p>
-
-      <a href="/assets/sample.mp3" download class="download-btn">
-        Télécharger
-      </a>
-
-      <button class="close-download">Fermer</button>
-
+    <div class="pay-section">
+      <p class="label">🇨🇲 Mobile Money</p>
+      <button class="pay-btn momo" data-method="mtn">MTN MoMo</button>
+      <button class="pay-btn momo" data-method="orange">Orange Money</button>
     </div>
-  `;
 
-  document.body.appendChild(modal);
+    <div class="pay-section">
+      <p class="label">💳 Carte / International</p>
+      <button class="pay-btn card" data-method="card">
+        Visa / Mastercard
+      </button>
+    </div>
 
-  modal.addEventListener("click", e=>{
-    if(e.target.classList.contains("close-download")){
-      modal.remove();
-    }
-  });
-}
+    <input type="text" id="phone" placeholder="6XXXXXXXX">
+
+    <button class="confirm">Confirmer le paiement</button>
+
+  </div>
+</div>
 
 <script type="module">
 import { fetchBrowseResults } from "/js/api.js";
@@ -223,7 +171,7 @@ document.addEventListener("click", e=>{
   }
 });
 
-/* PAYMENT */
+/* PAYMENT + DOWNLOAD */
 let selectedMethod = null;
 
 document.addEventListener("click", e => {
@@ -250,17 +198,40 @@ document.addEventListener("click", e => {
       return;
     }
 
-    if(selectedMethod === "card"){
-      alert("Redirecting to card payment...");
-    } else {
-      const phone = document.getElementById("phone").value;
-      alert("Paiement Mobile Money envoyé à " + phone);
-    }
-
     document.getElementById("paymentModal").classList.add("hidden");
+
+    showDownloadModal();
   }
 
 });
+
+/* DOWNLOAD MODAL */
+function showDownloadModal(){
+  const modal = document.createElement("div");
+
+  modal.className = "modal";
+
+  modal.innerHTML = `
+    <div class="modal-content">
+      <h3>Téléchargement prêt</h3>
+      <p>Votre achat a été confirmé.</p>
+
+      <a href="/assets/sample.mp3" download class="download-btn">
+        Télécharger
+      </a>
+
+      <button class="close-download">Fermer</button>
+    </div>
+  `;
+
+  document.body.appendChild(modal);
+
+  modal.addEventListener("click", e=>{
+    if(e.target.classList.contains("close-download")){
+      modal.remove();
+    }
+  });
+}
 
 /* LANGUAGE */
 const translations = {
