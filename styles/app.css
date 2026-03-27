@@ -1,0 +1,170 @@
+body {
+  margin:0;
+  font-family: Inter, sans-serif;
+  background:#0b0b0f;
+  color:white;
+}
+
+/* HERO */
+.hero {
+  height:100vh;
+  position:relative;
+}
+
+.hero-bg {
+  position:absolute;
+  inset:0;
+  background:url('/assets/placeholders/artist.svg') center/cover;
+  filter:brightness(0.4);
+}
+
+.hero-patterns {
+  position:absolute;
+  inset:0;
+  background-image:
+    url('/assets/patterns/toghu.svg'),
+    url('/assets/patterns/kuba.svg'),
+    url('/assets/patterns/mudcloth.svg');
+  opacity:0.15;
+}
+
+.hero::after {
+  content:"";
+  position:absolute;
+  inset:0;
+  background:linear-gradient(to bottom,transparent,#000);
+}
+
+.hero-content {
+  position:relative;
+  z-index:2;
+  height:100%;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  text-align:center;
+}
+
+/* HEADER */
+.topbar {
+  position:absolute;
+  top:15px;
+  width:100%;
+  display:flex;
+  justify-content:space-between;
+  padding:0 16px;
+}
+
+.logo {
+  width:100px;
+  filter:drop-shadow(0 0 10px #01d4ab);
+}
+
+/* TITLE */
+.hero h1 {
+  font-size:28px;
+  color:#01d4ab;
+  text-shadow:0 0 10px #01d4ab;
+}
+
+/* BUTTONS */
+.cta {
+  margin-top:20px;
+  display:flex;
+  gap:10px;
+}
+
+.btn-primary {
+  background:#01d4ab;
+  color:black;
+  padding:10px 18px;
+  border-radius:25px;
+}
+
+.btn-outline {
+  border:1px solid #01d4ab;
+  padding:10px 18px;
+  border-radius:25px;
+  color:#01d4ab;
+}
+
+/* SCROLL */
+.scroll {
+  position:absolute;
+  bottom:20px;
+  color:#01d4ab;
+}
+
+/* SECTION */
+.section {
+  padding:20px;
+}
+
+.sub {
+  color:#aaa;
+  font-size:13px;
+}
+
+/* SCROLL ROW */
+.scroll-row {
+  display:flex;
+  gap:12px;
+  overflow-x:auto;
+}
+
+/* CARD */
+.card {
+  min-width:130px;
+}
+
+.cover {
+  position:relative;
+}
+
+.cover img {
+  width:100%;
+  border-radius:12px;
+}
+
+.play {
+  position:absolute;
+  bottom:8px;
+  right:8px;
+  background:#01d4ab;
+  border:none;
+  border-radius:50%;
+  width:32px;
+  height:32px;
+}
+
+/* TEXT */
+.title { font-size:13px; }
+.price { font-size:12px; color:#01d4ab; }
+
+/* CHART */
+.chart-item {
+  display:flex;
+  gap:10px;
+  margin:10px 0;
+  align-items:center;
+}
+
+.chart-item img {
+  width:40px;
+  border-radius:8px;
+}
+
+/* GENRES */
+.genres {
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
+}
+
+.genre {
+  background:#15151a;
+  padding:14px;
+  border-radius:10px;
+  text-align:center;
+}

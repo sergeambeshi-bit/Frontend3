@@ -1,146 +1,131 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>JENGU – Discover African Music</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>JENGU</title>
 
-  <!-- CSS (UPDATED PATH) -->
-  <link rel="stylesheet" href="/styles/base.css">
-  <link rel="stylesheet" href="/styles/layout.css">
-  <link rel="stylesheet" href="/styles/components.css">
-  <link rel="stylesheet" href="/styles/theme-afro.css">
+<link rel="stylesheet" href="/styles/app.css">
 </head>
 
 <body>
 
-<!-- BACKGROUND PATTERNS -->
-<div class="toghu"></div>
-<div class="kuba"></div>
-<div class="mudcloth"></div>
+<!-- HERO -->
+<section class="hero">
 
-<!-- HEADER -->
-<header class="header container flex" style="justify-content: space-between; padding: 1rem 0;">
-  <button class="menu-btn">☰</button>
-  <img src="/assets/logo.svg" class="logo" style="height:40px;">
-  <div class="text-muted">FR ▾</div>
-</header>
+  <!-- BACKGROUND -->
+  <div class="hero-bg"></div>
+  <div class="hero-patterns"></div>
 
-<!-- HERO CAROUSEL -->
-<section class="section container">
-  <div class="carousel">
-    <div class="carousel-track" id="carouselTrack"></div>
+  <!-- CONTENT -->
+  <div class="hero-content">
 
-    <div class="carousel-buttons">
-      <button class="carousel-btn" onclick="prevSlide()">‹</button>
-      <button class="carousel-btn" onclick="nextSlide()">›</button>
+    <div class="topbar">
+      <span class="menu">☰</span>
+      <img src="/assets/logo.svg" class="logo">
+      <span class="lang">FR ▾</span>
     </div>
+
+    <h1>Download African Music</h1>
+
+    <div class="cta">
+      <a href="/browse.html" class="btn-primary">Browse</a>
+      <a href="/new-releases.html" class="btn-outline">New Releases</a>
+    </div>
+
+    <div class="scroll">↓ Scroll</div>
+
   </div>
+
 </section>
 
 <!-- TRENDING -->
-<section class="section container">
-  <h2>Tendance au Cameroun</h2>
-  <p class="text-muted">À la Une au Cameroun</p>
-
-  <div id="trendingGrid" class="grid grid-4"></div>
+<section class="section">
+  <h3>Tendance au Cameroun</h3>
+  <p class="sub">À la Une au Cameroun</p>
+  <div class="scroll-row" id="trending"></div>
 </section>
 
 <!-- NEW RELEASES -->
-<section class="section container">
-  <h2>Nouvelles Sorties</h2>
-  <div id="newReleasesGrid" class="grid grid-4"></div>
+<section class="section">
+  <h3>Nouvelles Sorties</h3>
+  <div class="scroll-row" id="releases"></div>
+</section>
+
+<!-- TOP CHARTS -->
+<section class="section">
+  <div class="row-between">
+    <h3>Top Charts</h3>
+    <span class="view">VOIR TOUT</span>
+  </div>
+  <div id="charts"></div>
 </section>
 
 <!-- GENRES -->
-<section class="section container">
-  <h2>Explorer les Genres</h2>
+<section class="section">
+  <h3>Explorer les Genres</h3>
 
-  <div class="grid grid-4">
-    <div class="card"><div class="card-title">Makossa</div></div>
-    <div class="card"><div class="card-title">AfroPop</div></div>
-    <div class="card"><div class="card-title">Ndombolo</div></div>
-    <div class="card"><div class="card-title">Rap / Drill</div></div>
+  <div class="genres">
+    <div class="genre">Makossa</div>
+    <div class="genre">AfroPop</div>
+    <div class="genre">Ndombolo</div>
+    <div class="genre">Rap / Drill</div>
   </div>
 </section>
 
-<!-- FOOTER -->
-<footer>
-  <p>&copy; 2026 JENGU — African Music Marketplace</p>
-</footer>
-
-<!-- =========================
-     MODULE SCRIPT
-========================= -->
 <script type="module">
-
 import { fetchBrowseResults } from "/js/api.js";
 
-/* CAROUSEL */
-let index = 0;
+const data = await fetchBrowseResults();
 
-function updateCarousel() {
-  const track = document.getElementById("carouselTrack");
-  track.style.transform = `translateX(-${index * 100}%)`;
+/* CARDS */
+function createCard(item){
+  return `
+    <div class="card">
+      <div class="cover">
+        <img src="${item.cover}">
+        <button class="play">▶</button>
+      </div>
+      <div class="title">${item.name}</div>
+      <div class="price">${Math.floor(Math.random()*1000)} XAF</div>
+    </div>
+  `;
 }
 
-function nextSlide() {
-  const total = document.querySelectorAll(".carousel-item").length;
-  index = (index + 1) % total;
-  updateCarousel();
-}
+/* TRENDING + RELEASES */
+const trending = document.getElementById("trending");
+const releases = document.getElementById("releases");
 
-function prevSlide() {
-  const total = document.querySelectorAll(".carousel-item").length;
-  index = (index - 1 + total) % total;
-  updateCarousel();
-}
+data.forEach(item => {
+  trending.innerHTML += createCard(item);
+  releases.innerHTML += createCard(item);
+});
 
-window.nextSlide = nextSlide;
-window.prevSlide = prevSlide;
+/* CHARTS */
+const charts = document.getElementById("charts");
 
+data.slice(0,3).forEach((item,i)=>{
+  charts.innerHTML += `
+    <div class="chart-item">
+      <span>${String(i+1).padStart(2,'0')}</span>
+      <img src="${item.cover}">
+      <div>
+        <b>${item.name}</b>
+        <p>${item.artist || "Artist"}</p>
+      </div>
+      <div class="price">${Math.floor(Math.random()*300)} XAF</div>
+    </div>
+  `;
+});
 
-/* LOAD DATA */
-async function loadHome() {
-  const data = await fetchBrowseResults();
-
-  const trending = document.getElementById("trendingGrid");
-  const releases = document.getElementById("newReleasesGrid");
-  const carousel = document.getElementById("carouselTrack");
-
-  trending.innerHTML = "";
-  releases.innerHTML = "";
-  carousel.innerHTML = "";
-
-  data.forEach(item => {
-
-    const card = document.createElement("div");
-    card.className = "card";
-    card.innerHTML = `
-      <img src="${item.cover}" class="card-cover">
-      <div class="card-title">${item.name}</div>
-      <div class="card-meta">${item.type}</div>
-    `;
-    trending.appendChild(card);
-
-    const card2 = document.createElement("div");
-    card2.className = "card";
-    card2.innerHTML = `
-      <img src="${item.cover}" class="card-cover">
-      <div class="card-title">${item.name}</div>
-    `;
-    releases.appendChild(card2);
-
-    const slide = document.createElement("div");
-    slide.className = "carousel-item";
-    slide.innerHTML = `<img src="${item.cover}">`;
-    carousel.appendChild(slide);
-
-  });
-}
-
-document.addEventListener("DOMContentLoaded", loadHome);
-
+/* PREVIEW */
+document.addEventListener("click", e=>{
+  if(e.target.classList.contains("play")){
+    const audio = new Audio("/assets/sample.mp3");
+    audio.play();
+    setTimeout(()=>audio.pause(),30000);
+  }
+});
 </script>
 
 </body>
