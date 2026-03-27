@@ -1,88 +1,47 @@
+<!-- pages/artist.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>JENGU – Artist Profile</title>
-
-<!-- CSS System -->
-<link rel="stylesheet" href="/css/base.css">
-<link rel="stylesheet" href="/css/layout.css">
-<link rel="stylesheet" href="/css/components.css">
-<link rel="stylesheet" href="/css/theme-afro.css">
-
-<!-- JS System -->
-<script src="/js/api.js" defer></script>
-<script src="/js/ui.js" defer></script>
+<title>JENGU – Artist</title>
+<link rel="stylesheet" href="../css/base.css">
+<link rel="stylesheet" href="../css/layout.css">
+<link rel="stylesheet" href="../css/components.css">
+<link rel="stylesheet" href="../css/theme-afro.css">
+<script src="../js/api.js" defer></script>
+<script src="../js/ui.js" defer></script>
 </head>
 <body class="dark-theme">
 
-<!-- HEADER -->
 <header class="site-header">
-    <img src="/assets/logo.svg" class="logo" alt="JENGU Logo">
-    <nav>
-        <a href="/pages/index.html">Home</a>
-        <a href="/pages/browse.html">Browse</a>
-        <a href="/pages/genres.html">Genres</a>
-        <a href="/pages/charts.html">Charts</a>
-        <a href="/pages/new-releases.html">New Releases</a>
-        <a href="/pages/blog.html">Blog</a>
-    </nav>
-    <div class="user-actions">
-      <a href="/user/login.html" class="btn btn-neon-outline">Login</a>
-      <a href="/user/signup.html" class="btn btn-neon">Sign Up</a>
-    </div>
+  <img src="../assets/logo.svg" class="logo" alt="JENGU Logo">
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="browse.html">Browse</a>
+    <a href="genres.html">Genres</a>
+    <a href="charts.html">Charts</a>
+    <a href="new-releases.html">New Releases</a>
+    <a href="blog.html">Blog</a>
+  </nav>
 </header>
 
-<!-- MAIN CONTENT -->
 <main>
-    <!-- ARTIST BIO -->
-    <section id="artist-bio" class="artist-bio">
-        <img src="/assets/patterns/toghu.svg" alt="Artist image" class="artist-photo">
-        <h1 id="artist-name">Artist Name</h1>
-        <p id="artist-bio-text">Bio: Placeholder bio text about the artist.</p>
-    </section>
-
-    <!-- ARTIST ALBUMS -->
-    <section id="artist-albums" class="cards-container">
-        <!-- JS dynamically renders albums for this artist -->
-    </section>
+  <section id="artist-bio">
+    <img src="../assets/patterns/toghu.svg" alt="Artist image">
+    <p>Bio: Placeholder bio text about the artist.</p>
+  </section>
+  <section id="artist-albums" class="cards-container"></section>
 </main>
 
-<!-- FOOTER -->
 <footer>
-    <p>&copy; 2026 Afro Music Platform</p>
+  <p>&copy; 2026 Afro Music Platform</p>
 </footer>
 
 <script>
 document.addEventListener('DOMContentLoaded', async () => {
-    try {
-        const albums = await fetchArtistAlbums(); // API call for artist's albums
-        const container = document.getElementById('artist-albums');
-        container.innerHTML = '';
-
-        albums.forEach(album => {
-            const card = document.createElement('div');
-            card.className = 'album-card';
-            card.innerHTML = `
-                <img src="${album.cover || '/assets/patterns/kuba.svg'}" alt="${album.title}" class="cover">
-                <div class="info">
-                    <h3>${album.title}</h3>
-                    <p>${album.releaseYear}</p>
-                    <a href="/pages/album.html?id=${album.id}" class="btn btn-neon-outline">View Album</a>
-                </div>
-            `;
-            container.appendChild(card);
-        });
-
-        if(albums.length === 0) {
-            container.innerHTML = '<p class="empty-text">No albums found for this artist.</p>';
-        }
-
-    } catch(err) {
-        console.error('Artist albums fetch error:', err);
-        document.getElementById('artist-albums').innerHTML = '<p class="error-text">Failed to load albums.</p>';
-    }
+  const albums = await fetchTopArtists();
+  renderArtists(document.getElementById('artist-albums'), albums);
 });
 </script>
 
