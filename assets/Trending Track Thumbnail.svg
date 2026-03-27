@@ -1,7 +1,0 @@
-<svg width="150" height="150" xmlns="http://www.w3.org/2000/svg">
-  <rect width="150" height="150" fill="#264653"></rect>
-  <circle cx="75" cy="75" r="60" fill="#2a9d8f"></circle>
-  <text x="75" y="85" font-family="Arial, sans-serif" font-size="16" fill="#fff" text-anchor="middle">
-    Track
-  </text>
-</svg>
