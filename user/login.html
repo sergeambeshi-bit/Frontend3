@@ -1,28 +1,50 @@
-<!-- frontend/user/login.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Login</title>
-<link rel="stylesheet" href="../css/base.css">
-<link rel="stylesheet" href="../css/layout.css">
-<link rel="stylesheet" href="../css/components.css">
-<link rel="stylesheet" href="../css/theme-afro.css">
-<script src="../js/ui.js" defer></script>
-<script src="../js/api.js" defer></script>
+<title>Login – JENGU</title>
+<!-- CSS System -->
+<link rel="stylesheet" href="/css/base.css">
+<link rel="stylesheet" href="/css/layout.css">
+<link rel="stylesheet" href="/css/components.css">
+<link rel="stylesheet" href="/css/theme-afro.css">
+<!-- JS System -->
+<script src="/js/ui.js" defer></script>
 </head>
-<body>
-<main class="auth-container">
+<body class="dark-theme">
+
+<!-- HEADER -->
+<header class="site-header">
+  <img src="/assets/logo.svg" class="logo" alt="JENGU Logo">
+  <nav>
+    <a href="/index.html">Home</a>
+    <a href="/browse.html">Browse</a>
+    <a href="/genres.html">Genres</a>
+    <a href="/charts.html">Charts</a>
+    <a href="/new-releases.html">New Releases</a>
+    <a href="/blog.html">Blog</a>
+  </nav>
+</header>
+
+<main class="auth-page">
+  <section class="login-section">
     <h1>Login</h1>
     <form id="login-form">
-        <label>Email</label>
-        <input type="email" name="email" required>
-        <label>Password</label>
-        <input type="password" name="password" required>
-        <button type="submit">Login</button>
+      <label>Email</label>
+      <input type="email" name="email" required>
+      <label>Password</label>
+      <input type="password" name="password" required>
+      <button type="submit" class="btn btn-neon">Login</button>
     </form>
-    <p>Don't have an account? <a href="signup.html">Sign Up</a></p>
+    <p>Don't have an account? <a href="/user/signup.html">Sign Up</a></p>
+  </section>
 </main>
+
+<!-- FOOTER -->
+<footer>
+  <p>&copy; 2026 Afro Music Platform</p>
+</footer>
+
 </body>
 </html>

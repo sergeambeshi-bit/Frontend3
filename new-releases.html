@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>New Releases – JENGU</title>
+<!-- CSS System -->
+<link rel="stylesheet" href="/css/base.css">
+<link rel="stylesheet" href="/css/layout.css">
+<link rel="stylesheet" href="/css/components.css">
+<link rel="stylesheet" href="/css/theme-afro.css">
+<!-- JS System -->
+<script src="/js/api.js" defer></script>
+<script src="/js/ui.js" defer></script>
+</head>
+<body class="dark-theme">
+
+<!-- HEADER -->
+<header class="site-header">
+  <img src="/assets/logo.svg" class="logo" alt="JENGU Logo">
+  <nav>
+    <a href="/index.html">Home</a>
+    <a href="/browse.html">Browse</a>
+    <a href="/genres.html">Genres</a>
+    <a href="/charts.html">Charts</a>
+    <a href="/new-releases.html" class="active">New Releases</a>
+    <a href="/blog.html">Blog</a>
+  </nav>
+  <div class="user-actions">
+    <a href="/user/login.html" class="btn btn-neon-outline">Login</a>
+    <a href="/user/signup.html" class="btn btn-neon">Sign Up</a>
+  </div>
+</header>
+
+<main>
+  <section class="new-releases-section">
+    <h1 class="section-title">New Releases</h1>
+    <div class="album-grid" id="new-releases-grid">
+      <!-- JS dynamically populates albums -->
+    </div>
+  </section>
+</main>
+
+<!-- FOOTER -->
+<footer>
+  <p>&copy; 2026 Afro Music Platform</p>
+</footer>
+
+<script>
+document.addEventListener('DOMContentLoaded', async () => {
+  const grid = document.getElementById('new-releases-grid');
+  const loader = showLoading(grid);
+
+  try {
+    const albums = await fetchNewReleases();
+    hideLoading(loader);
+
+    albums.forEach(album => {
+      const div = document.createElement('div');
+      div.className = 'album-card';
+      div.innerHTML = `
+        <img src="${album.cover}" alt="${album.title}">
+        <h3>${album.title}</h3>
+        <p>${album.artist}</p>
+      `;
+      grid.appendChild(div);
+    });
+  } catch (err) {
+    hideLoading(loader);
+    grid.innerHTML = '<p class="error-text">Failed to load new releases.</p>';
+    console.error(err);
+  }
+});
+</script>
+
+</body>
+</html>

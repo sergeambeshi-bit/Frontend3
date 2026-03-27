@@ -3,13 +3,14 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Sign Up – JENGU</title>
+<title>Article – JENGU</title>
 <!-- CSS System -->
 <link rel="stylesheet" href="/css/base.css">
 <link rel="stylesheet" href="/css/layout.css">
 <link rel="stylesheet" href="/css/components.css">
 <link rel="stylesheet" href="/css/theme-afro.css">
 <!-- JS System -->
+<script src="/js/api.js" defer></script>
 <script src="/js/ui.js" defer></script>
 </head>
 <body class="dark-theme">
@@ -25,22 +26,17 @@
     <a href="/new-releases.html">New Releases</a>
     <a href="/blog.html">Blog</a>
   </nav>
+  <div class="user-actions">
+    <a href="/user/login.html" class="btn btn-neon-outline">Login</a>
+    <a href="/user/signup.html" class="btn btn-neon">Sign Up</a>
+  </div>
 </header>
 
-<main class="auth-page">
-  <section class="signup-section">
-    <h1>Sign Up</h1>
-    <form id="signup-form">
-      <label>Full Name</label>
-      <input type="text" name="name" required>
-      <label>Email</label>
-      <input type="email" name="email" required>
-      <label>Password</label>
-      <input type="password" name="password" required>
-      <button type="submit" class="btn btn-neon">Sign Up</button>
-    </form>
-    <p>Already have an account? <a href="/user/login.html">Login</a></p>
-  </section>
+<main>
+  <article class="article-page">
+    <h1 id="article-title">Article Title</h1>
+    <p>Placeholder article content goes here...</p>
+  </article>
 </main>
 
 <!-- FOOTER -->

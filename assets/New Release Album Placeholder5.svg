@@ -1,0 +1,6 @@
+<svg width="200" height="200" xmlns="http://www.w3.org/2000/svg">
+  <rect width="200" height="200" fill="#264653"></rect>
+  <polygon points="100,20 180,180 20,180" fill="#2a9d8f"></polygon>
+  <polygon points="100,60 140,160 60,160" fill="#e9c46a"></polygon>
+  <text x="50%" y="90%" dominant-baseline="middle" text-anchor="middle" font-size="24" fill="#fff" font-family="Arial">Album</text>
+</svg>

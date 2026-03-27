@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Artist Profile – JENGU</title>
+<!-- CSS System -->
+<link rel="stylesheet" href="/css/base.css">
+<link rel="stylesheet" href="/css/layout.css">
+<link rel="stylesheet" href="/css/components.css">
+<link rel="stylesheet" href="/css/theme-afro.css">
+<!-- JS System -->
+<script src="/js/api.js" defer></script>
+<script src="/js/ui.js" defer></script>
+</head>
+<body class="dark-theme">
+
+<!-- HEADER -->
+<header class="site-header">
+  <img src="/assets/logo.svg" class="logo" alt="JENGU Logo">
+  <nav>
+    <a href="/index.html">Home</a>
+    <a href="/browse.html">Browse</a>
+    <a href="/genres.html">Genres</a>
+    <a href="/charts.html">Charts</a>
+    <a href="/new-releases.html">New Releases</a>
+    <a href="/blog.html">Blog</a>
+  </nav>
+  <div class="user-actions">
+    <a href="/user/login.html" class="btn btn-neon-outline">Login</a>
+    <a href="/user/signup.html" class="btn btn-neon">Sign Up</a>
+  </div>
+</header>
+
+<main>
+  <section id="artist-bio" class="artist-page">
+    <div class="artist-photo">
+      <img src="/assets/patterns/toghu.svg" alt="Artist image">
+    </div>
+    <div class="artist-details">
+      <h1 id="artist-name">Artist Name</h1>
+      <p>Bio: Placeholder bio text about the artist.</p>
+    </div>
+  </section>
+
+  <section id="artist-albums" class="cards-container">
+    <!-- JS rendered albums -->
+  </section>
+</main>
+
+<!-- FOOTER -->
+<footer>
+  <p>&copy; 2026 Afro Music Platform</p>
+</footer>
+
+<script>
+  document.addEventListener('DOMContentLoaded', async () => {
+    try {
+      const albums = await fetchTopArtists(); // placeholder
+      renderArtists(document.getElementById('artist-albums'), albums);
+    } catch(err) {
+      console.error('Artist fetch error:', err);
+      document.getElementById('artist-albums').innerHTML = '<p class="error-text">Failed to load albums.</p>';
+    }
+  });
+</script>
+
+</body>
+</html>
