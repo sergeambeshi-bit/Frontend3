@@ -3,145 +3,90 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>JENGU – Browse</title>
-  <!-- CSS System -->
+  <title>Browse – JENGU</title>
+
   <link rel="stylesheet" href="/css/base.css">
   <link rel="stylesheet" href="/css/layout.css">
   <link rel="stylesheet" href="/css/components.css">
   <link rel="stylesheet" href="/css/theme-afro.css">
 </head>
-<body class="dark-theme">
 
-  <!-- HEADER -->
-  <header class="site-header">
-    <img src="/assets/logo.svg" class="logo" alt="JENGU Logo">
-    <nav>
-      <a href="/index.html">Home</a>
-      <a href="/browse.html" class="active">Browse</a>
-      <a href="/genres.html">Genres</a>
-      <a href="/charts.html">Charts</a>
-      <a href="/new-releases.html">New Releases</a>
-      <a href="/blog.html">Blog</a>
-    </nav>
-    <div class="user-actions">
-      <a href="/user/login.html" class="btn btn-neon-outline">Login</a>
-      <a href="/user/signup.html" class="btn btn-neon">Sign Up</a>
-    </div>
-  </header>
+<body>
 
-  <!-- BROWSE SECTION -->
-  <section class="browse-section">
-    <h1 class="section-title">Browse Music</h1>
+<!-- PATTERN BACKGROUND -->
+<div class="toghu"></div>
+<div class="kuba"></div>
 
-    <!-- Search Bar -->
-    <div class="search-bar">
-      <input type="text" id="search-input" placeholder="Search tracks, albums, artists..." />
-      <button id="search-btn" class="btn btn-neon-outline">Search</button>
-    </div>
+<!-- HEADER -->
+<header class="header container flex" style="justify-content: space-between;">
+  <img src="/assets/logo.svg" class="logo" style="height:40px;">
+</header>
 
-    <!-- Filters -->
-    <div class="filters">
-      <select id="filter-genre">
-        <option value="">All Genres</option>
-        <option value="afrobeat">Afrobeat</option>
-        <option value="hiphop">Hip Hop</option>
-        <option value="highlife">Highlife</option>
-        <option value="gqom">Gqom</option>
-        <option value="zouglou">Zouglou</option>
-      </select>
-      <select id="filter-type">
-        <option value="">All Types</option>
-        <option value="track">Track</option>
-        <option value="album">Album</option>
-        <option value="artist">Artist</option>
-      </select>
-    </div>
+<!-- SEARCH -->
+<section class="section container">
+  <input 
+    type="text" 
+    id="searchInput" 
+    placeholder="Search music, artists..."
+    style="width:100%; padding:1rem; border-radius:10px; border:none; background:#1a1a1a; color:white;"
+  >
+</section>
 
-    <!-- Browse Results -->
-    <div class="browse-results" id="browse-results">
-      <!-- JS dynamically populates tracks, albums, artists -->
-    </div>
-  </section>
+<!-- RESULTS -->
+<section class="section container">
+  <h2>Browse</h2>
+  <div id="browseGrid" class="grid grid-4"></div>
+</section>
 
-  <!-- JS System -->
-  <script src="/js/api.js"></script>
-  <script src="/js/ui.js"></script>
-  <script>
-    async function loadBrowseResults() {
-      const container = document.getElementById('browse-results');
-      container.innerHTML = '<p class="loading-text">Loading content...</p>';
+<script src="/js/api.js"></script>
+<script>
+async function loadBrowse() {
+  const container = document.getElementById("browseGrid");
+  const data = await fetchBrowseResults();
 
-      try {
-        const results = await fetchBrowseResults(); // api.js
-        container.innerHTML = '';
-        results.forEach(item => {
-          const card = document.createElement('div');
-          card.className = 'browse-card';
-          card.innerHTML = `
-            <img src="${item.cover || '/assets/patterns/mudcloth.svg'}" alt="${item.name}" class="cover">
-            <div class="info">
-              <h3>${item.name}</h3>
-              <p>${item.type} • ${item.genre}</p>
-            </div>
-            <button class="btn btn-neon-outline play-btn">Play</button>
-          `;
-          container.appendChild(card);
-        });
-      } catch(err) {
-        container.innerHTML = '<p class="error-text">Failed to load content.</p>';
-        console.error('Browse fetch error:', err);
-      }
-    }
+  container.innerHTML = "";
 
-    // Search & Filter
-    document.getElementById('search-btn').addEventListener('click', () => {
-      const query = document.getElementById('search-input').value.toLowerCase();
-      const genre = document.getElementById('filter-genre').value;
-      const type = document.getElementById('filter-type').value;
-      loadBrowseResultsFiltered(query, genre, type);
-    });
+  data.forEach(item => {
+    const card = document.createElement("div");
+    card.className = "card";
 
-    async function loadBrowseResultsFiltered(query, genre, type) {
-      const container = document.getElementById('browse-results');
-      container.innerHTML = '<p class="loading-text">Loading content...</p>';
+    card.innerHTML = `
+      <img src="${item.cover || '/assets/placeholders/album.svg'}" class="card-cover">
+      <div class="card-title">${item.name}</div>
+      <div class="card-meta">${item.type}</div>
+    `;
 
-      try {
-        const results = await fetchBrowseResults(); // api.js
-        const filtered = results.filter(item => {
-          const matchesQuery = item.name.toLowerCase().includes(query);
-          const matchesGenre = genre ? item.genre === genre : true;
-          const matchesType = type ? item.type === type : true;
-          return matchesQuery && matchesGenre && matchesType;
-        });
+    container.appendChild(card);
+  });
+}
 
-        container.innerHTML = '';
-        filtered.forEach(item => {
-          const card = document.createElement('div');
-          card.className = 'browse-card';
-          card.innerHTML = `
-            <img src="${item.cover || '/assets/patterns/kuba.svg'}" alt="${item.name}" class="cover">
-            <div class="info">
-              <h3>${item.name}</h3>
-              <p>${item.type} • ${item.genre}</p>
-            </div>
-            <button class="btn btn-neon-outline play-btn">Play</button>
-          `;
-          container.appendChild(card);
-        });
+document.getElementById("searchInput").addEventListener("input", async (e) => {
+  const query = e.target.value.toLowerCase();
+  const data = await fetchBrowseResults();
 
-        if(filtered.length === 0) {
-          container.innerHTML = '<p class="empty-text">No results found.</p>';
-        }
+  const filtered = data.filter(item =>
+    item.name.toLowerCase().includes(query)
+  );
 
-      } catch(err) {
-        container.innerHTML = '<p class="error-text">Failed to load content.</p>';
-        console.error('Browse filter error:', err);
-      }
-    }
+  const container = document.getElementById("browseGrid");
+  container.innerHTML = "";
 
-    // Initial load
-    document.addEventListener('DOMContentLoaded', loadBrowseResults);
-  </script>
+  filtered.forEach(item => {
+    const card = document.createElement("div");
+    card.className = "card";
+
+    card.innerHTML = `
+      <img src="${item.cover || '/assets/placeholders/album.svg'}" class="card-cover">
+      <div class="card-title">${item.name}</div>
+      <div class="card-meta">${item.type}</div>
+    `;
+
+    container.appendChild(card);
+  });
+});
+
+document.addEventListener("DOMContentLoaded", loadBrowse);
+</script>
 
 </body>
 </html>

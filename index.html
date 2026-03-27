@@ -5,81 +5,148 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>JENGU – Discover African Music</title>
 
-  <link rel="stylesheet" href="/css/app.css">
+  <!-- CSS -->
+  <link rel="stylesheet" href="/css/base.css">
+  <link rel="stylesheet" href="/css/layout.css">
+  <link rel="stylesheet" href="/css/components.css">
+  <link rel="stylesheet" href="/css/theme-afro.css">
 </head>
 
 <body>
 
-  <!-- HEADER -->
-  <header class="header">
-    <button class="menu-btn">☰</button>
-    <img src="/assets/logo.svg" class="logo" alt="JENGU">
-    <div class="lang-switch">FR ▾</div>
-  </header>
+<!-- BACKGROUND PATTERNS -->
+<div class="toghu"></div>
+<div class="kuba"></div>
+<div class="mudcloth"></div>
 
-  <!-- HERO CAROUSEL -->
-  <section class="hero-carousel">
-    <div class="hero-card">
-      <img src="/assets/banners/naija.jpg" alt="Naija Vibes">
-      <div class="hero-info">
-        <h3>Naija Vibes</h3>
-        <p>AfroStar • Nouvel Album Disponible</p>
-        <button class="btn-primary">ACHETER</button>
-      </div>
+<!-- HEADER -->
+<header class="header container flex" style="justify-content: space-between; padding: 1rem 0;">
+  <button class="menu-btn">☰</button>
+  <img src="/assets/logo.svg" class="logo" style="height:40px;">
+  <div class="text-muted">FR ▾</div>
+</header>
+
+<!-- HERO CAROUSEL -->
+<section class="section container">
+  <div class="carousel">
+    <div class="carousel-track" id="carouselTrack"></div>
+
+    <div class="carousel-buttons">
+      <button class="carousel-btn" onclick="prevSlide()">‹</button>
+      <button class="carousel-btn" onclick="nextSlide()">›</button>
     </div>
-  </section>
+  </div>
+</section>
 
-  <!-- TRENDING SECTION -->
-  <section class="section">
-    <h2>Tendance au Cameroun</h2>
-    <p class="subtitle">À la Une au Cameroun</p>
+<!-- TRENDING -->
+<section class="section container">
+  <h2>Tendance au Cameroun</h2>
+  <p class="text-muted">À la Une au Cameroun</p>
 
-    <div class="card-row">
-      <div class="card">
-        <img src="/assets/tracks/mboko.jpg">
-        <span class="price">200 XAF</span>
-      </div>
-      <div class="card">
-        <img src="/assets/tracks/zouk.jpg">
-        <span class="price">1200 XAF</span>
-      </div>
-      <div class="card">
-        <img src="/assets/tracks/rap237.jpg">
-        <span class="price">300 XAF</span>
-      </div>
-    </div>
-  </section>
+  <div id="trendingGrid" class="grid grid-4"></div>
+</section>
 
-  <!-- NEW RELEASES -->
-  <section class="section">
-    <h2>Nouvelles Sorties</h2>
+<!-- NEW RELEASES -->
+<section class="section container">
+  <h2>Nouvelles Sorties</h2>
+  <div id="newReleasesGrid" class="grid grid-4"></div>
+</section>
 
-    <div class="card-row">
-      <div class="card"><img src="/assets/albums/sunset.jpg"><span class="price">1000 XAF</span></div>
-      <div class="card"><img src="/assets/albums/mali.jpg"><span class="price">150 XAF</span></div>
-      <div class="card"><img src="/assets/albums/bikutsi.jpg"><span class="price">250 XAF</span></div>
-    </div>
-  </section>
+<!-- GENRES -->
+<section class="section container">
+  <h2>Explorer les Genres</h2>
 
-  <!-- GENRES -->
-  <section class="section">
-    <h2>Explorer les Genres</h2>
-    <div class="genre-grid">
-      <div class="genre">Makossa</div>
-      <div class="genre">AfroPop</div>
-      <div class="genre">Ndombolo</div>
-      <div class="genre">Rap / Drill</div>
-    </div>
-  </section>
+  <div class="grid grid-4">
+    <div class="card"><div class="card-title">Makossa</div></div>
+    <div class="card"><div class="card-title">AfroPop</div></div>
+    <div class="card"><div class="card-title">Ndombolo</div></div>
+    <div class="card"><div class="card-title">Rap / Drill</div></div>
+  </div>
+</section>
 
-  <!-- SUPPORT -->
-  <footer class="support">
-    <img src="/assets/icons/whatsapp.svg">
-    <div>
-      <strong>Support WhatsApp</strong><br>
-      Besoin d’aide? Contactez-nous!
-    </div>
-  </footer>
+<!-- FOOTER -->
+<footer>
+  <p>&copy; 2026 JENGU — African Music Marketplace</p>
+</footer>
+
+<!-- JS -->
+<script src="/js/api.js"></script>
+
+<script>
+/* =========================
+   CAROUSEL LOGIC
+========================= */
+let index = 0;
+
+function updateCarousel() {
+  const track = document.getElementById("carouselTrack");
+  track.style.transform = `translateX(-${index * 100}%)`;
+}
+
+function nextSlide() {
+  const total = document.querySelectorAll(".carousel-item").length;
+  index = (index + 1) % total;
+  updateCarousel();
+}
+
+function prevSlide() {
+  const total = document.querySelectorAll(".carousel-item").length;
+  index = (index - 1 + total) % total;
+  updateCarousel();
+}
+
+
+/* =========================
+   LOAD DATA
+========================= */
+async function loadHome() {
+  const data = await fetchBrowseResults();
+
+  const trending = document.getElementById("trendingGrid");
+  const releases = document.getElementById("newReleasesGrid");
+  const carousel = document.getElementById("carouselTrack");
+
+  trending.innerHTML = "";
+  releases.innerHTML = "";
+  carousel.innerHTML = "";
+
+  data.forEach(item => {
+
+    /* === TRENDING === */
+    const card = document.createElement("div");
+    card.className = "card";
+
+    card.innerHTML = `
+      <img src="${item.cover || '/assets/placeholders/track.svg'}" class="card-cover">
+      <div class="card-title">${item.name}</div>
+      <div class="card-meta">${item.type}</div>
+    `;
+    trending.appendChild(card);
+
+    /* === RELEASES === */
+    const card2 = document.createElement("div");
+    card2.className = "card";
+
+    card2.innerHTML = `
+      <img src="${item.cover || '/assets/placeholders/album.svg'}" class="card-cover">
+      <div class="card-title">${item.name}</div>
+    `;
+    releases.appendChild(card2);
+
+    /* === CAROUSEL === */
+    const slide = document.createElement("div");
+    slide.className = "carousel-item";
+
+    slide.innerHTML = `
+      <img src="${item.cover || '/assets/placeholders/album.svg'}">
+    `;
+    carousel.appendChild(slide);
+
+  });
+}
+
+document.addEventListener("DOMContentLoaded", loadHome);
+</script>
 
 </body>
 </html>
