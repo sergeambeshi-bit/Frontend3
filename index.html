@@ -5,11 +5,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>JENGU – Discover African Music</title>
 
-  <!-- CSS -->
-  <link rel="stylesheet" href="/css/base.css">
-  <link rel="stylesheet" href="/css/layout.css">
-  <link rel="stylesheet" href="/css/components.css">
-  <link rel="stylesheet" href="/css/theme-afro.css">
+  <!-- CSS (UPDATED PATH) -->
+  <link rel="stylesheet" href="/styles/base.css">
+  <link rel="stylesheet" href="/styles/layout.css">
+  <link rel="stylesheet" href="/styles/components.css">
+  <link rel="stylesheet" href="/styles/theme-afro.css">
 </head>
 
 <body>
@@ -70,15 +70,13 @@
 </footer>
 
 <!-- =========================
-     MODULE SCRIPT (IMPORTANT)
+     MODULE SCRIPT
 ========================= -->
 <script type="module">
 
 import { fetchBrowseResults } from "/js/api.js";
 
-/* =========================
-   CAROUSEL LOGIC
-========================= */
+/* CAROUSEL */
 let index = 0;
 
 function updateCarousel() {
@@ -98,14 +96,11 @@ function prevSlide() {
   updateCarousel();
 }
 
-/* Make buttons work globally */
 window.nextSlide = nextSlide;
 window.prevSlide = prevSlide;
 
 
-/* =========================
-   LOAD DATA INTO UI
-========================= */
+/* LOAD DATA */
 async function loadHome() {
   const data = await fetchBrowseResults();
 
@@ -119,10 +114,8 @@ async function loadHome() {
 
   data.forEach(item => {
 
-    /* TRENDING */
     const card = document.createElement("div");
     card.className = "card";
-
     card.innerHTML = `
       <img src="${item.cover}" class="card-cover">
       <div class="card-title">${item.name}</div>
@@ -130,22 +123,19 @@ async function loadHome() {
     `;
     trending.appendChild(card);
 
-    /* RELEASES */
     const card2 = document.createElement("div");
     card2.className = "card";
-
     card2.innerHTML = `
       <img src="${item.cover}" class="card-cover">
       <div class="card-title">${item.name}</div>
     `;
     releases.appendChild(card2);
 
-    /* CAROUSEL */
     const slide = document.createElement("div");
     slide.className = "carousel-item";
-
     slide.innerHTML = `<img src="${item.cover}">`;
     carousel.appendChild(slide);
+
   });
 }
 
