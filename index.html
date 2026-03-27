@@ -69,10 +69,13 @@
   <p>&copy; 2026 JENGU — African Music Marketplace</p>
 </footer>
 
-<!-- JS -->
-<script src="/js/api.js"></script>
+<!-- =========================
+     MODULE SCRIPT (IMPORTANT)
+========================= -->
+<script type="module">
 
-<script>
+import { fetchBrowseResults } from "/js/api.js";
+
 /* =========================
    CAROUSEL LOGIC
 ========================= */
@@ -95,9 +98,13 @@ function prevSlide() {
   updateCarousel();
 }
 
+/* Make buttons work globally */
+window.nextSlide = nextSlide;
+window.prevSlide = prevSlide;
+
 
 /* =========================
-   LOAD DATA
+   LOAD DATA INTO UI
 ========================= */
 async function loadHome() {
   const data = await fetchBrowseResults();
@@ -112,40 +119,38 @@ async function loadHome() {
 
   data.forEach(item => {
 
-    /* === TRENDING === */
+    /* TRENDING */
     const card = document.createElement("div");
     card.className = "card";
 
     card.innerHTML = `
-      <img src="${item.cover || '/assets/placeholders/track.svg'}" class="card-cover">
+      <img src="${item.cover}" class="card-cover">
       <div class="card-title">${item.name}</div>
       <div class="card-meta">${item.type}</div>
     `;
     trending.appendChild(card);
 
-    /* === RELEASES === */
+    /* RELEASES */
     const card2 = document.createElement("div");
     card2.className = "card";
 
     card2.innerHTML = `
-      <img src="${item.cover || '/assets/placeholders/album.svg'}" class="card-cover">
+      <img src="${item.cover}" class="card-cover">
       <div class="card-title">${item.name}</div>
     `;
     releases.appendChild(card2);
 
-    /* === CAROUSEL === */
+    /* CAROUSEL */
     const slide = document.createElement("div");
     slide.className = "carousel-item";
 
-    slide.innerHTML = `
-      <img src="${item.cover || '/assets/placeholders/album.svg'}">
-    `;
+    slide.innerHTML = `<img src="${item.cover}">`;
     carousel.appendChild(slide);
-
   });
 }
 
 document.addEventListener("DOMContentLoaded", loadHome);
+
 </script>
 
 </body>
