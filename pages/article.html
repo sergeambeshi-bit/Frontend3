@@ -1,28 +1,51 @@
-<!-- frontend/pages/article.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Article</title>
-<link rel="stylesheet" href="../css/base.css">
-<link rel="stylesheet" href="../css/layout.css">
-<link rel="stylesheet" href="../css/components.css">
-<link rel="stylesheet" href="../css/theme-afro.css">
-<script src="../js/api.js" defer></script>
-<script src="../js/ui.js" defer></script>
+<title>JENGU – Article</title>
+
+<!-- CSS System -->
+<link rel="stylesheet" href="/css/base.css">
+<link rel="stylesheet" href="/css/layout.css">
+<link rel="stylesheet" href="/css/components.css">
+<link rel="stylesheet" href="/css/theme-afro.css">
+
+<!-- JS System -->
+<script src="/js/api.js" defer></script>
+<script src="/js/ui.js" defer></script>
 </head>
-<body>
-<header>
-    <h1>Article Title</h1>
+<body class="dark-theme">
+
+<!-- HEADER -->
+<header class="site-header">
+    <img src="/assets/logo.svg" class="logo" alt="JENGU Logo">
+    <nav>
+        <a href="/pages/index.html">Home</a>
+        <a href="/pages/browse.html">Browse</a>
+        <a href="/pages/genres.html">Genres</a>
+        <a href="/pages/charts.html">Charts</a>
+        <a href="/pages/new-releases.html">New Releases</a>
+        <a href="/pages/blog.html">Blog</a>
+    </nav>
+    <div class="user-actions">
+      <a href="/user/login.html" class="btn btn-neon-outline">Login</a>
+      <a href="/user/signup.html" class="btn btn-neon">Sign Up</a>
+    </div>
 </header>
-<main>
+
+<!-- MAIN CONTENT -->
+<main class="article-page">
     <article>
-        <p>Placeholder article content goes here...</p>
+        <h1 id="article-title">Article Title</h1>
+        <p id="article-content">Placeholder article content goes here...</p>
     </article>
 </main>
+
+<!-- FOOTER -->
 <footer>
     <p>&copy; 2026 Afro Music Platform</p>
 </footer>
+
 </body>
 </html>

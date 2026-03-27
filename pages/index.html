@@ -1,31 +1,36 @@
-<!-- frontend/pages/index.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>JENGU – Discover African Music</title>
-  <!-- CSS System -->
-  <link rel="stylesheet" href="../css/base.css">
-  <link rel="stylesheet" href="../css/layout.css">
-  <link rel="stylesheet" href="../css/components.css">
-  <link rel="stylesheet" href="../css/theme-afro.css">
+
+  <!-- CSS System (Fixed paths) -->
+  <link rel="stylesheet" href="/css/base.css">
+  <link rel="stylesheet" href="/css/layout.css">
+  <link rel="stylesheet" href="/css/components.css">
+  <link rel="stylesheet" href="/css/theme-afro.css">
 </head>
+
 <body class="dark-theme">
+
   <!-- HERO SECTION -->
   <section class="hero">
     <div class="hero-overlay">
-      <img src="../assets/patterns/toghu.svg" class="pattern toghu" alt="Toghu pattern">
-      <img src="../assets/patterns/kuba.svg" class="pattern kuba" alt="Kuba pattern">
-      <img src="../assets/patterns/mudcloth.svg" class="pattern mudcloth" alt="Mudcloth pattern">
+      <img src="/assets/patterns/toghu.svg" class="pattern toghu" alt="Toghu pattern">
+      <img src="/assets/patterns/kuba.svg" class="pattern kuba" alt="Kuba pattern">
+      <img src="/assets/patterns/mudcloth.svg" class="pattern mudcloth" alt="Mudcloth pattern">
     </div>
     <div class="hero-content">
-      <img src="../assets/logo.svg" class="logo" alt="JENGU Logo">
+      <img src="/assets/logo.svg" class="logo" alt="JENGU Logo">
+
       <h1 class="hero-title">Discover African Music</h1>
+
       <div class="hero-cta">
-        <a href="browse.html" class="btn btn-neon">Browse</a>
-        <a href="new-releases.html" class="btn btn-neon-outline">New Releases</a>
+        <a href="/pages/browse.html" class="btn btn-neon">Browse</a>
+        <a href="/pages/new-releases.html" class="btn btn-neon-outline">New Releases</a>
       </div>
+
       <div class="scroll-indicator">↓ Scroll</div>
     </div>
   </section>
@@ -33,45 +38,38 @@
   <!-- NEW RELEASES SECTION -->
   <section class="new-releases">
     <h2>New Releases</h2>
-    <div class="album-grid" id="new-releases-grid">
-      <!-- JS will populate -->
-    </div>
+    <div class="album-grid" id="new-releases-grid"></div>
   </section>
 
   <!-- TRENDING SECTION -->
   <section class="trending">
     <h2>Trending in Your Country — Cameroon</h2>
-    <div class="track-list" id="trending-grid">
-      <!-- JS will populate -->
-    </div>
+    <div class="track-list" id="trending-grid"></div>
   </section>
 
   <!-- TOP ARTISTS SECTION -->
   <section class="top-artists">
     <h2>Top Artists</h2>
-    <div class="artist-grid" id="top-artists-grid">
-      <!-- JS will populate -->
-    </div>
+    <div class="artist-grid" id="top-artists-grid"></div>
   </section>
 
   <!-- GENRES GRID -->
   <section class="genres">
     <h2>Genres</h2>
-    <div class="genres-grid" id="genres-grid">
-      <!-- JS will populate -->
-    </div>
+    <div class="genres-grid" id="genres-grid"></div>
   </section>
 
-  <!-- JS System -->
-  <script src="../js/api.js"></script>
-  <script src="../js/ui.js"></script>
-  <script src="../js/cart.js"></script>
+  <!-- JS System (Fixed paths) -->
+  <script src="/js/api.js"></script>
+  <script src="/js/ui.js"></script>
+  <script src="/js/cart.js"></script>
+
   <script>
     document.addEventListener('DOMContentLoaded', async () => {
-      // Hero scroll indicator
+
       initHeroScrollIndicator();
 
-      // Populate new releases
+      /* NEW RELEASES */
       const newReleasesGrid = document.getElementById('new-releases-grid');
       const loaderNR = showLoading(newReleasesGrid);
       try {
@@ -80,14 +78,18 @@
         newReleases.forEach(album => {
           const div = document.createElement('div');
           div.className = 'album-card';
-          div.innerHTML = `<img src="${album.cover}" alt="${album.title}">
-                           <h3>${album.title}</h3>
-                           <p>${album.artist}</p>`;
+          div.innerHTML = `
+            <img src="${album.cover}" alt="${album.title}">
+            <h3>${album.title}</h3>
+            <p>${album.artist}</p>`;
           newReleasesGrid.appendChild(div);
         });
-      } catch (err) { hideLoading(loaderNR); console.error(err); }
+      } catch (err) {
+        hideLoading(loaderNR);
+        console.error(err);
+      }
 
-      // Populate trending
+      /* TRENDING */
       const trendingGrid = document.getElementById('trending-grid');
       const loaderTrend = showLoading(trendingGrid);
       try {
@@ -96,15 +98,19 @@
         trending.forEach(track => {
           const div = document.createElement('div');
           div.className = 'track-card';
-          div.innerHTML = `<img src="${track.cover}" alt="${track.title}">
-                           <h4>${track.title}</h4>
-                           <p>${track.artist}</p>
-                           <button class="add-to-cart" data-track-id="${track.id}">Add</button>`;
+          div.innerHTML = `
+            <img src="${track.cover}" alt="${track.title}">
+            <h4>${track.title}</h4>
+            <p>${track.artist}</p>
+            <button class="add-to-cart" data-track-id="${track.id}">Add</button>`;
           trendingGrid.appendChild(div);
         });
-      } catch (err) { hideLoading(loaderTrend); console.error(err); }
+      } catch (err) {
+        hideLoading(loaderTrend);
+        console.error(err);
+      }
 
-      // Populate top artists
+      /* TOP ARTISTS */
       const topArtistsGrid = document.getElementById('top-artists-grid');
       const loaderArtists = showLoading(topArtistsGrid);
       try {
@@ -113,13 +119,17 @@
         artists.forEach(artist => {
           const div = document.createElement('div');
           div.className = 'artist-card';
-          div.innerHTML = `<img src="${artist.photo}" alt="${artist.name}">
-                           <h4>${artist.name}</h4>`;
+          div.innerHTML = `
+            <img src="${artist.photo}" alt="${artist.name}">
+            <h4>${artist.name}</h4>`;
           topArtistsGrid.appendChild(div);
         });
-      } catch (err) { hideLoading(loaderArtists); console.error(err); }
+      } catch (err) {
+        hideLoading(loaderArtists);
+        console.error(err);
+      }
 
-      // Populate genres
+      /* GENRES */
       const genresGrid = document.getElementById('genres-grid');
       const loaderGenres = showLoading(genresGrid);
       try {
@@ -131,11 +141,14 @@
           div.innerHTML = `<h4>${genre.name}</h4>`;
           genresGrid.appendChild(div);
         });
-      } catch (err) { hideLoading(loaderGenres); console.error(err); }
+      } catch (err) {
+        hideLoading(loaderGenres);
+        console.error(err);
+      }
 
-      // Neon hover effects
       addNeonHover(document.querySelectorAll('.btn-neon, .btn-neon-outline'));
     });
   </script>
+
 </body>
 </html>

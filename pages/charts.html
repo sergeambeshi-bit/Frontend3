@@ -1,31 +1,34 @@
-<!-- frontend/pages/charts.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>JENGU – Charts</title>
+
   <!-- CSS System -->
-  <link rel="stylesheet" href="../css/base.css">
-  <link rel="stylesheet" href="../css/layout.css">
-  <link rel="stylesheet" href="../css/components.css">
-  <link rel="stylesheet" href="../css/theme-afro.css">
+  <link rel="stylesheet" href="/css/base.css">
+  <link rel="stylesheet" href="/css/layout.css">
+  <link rel="stylesheet" href="/css/components.css">
+  <link rel="stylesheet" href="/css/theme-afro.css">
 </head>
+
 <body class="dark-theme">
 
   <!-- HEADER -->
   <header class="site-header">
-    <img src="../assets/logo.svg" class="logo" alt="JENGU Logo">
+    <img src="/assets/logo.svg" class="logo" alt="JENGU Logo">
+
     <nav>
-      <a href="index.html">Home</a>
-      <a href="browse.html">Browse</a>
-      <a href="genres.html">Genres</a>
-      <a href="charts.html" class="active">Charts</a>
-      <a href="new-releases.html">New Releases</a>
+      <a href="/pages/index.html">Home</a>
+      <a href="/pages/browse.html">Browse</a>
+      <a href="/pages/genres.html">Genres</a>
+      <a href="/pages/charts.html" class="active">Charts</a>
+      <a href="/pages/new-releases.html">New Releases</a>
     </nav>
+
     <div class="user-actions">
-      <a href="../user/login.html" class="btn btn-neon-outline">Login</a>
-      <a href="../user/signup.html" class="btn btn-neon">Sign Up</a>
+      <a href="/user/login.html" class="btn btn-neon-outline">Login</a>
+      <a href="/user/signup.html" class="btn btn-neon">Sign Up</a>
     </div>
   </header>
 
@@ -54,26 +57,26 @@
   </section>
 
   <!-- JS System -->
-  <script src="../js/api.js"></script>
-  <script src="../js/ui.js"></script>
+  <script src="/js/api.js"></script>
+  <script src="/js/ui.js"></script>
   <script>
-    // Sample data placeholders
+    // Sample demo data
     const topTracks = [
-      { title: "Afrobeat Anthem", artist: "DJ Afro", cover: "../assets/patterns/toghu.svg" },
-      { title: "Highlife Vibes", artist: "Kofi Star", cover: "../assets/patterns/kuba.svg" },
-      { title: "Mudcloth Groove", artist: "Mali Beats", cover: "../assets/patterns/mudcloth.svg" },
+      { title: "Afrobeat Anthem", artist: "DJ Afro", cover: "/assets/patterns/toghu.svg" },
+      { title: "Highlife Vibes", artist: "Kofi Star", cover: "/assets/patterns/kuba.svg" },
+      { title: "Mudcloth Groove", artist: "Mali Beats", cover: "/assets/patterns/mudcloth.svg" },
     ];
 
     const topAlbums = [
-      { title: "Neo Africa", artist: "AfroNova", cover: "../assets/patterns/toghu.svg" },
-      { title: "Vibrations", artist: "Kuba Sounds", cover: "../assets/patterns/kuba.svg" },
-      { title: "Mali Nights", artist: "Mudcloth Collective", cover: "../assets/patterns/mudcloth.svg" },
+      { title: "Neo Africa", artist: "AfroNova", cover: "/assets/patterns/toghu.svg" },
+      { title: "Vibrations", artist: "Kuba Sounds", cover: "/assets/patterns/kuba.svg" },
+      { title: "Mali Nights", artist: "Mudcloth Collective", cover: "/assets/patterns/mudcloth.svg" },
     ];
 
     const trendingArtists = [
-      { name: "DJ Afro", cover: "../assets/patterns/toghu.svg" },
-      { name: "Kofi Star", cover: "../assets/patterns/kuba.svg" },
-      { name: "Mali Beats", cover: "../assets/patterns/mudcloth.svg" },
+      { name: "DJ Afro", cover: "/assets/patterns/toghu.svg" },
+      { name: "Kofi Star", cover: "/assets/patterns/kuba.svg" },
+      { name: "Mali Beats", cover: "/assets/patterns/mudcloth.svg" },
     ];
 
     function renderCharts(data, containerId, type) {

@@ -1,34 +1,82 @@
-<!-- frontend/pages/blog.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Blog</title>
-<link rel="stylesheet" href="../css/base.css">
-<link rel="stylesheet" href="../css/layout.css">
-<link rel="stylesheet" href="../css/components.css">
-<link rel="stylesheet" href="../css/theme-afro.css">
-<script src="../js/api.js" defer></script>
-<script src="../js/ui.js" defer></script>
+<title>JENGU – Blog</title>
+
+<!-- CSS System -->
+<link rel="stylesheet" href="/css/base.css">
+<link rel="stylesheet" href="/css/layout.css">
+<link rel="stylesheet" href="/css/components.css">
+<link rel="stylesheet" href="/css/theme-afro.css">
+
+<!-- JS System -->
+<script src="/js/api.js" defer></script>
+<script src="/js/ui.js" defer></script>
 </head>
-<body>
-<header>
-    <h1>Music Blog</h1>
+<body class="dark-theme">
+
+<!-- HEADER -->
+<header class="site-header">
+    <img src="/assets/logo.svg" class="logo" alt="JENGU Logo">
+    <nav>
+        <a href="/pages/index.html">Home</a>
+        <a href="/pages/browse.html">Browse</a>
+        <a href="/pages/genres.html">Genres</a>
+        <a href="/pages/charts.html">Charts</a>
+        <a href="/pages/new-releases.html">New Releases</a>
+        <a href="/pages/blog.html" class="active">Blog</a>
+    </nav>
+    <div class="user-actions">
+      <a href="/user/login.html" class="btn btn-neon-outline">Login</a>
+      <a href="/user/signup.html" class="btn btn-neon">Sign Up</a>
+    </div>
 </header>
+
+<!-- MAIN CONTENT -->
 <main>
     <section id="blog-posts" class="cards-container">
-        <!-- JS rendered posts -->
+        <!-- JS dynamically renders posts -->
     </section>
 </main>
+
+<!-- FOOTER -->
 <footer>
     <p>&copy; 2026 Afro Music Platform</p>
 </footer>
+
 <script>
-    document.addEventListener('DOMContentLoaded', async () => {
-        const posts = await fetchBlogPosts();
-        renderBlog(document.getElementById('blog-posts'), posts);
-    });
+document.addEventListener('DOMContentLoaded', async () => {
+    try {
+        const posts = await fetchBlogPosts(); // from /js/api.js
+        const container = document.getElementById('blog-posts');
+        container.innerHTML = '';
+
+        posts.forEach(post => {
+            const card = document.createElement('div');
+            card.className = 'blog-card';
+            card.innerHTML = `
+                <img src="${post.cover || '/assets/patterns/toghu.svg'}" alt="${post.title}" class="cover">
+                <div class="info">
+                    <h3>${post.title}</h3>
+                    <p>${post.excerpt}</p>
+                    <a href="/pages/article.html?id=${post.id}" class="btn btn-neon-outline">Read More</a>
+                </div>
+            `;
+            container.appendChild(card);
+        });
+
+        if(posts.length === 0) {
+            container.innerHTML = '<p class="empty-text">No blog posts found.</p>';
+        }
+
+    } catch(err) {
+        console.error('Blog fetch error:', err);
+        document.getElementById('blog-posts').innerHTML = '<p class="error-text">Failed to load blog posts.</p>';
+    }
+});
 </script>
+
 </body>
 </html>
