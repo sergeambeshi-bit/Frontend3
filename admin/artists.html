@@ -1,0 +1,73 @@
+<!-- frontend/admin/artists.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JENGU Admin – Artists</title>
+  <link rel="stylesheet" href="../css/base.css">
+  <link rel="stylesheet" href="../css/layout.css">
+  <link rel="stylesheet" href="../css/components.css">
+  <link rel="stylesheet" href="../css/theme-afro.css">
+</head>
+<body class="dark-theme admin-panel">
+
+  <header class="admin-header">
+    <img src="../assets/logo.svg" class="logo" alt="JENGU Logo">
+    <nav>
+      <a href="dashboard.html">Dashboard</a>
+      <a href="users.html">Users</a>
+      <a href="artists.html" class="active">Artists</a>
+      <a href="catalog.html">Catalog</a>
+      <a href="transactions.html">Transactions</a>
+      <a href="payouts.html">Payouts</a>
+      <a href="promotions.html">Promotions</a>
+      <a href="fraud.html">Fraud</a>
+    </nav>
+  </header>
+
+  <main class="admin-main">
+    <h1>Manage Artists</h1>
+    <table class="neon-table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Artist Name</th>
+          <th>Email</th>
+          <th>Joined</th>
+          <th>Status</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody id="artist-list"></tbody>
+    </table>
+  </main>
+
+  <script src="../js/admin.js"></script>
+  <script>
+    const artists = [
+      {id: 1, name: 'AfroBeatz', email: 'afrobeatz@example.com', joined: '2026-01-05', status: 'Active'},
+      {id: 2, name: 'King Kora', email: 'kingkora@example.com', joined: '2026-02-20', status: 'Active'},
+      {id: 3, name: 'Mali Groove', email: 'maligroove@example.com', joined: '2026-03-12', status: 'Inactive'},
+    ];
+
+    const tbody = document.getElementById('artist-list');
+    artists.forEach(a => {
+      const row = document.createElement('tr');
+      row.innerHTML = `
+        <td>${a.id}</td>
+        <td>${a.name}</td>
+        <td>${a.email}</td>
+        <td>${a.joined}</td>
+        <td>${a.status}</td>
+        <td>
+          <button class="btn btn-neon-outline">Edit</button>
+          <button class="btn btn-neon">Delete</button>
+        </td>
+      `;
+      tbody.appendChild(row);
+    });
+  </script>
+
+</body>
+</html>

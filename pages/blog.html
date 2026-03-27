@@ -1,0 +1,34 @@
+<!-- frontend/pages/blog.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Blog</title>
+<link rel="stylesheet" href="../css/base.css">
+<link rel="stylesheet" href="../css/layout.css">
+<link rel="stylesheet" href="../css/components.css">
+<link rel="stylesheet" href="../css/theme-afro.css">
+<script src="../js/api.js" defer></script>
+<script src="../js/ui.js" defer></script>
+</head>
+<body>
+<header>
+    <h1>Music Blog</h1>
+</header>
+<main>
+    <section id="blog-posts" class="cards-container">
+        <!-- JS rendered posts -->
+    </section>
+</main>
+<footer>
+    <p>&copy; 2026 Afro Music Platform</p>
+</footer>
+<script>
+    document.addEventListener('DOMContentLoaded', async () => {
+        const posts = await fetchBlogPosts();
+        renderBlog(document.getElementById('blog-posts'), posts);
+    });
+</script>
+</body>
+</html>

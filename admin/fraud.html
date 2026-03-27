@@ -1,0 +1,73 @@
+<!-- frontend/admin/fraud.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JENGU Admin – Fraud Monitoring</title>
+  <link rel="stylesheet" href="../css/base.css">
+  <link rel="stylesheet" href="../css/layout.css">
+  <link rel="stylesheet" href="../css/components.css">
+  <link rel="stylesheet" href="../css/theme-afro.css">
+</head>
+<body class="dark-theme admin-panel">
+
+  <header class="admin-header">
+    <img src="../assets/logo.svg" class="logo" alt="JENGU Logo">
+    <nav>
+      <a href="dashboard.html">Dashboard</a>
+      <a href="users.html">Users</a>
+      <a href="artists.html">Artists</a>
+      <a href="catalog.html">Catalog</a>
+      <a href="transactions.html">Transactions</a>
+      <a href="payouts.html">Payouts</a>
+      <a href="promotions.html">Promotions</a>
+      <a href="fraud.html" class="active">Fraud</a>
+    </nav>
+  </header>
+
+  <main class="admin-main">
+    <h1>Fraud Monitoring</h1>
+    <table class="neon-table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>User</th>
+          <th>Activity</th>
+          <th>Date</th>
+          <th>Status</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody id="fraud-list"></tbody>
+    </table>
+  </main>
+
+  <script src="../js/admin.js"></script>
+  <script>
+    const fraudReports = [
+      {id: 1, user: 'afrofan', activity: 'Multiple failed logins', date: '2026-03-01', status: 'Under Review'},
+      {id: 2, user: 'beatking', activity: 'Suspicious payment', date: '2026-03-03', status: 'Investigating'},
+      {id: 3, user: 'songbird', activity: 'Abnormal download pattern', date: '2026-03-05', status: 'Resolved'},
+    ];
+
+    const tbody = document.getElementById('fraud-list');
+    fraudReports.forEach(f => {
+      const row = document.createElement('tr');
+      row.innerHTML = `
+        <td>${f.id}</td>
+        <td>${f.user}</td>
+        <td>${f.activity}</td>
+        <td>${f.date}</td>
+        <td>${f.status}</td>
+        <td>
+          <button class="btn btn-neon-outline">Investigate</button>
+          <button class="btn btn-neon">Resolve</button>
+        </td>
+      `;
+      tbody.appendChild(row);
+    });
+  </script>
+
+</body>
+</html>

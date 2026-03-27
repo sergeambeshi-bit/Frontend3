@@ -1,0 +1,42 @@
+<!-- frontend/pages/track.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Track Details</title>
+<link rel="stylesheet" href="../css/base.css">
+<link rel="stylesheet" href="../css/layout.css">
+<link rel="stylesheet" href="../css/components.css">
+<link rel="stylesheet" href="../css/theme-afro.css">
+<script src="../js/api.js" defer></script>
+<script src="../js/ui.js" defer></script>
+</head>
+<body>
+<header>
+    <h1>Track Title</h1>
+</header>
+<main>
+    <section id="track-player">
+        <div class="track-cover">
+            <img src="../assets/patterns/mudcloth.svg" alt="Track cover">
+        </div>
+        <audio controls id="audio-player">
+            <source src="../assets/audio/sample.mp3" type="audio/mpeg">
+        </audio>
+        <div class="track-info">
+            <p>Artist: Placeholder Artist</p>
+            <p>Album: Placeholder Album</p>
+        </div>
+    </section>
+</main>
+<footer>
+    <p>&copy; 2026 Afro Music Platform</p>
+</footer>
+<script>
+    document.addEventListener('DOMContentLoaded', async () => {
+        // placeholder dynamic info
+    });
+</script>
+</body>
+</html>

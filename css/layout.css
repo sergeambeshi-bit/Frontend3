@@ -1,0 +1,62 @@
+/* layout.css */
+
+/* Fullscreen hero */
+.hero {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  background: var(--bg-gradient) center/cover no-repeat;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+
+/* Pattern overlays */
+.pattern-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  mix-blend-mode: screen;
+  opacity: 0.3;
+}
+
+/* Section layouts */
+.section {
+  padding: 6rem 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.section h2 {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+  text-shadow: var(--neon-glow);
+}
+
+/* Responsive grids */
+.grid {
+  display: grid;
+  gap: 1.5rem;
+}
+
+.grid-4 {
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+}
+
+.grid-3 {
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+}
+
+/* Footer */
+footer {
+  background: #111;
+  color: var(--text-gray);
+  padding: 2rem;
+  text-align: center;
+  font-size: 0.9rem;
+}

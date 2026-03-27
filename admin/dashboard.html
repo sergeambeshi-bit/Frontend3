@@ -1,0 +1,65 @@
+<!-- frontend/admin/dashboard.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JENGU Admin – Dashboard</title>
+  <link rel="stylesheet" href="../css/base.css">
+  <link rel="stylesheet" href="../css/layout.css">
+  <link rel="stylesheet" href="../css/components.css">
+  <link rel="stylesheet" href="../css/theme-afro.css">
+</head>
+<body class="dark-theme admin-panel">
+
+  <!-- HEADER -->
+  <header class="admin-header">
+    <img src="../assets/logo.svg" class="logo" alt="JENGU Logo">
+    <nav>
+      <a href="dashboard.html" class="active">Dashboard</a>
+      <a href="users.html">Users</a>
+      <a href="artists.html">Artists</a>
+      <a href="catalog.html">Catalog</a>
+      <a href="transactions.html">Transactions</a>
+      <a href="payouts.html">Payouts</a>
+      <a href="promotions.html">Promotions</a>
+      <a href="fraud.html">Fraud</a>
+    </nav>
+  </header>
+
+  <!-- MAIN CONTENT -->
+  <main class="admin-main">
+    <h1>Admin Dashboard</h1>
+    <div class="dashboard-cards">
+      <div class="card neon-card">
+        <h2>Total Users</h2>
+        <p id="total-users">--</p>
+      </div>
+      <div class="card neon-card">
+        <h2>Total Artists</h2>
+        <p id="total-artists">--</p>
+      </div>
+      <div class="card neon-card">
+        <h2>Total Revenue</h2>
+        <p id="total-revenue">--</p>
+      </div>
+      <div class="card neon-card">
+        <h2>Pending Payouts</h2>
+        <p id="pending-payouts">--</p>
+      </div>
+    </div>
+  </main>
+
+  <script src="../js/admin.js"></script>
+  <script>
+    // Placeholder JS – will connect to backend APIs
+    document.addEventListener('DOMContentLoaded', () => {
+      document.getElementById('total-users').textContent = '1,245';
+      document.getElementById('total-artists').textContent = '312';
+      document.getElementById('total-revenue').textContent = '$45,890';
+      document.getElementById('pending-payouts').textContent = '$3,120';
+    });
+  </script>
+
+</body>
+</html>

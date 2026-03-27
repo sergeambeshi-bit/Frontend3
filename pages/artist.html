@@ -1,0 +1,38 @@
+<!-- frontend/pages/artist.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Artist Profile</title>
+<link rel="stylesheet" href="../css/base.css">
+<link rel="stylesheet" href="../css/layout.css">
+<link rel="stylesheet" href="../css/components.css">
+<link rel="stylesheet" href="../css/theme-afro.css">
+<script src="../js/api.js" defer></script>
+<script src="../js/ui.js" defer></script>
+</head>
+<body>
+<header>
+    <h1>Artist Name</h1>
+</header>
+<main>
+    <section id="artist-bio">
+        <img src="../assets/patterns/toghu.svg" alt="Artist image">
+        <p>Bio: Placeholder bio text about the artist.</p>
+    </section>
+    <section id="artist-albums" class="cards-container">
+        <!-- JS rendered albums -->
+    </section>
+</main>
+<footer>
+    <p>&copy; 2026 Afro Music Platform</p>
+</footer>
+<script>
+    document.addEventListener('DOMContentLoaded', async () => {
+        const albums = await fetchTopArtists(); // placeholder
+        renderArtists(document.getElementById('artist-albums'), albums);
+    });
+</script>
+</body>
+</html>

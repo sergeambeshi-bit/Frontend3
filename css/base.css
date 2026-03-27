@@ -1,0 +1,29 @@
+/* base.css */
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap');
+
+/* Reset default browser styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  height: 100%;
+  font-family: 'Montserrat', sans-serif;
+  background: var(--bg-dark);
+  color: var(--text-white);
+  scroll-behavior: smooth;
+}
+
+/* Global variables */
+:root {
+  --primary-neon: #01d4ab;
+  --bg-dark: #0a0a0a;
+  --bg-gradient: linear-gradient(180deg, #000 0%, #111 50%, #1a1a1a 100%);
+  --text-white: #ffffff;
+  --text-gray: #aaaaaa;
+  --neon-glow: 0 0 8px var(--primary-neon), 0 0 16px var(--primary-neon);
+  --border-radius: 12px;
+  --transition-fast: 0.2s ease-in-out;
+}

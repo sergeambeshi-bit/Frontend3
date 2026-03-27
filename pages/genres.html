@@ -1,0 +1,79 @@
+<!-- frontend/pages/genres.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JENGU – Genres</title>
+  <!-- CSS System -->
+  <link rel="stylesheet" href="../css/base.css">
+  <link rel="stylesheet" href="../css/layout.css">
+  <link rel="stylesheet" href="../css/components.css">
+  <link rel="stylesheet" href="../css/theme-afro.css">
+</head>
+<body class="dark-theme">
+
+  <!-- HEADER -->
+  <header class="site-header">
+    <img src="../assets/logo.svg" class="logo" alt="JENGU Logo">
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="browse.html">Browse</a>
+      <a href="genres.html" class="active">Genres</a>
+      <a href="charts.html">Charts</a>
+      <a href="new-releases.html">New Releases</a>
+    </nav>
+    <div class="user-actions">
+      <a href="../user/login.html" class="btn btn-neon-outline">Login</a>
+      <a href="../user/signup.html" class="btn btn-neon">Sign Up</a>
+    </div>
+  </header>
+
+  <!-- GENRES GRID -->
+  <section class="genres-section">
+    <h1 class="section-title">Explore Genres</h1>
+
+    <div class="genres-grid" id="genres-grid">
+      <!-- JS dynamically populates genre cards -->
+    </div>
+  </section>
+
+  <!-- JS System -->
+  <script src="../js/api.js"></script>
+  <script src="../js/ui.js"></script>
+  <script>
+    const genresList = [
+      { name: 'Afrobeat', pattern: '../assets/patterns/toghu.svg' },
+      { name: 'Highlife', pattern: '../assets/patterns/kuba.svg' },
+      { name: 'Gqom', pattern: '../assets/patterns/mudcloth.svg' },
+      { name: 'Hip Hop', pattern: '../assets/patterns/toghu.svg' },
+      { name: 'Zouglou', pattern: '../assets/patterns/kuba.svg' },
+      { name: 'RnB', pattern: '../assets/patterns/mudcloth.svg' },
+      { name: 'Amapiano', pattern: '../assets/patterns/toghu.svg' },
+      { name: 'Trap', pattern: '../assets/patterns/kuba.svg' },
+      { name: 'Dancehall', pattern: '../assets/patterns/mudcloth.svg' },
+    ];
+
+    function renderGenres() {
+      const grid = document.getElementById('genres-grid');
+      grid.innerHTML = '';
+
+      genresList.forEach(genre => {
+        const card = document.createElement('div');
+        card.className = 'genre-card';
+        card.innerHTML = `
+          <div class="pattern-overlay" style="background-image: url('${genre.pattern}')"></div>
+          <h2>${genre.name}</h2>
+        `;
+        card.addEventListener('click', () => {
+          window.location.href = `browse.html?genre=${encodeURIComponent(genre.name.toLowerCase())}`;
+        });
+        grid.appendChild(card);
+      });
+    }
+
+    document.addEventListener('DOMContentLoaded', renderGenres);
+  </script>
+
+</body>
+</html>

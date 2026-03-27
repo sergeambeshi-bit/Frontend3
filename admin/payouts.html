@@ -1,0 +1,72 @@
+<!-- frontend/admin/payouts.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JENGU Admin – Payouts</title>
+  <link rel="stylesheet" href="../css/base.css">
+  <link rel="stylesheet" href="../css/layout.css">
+  <link rel="stylesheet" href="../css/components.css">
+  <link rel="stylesheet" href="../css/theme-afro.css">
+</head>
+<body class="dark-theme admin-panel">
+
+  <header class="admin-header">
+    <img src="../assets/logo.svg" class="logo" alt="JENGU Logo">
+    <nav>
+      <a href="dashboard.html">Dashboard</a>
+      <a href="users.html">Users</a>
+      <a href="artists.html">Artists</a>
+      <a href="catalog.html">Catalog</a>
+      <a href="transactions.html">Transactions</a>
+      <a href="payouts.html" class="active">Payouts</a>
+      <a href="promotions.html">Promotions</a>
+      <a href="fraud.html">Fraud</a>
+    </nav>
+  </header>
+
+  <main class="admin-main">
+    <h1>Artist Payouts</h1>
+    <table class="neon-table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Artist</th>
+          <th>Amount</th>
+          <th>Date</th>
+          <th>Status</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody id="payout-list"></tbody>
+    </table>
+  </main>
+
+  <script src="../js/admin.js"></script>
+  <script>
+    const payouts = [
+      {id: 1, artist: 'AfroBeatz', amount: '$150', date: '2026-03-01', status: 'Paid'},
+      {id: 2, artist: 'King Kora', amount: '$200', date: '2026-03-03', status: 'Pending'},
+      {id: 3, artist: 'Mali Groove', amount: '$120', date: '2026-03-05', status: 'Paid'},
+    ];
+
+    const tbody = document.getElementById('payout-list');
+    payouts.forEach(p => {
+      const row = document.createElement('tr');
+      row.innerHTML = `
+        <td>${p.id}</td>
+        <td>${p.artist}</td>
+        <td>${p.amount}</td>
+        <td>${p.date}</td>
+        <td>${p.status}</td>
+        <td>
+          <button class="btn btn-neon-outline">Mark as Paid</button>
+        </td>
+      `;
+      tbody.appendChild(row);
+    });
+  </script>
+
+</body>
+</html>

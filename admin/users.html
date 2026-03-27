@@ -1,0 +1,75 @@
+<!-- frontend/admin/users.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JENGU Admin – Users</title>
+  <link rel="stylesheet" href="../css/base.css">
+  <link rel="stylesheet" href="../css/layout.css">
+  <link rel="stylesheet" href="../css/components.css">
+  <link rel="stylesheet" href="../css/theme-afro.css">
+</head>
+<body class="dark-theme admin-panel">
+
+  <header class="admin-header">
+    <img src="../assets/logo.svg" class="logo" alt="JENGU Logo">
+    <nav>
+      <a href="dashboard.html">Dashboard</a>
+      <a href="users.html" class="active">Users</a>
+      <a href="artists.html">Artists</a>
+      <a href="catalog.html">Catalog</a>
+      <a href="transactions.html">Transactions</a>
+      <a href="payouts.html">Payouts</a>
+      <a href="promotions.html">Promotions</a>
+      <a href="fraud.html">Fraud</a>
+    </nav>
+  </header>
+
+  <main class="admin-main">
+    <h1>Manage Users</h1>
+    <table class="neon-table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Username</th>
+          <th>Email</th>
+          <th>Joined</th>
+          <th>Status</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody id="user-list">
+        <!-- JS will populate users -->
+      </tbody>
+    </table>
+  </main>
+
+  <script src="../js/admin.js"></script>
+  <script>
+    const users = [
+      {id: 1, username: 'afrofan', email: 'afrofan@example.com', joined: '2026-01-01', status: 'Active'},
+      {id: 2, username: 'beatking', email: 'beatking@example.com', joined: '2026-02-15', status: 'Inactive'},
+      {id: 3, username: 'songbird', email: 'songbird@example.com', joined: '2026-03-10', status: 'Active'},
+    ];
+
+    const tbody = document.getElementById('user-list');
+    users.forEach(user => {
+      const row = document.createElement('tr');
+      row.innerHTML = `
+        <td>${user.id}</td>
+        <td>${user.username}</td>
+        <td>${user.email}</td>
+        <td>${user.joined}</td>
+        <td>${user.status}</td>
+        <td>
+          <button class="btn btn-neon-outline">Edit</button>
+          <button class="btn btn-neon">Delete</button>
+        </td>
+      `;
+      tbody.appendChild(row);
+    });
+  </script>
+
+</body>
+</html>

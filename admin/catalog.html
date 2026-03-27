@@ -1,0 +1,73 @@
+<!-- frontend/admin/catalog.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JENGU Admin – Catalog</title>
+  <link rel="stylesheet" href="../css/base.css">
+  <link rel="stylesheet" href="../css/layout.css">
+  <link rel="stylesheet" href="../css/components.css">
+  <link rel="stylesheet" href="../css/theme-afro.css">
+</head>
+<body class="dark-theme admin-panel">
+
+  <header class="admin-header">
+    <img src="../assets/logo.svg" class="logo" alt="JENGU Logo">
+    <nav>
+      <a href="dashboard.html">Dashboard</a>
+      <a href="users.html">Users</a>
+      <a href="artists.html">Artists</a>
+      <a href="catalog.html" class="active">Catalog</a>
+      <a href="transactions.html">Transactions</a>
+      <a href="payouts.html">Payouts</a>
+      <a href="promotions.html">Promotions</a>
+      <a href="fraud.html">Fraud</a>
+    </nav>
+  </header>
+
+  <main class="admin-main">
+    <h1>Manage Catalog</h1>
+    <table class="neon-table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Title</th>
+          <th>Artist</th>
+          <th>Type</th>
+          <th>Release Date</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody id="catalog-list"></tbody>
+    </table>
+  </main>
+
+  <script src="../js/admin.js"></script>
+  <script>
+    const catalog = [
+      {id: 1, title: 'NeoAfro Vibes', artist: 'AfroBeatz', type: 'Album', release: '2026-01-12'},
+      {id: 2, title: 'Kuba Nights', artist: 'King Kora', type: 'Single', release: '2026-02-15'},
+      {id: 3, title: 'Mali Sunrise', artist: 'Mali Groove', type: 'Album', release: '2026-03-05'},
+    ];
+
+    const tbody = document.getElementById('catalog-list');
+    catalog.forEach(item => {
+      const row = document.createElement('tr');
+      row.innerHTML = `
+        <td>${item.id}</td>
+        <td>${item.title}</td>
+        <td>${item.artist}</td>
+        <td>${item.type}</td>
+        <td>${item.release}</td>
+        <td>
+          <button class="btn btn-neon-outline">Edit</button>
+          <button class="btn btn-neon">Delete</button>
+        </td>
+      `;
+      tbody.appendChild(row);
+    });
+  </script>
+
+</body>
+</html>

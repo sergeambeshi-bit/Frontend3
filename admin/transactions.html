@@ -1,0 +1,70 @@
+<!-- frontend/admin/transactions.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JENGU Admin – Transactions</title>
+  <link rel="stylesheet" href="../css/base.css">
+  <link rel="stylesheet" href="../css/layout.css">
+  <link rel="stylesheet" href="../css/components.css">
+  <link rel="stylesheet" href="../css/theme-afro.css">
+</head>
+<body class="dark-theme admin-panel">
+
+  <header class="admin-header">
+    <img src="../assets/logo.svg" class="logo" alt="JENGU Logo">
+    <nav>
+      <a href="dashboard.html">Dashboard</a>
+      <a href="users.html">Users</a>
+      <a href="artists.html">Artists</a>
+      <a href="catalog.html">Catalog</a>
+      <a href="transactions.html" class="active">Transactions</a>
+      <a href="payouts.html">Payouts</a>
+      <a href="promotions.html">Promotions</a>
+      <a href="fraud.html">Fraud</a>
+    </nav>
+  </header>
+
+  <main class="admin-main">
+    <h1>Transactions</h1>
+    <table class="neon-table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>User</th>
+          <th>Type</th>
+          <th>Amount</th>
+          <th>Date</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody id="transaction-list"></tbody>
+    </table>
+  </main>
+
+  <script src="../js/admin.js"></script>
+  <script>
+    const transactions = [
+      {id: 1, user: 'afrofan', type: 'Purchase', amount: '$5', date: '2026-03-01', status: 'Completed'},
+      {id: 2, user: 'beatking', type: 'Purchase', amount: '$10', date: '2026-03-03', status: 'Pending'},
+      {id: 3, user: 'songbird', type: 'Subscription', amount: '$15', date: '2026-03-05', status: 'Completed'},
+    ];
+
+    const tbody = document.getElementById('transaction-list');
+    transactions.forEach(t => {
+      const row = document.createElement('tr');
+      row.innerHTML = `
+        <td>${t.id}</td>
+        <td>${t.user}</td>
+        <td>${t.type}</td>
+        <td>${t.amount}</td>
+        <td>${t.date}</td>
+        <td>${t.status}</td>
+      `;
+      tbody.appendChild(row);
+    });
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,62 @@
+/* components.css */
+
+/* Neon Buttons */
+.btn {
+  padding: 0.8rem 2rem;
+  border: 2px solid var(--primary-neon);
+  color: var(--primary-neon);
+  background: transparent;
+  border-radius: var(--border-radius);
+  cursor: pointer;
+  transition: var(--transition-fast);
+  text-transform: uppercase;
+  font-weight: bold;
+  letter-spacing: 0.05em;
+  box-shadow: var(--neon-glow);
+}
+
+.btn:hover {
+  background: var(--primary-neon);
+  color: #000;
+  box-shadow: 0 0 12px var(--primary-neon), 0 0 24px var(--primary-neon);
+}
+
+/* Cards */
+.card {
+  background: rgba(0,0,0,0.6);
+  border-radius: var(--border-radius);
+  padding: 1rem;
+  box-shadow: 0 0 8px #000;
+  backdrop-filter: blur(4px);
+  transition: var(--transition-fast);
+}
+
+.card:hover {
+  box-shadow: var(--neon-glow);
+}
+
+/* Artist Circle */
+.artist-circle {
+  border-radius: 50%;
+  border: 3px solid var(--primary-neon);
+  padding: 0.2rem;
+  transition: 0.3s;
+}
+
+.artist-circle:hover {
+  box-shadow: var(--neon-glow);
+}
+
+/* Scroll indicator */
+.scroll-indicator {
+  position: absolute;
+  bottom: 2rem;
+  font-size: 2rem;
+  color: var(--primary-neon);
+  animation: bounce 2s infinite;
+}
+
+@keyframes bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-15px); }
+}

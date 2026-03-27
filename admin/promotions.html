@@ -1,0 +1,75 @@
+<!-- frontend/admin/promotions.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JENGU Admin – Promotions</title>
+  <link rel="stylesheet" href="../css/base.css">
+  <link rel="stylesheet" href="../css/layout.css">
+  <link rel="stylesheet" href="../css/components.css">
+  <link rel="stylesheet" href="../css/theme-afro.css">
+</head>
+<body class="dark-theme admin-panel">
+
+  <header class="admin-header">
+    <img src="../assets/logo.svg" class="logo" alt="JENGU Logo">
+    <nav>
+      <a href="dashboard.html">Dashboard</a>
+      <a href="users.html">Users</a>
+      <a href="artists.html">Artists</a>
+      <a href="catalog.html">Catalog</a>
+      <a href="transactions.html">Transactions</a>
+      <a href="payouts.html">Payouts</a>
+      <a href="promotions.html" class="active">Promotions</a>
+      <a href="fraud.html">Fraud</a>
+    </nav>
+  </header>
+
+  <main class="admin-main">
+    <h1>Promotions & Campaigns</h1>
+    <table class="neon-table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Title</th>
+          <th>Type</th>
+          <th>Start Date</th>
+          <th>End Date</th>
+          <th>Status</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody id="promo-list"></tbody>
+    </table>
+  </main>
+
+  <script src="../js/admin.js"></script>
+  <script>
+    const promotions = [
+      {id: 1, title: 'Afrobeat Launch', type: 'Banner', start: '2026-03-01', end: '2026-03-10', status: 'Active'},
+      {id: 2, title: 'Top Artists Promo', type: 'Carousel', start: '2026-03-05', end: '2026-03-15', status: 'Upcoming'},
+      {id: 3, title: 'New Releases Spotlight', type: 'Popup', start: '2026-03-08', end: '2026-03-20', status: 'Active'},
+    ];
+
+    const tbody = document.getElementById('promo-list');
+    promotions.forEach(p => {
+      const row = document.createElement('tr');
+      row.innerHTML = `
+        <td>${p.id}</td>
+        <td>${p.title}</td>
+        <td>${p.type}</td>
+        <td>${p.start}</td>
+        <td>${p.end}</td>
+        <td>${p.status}</td>
+        <td>
+          <button class="btn btn-neon-outline">Edit</button>
+          <button class="btn btn-neon">Delete</button>
+        </td>
+      `;
+      tbody.appendChild(row);
+    });
+  </script>
+
+</body>
+</html>

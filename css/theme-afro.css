@@ -1,0 +1,62 @@
+/* theme-afro.css */
+
+/* Toghu, Kuba, Mudcloth SVG overlays */
+.toghu {
+  background-image: url('../assets/patterns/toghu.svg');
+  background-repeat: repeat;
+  mix-blend-mode: screen;
+  opacity: 0.15;
+}
+
+.kuba {
+  background-image: url('../assets/patterns/kuba.svg');
+  background-repeat: repeat;
+  mix-blend-mode: screen;
+  opacity: 0.12;
+}
+
+.mudcloth {
+  background-image: url('../assets/patterns/mudcloth.svg');
+  background-repeat: repeat;
+  mix-blend-mode: screen;
+  opacity: 0.1;
+}
+
+/* Hero text neon glow */
+.hero-title {
+  font-size: 4rem;
+  font-weight: 800;
+  text-align: center;
+  color: var(--primary-neon);
+  text-shadow: 0 0 8px var(--primary-neon), 0 0 16px var(--primary-neon);
+}
+
+.hero-subtitle {
+  font-size: 1.5rem;
+  text-align: center;
+  color: var(--text-gray);
+  margin-top: 1rem;
+}
+
+/* CTA button wrapper */
+.hero-buttons {
+  display: flex;
+  gap: 2rem;
+  margin-top: 2rem;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+/* Responsive */
+@media screen and (max-width: 768px) {
+  .hero-title { font-size: 3rem; }
+  .hero-subtitle { font-size: 1.2rem; }
+  .grid-4, .grid-3 { grid-template-columns: 1fr 1fr; }
+}
+
+@media screen and (max-width: 480px) {
+  .hero-title { font-size: 2.5rem; }
+  .hero-subtitle { font-size: 1rem; }
+  .hero-buttons { flex-direction: column; gap: 1rem; }
+  .grid-4, .grid-3 { grid-template-columns: 1fr; }
+}

@@ -1,0 +1,96 @@
+<!-- frontend/pages/new-releases.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JENGU – New Releases</title>
+  <!-- CSS System -->
+  <link rel="stylesheet" href="../css/base.css">
+  <link rel="stylesheet" href="../css/layout.css">
+  <link rel="stylesheet" href="../css/components.css">
+  <link rel="stylesheet" href="../css/theme-afro.css">
+</head>
+<body class="dark-theme">
+
+  <!-- HEADER -->
+  <header class="site-header">
+    <img src="../assets/logo.svg" class="logo" alt="JENGU Logo">
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="browse.html">Browse</a>
+      <a href="genres.html">Genres</a>
+      <a href="charts.html">Charts</a>
+      <a href="new-releases.html" class="active">New Releases</a>
+    </nav>
+    <div class="user-actions">
+      <a href="../user/login.html" class="btn btn-neon-outline">Login</a>
+      <a href="../user/signup.html" class="btn btn-neon">Sign Up</a>
+    </div>
+  </header>
+
+  <!-- HERO SECTION -->
+  <section class="hero hero-new-releases">
+    <div class="hero-overlay">
+      <h1>Discover the Latest African Music</h1>
+      <p>Fresh singles and albums from top artists across the continent</p>
+    </div>
+  </section>
+
+  <!-- NEW SINGLES -->
+  <section class="releases-section">
+    <h2 class="section-title">New Singles</h2>
+    <div class="releases-grid" id="new-singles">
+      <!-- JS dynamically populates new singles -->
+    </div>
+  </section>
+
+  <!-- NEW ALBUMS -->
+  <section class="releases-section">
+    <h2 class="section-title">New Albums</h2>
+    <div class="releases-grid" id="new-albums">
+      <!-- JS dynamically populates new albums -->
+    </div>
+  </section>
+
+  <!-- JS System -->
+  <script src="../js/api.js"></script>
+  <script src="../js/ui.js"></script>
+  <script>
+    const newSingles = [
+      { title: "Afro Sunrise", artist: "DJ Neo", cover: "../assets/patterns/toghu.svg" },
+      { title: "Kuba Nights", artist: "Star K", cover: "../assets/patterns/kuba.svg" },
+      { title: "Mali Dreams", artist: "Mali Beats", cover: "../assets/patterns/mudcloth.svg" },
+    ];
+
+    const newAlbums = [
+      { title: "Neo Africa Vol. 2", artist: "AfroNova", cover: "../assets/patterns/toghu.svg" },
+      { title: "Vibrations Reloaded", artist: "Kuba Sounds", cover: "../assets/patterns/kuba.svg" },
+      { title: "Mali Nights Deluxe", artist: "Mudcloth Collective", cover: "../assets/patterns/mudcloth.svg" },
+    ];
+
+    function renderReleases(data, containerId) {
+      const container = document.getElementById(containerId);
+      container.innerHTML = '';
+
+      data.forEach(item => {
+        const card = document.createElement('div');
+        card.className = 'release-card';
+        card.innerHTML = `
+          <div class="pattern-overlay" style="background-image: url('${item.cover}')"></div>
+          <h3>${item.title}</h3>
+          <p>${item.artist}</p>
+          <button class="btn btn-neon">Listen</button>
+        `;
+        container.appendChild(card);
+      });
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      renderReleases(newSingles, 'new-singles');
+      renderReleases(newAlbums, 'new-albums');
+    });
+  </script>
+
+</body>
+</html>
