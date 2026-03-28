@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Paiement – JENGU</title>
+
+<link rel="stylesheet" href="/styles/app.css">
+</head>
+
+<body>
+
+<section class="section">
+
+  <h3>Paiement</h3>
+
+  <!-- ITEMS -->
+  <div id="checkoutItems"></div>
+
+  <!-- TOTAL -->
+  <h3>Total: <span id="checkoutTotal">0 XAF</span></h3>
+
+  <!-- PAYMENT -->
+  <form id="checkout-form">
+
+    <p class="sub">Méthode de paiement</p>
+
+    <button type="button" class="pay-btn momo" data-method="mtn">
+      MTN MoMo
+    </button>
+
+    <button type="button" class="pay-btn momo" data-method="orange">
+      Orange Money
+    </button>
+
+    <button type="button" class="pay-btn card" data-method="card">
+      Carte bancaire
+    </button>
+
+    <button class="btn-primary" style="width:100%; margin-top:10px;">
+      Payer maintenant
+    </button>
+
+  </form>
+
+</section>
+
+<script type="module">
+import { initCheckout } from "/js/checkout.js";
+initCheckout();
+</script>
+
+</body>
+</html>

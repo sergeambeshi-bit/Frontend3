@@ -1,68 +1,138 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Artist Profile – JENGU</title>
-<!-- CSS System -->
-<link rel="stylesheet" href="/css/base.css">
-<link rel="stylesheet" href="/css/layout.css">
-<link rel="stylesheet" href="/css/components.css">
-<link rel="stylesheet" href="/css/theme-afro.css">
-<!-- JS System -->
-<script src="/js/api.js" defer></script>
-<script src="/js/ui.js" defer></script>
+<title>Artiste – JENGU</title>
+
+<link rel="stylesheet" href="/styles/app.css">
 </head>
-<body class="dark-theme">
 
-<!-- HEADER -->
-<header class="site-header">
-  <img src="/assets/logo.svg" class="logo" alt="JENGU Logo">
-  <nav>
-    <a href="/index.html">Home</a>
-    <a href="/browse.html">Browse</a>
-    <a href="/genres.html">Genres</a>
-    <a href="/charts.html">Charts</a>
-    <a href="/new-releases.html">New Releases</a>
-    <a href="/blog.html">Blog</a>
-  </nav>
-  <div class="user-actions">
-    <a href="/user/login.html" class="btn btn-neon-outline">Login</a>
-    <a href="/user/signup.html" class="btn btn-neon">Sign Up</a>
+<body>
+
+<!-- SIDE MENU -->
+<div id="sideMenu" class="side-menu">
+  <div class="menu-header">
+    <img src="/assets/logo.png" class="menu-logo">
   </div>
-</header>
 
-<main>
-  <section id="artist-bio" class="artist-page">
-    <div class="artist-photo">
-      <img src="/assets/patterns/toghu.svg" alt="Artist image">
+  <a href="/pages/index.html">Accueil</a>
+  <a href="/pages/browse.html">Parcourir</a>
+  <a href="/pages/genres.html">Genres</a>
+  <a href="/pages/charts.html">Top Charts</a>
+  <a href="/pages/new-releases.html">Nouveautés</a>
+
+  <a href="/user/library.html">Ma Bibliothèque</a>
+  <a href="/user/purchases.html">Mes Achats</a>
+  <a href="/user/settings.html">Paramètres</a>
+</div>
+
+<!-- HERO -->
+<section class="hero" style="height:50vh;">
+  <div class="hero-bg" id="artistBg"></div>
+  <div class="hero-patterns"></div>
+
+  <div class="topbar">
+    <span class="menu" id="menuBtn">☰</span>
+    <img src="/assets/logo.png" class="logo">
+    <span></span>
+  </div>
+
+  <div class="hero-content">
+    <h1 id="artistName">Nom de l'artiste</h1>
+  </div>
+</section>
+
+<!-- ARTIST INFO -->
+<section class="section">
+  <p id="artistBio" class="sub" style="text-align:center;">
+    Biographie de l'artiste...
+  </p>
+</section>
+
+<!-- TRACKS -->
+<section class="section">
+  <h3>Morceaux</h3>
+  <div id="artistTracks"></div>
+</section>
+
+<script type="module">
+import { fetchBrowseResults } from "/js/api.js";
+
+/* MENU */
+const menuBtn = document.getElementById("menuBtn");
+const sideMenu = document.getElementById("sideMenu");
+
+menuBtn.addEventListener("click", () => {
+  sideMenu.classList.toggle("open");
+});
+
+document.addEventListener("click", (e) => {
+  if (!sideMenu.contains(e.target) && !menuBtn.contains(e.target)) {
+    sideMenu.classList.remove("open");
+  }
+});
+
+/* GET ARTIST FROM URL */
+const params = new URLSearchParams(window.location.search);
+const artistName = params.get("artist");
+
+/* CREATE TRACK ROW */
+function createTrack(item, index){
+  return `
+    <div class="chart-item">
+      <span>${String(index+1).padStart(2,'0')}</span>
+      <img src="${item.cover}">
+      <div class="info">
+        <b>${item.name}</b>
+        <p>${item.artist}</p>
+      </div>
+      <div class="price">${Math.floor(Math.random()*300)} XAF</div>
     </div>
-    <div class="artist-details">
-      <h1 id="artist-name">Artist Name</h1>
-      <p>Bio: Placeholder bio text about the artist.</p>
-    </div>
-  </section>
+  `;
+}
 
-  <section id="artist-albums" class="cards-container">
-    <!-- JS rendered albums -->
-  </section>
-</main>
+/* LOAD ARTIST */
+async function loadArtist(){
+  const data = await fetchBrowseResults();
 
-<!-- FOOTER -->
-<footer>
-  <p>&copy; 2026 Afro Music Platform</p>
-</footer>
+  const tracks = data.filter(item =>
+    (item.artist || "").toLowerCase() === (artistName || "").toLowerCase()
+  );
 
-<script>
-  document.addEventListener('DOMContentLoaded', async () => {
-    try {
-      const albums = await fetchTopArtists(); // placeholder
-      renderArtists(document.getElementById('artist-albums'), albums);
-    } catch(err) {
-      console.error('Artist fetch error:', err);
-      document.getElementById('artist-albums').innerHTML = '<p class="error-text">Failed to load albums.</p>';
-    }
+  if(tracks.length === 0) return;
+
+  const artist = tracks[0];
+
+  document.getElementById("artistName").textContent = artist.artist;
+  document.getElementById("artistBg").style.backgroundImage = `url(${artist.cover})`;
+
+  const container = document.getElementById("artistTracks");
+  container.innerHTML = "";
+
+  tracks.forEach((track, i)=>{
+    container.innerHTML += createTrack(track, i);
   });
+}
+
+/* PREVIEW */
+document.addEventListener("click", e=>{
+  if(e.target.classList.contains("play")){
+    const audio = new Audio("/assets/sample.mp3");
+    audio.play();
+    setTimeout(()=>audio.pause(),30000);
+  }
+});
+
+/* BUY */
+document.addEventListener("click", e=>{
+  if(e.target.classList.contains("price")){
+    alert("Paiement bientôt disponible");
+  }
+});
+
+loadArtist();
+
 </script>
 
 </body>

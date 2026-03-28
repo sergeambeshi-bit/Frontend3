@@ -1,25 +1,61 @@
-<!-- frontend/user/forgot.html -->
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Forgot Password</title>
-<link rel="stylesheet" href="../css/base.css">
-<link rel="stylesheet" href="../css/layout.css">
-<link rel="stylesheet" href="../css/components.css">
-<link rel="stylesheet" href="../css/theme-afro.css">
-<script src="../js/ui.js" defer></script>
-<script src="../js/api.js" defer></script>
+<title>Mot de passe oublié – JENGU</title>
+
+<link rel="stylesheet" href="/styles/app.css">
 </head>
+
 <body>
-<main class="auth-container">
-    <h1>Reset Password</h1>
-    <form id="forgot-form">
-        <label>Email</label>
-        <input type="email" name="email" required>
-        <button type="submit">Send Reset Link</button>
-    </form>
-</main>
+
+<section class="section" style="padding-top:40px;">
+
+  <!-- LOGO -->
+  <div style="text-align:center; margin-bottom:30px;">
+    <img src="/assets/logo.png" class="logo" style="width:120px;">
+  </div>
+
+  <!-- TITLE -->
+  <h2 style="text-align:center;">Mot de passe oublié</h2>
+  <p class="sub" style="text-align:center;">
+    Entrez votre email pour recevoir un lien de réinitialisation
+  </p>
+
+  <!-- FORM -->
+  <form id="forgotForm" style="margin-top:20px;">
+
+    <input type="email" placeholder="Email" required>
+
+    <button class="btn-primary" style="width:100%; margin-top:10px;">
+      Envoyer le lien
+    </button>
+
+  </form>
+
+  <!-- BACK TO LOGIN -->
+  <p style="text-align:center; margin-top:15px;">
+    Retour à 
+    <a href="/user/login.html" style="color:#01d4ab;">
+      la connexion
+    </a>
+  </p>
+
+</section>
+
+<script>
+
+/* RESET FLOW (SIMULATED) */
+document.getElementById("forgotForm").addEventListener("submit", e=>{
+  e.preventDefault();
+
+  alert("Lien de réinitialisation envoyé (simulation)");
+
+  window.location.href = "/user/login.html";
+});
+
+</script>
+
 </body>
 </html>

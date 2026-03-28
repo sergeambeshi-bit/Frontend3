@@ -1,58 +1,99 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Blog – JENGU</title>
-<!-- CSS System -->
-<link rel="stylesheet" href="/css/base.css">
-<link rel="stylesheet" href="/css/layout.css">
-<link rel="stylesheet" href="/css/components.css">
-<link rel="stylesheet" href="/css/theme-afro.css">
-<!-- JS System -->
-<script src="/js/api.js" defer></script>
-<script src="/js/ui.js" defer></script>
+
+<link rel="stylesheet" href="/styles/app.css">
 </head>
-<body class="dark-theme">
+
+<body>
+
+<!-- SIDE MENU -->
+<div id="sideMenu" class="side-menu">
+  <div class="menu-header">
+    <img src="/assets/logo.png" class="menu-logo">
+  </div>
+
+  <a href="/pages/index.html">Accueil</a>
+  <a href="/pages/browse.html">Parcourir</a>
+  <a href="/pages/genres.html">Genres</a>
+  <a href="/pages/charts.html">Top Charts</a>
+  <a href="/pages/new-releases.html">Nouveautés</a>
+
+  <a href="/user/library.html">Ma Bibliothèque</a>
+  <a href="/user/purchases.html">Mes Achats</a>
+  <a href="/user/settings.html">Paramètres</a>
+</div>
 
 <!-- HEADER -->
-<header class="site-header">
-  <img src="/assets/logo.svg" class="logo" alt="JENGU Logo">
-  <nav>
-    <a href="/index.html">Home</a>
-    <a href="/browse.html">Browse</a>
-    <a href="/genres.html">Genres</a>
-    <a href="/charts.html">Charts</a>
-    <a href="/new-releases.html">New Releases</a>
-    <a href="/blog.html" class="active">Blog</a>
-  </nav>
-  <div class="user-actions">
-    <a href="/user/login.html" class="btn btn-neon-outline">Login</a>
-    <a href="/user/signup.html" class="btn btn-neon">Sign Up</a>
-  </div>
-</header>
+<div class="topbar">
+  <span class="menu" id="menuBtn">☰</span>
+  <img src="/assets/logo.png" class="logo">
+  <span></span>
+</div>
 
-<main>
-  <section id="blog-posts" class="cards-container">
-    <!-- JS rendered posts -->
-  </section>
-</main>
+<!-- BLOG -->
+<section class="section">
+  <h3>Blog</h3>
+  <div id="blogPosts"></div>
+</section>
 
-<!-- FOOTER -->
-<footer>
-  <p>&copy; 2026 Afro Music Platform</p>
-</footer>
+<script type="module">
+import { fetchBlogPosts } from "/js/api.js";
 
-<script>
-  document.addEventListener('DOMContentLoaded', async () => {
-    try {
-      const posts = await fetchBlogPosts();
-      renderBlog(document.getElementById('blog-posts'), posts);
-    } catch(err) {
-      console.error('Blog fetch error:', err);
-      document.getElementById('blog-posts').innerHTML = '<p class="error-text">Failed to load blog posts.</p>';
-    }
-  });
+/* MENU */
+const menuBtn = document.getElementById("menuBtn");
+const sideMenu = document.getElementById("sideMenu");
+
+menuBtn.addEventListener("click", () => {
+  sideMenu.classList.toggle("open");
+});
+
+document.addEventListener("click", (e) => {
+  if (!sideMenu.contains(e.target) && !menuBtn.contains(e.target)) {
+    sideMenu.classList.remove("open");
+  }
+});
+
+/* CREATE POST */
+function createPost(post){
+  return `
+    <div class="card" style="margin-bottom:15px;">
+      <img src="${post.image}" style="border-radius:12px;">
+      <div class="title">${post.title}</div>
+      <p class="sub">${post.excerpt || ""}</p>
+
+      <a href="/pages/article.html?id=${post.id}" 
+         class="btn-outline" 
+         style="display:inline-block; margin-top:8px;">
+         Lire
+      </a>
+    </div>
+  `;
+}
+
+/* LOAD BLOG */
+async function loadBlog(){
+  const container = document.getElementById("blogPosts");
+
+  try {
+    const posts = await fetchBlogPosts();
+
+    container.innerHTML = "";
+
+    posts.forEach(post => {
+      container.innerHTML += createPost(post);
+    });
+
+  } catch (err) {
+    container.innerHTML = "<p>Erreur de chargement</p>";
+  }
+}
+
+loadBlog();
+
 </script>
 
 </body>

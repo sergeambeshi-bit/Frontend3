@@ -1,66 +1,203 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Track – JENGU</title>
-<!-- CSS System -->
-<link rel="stylesheet" href="/css/base.css">
-<link rel="stylesheet" href="/css/layout.css">
-<link rel="stylesheet" href="/css/components.css">
-<link rel="stylesheet" href="/css/theme-afro.css">
-<!-- JS System -->
-<script src="/js/api.js" defer></script>
-<script src="/js/ui.js" defer></script>
+
+<link rel="stylesheet" href="/styles/app.css">
 </head>
-<body class="dark-theme">
 
-<!-- HEADER -->
-<header class="site-header">
-  <img src="/assets/logo.svg" class="logo" alt="JENGU Logo">
-  <nav>
-    <a href="/index.html">Home</a>
-    <a href="/browse.html">Browse</a>
-    <a href="/genres.html">Genres</a>
-    <a href="/charts.html">Charts</a>
-    <a href="/new-releases.html">New Releases</a>
-    <a href="/blog.html">Blog</a>
-  </nav>
-  <div class="user-actions">
-    <a href="/user/login.html" class="btn btn-neon-outline">Login</a>
-    <a href="/user/signup.html" class="btn btn-neon">Sign Up</a>
+<body>
+
+<!-- SIDE MENU -->
+<div id="sideMenu" class="side-menu">
+  <div class="menu-header">
+    <img src="/assets/logo.png" class="menu-logo">
   </div>
-</header>
 
-<main>
-  <section class="track-section">
-    <h1 id="track-title">Track Title</h1>
-    <div class="track-details">
-      <img src="/assets/patterns/mudcloth.svg" alt="Track cover" class="track-cover">
-      <p>Artist: <span id="track-artist">Artist Name</span></p>
-      <p>Album: <span id="track-album">Album Name</span></p>
-      <button class="btn btn-neon-outline play-btn">Play</button>
+  <a href="/pages/index.html">Accueil</a>
+  <a href="/pages/browse.html">Parcourir</a>
+  <a href="/pages/genres.html">Genres</a>
+  <a href="/pages/charts.html">Top Charts</a>
+  <a href="/pages/new-releases.html">Nouveautés</a>
+
+  <a href="/user/library.html">Ma Bibliothèque</a>
+  <a href="/user/purchases.html">Mes Achats</a>
+  <a href="/user/settings.html">Paramètres</a>
+</div>
+
+<!-- HERO -->
+<section class="hero" style="height:60vh;">
+  <div class="hero-bg" id="trackBg"></div>
+  <div class="hero-patterns"></div>
+
+  <div class="topbar">
+    <span class="menu" id="menuBtn">☰</span>
+    <img src="/assets/logo.png" class="logo">
+    <span></span>
+  </div>
+
+  <div class="hero-content">
+    <h1 id="trackTitle">Titre du morceau</h1>
+    <p id="trackArtist" class="sub">Artiste</p>
+  </div>
+</section>
+
+<!-- TRACK INFO -->
+<section class="section">
+
+  <div class="cover" style="max-width:200px; margin:auto;">
+    <img id="trackCover" src="/assets/covers/cover1.png">
+  </div>
+
+  <h3 id="trackName" style="text-align:center;">Titre</h3>
+  <p id="trackArtist2" class="sub" style="text-align:center;">Artiste</p>
+
+  <div class="cta" style="justify-content:center;">
+    <button class="btn-primary play">▶ Preview</button>
+    <button class="btn-outline buy">Acheter</button>
+  </div>
+
+  <p class="price" style="text-align:center; margin-top:10px;">
+    300 XAF
+  </p>
+
+</section>
+
+<!-- PAYMENT MODAL -->
+<div id="paymentModal" class="modal hidden">
+  <div class="modal-content">
+    <h3>Paiement</h3>
+
+    <div class="pay-section">
+      <p class="label">🇨🇲 Mobile Money</p>
+      <button class="pay-btn momo" data-method="mtn">MTN MoMo</button>
+      <button class="pay-btn momo" data-method="orange">Orange Money</button>
     </div>
-  </section>
-</main>
 
-<!-- FOOTER -->
-<footer>
-  <p>&copy; 2026 Afro Music Platform</p>
-</footer>
+    <div class="pay-section">
+      <p class="label">💳 Carte</p>
+      <button class="pay-btn card" data-method="card">Visa / Mastercard</button>
+    </div>
 
-<script>
-document.addEventListener('DOMContentLoaded', async () => {
-  try {
-    const track = await fetchTrackDetails(); // placeholder function
-    document.getElementById('track-title').textContent = track.title;
-    document.getElementById('track-artist').textContent = track.artist;
-    document.getElementById('track-album').textContent = track.album;
-    document.querySelector('.track-cover').src = track.cover || '/assets/patterns/mudcloth.svg';
-  } catch (err) {
-    console.error('Failed to load track details:', err);
+    <input type="text" id="phone" placeholder="6XXXXXXXX">
+    <button class="confirm">Confirmer</button>
+  </div>
+</div>
+
+<script type="module">
+import { fetchBrowseResults } from "/js/api.js";
+
+/* MENU */
+const menuBtn = document.getElementById("menuBtn");
+const sideMenu = document.getElementById("sideMenu");
+
+menuBtn.addEventListener("click", () => {
+  sideMenu.classList.toggle("open");
+});
+
+document.addEventListener("click", (e) => {
+  if (!sideMenu.contains(e.target) && !menuBtn.contains(e.target)) {
+    sideMenu.classList.remove("open");
   }
 });
+
+/* LOAD TRACK (FROM URL) */
+const params = new URLSearchParams(window.location.search);
+const trackName = params.get("track");
+
+async function loadTrack(){
+  const data = await fetchBrowseResults();
+
+  const track = data.find(t =>
+    t.name.toLowerCase() === (trackName || "").toLowerCase()
+  );
+
+  if(!track) return;
+
+  document.getElementById("trackTitle").textContent = track.name;
+  document.getElementById("trackName").textContent = track.name;
+  document.getElementById("trackArtist").textContent = track.artist || "Artist";
+  document.getElementById("trackArtist2").textContent = track.artist || "Artist";
+
+  document.getElementById("trackCover").src = track.cover;
+  document.getElementById("trackBg").style.backgroundImage = `url(${track.cover})`;
+}
+
+/* PREVIEW */
+document.addEventListener("click", e=>{
+  if(e.target.classList.contains("play")){
+    const audio = new Audio("/assets/sample.mp3");
+    audio.play();
+    setTimeout(()=>audio.pause(),30000);
+  }
+});
+
+/* PAYMENT */
+let selectedMethod = null;
+
+document.addEventListener("click", e => {
+
+  if(e.target.classList.contains("buy")){
+    document.getElementById("paymentModal").classList.remove("hidden");
+  }
+
+  if(e.target.classList.contains("pay-btn")){
+    selectedMethod = e.target.dataset.method;
+
+    document.querySelectorAll(".pay-btn").forEach(btn=>{
+      btn.style.background = "#222";
+      btn.style.color = "white";
+    });
+
+    e.target.style.background = "#01d4ab";
+    e.target.style.color = "black";
+  }
+
+  if(e.target.classList.contains("confirm")){
+    if(!selectedMethod){
+      alert("Choisissez un moyen de paiement");
+      return;
+    }
+
+    document.getElementById("paymentModal").classList.add("hidden");
+
+    showDownloadModal();
+  }
+
+});
+
+/* DOWNLOAD */
+function showDownloadModal(){
+  const modal = document.createElement("div");
+
+  modal.className = "modal";
+
+  modal.innerHTML = `
+    <div class="modal-content">
+      <h3>Téléchargement prêt</h3>
+      <p>Votre achat a été confirmé.</p>
+
+      <a href="/assets/sample.mp3" download class="download-btn">
+        Télécharger
+      </a>
+
+      <button class="close-download">Fermer</button>
+    </div>
+  `;
+
+  document.body.appendChild(modal);
+
+  modal.addEventListener("click", e=>{
+    if(e.target.classList.contains("close-download")){
+      modal.remove();
+    }
+  });
+}
+
+loadTrack();
+
 </script>
 
 </body>

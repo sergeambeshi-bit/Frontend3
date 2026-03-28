@@ -39,8 +39,8 @@
     <h1 id="heroText">Télécharger la musique africaine</h1>
 
     <div class="cta">
-      <a href="/browse.html" class="btn-primary" id="browseBtn">Parcourir</a>
-      <a href="/new-releases.html" class="btn-outline" id="newBtn">Nouveautés</a>
+      <a href="/browse.html" class="btn-primary">Parcourir</a>
+      <a href="/new-releases.html" class="btn-outline">Nouveautés</a>
     </div>
 
     <div class="scroll">↓ Scroll</div>
@@ -50,44 +50,15 @@
 
 <!-- TRENDING -->
 <section class="section">
-  <h3 id="trendingTitle">Tendance au Cameroun</h3>
-  <p class="sub" id="trendingSub">À la Une au Cameroun</p>
+  <h3>Tendance au Cameroun</h3>
+  <p class="sub">À la Une au Cameroun</p>
   <div class="scroll-row" id="trending"></div>
 </section>
 
 <!-- NEW RELEASES -->
 <section class="section">
-  <h3 id="releasesTitle">Nouvelles Sorties</h3>
+  <h3>Nouvelles Sorties</h3>
   <div class="scroll-row" id="releases"></div>
-</section>
-
-<!-- TOP CHARTS -->
-<section class="section">
-  <div class="row-between">
-    <h3 id="chartsTitle">Top Charts</h3>
-    <span class="view">VOIR TOUT</span>
-  </div>
-  <div id="charts"></div>
-</section>
-
-<!-- GENRES -->
-<section class="section">
-  <h3 id="genresTitle">Explorer les Genres</h3>
-
-  <div class="genres">
-    <div class="genre">Mboko</div>
-    <div class="genre">Makossa</div>
-    <div class="genre">Bikutsi</div>
-    <div class="genre">Afropop</div>
-    <div class="genre">Afrobeat</div>
-    <div class="genre">Coupé-Décalé</div>
-    <div class="genre">Ndombolo</div>
-    <div class="genre">Rap FR</div>
-    <div class="genre">Drill</div>
-    <div class="genre">RnB Afro</div>
-    <div class="genre">Gospel Camer</div>
-    <div class="genre">Traditionnel</div>
-  </div>
 </section>
 
 <!-- PAYMENT MODAL -->
@@ -102,19 +73,18 @@
     </div>
 
     <div class="pay-section">
-      <p class="label">💳 Carte / International</p>
-      <button class="pay-btn card" data-method="card">
-        Visa / Mastercard
-      </button>
+      <p class="label">💳 Carte</p>
+      <button class="pay-btn card" data-method="card">Visa / Mastercard</button>
     </div>
 
     <input type="text" id="phone" placeholder="6XXXXXXXX">
-    <button class="confirm">Confirmer le paiement</button>
+    <button class="confirm">Confirmer</button>
   </div>
 </div>
 
 <script type="module">
 import { fetchBrowseResults } from "/js/api.js";
+import { savePurchase } from "/js/store.js";
 
 /* HERO */
 const heroImages = [
@@ -135,22 +105,44 @@ rotateHero();
 /* DATA */
 const data = await fetchBrowseResults();
 
+/* CHECK OWNERSHIP */
+function isOwned(name){
+  const purchases = JSON.parse(localStorage.getItem("purchases")) || [];
+  return purchases.some(p => p.name === name);
+}
+
+/* CARD */
 function createCard(item){
+
+  const owned = isOwned(item.name);
+
   return `
     <div class="card">
       <div class="cover">
         <img src="${item.cover}">
         <button class="play">▶</button>
       </div>
+
       <div class="title">${item.name}</div>
+
       <div class="card-bottom">
-        <span class="price">${Math.floor(Math.random()*1000)} XAF</span>
-        <button class="buy">Buy</button>
+
+        ${
+          owned
+          ? `<span class="owned-badge">✓ Owned</span>`
+          : `<span class="price">${item.price || 300} XAF</span>`
+        }
+
+        <button class="buy ${owned ? 'disabled' : ''}" ${owned ? 'disabled' : ''}>
+          ${owned ? 'Owned' : 'Buy'}
+        </button>
+
       </div>
     </div>
   `;
 }
 
+/* RENDER */
 const trending = document.getElementById("trending");
 const releases = document.getElementById("releases");
 
@@ -159,41 +151,39 @@ data.forEach(item => {
   releases.innerHTML += createCard(item);
 });
 
-/* CHARTS FIXED */
-const charts = document.getElementById("charts");
+/* CURRENT ITEM */
+let currentItem = null;
 
-data.slice(0,3).forEach((item,i)=>{
-  charts.innerHTML += `
-    <div class="chart-item">
-      <span>${String(i+1).padStart(2,'0')}</span>
-      <img src="${item.cover}">
-      <div class="info">
-        <b>${item.name}</b>
-        <p>${item.artist || "Artist"}</p>
-      </div>
-      <div class="price">${Math.floor(Math.random()*300)} XAF</div>
-    </div>
-  `;
-});
+/* EVENTS */
+let selectedMethod = null;
 
-/* PREVIEW */
-document.addEventListener("click", e=>{
+document.addEventListener("click", e => {
+
+  /* PLAY */
   if(e.target.classList.contains("play")){
     const audio = new Audio("/assets/sample.mp3");
     audio.play();
     setTimeout(()=>audio.pause(),30000);
   }
-});
 
-/* PAYMENT + DOWNLOAD */
-let selectedMethod = null;
-
-document.addEventListener("click", e => {
-
+  /* BUY */
   if(e.target.classList.contains("buy")){
+
+    if(e.target.classList.contains("disabled")) return;
+
+    const card = e.target.closest(".card");
+
+    currentItem = {
+      name: card.querySelector(".title").innerText,
+      artist: "Artist",
+      cover: card.querySelector("img").src,
+      price: 300
+    };
+
     document.getElementById("paymentModal").classList.remove("hidden");
   }
 
+  /* SELECT PAYMENT */
   if(e.target.classList.contains("pay-btn")){
     selectedMethod = e.target.dataset.method;
 
@@ -206,43 +196,26 @@ document.addEventListener("click", e => {
     e.target.style.color = "black";
   }
 
+  /* CONFIRM */
   if(e.target.classList.contains("confirm")){
+
     if(!selectedMethod){
       alert("Choisissez un moyen de paiement");
       return;
     }
 
+    savePurchase(currentItem);
+
     document.getElementById("paymentModal").classList.add("hidden");
-    showDownloadModal();
+
+    alert("Achat réussi 🎉");
+
+    location.reload(); // refresh to show Owned
   }
 
 });
 
-/* DOWNLOAD */
-function showDownloadModal(){
-  const modal = document.createElement("div");
-
-  modal.className = "modal";
-
-  modal.innerHTML = `
-    <div class="modal-content">
-      <h3>Téléchargement prêt</h3>
-      <p>Votre achat a été confirmé.</p>
-      <a href="/assets/sample.mp3" download class="download-btn">Télécharger</a>
-      <button class="close-download">Fermer</button>
-    </div>
-  `;
-
-  document.body.appendChild(modal);
-
-  modal.addEventListener("click", e=>{
-    if(e.target.classList.contains("close-download")){
-      modal.remove();
-    }
-  });
-}
-
-/* MENU LOGIC */
+/* MENU */
 const menuBtn = document.getElementById("menuBtn");
 const sideMenu = document.getElementById("sideMenu");
 
@@ -256,11 +229,10 @@ document.addEventListener("click", (e) => {
   }
 });
 
-/* LANGUAGE */
-let currentLang = localStorage.getItem("lang") || "fr";
+/* LANG */
 window.toggleLang = function () {
-  currentLang = currentLang === "fr" ? "en" : "fr";
-  localStorage.setItem("lang", currentLang);
+  const lang = localStorage.getItem("lang") === "fr" ? "en" : "fr";
+  localStorage.setItem("lang", lang);
   location.reload();
 };
 

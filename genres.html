@@ -1,79 +1,98 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>JENGU – Genres</title>
-  <!-- CSS System -->
-  <link rel="stylesheet" href="/css/base.css">
-  <link rel="stylesheet" href="/css/layout.css">
-  <link rel="stylesheet" href="/css/components.css">
-  <link rel="stylesheet" href="/css/theme-afro.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Genres – JENGU</title>
+
+<link rel="stylesheet" href="/styles/app.css">
 </head>
-<body class="dark-theme">
 
-  <!-- HEADER -->
-  <header class="site-header">
-    <img src="/assets/logo.svg" class="logo" alt="JENGU Logo">
-    <nav>
-      <a href="/index.html">Home</a>
-      <a href="/browse.html">Browse</a>
-      <a href="/genres.html" class="active">Genres</a>
-      <a href="/charts.html">Charts</a>
-      <a href="/new-releases.html">New Releases</a>
-      <a href="/blog.html">Blog</a>
-    </nav>
-    <div class="user-actions">
-      <a href="/user/login.html" class="btn btn-neon-outline">Login</a>
-      <a href="/user/signup.html" class="btn btn-neon">Sign Up</a>
-    </div>
-  </header>
+<body>
 
-  <!-- GENRES GRID -->
-  <section class="genres-section">
-    <h1 class="section-title">Explore Genres</h1>
+<!-- SIDE MENU -->
+<div id="sideMenu" class="side-menu">
+  <div class="menu-header">
+    <img src="/assets/logo.png" class="menu-logo">
+  </div>
 
-    <div class="genres-grid" id="genres-grid">
-      <!-- JS dynamically populates genre cards -->
-    </div>
-  </section>
+  <a href="/pages/index.html">Accueil</a>
+  <a href="/pages/browse.html">Parcourir</a>
+  <a href="/pages/genres.html">Genres</a>
+  <a href="/pages/charts.html">Top Charts</a>
+  <a href="/pages/new-releases.html">Nouveautés</a>
 
-  <!-- JS System -->
-  <script src="/js/api.js"></script>
-  <script src="/js/ui.js"></script>
-  <script>
-    const genresList = [
-      { name: 'Afrobeat', pattern: '/assets/patterns/toghu.svg' },
-      { name: 'Highlife', pattern: '/assets/patterns/kuba.svg' },
-      { name: 'Gqom', pattern: '/assets/patterns/mudcloth.svg' },
-      { name: 'Hip Hop', pattern: '/assets/patterns/toghu.svg' },
-      { name: 'Zouglou', pattern: '/assets/patterns/kuba.svg' },
-      { name: 'RnB', pattern: '/assets/patterns/mudcloth.svg' },
-      { name: 'Amapiano', pattern: '/assets/patterns/toghu.svg' },
-      { name: 'Trap', pattern: '/assets/patterns/kuba.svg' },
-      { name: 'Dancehall', pattern: '/assets/patterns/mudcloth.svg' },
-    ];
+  <a href="/user/library.html">Ma Bibliothèque</a>
+  <a href="/user/purchases.html">Mes Achats</a>
+  <a href="/user/settings.html">Paramètres</a>
+</div>
 
-    function renderGenres() {
-      const grid = document.getElementById('genres-grid');
-      grid.innerHTML = '';
+<!-- HEADER -->
+<div class="topbar">
+  <span class="menu" id="menuBtn">☰</span>
+  <img src="/assets/logo.png" class="logo">
+  <span></span>
+</div>
 
-      genresList.forEach(genre => {
-        const card = document.createElement('div');
-        card.className = 'genre-card';
-        card.innerHTML = `
-          <div class="pattern-overlay" style="background-image: url('${genre.pattern}')"></div>
-          <h2>${genre.name}</h2>
-        `;
-        card.addEventListener('click', () => {
-          window.location.href = `/browse.html?genre=${encodeURIComponent(genre.name.toLowerCase())}`;
-        });
-        grid.appendChild(card);
-      });
-    }
+<!-- GENRES -->
+<section class="section">
+  <h3>Explorer les Genres</h3>
 
-    document.addEventListener('DOMContentLoaded', renderGenres);
-  </script>
+  <div class="genres" id="genresGrid"></div>
+</section>
+
+<script>
+
+/* MENU */
+const menuBtn = document.getElementById("menuBtn");
+const sideMenu = document.getElementById("sideMenu");
+
+menuBtn.addEventListener("click", () => {
+  sideMenu.classList.toggle("open");
+});
+
+document.addEventListener("click", (e) => {
+  if (!sideMenu.contains(e.target) && !menuBtn.contains(e.target)) {
+    sideMenu.classList.remove("open");
+  }
+});
+
+/* GENRES LIST (AFRICAN FOCUSED) */
+const genres = [
+  "Mboko",
+  "Makossa",
+  "Bikutsi",
+  "Afropop",
+  "Afrobeat",
+  "Coupé-Décalé",
+  "Ndombolo",
+  "Rap FR",
+  "Drill",
+  "RnB Afro",
+  "Gospel Camer",
+  "Traditionnel"
+];
+
+/* RENDER */
+function renderGenres(){
+  const container = document.getElementById("genresGrid");
+
+  genres.forEach(genre => {
+    const div = document.createElement("div");
+    div.className = "genre";
+    div.textContent = genre;
+
+    div.addEventListener("click", () => {
+      window.location.href = `/pages/browse.html?genre=${encodeURIComponent(genre.toLowerCase())}`;
+    });
+
+    container.appendChild(div);
+  });
+}
+
+renderGenres();
+
+</script>
 
 </body>
 </html>

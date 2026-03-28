@@ -1,76 +1,117 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>New Releases – JENGU</title>
-<!-- CSS System -->
-<link rel="stylesheet" href="/css/base.css">
-<link rel="stylesheet" href="/css/layout.css">
-<link rel="stylesheet" href="/css/components.css">
-<link rel="stylesheet" href="/css/theme-afro.css">
-<!-- JS System -->
-<script src="/js/api.js" defer></script>
-<script src="/js/ui.js" defer></script>
+<title>Nouveautés – JENGU</title>
+
+<link rel="stylesheet" href="/styles/app.css">
 </head>
-<body class="dark-theme">
+
+<body>
+
+<!-- SIDE MENU -->
+<div id="sideMenu" class="side-menu">
+  <div class="menu-header">
+    <img src="/assets/logo.png" class="menu-logo">
+  </div>
+
+  <a href="/pages/index.html">Accueil</a>
+  <a href="/pages/browse.html">Parcourir</a>
+  <a href="/pages/genres.html">Genres</a>
+  <a href="/pages/charts.html">Top Charts</a>
+  <a href="/pages/new-releases.html">Nouveautés</a>
+
+  <a href="/user/library.html">Ma Bibliothèque</a>
+  <a href="/user/purchases.html">Mes Achats</a>
+  <a href="/user/settings.html">Paramètres</a>
+</div>
 
 <!-- HEADER -->
-<header class="site-header">
-  <img src="/assets/logo.svg" class="logo" alt="JENGU Logo">
-  <nav>
-    <a href="/index.html">Home</a>
-    <a href="/browse.html">Browse</a>
-    <a href="/genres.html">Genres</a>
-    <a href="/charts.html">Charts</a>
-    <a href="/new-releases.html" class="active">New Releases</a>
-    <a href="/blog.html">Blog</a>
-  </nav>
-  <div class="user-actions">
-    <a href="/user/login.html" class="btn btn-neon-outline">Login</a>
-    <a href="/user/signup.html" class="btn btn-neon">Sign Up</a>
-  </div>
-</header>
+<div class="topbar">
+  <span class="menu" id="menuBtn">☰</span>
+  <img src="/assets/logo.png" class="logo">
+  <span></span>
+</div>
 
-<main>
-  <section class="new-releases-section">
-    <h1 class="section-title">New Releases</h1>
-    <div class="album-grid" id="new-releases-grid">
-      <!-- JS dynamically populates albums -->
-    </div>
-  </section>
-</main>
+<!-- NEW RELEASES -->
+<section class="section">
+  <h3>Nouvelles Sorties</h3>
+  <div class="scroll-row" id="releases"></div>
+</section>
 
-<!-- FOOTER -->
-<footer>
-  <p>&copy; 2026 Afro Music Platform</p>
-</footer>
+<script type="module">
+import { fetchNewReleases } from "/js/api.js";
 
-<script>
-document.addEventListener('DOMContentLoaded', async () => {
-  const grid = document.getElementById('new-releases-grid');
-  const loader = showLoading(grid);
+/* MENU */
+const menuBtn = document.getElementById("menuBtn");
+const sideMenu = document.getElementById("sideMenu");
 
-  try {
-    const albums = await fetchNewReleases();
-    hideLoading(loader);
+menuBtn.addEventListener("click", () => {
+  sideMenu.classList.toggle("open");
+});
 
-    albums.forEach(album => {
-      const div = document.createElement('div');
-      div.className = 'album-card';
-      div.innerHTML = `
-        <img src="${album.cover}" alt="${album.title}">
-        <h3>${album.title}</h3>
-        <p>${album.artist}</p>
-      `;
-      grid.appendChild(div);
-    });
-  } catch (err) {
-    hideLoading(loader);
-    grid.innerHTML = '<p class="error-text">Failed to load new releases.</p>';
-    console.error(err);
+document.addEventListener("click", (e) => {
+  if (!sideMenu.contains(e.target) && !menuBtn.contains(e.target)) {
+    sideMenu.classList.remove("open");
   }
 });
+
+/* CARD */
+function createCard(item){
+  return `
+    <div class="card">
+      <div class="cover">
+        <img src="${item.cover}">
+        <button class="play">▶</button>
+      </div>
+
+      <div class="title">${item.title || item.name}</div>
+
+      <div class="card-bottom">
+        <span class="price">${Math.floor(Math.random()*1500)} XAF</span>
+        <button class="buy">Buy</button>
+      </div>
+    </div>
+  `;
+}
+
+/* LOAD */
+async function loadReleases(){
+  const container = document.getElementById("releases");
+
+  try {
+    const data = await fetchNewReleases();
+
+    container.innerHTML = "";
+
+    data.forEach(item => {
+      container.innerHTML += createCard(item);
+    });
+
+  } catch (err) {
+    container.innerHTML = "<p>Erreur de chargement</p>";
+  }
+}
+
+/* PREVIEW */
+document.addEventListener("click", e=>{
+  if(e.target.classList.contains("play")){
+    const audio = new Audio("/assets/sample.mp3");
+    audio.play();
+    setTimeout(()=>audio.pause(),30000);
+  }
+});
+
+/* BUY */
+document.addEventListener("click", e=>{
+  if(e.target.classList.contains("buy")){
+    alert("Paiement bientôt disponible");
+  }
+});
+
+loadReleases();
+
 </script>
 
 </body>

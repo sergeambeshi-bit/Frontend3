@@ -1,92 +1,164 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Browse – JENGU</title>
+<script type="module">
+import { fetchBrowseResults } from "/js/api.js";
+import { savePurchase } from "/js/store.js";
 
-  <link rel="stylesheet" href="/css/base.css">
-  <link rel="stylesheet" href="/css/layout.css">
-  <link rel="stylesheet" href="/css/components.css">
-  <link rel="stylesheet" href="/css/theme-afro.css">
-</head>
+/* MENU */
+const menuBtn = document.getElementById("menuBtn");
+const sideMenu = document.getElementById("sideMenu");
 
-<body>
+menuBtn.addEventListener("click", () => {
+  sideMenu.classList.toggle("open");
+});
 
-<!-- PATTERN BACKGROUND -->
-<div class="toghu"></div>
-<div class="kuba"></div>
+document.addEventListener("click", (e) => {
+  if (!sideMenu.contains(e.target) && !menuBtn.contains(e.target)) {
+    sideMenu.classList.remove("open");
+  }
+});
 
-<!-- HEADER -->
-<header class="header container flex" style="justify-content: space-between;">
-  <img src="/assets/logo.svg" class="logo" style="height:40px;">
-</header>
+/* =========================
+   GET GENRE FROM URL
+========================= */
+const params = new URLSearchParams(window.location.search);
+const selectedGenre = params.get("genre");
 
-<!-- SEARCH -->
-<section class="section container">
-  <input 
-    type="text" 
-    id="searchInput" 
-    placeholder="Search music, artists..."
-    style="width:100%; padding:1rem; border-radius:10px; border:none; background:#1a1a1a; color:white;"
-  >
-</section>
+/* =========================
+   DATA
+========================= */
+let allData = [];
 
-<!-- RESULTS -->
-<section class="section container">
-  <h2>Browse</h2>
-  <div id="browseGrid" class="grid grid-4"></div>
-</section>
+/* =========================
+   CHECK OWNERSHIP
+========================= */
+function isOwned(name){
+  const purchases = JSON.parse(localStorage.getItem("purchases")) || [];
+  return purchases.some(p => p.name === name);
+}
 
-<script src="/js/api.js"></script>
-<script>
-async function loadBrowse() {
+/* =========================
+   CARD
+========================= */
+function createCard(item){
+
+  const owned = isOwned(item.name);
+
+  return `
+    <div class="card">
+      <div class="cover">
+        <img src="${item.cover}">
+        <button class="play">▶</button>
+      </div>
+
+      <div class="title">${item.name}</div>
+
+      <div class="card-bottom">
+
+        ${
+          owned
+          ? `<span class="owned-badge">✓ Owned</span>`
+          : `<span class="price">${item.price || 300} XAF</span>`
+        }
+
+        <button class="buy ${owned ? 'disabled' : ''}" ${owned ? 'disabled' : ''}>
+          ${owned ? 'Owned' : 'Buy'}
+        </button>
+
+      </div>
+    </div>
+  `;
+}
+
+/* =========================
+   RENDER
+========================= */
+function render(data){
   const container = document.getElementById("browseGrid");
-  const data = await fetchBrowseResults();
-
   container.innerHTML = "";
 
   data.forEach(item => {
-    const card = document.createElement("div");
-    card.className = "card";
-
-    card.innerHTML = `
-      <img src="${item.cover || '/assets/placeholders/album.svg'}" class="card-cover">
-      <div class="card-title">${item.name}</div>
-      <div class="card-meta">${item.type}</div>
-    `;
-
-    container.appendChild(card);
+    container.innerHTML += createCard(item);
   });
 }
 
-document.getElementById("searchInput").addEventListener("input", async (e) => {
-  const query = e.target.value.toLowerCase();
-  const data = await fetchBrowseResults();
+/* =========================
+   LOAD + FILTER
+========================= */
+async function loadBrowse(){
+  allData = await fetchBrowseResults();
 
-  const filtered = data.filter(item =>
+  let filtered = allData;
+
+  if(selectedGenre){
+    filtered = allData.filter(item =>
+      (item.genre || "").toLowerCase() === selectedGenre.toLowerCase()
+    );
+
+    document.querySelector("h3").textContent =
+      selectedGenre.charAt(0).toUpperCase() + selectedGenre.slice(1);
+  }
+
+  render(filtered);
+}
+
+/* =========================
+   SEARCH
+========================= */
+document.getElementById("searchInput").addEventListener("input", (e) => {
+  const query = e.target.value.toLowerCase();
+
+  let base = allData;
+
+  if(selectedGenre){
+    base = allData.filter(item =>
+      (item.genre || "").toLowerCase() === selectedGenre.toLowerCase()
+    );
+  }
+
+  const filtered = base.filter(item =>
     item.name.toLowerCase().includes(query)
   );
 
-  const container = document.getElementById("browseGrid");
-  container.innerHTML = "";
-
-  filtered.forEach(item => {
-    const card = document.createElement("div");
-    card.className = "card";
-
-    card.innerHTML = `
-      <img src="${item.cover || '/assets/placeholders/album.svg'}" class="card-cover">
-      <div class="card-title">${item.name}</div>
-      <div class="card-meta">${item.type}</div>
-    `;
-
-    container.appendChild(card);
-  });
+  render(filtered);
 });
 
-document.addEventListener("DOMContentLoaded", loadBrowse);
-</script>
+/* =========================
+   EVENTS
+========================= */
+let currentItem = null;
 
-</body>
-</html>
+document.addEventListener("click", e=>{
+
+  /* PLAY */
+  if(e.target.classList.contains("play")){
+    const audio = new Audio("/assets/sample.mp3");
+    audio.play();
+    setTimeout(()=>audio.pause(),30000);
+  }
+
+  /* BUY */
+  if(e.target.classList.contains("buy")){
+
+    if(e.target.classList.contains("disabled")) return;
+
+    const card = e.target.closest(".card");
+
+    currentItem = {
+      name: card.querySelector(".title").innerText,
+      artist: "Artist",
+      cover: card.querySelector("img").src,
+      price: 300
+    };
+
+    savePurchase(currentItem);
+
+    alert("Achat réussi 🎉");
+
+    loadBrowse(); // refresh UI
+  }
+
+});
+
+/* INIT */
+loadBrowse();
+
+</script>

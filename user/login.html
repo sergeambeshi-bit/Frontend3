@@ -1,50 +1,65 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Login – JENGU</title>
-<!-- CSS System -->
-<link rel="stylesheet" href="/css/base.css">
-<link rel="stylesheet" href="/css/layout.css">
-<link rel="stylesheet" href="/css/components.css">
-<link rel="stylesheet" href="/css/theme-afro.css">
-<!-- JS System -->
-<script src="/js/ui.js" defer></script>
+<title>Connexion – JENGU</title>
+
+<link rel="stylesheet" href="/styles/app.css">
 </head>
-<body class="dark-theme">
 
-<!-- HEADER -->
-<header class="site-header">
-  <img src="/assets/logo.svg" class="logo" alt="JENGU Logo">
-  <nav>
-    <a href="/index.html">Home</a>
-    <a href="/browse.html">Browse</a>
-    <a href="/genres.html">Genres</a>
-    <a href="/charts.html">Charts</a>
-    <a href="/new-releases.html">New Releases</a>
-    <a href="/blog.html">Blog</a>
-  </nav>
-</header>
+<body>
 
-<main class="auth-page">
-  <section class="login-section">
-    <h1>Login</h1>
-    <form id="login-form">
-      <label>Email</label>
-      <input type="email" name="email" required>
-      <label>Password</label>
-      <input type="password" name="password" required>
-      <button type="submit" class="btn btn-neon">Login</button>
-    </form>
-    <p>Don't have an account? <a href="/user/signup.html">Sign Up</a></p>
-  </section>
-</main>
+<section class="section" style="padding-top:40px;">
 
-<!-- FOOTER -->
-<footer>
-  <p>&copy; 2026 Afro Music Platform</p>
-</footer>
+  <!-- LOGO -->
+  <div style="text-align:center; margin-bottom:30px;">
+    <img src="/assets/logo.png" class="logo" style="width:120px;">
+  </div>
+
+  <!-- TITLE -->
+  <h2 style="text-align:center;">Connexion</h2>
+  <p class="sub" style="text-align:center;">
+    Accédez à vos achats et téléchargements
+  </p>
+
+  <!-- FORM -->
+  <form id="loginForm" style="margin-top:20px;">
+
+    <input type="email" placeholder="Email" required>
+    <input type="password" placeholder="Mot de passe" required>
+
+    <button class="btn-primary" style="width:100%; margin-top:10px;">
+      Se connecter
+    </button>
+
+  </form>
+
+  <!-- SIGNUP -->
+  <p style="text-align:center; margin-top:15px;">
+    Pas encore de compte ? 
+    <a href="/user/signup.html" style="color:#01d4ab;">
+      S'inscrire
+    </a>
+  </p>
+
+</section>
+
+<script>
+
+/* SIMPLE LOGIN SYSTEM (FRONTEND MOCK) */
+document.getElementById("loginForm").addEventListener("submit", e=>{
+  e.preventDefault();
+
+  // simulate login
+  localStorage.setItem("user", "logged");
+
+  alert("Connexion réussie");
+
+  window.location.href = "/pages/index.html";
+});
+
+</script>
 
 </body>
 </html>

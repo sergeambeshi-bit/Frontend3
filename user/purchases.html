@@ -1,21 +1,113 @@
-<!-- frontend/user/purchases.html -->
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Your Purchases</title>
-<link rel="stylesheet" href="../css/base.css">
-<link rel="stylesheet" href="../css/layout.css">
-<link rel="stylesheet" href="../css/components.css">
-<link rel="stylesheet" href="../css/theme-afro.css">
-<script src="../js/ui.js" defer></script>
-<script src="../js/api.js" defer></script>
+<title>Mes Achats – JENGU</title>
+
+<link rel="stylesheet" href="/styles/app.css">
 </head>
+
 <body>
-<header><h1>Purchase History</h1></header>
-<main id="user-purchases" class="cards-container">
-    <!-- JS renders purchases -->
-</main>
+
+<!-- SIDE MENU -->
+<div id="sideMenu" class="side-menu">
+  <div class="menu-header">
+    <img src="/assets/logo.png" class="menu-logo">
+  </div>
+
+  <a href="/pages/index.html">Accueil</a>
+  <a href="/pages/browse.html">Parcourir</a>
+  <a href="/pages/genres.html">Genres</a>
+  <a href="/pages/charts.html">Top Charts</a>
+  <a href="/pages/new-releases.html">Nouveautés</a>
+
+  <a href="/user/library.html">Ma Bibliothèque</a>
+  <a href="/user/purchases.html">Mes Achats</a>
+  <a href="/user/settings.html">Paramètres</a>
+</div>
+
+<!-- HEADER -->
+<div class="topbar">
+  <span class="menu" id="menuBtn">☰</span>
+  <h3>Mes Achats</h3>
+  <span></span>
+</div>
+
+<!-- PURCHASES -->
+<section class="section">
+
+  <div id="purchasesList"></div>
+
+</section>
+
+<script>
+
+/* MENU */
+const menuBtn = document.getElementById("menuBtn");
+const sideMenu = document.getElementById("sideMenu");
+
+menuBtn.addEventListener("click", () => {
+  sideMenu.classList.toggle("open");
+});
+
+document.addEventListener("click", (e) => {
+  if (!sideMenu.contains(e.target) && !menuBtn.contains(e.target)) {
+    sideMenu.classList.remove("open");
+  }
+});
+
+/* MOCK DATA (replace later with API) */
+const purchases = [
+  {
+    name: "Mboko Anthem",
+    artist: "Artist X",
+    cover: "/assets/covers/cover1.png"
+  },
+  {
+    name: "Makossa Vibes",
+    artist: "Artist Y",
+    cover: "/assets/covers/cover2.png"
+  }
+];
+
+/* RENDER */
+function renderPurchases(){
+
+  const container = document.getElementById("purchasesList");
+
+  if(purchases.length === 0){
+    container.innerHTML = `
+      <p class="sub" style="text-align:center;">
+        Aucun achat pour le moment
+      </p>
+    `;
+    return;
+  }
+
+  container.innerHTML = "";
+
+  purchases.forEach((item, i)=>{
+    container.innerHTML += `
+      <div class="chart-item">
+        <img src="${item.cover}">
+        <div class="info">
+          <b>${item.name}</b>
+          <p>${item.artist}</p>
+        </div>
+
+        <a href="/assets/sample.mp3" download class="download-btn">
+          ↓
+        </a>
+      </div>
+    `;
+  });
+
+}
+
+renderPurchases();
+
+</script>
+
 </body>
 </html>

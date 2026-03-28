@@ -1,52 +1,63 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Sign Up – JENGU</title>
-<!-- CSS System -->
-<link rel="stylesheet" href="/css/base.css">
-<link rel="stylesheet" href="/css/layout.css">
-<link rel="stylesheet" href="/css/components.css">
-<link rel="stylesheet" href="/css/theme-afro.css">
-<!-- JS System -->
-<script src="/js/ui.js" defer></script>
+<title>Créer un compte – JENGU</title>
+
+<link rel="stylesheet" href="/styles/app.css">
 </head>
-<body class="dark-theme">
 
-<!-- HEADER -->
-<header class="site-header">
-  <img src="/assets/logo.svg" class="logo" alt="JENGU Logo">
-  <nav>
-    <a href="/index.html">Home</a>
-    <a href="/browse.html">Browse</a>
-    <a href="/genres.html">Genres</a>
-    <a href="/charts.html">Charts</a>
-    <a href="/new-releases.html">New Releases</a>
-    <a href="/blog.html">Blog</a>
-  </nav>
-</header>
+<body>
 
-<main class="auth-page">
-  <section class="signup-section">
-    <h1>Sign Up</h1>
-    <form id="signup-form">
-      <label>Full Name</label>
-      <input type="text" name="name" required>
-      <label>Email</label>
-      <input type="email" name="email" required>
-      <label>Password</label>
-      <input type="password" name="password" required>
-      <button type="submit" class="btn btn-neon">Sign Up</button>
-    </form>
-    <p>Already have an account? <a href="/user/login.html">Login</a></p>
-  </section>
-</main>
+<section class="section" style="padding-top:40px;">
 
-<!-- FOOTER -->
-<footer>
-  <p>&copy; 2026 Afro Music Platform</p>
-</footer>
+  <!-- LOGO -->
+  <div style="text-align:center; margin-bottom:30px;">
+    <img src="/assets/logo.png" class="logo" style="width:120px;">
+  </div>
+
+  <!-- TITLE -->
+  <h2 style="text-align:center;">Créer un compte</h2>
+  <p class="sub" style="text-align:center;">
+    Accédez à vos téléchargements et achats
+  </p>
+
+  <!-- FORM -->
+  <form id="signupForm" style="margin-top:20px;">
+
+    <input type="text" placeholder="Nom complet" required>
+    <input type="email" placeholder="Email" required>
+    <input type="password" placeholder="Mot de passe" required>
+
+    <button class="btn-primary" style="width:100%; margin-top:10px;">
+      S'inscrire
+    </button>
+
+  </form>
+
+  <!-- LOGIN -->
+  <p style="text-align:center; margin-top:15px;">
+    Déjà un compte ? 
+    <a href="/user/login.html" style="color:#01d4ab;">
+      Se connecter
+    </a>
+  </p>
+
+</section>
+
+<script>
+
+/* SIMPLE UX FEEDBACK */
+document.getElementById("signupForm").addEventListener("submit", e=>{
+  e.preventDefault();
+
+  alert("Compte créé avec succès (simulation)");
+
+  window.location.href = "/pages/index.html";
+});
+
+</script>
 
 </body>
 </html>

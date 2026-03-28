@@ -1,48 +1,93 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Article – JENGU</title>
-<!-- CSS System -->
-<link rel="stylesheet" href="/css/base.css">
-<link rel="stylesheet" href="/css/layout.css">
-<link rel="stylesheet" href="/css/components.css">
-<link rel="stylesheet" href="/css/theme-afro.css">
-<!-- JS System -->
-<script src="/js/api.js" defer></script>
-<script src="/js/ui.js" defer></script>
+
+<link rel="stylesheet" href="/styles/app.css">
 </head>
-<body class="dark-theme">
 
-<!-- HEADER -->
-<header class="site-header">
-  <img src="/assets/logo.svg" class="logo" alt="JENGU Logo">
-  <nav>
-    <a href="/index.html">Home</a>
-    <a href="/browse.html">Browse</a>
-    <a href="/genres.html">Genres</a>
-    <a href="/charts.html">Charts</a>
-    <a href="/new-releases.html">New Releases</a>
-    <a href="/blog.html">Blog</a>
-  </nav>
-  <div class="user-actions">
-    <a href="/user/login.html" class="btn btn-neon-outline">Login</a>
-    <a href="/user/signup.html" class="btn btn-neon">Sign Up</a>
+<body>
+
+<!-- SIDE MENU -->
+<div id="sideMenu" class="side-menu">
+  <div class="menu-header">
+    <img src="/assets/logo.png" class="menu-logo">
   </div>
-</header>
 
-<main>
-  <article class="article-page">
-    <h1 id="article-title">Article Title</h1>
-    <p>Placeholder article content goes here...</p>
-  </article>
-</main>
+  <a href="/pages/index.html">Accueil</a>
+  <a href="/pages/browse.html">Parcourir</a>
+  <a href="/pages/genres.html">Genres</a>
+  <a href="/pages/charts.html">Top Charts</a>
+  <a href="/pages/new-releases.html">Nouveautés</a>
 
-<!-- FOOTER -->
-<footer>
-  <p>&copy; 2026 Afro Music Platform</p>
-</footer>
+  <a href="/user/library.html">Ma Bibliothèque</a>
+  <a href="/user/purchases.html">Mes Achats</a>
+  <a href="/user/settings.html">Paramètres</a>
+</div>
+
+<!-- HERO -->
+<section class="hero" style="height:50vh;">
+  <div class="hero-bg" id="articleBg"></div>
+  <div class="hero-patterns"></div>
+
+  <div class="topbar">
+    <span class="menu" id="menuBtn">☰</span>
+    <img src="/assets/logo.png" class="logo">
+    <span></span>
+  </div>
+
+  <div class="hero-content">
+    <h1 id="articleTitle">Titre de l'article</h1>
+  </div>
+</section>
+
+<!-- ARTICLE CONTENT -->
+<section class="section">
+  <p id="articleContent" style="line-height:1.6; font-size:14px;">
+    Chargement...
+  </p>
+</section>
+
+<script type="module">
+import { fetchBlogPosts } from "/js/api.js";
+
+/* MENU */
+const menuBtn = document.getElementById("menuBtn");
+const sideMenu = document.getElementById("sideMenu");
+
+menuBtn.addEventListener("click", () => {
+  sideMenu.classList.toggle("open");
+});
+
+document.addEventListener("click", (e) => {
+  if (!sideMenu.contains(e.target) && !menuBtn.contains(e.target)) {
+    sideMenu.classList.remove("open");
+  }
+});
+
+/* GET ARTICLE ID */
+const params = new URLSearchParams(window.location.search);
+const articleId = params.get("id");
+
+/* LOAD ARTICLE */
+async function loadArticle(){
+  const posts = await fetchBlogPosts();
+
+  const article = posts.find(p => p.id == articleId);
+
+  if(!article) return;
+
+  document.getElementById("articleTitle").textContent = article.title;
+  document.getElementById("articleContent").textContent = article.content;
+
+  document.getElementById("articleBg").style.backgroundImage = `url(${article.image})`;
+}
+
+loadArticle();
+
+</script>
 
 </body>
 </html>
