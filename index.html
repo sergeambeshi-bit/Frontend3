@@ -10,6 +10,19 @@
 
 <body>
 
+<!-- SIDE MENU -->
+<div id="sideMenu" class="side-menu">
+  <div class="menu-header">
+    <img src="/assets/logo.png" class="menu-logo">
+  </div>
+
+  <a href="/">Accueil</a>
+  <a href="/browse.html">Parcourir</a>
+  <a href="/genres.html">Genres</a>
+  <a href="/charts.html">Top Charts</a>
+  <a href="/new-releases.html">Nouveautés</a>
+</div>
+
 <!-- HERO -->
 <section class="hero">
   <div class="hero-bg"></div>
@@ -18,7 +31,7 @@
   <div class="hero-content">
 
     <div class="topbar">
-      <span class="menu">☰</span>
+      <span class="menu" id="menuBtn">☰</span>
       <img src="/assets/logo.png" class="logo">
       <span class="lang" onclick="toggleLang()">FR ▾</span>
     </div>
@@ -62,17 +75,24 @@
   <h3 id="genresTitle">Explorer les Genres</h3>
 
   <div class="genres">
+    <div class="genre">Mboko</div>
     <div class="genre">Makossa</div>
-    <div class="genre">AfroPop</div>
+    <div class="genre">Bikutsi</div>
+    <div class="genre">Afropop</div>
+    <div class="genre">Afrobeat</div>
+    <div class="genre">Coupé-Décalé</div>
     <div class="genre">Ndombolo</div>
-    <div class="genre">Rap / Drill</div>
+    <div class="genre">Rap FR</div>
+    <div class="genre">Drill</div>
+    <div class="genre">RnB Afro</div>
+    <div class="genre">Gospel Camer</div>
+    <div class="genre">Traditionnel</div>
   </div>
 </section>
 
 <!-- PAYMENT MODAL -->
 <div id="paymentModal" class="modal hidden">
   <div class="modal-content">
-
     <h3>Paiement</h3>
 
     <div class="pay-section">
@@ -89,16 +109,14 @@
     </div>
 
     <input type="text" id="phone" placeholder="6XXXXXXXX">
-
     <button class="confirm">Confirmer le paiement</button>
-
   </div>
 </div>
 
 <script type="module">
 import { fetchBrowseResults } from "/js/api.js";
 
-/* HERO ROTATION */
+/* HERO */
 const heroImages = [
   "/assets/hero/hero1.png",
   "/assets/hero/hero2.png",
@@ -106,13 +124,11 @@ const heroImages = [
 ];
 
 let heroIndex = 0;
-
 function rotateHero() {
   const hero = document.querySelector(".hero-bg");
   hero.style.backgroundImage = `url(${heroImages[heroIndex]})`;
   heroIndex = (heroIndex + 1) % heroImages.length;
 }
-
 setInterval(rotateHero, 5000);
 rotateHero();
 
@@ -126,9 +142,7 @@ function createCard(item){
         <img src="${item.cover}">
         <button class="play">▶</button>
       </div>
-
       <div class="title">${item.name}</div>
-
       <div class="card-bottom">
         <span class="price">${Math.floor(Math.random()*1000)} XAF</span>
         <button class="buy">Buy</button>
@@ -145,7 +159,7 @@ data.forEach(item => {
   releases.innerHTML += createCard(item);
 });
 
-/* CHARTS */
+/* CHARTS FIXED */
 const charts = document.getElementById("charts");
 
 data.slice(0,3).forEach((item,i)=>{
@@ -153,7 +167,7 @@ data.slice(0,3).forEach((item,i)=>{
     <div class="chart-item">
       <span>${String(i+1).padStart(2,'0')}</span>
       <img src="${item.cover}">
-      <div>
+      <div class="info">
         <b>${item.name}</b>
         <p>${item.artist || "Artist"}</p>
       </div>
@@ -199,13 +213,12 @@ document.addEventListener("click", e => {
     }
 
     document.getElementById("paymentModal").classList.add("hidden");
-
     showDownloadModal();
   }
 
 });
 
-/* DOWNLOAD MODAL */
+/* DOWNLOAD */
 function showDownloadModal(){
   const modal = document.createElement("div");
 
@@ -215,11 +228,7 @@ function showDownloadModal(){
     <div class="modal-content">
       <h3>Téléchargement prêt</h3>
       <p>Votre achat a été confirmé.</p>
-
-      <a href="/assets/sample.mp3" download class="download-btn">
-        Télécharger
-      </a>
-
+      <a href="/assets/sample.mp3" download class="download-btn">Télécharger</a>
       <button class="close-download">Fermer</button>
     </div>
   `;
@@ -233,55 +242,27 @@ function showDownloadModal(){
   });
 }
 
-/* LANGUAGE */
-const translations = {
-  en: {
-    hero: "Download African Music",
-    trending: "Trending in Cameroon",
-    subTrending: "Top in Cameroon",
-    releases: "New Releases",
-    charts: "Top Charts",
-    genres: "Explore Genres",
-    browse: "Browse",
-    new: "New Releases"
-  },
-  fr: {
-    hero: "Télécharger la musique africaine",
-    trending: "Tendance au Cameroun",
-    subTrending: "À la Une au Cameroun",
-    releases: "Nouvelles Sorties",
-    charts: "Top Charts",
-    genres: "Explorer les Genres",
-    browse: "Parcourir",
-    new: "Nouveautés"
+/* MENU LOGIC */
+const menuBtn = document.getElementById("menuBtn");
+const sideMenu = document.getElementById("sideMenu");
+
+menuBtn.addEventListener("click", () => {
+  sideMenu.classList.toggle("open");
+});
+
+document.addEventListener("click", (e) => {
+  if (!sideMenu.contains(e.target) && !menuBtn.contains(e.target)) {
+    sideMenu.classList.remove("open");
   }
-};
+});
 
+/* LANGUAGE */
 let currentLang = localStorage.getItem("lang") || "fr";
-
-function applyLang() {
-  const t = translations[currentLang];
-
-  document.getElementById("heroText").textContent = t.hero;
-  document.getElementById("trendingTitle").textContent = t.trending;
-  document.getElementById("trendingSub").textContent = t.subTrending;
-  document.getElementById("releasesTitle").textContent = t.releases;
-  document.getElementById("chartsTitle").textContent = t.charts;
-  document.getElementById("genresTitle").textContent = t.genres;
-  document.getElementById("browseBtn").textContent = t.browse;
-  document.getElementById("newBtn").textContent = t.new;
-
-  document.querySelector(".lang").textContent =
-    currentLang === "fr" ? "FR ▾" : "EN ▾";
-}
-
 window.toggleLang = function () {
   currentLang = currentLang === "fr" ? "en" : "fr";
   localStorage.setItem("lang", currentLang);
-  applyLang();
+  location.reload();
 };
-
-applyLang();
 
 </script>
 

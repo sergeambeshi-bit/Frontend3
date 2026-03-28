@@ -88,6 +88,47 @@ body {
   filter:drop-shadow(0 0 10px #01d4ab);
 }
 
+/* MENU BUTTON */
+.menu {
+  font-size:26px;
+  cursor:pointer;
+}
+
+/* =========================
+   SIDE MENU
+========================= */
+.side-menu {
+  position:fixed;
+  top:0;
+  left:0;
+  width:75%;
+  height:100%;
+  background:#0b0b0f;
+  padding:20px;
+  display:flex;
+  flex-direction:column;
+  gap:15px;
+  z-index:200;
+
+  transform:translateX(-100%);
+  transition:0.3s;
+}
+
+.side-menu.open {
+  transform:translateX(0);
+}
+
+.side-menu a {
+  color:white;
+  text-decoration:none;
+  font-size:16px;
+}
+
+.menu-logo {
+  width:100px;
+  margin-bottom:20px;
+}
+
 /* =========================
    TITLE
 ========================= */
@@ -195,7 +236,6 @@ h3 {
   font-weight:bold;
 }
 
-/* CARD FOOTER */
 .card-bottom {
   display:flex;
   justify-content:space-between;
@@ -213,7 +253,6 @@ h3 {
   font-weight:600;
 }
 
-/* TEXT */
 .title {
   font-size:13px;
   margin-top:6px;
@@ -225,19 +264,49 @@ h3 {
 }
 
 /* =========================
-   CHART
+   CHART (FIXED)
 ========================= */
 .chart-item {
   display:flex;
-  gap:10px;
-  padding:8px 0;
   align-items:center;
+  gap:10px;
+  padding:10px 0;
   border-bottom:1px solid rgba(255,255,255,0.05);
 }
 
+.chart-item span {
+  width:24px;
+  font-size:12px;
+  color:#aaa;
+}
+
 .chart-item img {
-  width:40px;
+  width:42px;
+  height:42px;
   border-radius:8px;
+  object-fit:cover;
+}
+
+.chart-item .info {
+  flex:1;
+  display:flex;
+  flex-direction:column;
+}
+
+.chart-item .info b {
+  font-size:13px;
+}
+
+.chart-item .info p {
+  font-size:11px;
+  color:#aaa;
+  margin:2px 0 0;
+}
+
+.chart-item .price {
+  font-size:12px;
+  color:#01d4ab;
+  white-space:nowrap;
 }
 
 /* =========================
@@ -254,6 +323,16 @@ h3 {
   padding:14px;
   border-radius:10px;
   text-align:center;
+  font-size:13px;
+
+  border:1px solid rgba(255,255,255,0.05);
+  transition:0.2s;
+}
+
+.genre:active {
+  transform:scale(0.95);
+  background:#01d4ab;
+  color:black;
 }
 
 /* =========================
@@ -280,7 +359,6 @@ h3 {
   width:90%;
 }
 
-/* PAYMENT */
 .pay-section {
   margin:10px 0;
 }
@@ -331,7 +409,7 @@ h3 {
 }
 
 /* =========================
-   DOWNLOAD SYSTEM (NEW)
+   DOWNLOAD
 ========================= */
 .download-btn {
   display:block;
