@@ -134,3 +134,33 @@
   0%, 100% { transform: translateY(0); opacity: 0.7; }
   50% { transform: translateY(-12px); opacity: 1; }
 }
+/* =========================
+   ADMIN IMPROVEMENTS
+========================= */
+.admin-search {
+  width:100%;
+  padding:10px;
+  margin:15px 0;
+  border-radius:8px;
+  border:none;
+  background:#1a1a1a;
+  color:white;
+}
+
+/* STATUS BADGES */
+.status {
+  padding:4px 8px;
+  border-radius:6px;
+  font-size:11px;
+  font-weight:600;
+}
+
+.status-active {
+  background:#01d4ab;
+  color:black;
+}
+
+.status-inactive {
+  background:#333;
+  color:#aaa;
+}
