@@ -1,15 +1,17 @@
 // js/api.js
 
+import { getUploads } from "/js/store.js";
+
 const API_BASE = '/api';
 
 /* =========================================
-   MOCK DATA (FULL SYSTEM READY)
+   MOCK DATA (STABLE + NORMALIZED)
 ========================================= */
 const MOCK_DATA = [
   {
     id: 1,
     name: "Mboko Anthem",
-    type: "Track",
+    type: "track",
     artist: "DJ Afro",
     album: "Street Kings",
     genre: "mboko",
@@ -19,7 +21,7 @@ const MOCK_DATA = [
   {
     id: 2,
     name: "Makossa Vibes",
-    type: "Track",
+    type: "track",
     artist: "Kofi Star",
     album: "Douala Nights",
     genre: "makossa",
@@ -29,7 +31,7 @@ const MOCK_DATA = [
   {
     id: 3,
     name: "Ndombolo Energy",
-    type: "Track",
+    type: "track",
     artist: "Mali Beats",
     album: "Congo Heat",
     genre: "ndombolo",
@@ -39,7 +41,7 @@ const MOCK_DATA = [
   {
     id: 4,
     name: "Afropop Dreams",
-    type: "Track",
+    type: "track",
     artist: "AfroNova",
     album: "Global Vibes",
     genre: "afropop",
@@ -49,7 +51,7 @@ const MOCK_DATA = [
   {
     id: 5,
     name: "Bikutsi Nights",
-    type: "Track",
+    type: "track",
     artist: "Cam Groove",
     album: "Village Rhythm",
     genre: "bikutsi",
@@ -62,34 +64,77 @@ const MOCK_DATA = [
 const BLOG_POSTS = [
   {
     id: 1,
-    title: "Le Mboko domine la scène camerounaise",
-    content: "Le Mboko est aujourd’hui l’un des genres les plus populaires...",
+    title: "Mboko dominates Cameroon",
+    content: "Mboko is now one of the most popular genres...",
     image: "/assets/hero/hero1.png"
   },
   {
     id: 2,
-    title: "Makossa : un héritage musical",
-    content: "Le Makossa reste un pilier de la musique camerounaise...",
+    title: "Makossa legacy",
+    content: "Makossa remains a pillar of African music...",
     image: "/assets/hero/hero2.png"
   }
 ];
 
 
 /* =========================================
-   GENERIC FETCH
+   NORMALIZER
+========================================= */
+function normalizeData(data) {
+  if (!Array.isArray(data)) return [];
+
+  return data.map(item => ({
+    id: item.id || Date.now(),
+    name: item.name || "Unknown",
+    artist: item.artist || "Unknown Artist",
+    album: item.album || "",
+    genre: (item.genre || "").toLowerCase(),
+    price: item.price || 300,
+    cover: item.cover || "/assets/covers/cover1.png",
+    type: item.type || "track",
+    createdAt: item.createdAt || null
+  }));
+}
+
+
+/* =========================================
+   MERGE UPLOADS + API DATA
+========================================= */
+function mergeMarketplaceData(apiData = []){
+
+  const uploads = getUploads();
+
+  const normalizedUploads = normalizeData(uploads);
+  const normalizedApi = normalizeData(apiData);
+
+  // sort uploads first (newest first)
+  const sortedUploads = normalizedUploads.sort((a,b)=>{
+    return new Date(b.createdAt || 0) - new Date(a.createdAt || 0);
+  });
+
+  return [...sortedUploads, ...normalizedApi];
+}
+
+
+/* =========================================
+   SAFE FETCH (MARKETPLACE READY)
 ========================================= */
 async function safeFetch(endpoint) {
   try {
     const res = await fetch(`${API_BASE}${endpoint}`);
-    if (!res.ok) throw new Error("API failed");
-    return await res.json();
+
+    if (!res.ok) throw new Error("API error");
+
+    const data = await res.json();
+
+    return mergeMarketplaceData(data);
+
   } catch (err) {
-    console.warn("Using mock data:", err.message);
+    console.warn("⚠️ Using mock + uploads:", err.message);
 
-    // route fallback
-    if(endpoint.includes("blog")) return BLOG_POSTS;
+    if (endpoint.includes("blog")) return BLOG_POSTS;
 
-    return MOCK_DATA;
+    return mergeMarketplaceData(MOCK_DATA);
   }
 }
 
@@ -123,19 +168,21 @@ export async function fetchBlogPosts() {
   return safeFetch('/blog');
 }
 
-/* SINGLE TRACK */
+
+/* =========================================
+   DETAIL FETCHERS
+========================================= */
+
 export async function fetchTrack(name) {
   const data = await fetchBrowseResults();
-  return data.find(t => t.name.toLowerCase() === name.toLowerCase());
+  return data.find(t => t.name.toLowerCase() === name.toLowerCase()) || null;
 }
 
-/* ARTIST */
 export async function fetchArtist(name) {
   const data = await fetchBrowseResults();
   return data.filter(t => t.artist.toLowerCase() === name.toLowerCase());
 }
 
-/* ALBUM */
 export async function fetchAlbum(name) {
   const data = await fetchBrowseResults();
   return data.filter(t => t.album.toLowerCase() === name.toLowerCase());

@@ -12,15 +12,18 @@
 
 <!-- SIDE MENU -->
 <div id="sideMenu" class="side-menu">
-  <div class="menu-header">
-    <img src="/assets/logo.png" class="menu-logo">
-  </div>
+  <img src="/assets/logo.png" class="menu-logo">
 
-  <a href="/">Accueil</a>
-  <a href="/browse.html">Parcourir</a>
+  <a href="/" data-i18n="home">Accueil</a>
+  <a href="/browse.html" data-i18n="browse">Parcourir</a>
   <a href="/genres.html">Genres</a>
-  <a href="/charts.html">Top Charts</a>
-  <a href="/new-releases.html">Nouveautés</a>
+  <a href="/charts.html">Charts</a>
+  <a href="/new-releases.html" data-i18n="releases">Nouveautés</a>
+
+  <hr>
+
+  <a href="/user/library.html">📁 Library</a>
+  <a href="/user/purchases.html">💳 Purchases</a>
 </div>
 
 <!-- HERO -->
@@ -31,227 +34,213 @@
   <div class="hero-content">
 
     <div class="topbar">
+
       <span class="menu" id="menuBtn">☰</span>
+
       <img src="/assets/logo.png" class="logo">
-      <span class="lang" onclick="toggleLang()">FR ▾</span>
+
+      <!-- AUTH AREA -->
+      <div id="authArea" style="display:flex; gap:10px; align-items:center;"></div>
+
+      <span class="lang" id="langBtn">FR ▾</span>
+
     </div>
 
-    <h1 id="heroText">Télécharger la musique africaine</h1>
+    <h1 data-i18n="hero"></h1>
 
     <div class="cta">
-      <a href="/browse.html" class="btn-primary">Parcourir</a>
-      <a href="/new-releases.html" class="btn-outline">Nouveautés</a>
+      <a href="/browse.html" class="btn-primary" data-i18n="browse"></a>
+      <a href="/new-releases.html" class="btn-outline" data-i18n="releases"></a>
     </div>
 
-    <div class="scroll">↓ Scroll</div>
+  </div>
+</section>
 
+<!-- USER TYPE -->
+<section class="section">
+  <h3 style="text-align:center;">Get Started</h3>
+
+  <div class="genres">
+    <a href="/browse.html" class="genre">🎧 Fan</a>
+    <a href="/artist/dashboard.html" class="genre">🎤 Artist</a>
   </div>
 </section>
 
 <!-- TRENDING -->
 <section class="section">
-  <h3>Tendance au Cameroun</h3>
-  <p class="sub">À la Une au Cameroun</p>
-  <div class="scroll-row" id="trending">
-    <p class="sub">Chargement...</p>
-  </div>
+  <h3 data-i18n="trending"></h3>
+  <p class="sub" data-i18n="trendingSub"></p>
+  <div class="scroll-row" id="trending"></div>
 </section>
 
 <!-- NEW RELEASES -->
 <section class="section">
-  <h3>Nouvelles Sorties</h3>
-  <div class="scroll-row" id="releases">
-    <p class="sub">Chargement...</p>
+  <h3 data-i18n="newReleases"></h3>
+  <div class="scroll-row" id="releases"></div>
+</section>
+
+<!-- TOP CHARTS -->
+<section class="section">
+  <div class="row-between">
+    <h3>Top Charts</h3>
+    <a href="/charts.html">View</a>
+  </div>
+  <div id="charts"></div>
+</section>
+
+<!-- GENRES -->
+<section class="section">
+  <h3 data-i18n="exploreGenres"></h3>
+
+  <div class="genres">
+    <a href="/browse.html?genre=mboko" class="genre">Mboko</a>
+    <a href="/browse.html?genre=makossa" class="genre">Makossa</a>
+    <a href="/browse.html?genre=bikutsi" class="genre">Bikutsi</a>
+    <a href="/browse.html?genre=afropop" class="genre">Afropop</a>
+    <a href="/browse.html?genre=ndombolo" class="genre">Ndombolo</a>
   </div>
 </section>
 
-<!-- WHATSAPP SUPPORT -->
+<!-- WHATSAPP -->
 <a href="https://wa.me/237XXXXXXXXX" class="whatsapp">
   💬 Support
 </a>
 
-<!-- PAYMENT MODAL -->
-<div id="paymentModal" class="modal hidden">
-  <div class="modal-content">
-    <h3>Paiement</h3>
-
-    <div class="pay-section">
-      <p class="label">🇨🇲 Mobile Money</p>
-      <button class="pay-btn momo" data-method="mtn">MTN MoMo</button>
-      <button class="pay-btn momo" data-method="orange">Orange Money</button>
-    </div>
-
-    <div class="pay-section">
-      <p class="label">💳 Carte</p>
-      <button class="pay-btn card" data-method="card">Visa / Mastercard</button>
-    </div>
-
-    <input type="text" id="phone" placeholder="6XXXXXXXX">
-    <button class="confirm">Confirmer</button>
-  </div>
-</div>
-
 <script type="module">
 import { fetchBrowseResults } from "/js/api.js";
-import { savePurchase } from "/js/store.js";
+import { getCurrentUser, logout } from "/js/auth.js";
 
-/* HERO (SMOOTH LOAD) */
-const heroImages = [
-  "/assets/hero/hero1.png",
-  "/assets/hero/hero2.png",
-  "/assets/hero/hero3.png"
-];
+/* =========================
+   AUTH SYSTEM (FIXED)
+========================= */
+const user = getCurrentUser();
+const authArea = document.getElementById("authArea");
 
-let heroIndex = 0;
+if(user){
+  authArea.innerHTML = `
+    <span style="font-size:12px;">👋 ${user.name}</span>
+    <button id="logoutBtn">Logout</button>
+  `;
 
-function rotateHero() {
-  const hero = document.querySelector(".hero-bg");
+  document.getElementById("logoutBtn").onclick = logout;
 
-  const img = new Image();
-  img.src = heroImages[heroIndex];
-
-  img.onload = () => {
-    hero.style.backgroundImage = `url(${img.src})`;
-  };
-
-  heroIndex = (heroIndex + 1) % heroImages.length;
+}else{
+  authArea.innerHTML = `
+    <a href="/user/login.html" class="nav-btn">Login</a>
+    <a href="/user/signup.html" class="nav-btn primary">Sign Up</a>
+  `;
 }
 
-setInterval(rotateHero, 5000);
-rotateHero();
+/* =========================
+   LANGUAGE
+========================= */
+const translations = {
+  fr: {
+    home:"Accueil",
+    browse:"Parcourir",
+    releases:"Nouveautés",
+    hero:"Télécharger la musique africaine",
+    trending:"Tendance au Cameroun",
+    trendingSub:"À la Une",
+    newReleases:"Nouvelles Sorties",
+    exploreGenres:"Explorer les Genres"
+  },
+  en: {
+    home:"Home",
+    browse:"Browse",
+    releases:"New Releases",
+    hero:"Download African Music",
+    trending:"Trending",
+    trendingSub:"Hot right now",
+    newReleases:"New Releases",
+    exploreGenres:"Explore Genres"
+  }
+};
 
-/* DATA */
-const data = await fetchBrowseResults();
+let lang = localStorage.getItem("lang") || "fr";
 
-/* CHECK OWNERSHIP */
-function isOwned(name){
-  const purchases = JSON.parse(localStorage.getItem("purchases")) || [];
-  return purchases.some(p => p.name === name);
+function applyLang(){
+  document.querySelectorAll("[data-i18n]").forEach(el=>{
+    el.textContent = translations[lang][el.dataset.i18n];
+  });
+  document.getElementById("langBtn").textContent = lang.toUpperCase()+" ▾";
 }
 
-/* CARD */
+document.getElementById("langBtn").onclick = ()=>{
+  lang = lang === "fr" ? "en" : "fr";
+  localStorage.setItem("lang", lang);
+  applyLang();
+};
+
+applyLang();
+
+/* =========================
+   DATA LOAD
+========================= */
+let data = [];
+
+try {
+  data = await fetchBrowseResults();
+} catch(e){
+  console.error(e);
+}
+
+/* =========================
+   CARD
+========================= */
 function createCard(item){
-
-  const owned = isOwned(item.name);
-
   return `
     <div class="card">
       <div class="cover">
-        <img src="${item.cover}" loading="lazy">
-        <button class="play">▶</button>
+        <img src="${item.cover}">
       </div>
-
       <div class="title">${item.name}</div>
-
-      <div class="card-bottom">
-
-        ${
-          owned
-          ? `<span class="owned-badge">✓ Owned</span>`
-          : `<span class="price">${item.price || 300} XAF</span>`
-        }
-
-        <button class="buy ${owned ? 'disabled' : ''}" ${owned ? 'disabled' : ''}>
-          ${owned ? 'Owned' : 'Buy'}
-        </button>
-
-      </div>
     </div>
   `;
 }
 
-/* RENDER */
+/* =========================
+   RENDER
+========================= */
 const trending = document.getElementById("trending");
 const releases = document.getElementById("releases");
+const charts = document.getElementById("charts");
 
 trending.innerHTML = "";
 releases.innerHTML = "";
+charts.innerHTML = "";
 
-data.forEach(item => {
+data.forEach(item=>{
   trending.innerHTML += createCard(item);
   releases.innerHTML += createCard(item);
 });
 
-/* EVENTS */
-let currentItem = null;
-let selectedMethod = null;
-
-document.addEventListener("click", e => {
-
-  if(e.target.classList.contains("play")){
-    const audio = new Audio("/assets/sample.mp3");
-    audio.play();
-    setTimeout(()=>audio.pause(),30000);
-  }
-
-  if(e.target.classList.contains("buy")){
-    if(e.target.classList.contains("disabled")) return;
-
-    const card = e.target.closest(".card");
-
-    currentItem = {
-      name: card.querySelector(".title").innerText,
-      artist: "Artist",
-      cover: card.querySelector("img").src,
-      price: 300
-    };
-
-    document.getElementById("paymentModal").classList.remove("hidden");
-  }
-
-  if(e.target.classList.contains("pay-btn")){
-    selectedMethod = e.target.dataset.method;
-
-    document.querySelectorAll(".pay-btn").forEach(btn=>{
-      btn.style.background = "#222";
-      btn.style.color = "white";
-    });
-
-    e.target.style.background = "#01d4ab";
-    e.target.style.color = "black";
-  }
-
-  if(e.target.classList.contains("confirm")){
-
-    if(!selectedMethod){
-      alert("Choisissez un moyen de paiement");
-      return;
-    }
-
-    alert("Traitement du paiement...");
-
-    setTimeout(() => {
-      savePurchase(currentItem);
-
-      alert("Paiement confirmé ✅");
-
-      location.reload();
-    }, 2000);
-  }
-
+data.slice(0,3).forEach((item,i)=>{
+  charts.innerHTML += `
+    <div class="chart-item">
+      <span>${i+1}</span>
+      <img src="${item.cover}">
+      <div class="info">
+        <b>${item.name}</b>
+        <p>${item.artist}</p>
+      </div>
+    </div>
+  `;
 });
 
-/* MENU */
+/* =========================
+   MENU
+========================= */
 const menuBtn = document.getElementById("menuBtn");
 const sideMenu = document.getElementById("sideMenu");
 
-menuBtn.addEventListener("click", () => {
-  sideMenu.classList.toggle("open");
-});
+menuBtn.onclick = ()=> sideMenu.classList.toggle("open");
 
-document.addEventListener("click", (e) => {
-  if (!sideMenu.contains(e.target) && !menuBtn.contains(e.target)) {
+document.addEventListener("click",(e)=>{
+  if(!sideMenu.contains(e.target) && !menuBtn.contains(e.target)){
     sideMenu.classList.remove("open");
   }
 });
-
-/* LANG */
-window.toggleLang = function () {
-  const lang = localStorage.getItem("lang") === "fr" ? "en" : "fr";
-  localStorage.setItem("lang", lang);
-  location.reload();
-};
-
 </script>
 
 </body>

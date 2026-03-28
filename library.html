@@ -1,4 +1,179 @@
-<script type="module">
-import { loadLibrary } from "/js/library.js";
-loadLibrary();
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Library – JENGU</title>
+
+<link rel="stylesheet" href="/styles/app.css">
+</head>
+
+<body>
+
+<!-- TOPBAR -->
+<div class="topbar">
+  <span class="menu" id="menuBtn">☰</span>
+  <h3 id="title">Library</h3>
+  <span id="langBtn">FR ▾</span>
+</div>
+
+<!-- SIDE MENU -->
+<div id="sideMenu" class="side-menu">
+  <a href="/">Accueil</a>
+  <a href="/browse.html">Parcourir</a>
+  <a href="/genres.html">Genres</a>
+  <a href="/charts.html">Charts</a>
+  <a href="/new-releases.html">New</a>
+  <a href="/user/library.html">Library</a>
+</div>
+
+<!-- LIBRARY -->
+<section class="section">
+  <div id="libraryList"></div>
+</section>
+
+<script>
+
+/* =========================
+   LANGUAGE
+========================= */
+const translations = {
+  fr: {
+    title: "Ma Bibliothèque",
+    empty: "Votre bibliothèque est vide"
+  },
+  en: {
+    title: "Your Library",
+    empty: "Your library is empty"
+  }
+};
+
+let lang = localStorage.getItem("lang") || "fr";
+
+function applyLang(){
+  document.getElementById("title").textContent = translations[lang].title;
+  document.getElementById("langBtn").textContent = lang.toUpperCase()+" ▾";
+}
+
+document.getElementById("langBtn").onclick = ()=>{
+  lang = lang === "fr" ? "en" : "fr";
+  localStorage.setItem("lang", lang);
+  renderLibrary();
+  applyLang();
+};
+
+applyLang();
+
+/* =========================
+   MENU
+========================= */
+const menuBtn = document.getElementById("menuBtn");
+const sideMenu = document.getElementById("sideMenu");
+
+menuBtn.onclick = ()=> sideMenu.classList.toggle("open");
+
+document.addEventListener("click",(e)=>{
+  if(!sideMenu.contains(e.target) && !menuBtn.contains(e.target)){
+    sideMenu.classList.remove("open");
+  }
+});
+
+/* =========================
+   GET PURCHASES
+========================= */
+function getPurchases(){
+  const data = JSON.parse(localStorage.getItem("purchases")) || [];
+
+  // remove duplicates
+  const unique = [];
+  const names = new Set();
+
+  data.forEach(item=>{
+    if(!names.has(item.name)){
+      names.add(item.name);
+      unique.push(item);
+    }
+  });
+
+  return unique;
+}
+
+/* =========================
+   RENDER
+========================= */
+function renderLibrary(){
+
+  const container = document.getElementById("libraryList");
+  const purchases = getPurchases();
+
+  if(purchases.length === 0){
+    container.innerHTML = `
+      <p class="empty-state">
+        ${translations[lang].empty}
+      </p>
+    `;
+    return;
+  }
+
+  container.innerHTML = "";
+
+  purchases.forEach((item, index)=>{
+    container.innerHTML += `
+      <div class="chart-item">
+
+        <img src="${item.cover}">
+
+        <div class="info">
+          <b>${item.name}</b>
+          <p>${item.artist}</p>
+        </div>
+
+        <button class="play" data-index="${index}">▶</button>
+
+        <a href="/assets/sample.mp3" download class="download-btn">
+          ↓
+        </a>
+
+        <button class="delete-btn" data-index="${index}">
+          ✕
+        </button>
+
+      </div>
+    `;
+  });
+
+}
+
+/* =========================
+   EVENTS
+========================= */
+document.addEventListener("click", e=>{
+
+  /* PLAY */
+  if(e.target.classList.contains("play")){
+    const audio = new Audio("/assets/sample.mp3");
+    audio.play();
+    setTimeout(()=>audio.pause(),30000);
+  }
+
+  /* DELETE */
+  if(e.target.classList.contains("delete-btn")){
+    const index = e.target.dataset.index;
+
+    let purchases = JSON.parse(localStorage.getItem("purchases")) || [];
+    purchases.splice(index,1);
+
+    localStorage.setItem("purchases", JSON.stringify(purchases));
+
+    renderLibrary();
+  }
+
+});
+
+/* INIT */
+renderLibrary();
+
 </script>
+
+</body>
+</html>
