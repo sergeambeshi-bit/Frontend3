@@ -1,19 +1,22 @@
-<!-- frontend/admin/promotions.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>JENGU Admin – Promotions</title>
+
   <link rel="stylesheet" href="../css/base.css">
   <link rel="stylesheet" href="../css/layout.css">
   <link rel="stylesheet" href="../css/components.css">
   <link rel="stylesheet" href="../css/theme-afro.css">
 </head>
+
 <body class="dark-theme admin-panel">
 
+  <!-- HEADER -->
   <header class="admin-header">
-    <img src="../assets/logo.svg" class="logo" alt="JENGU Logo">
+    <img src="../assets/logo.svg" class="logo">
+
     <nav>
       <a href="dashboard.html">Dashboard</a>
       <a href="users.html">Users</a>
@@ -26,49 +29,114 @@
     </nav>
   </header>
 
+  <!-- MAIN -->
   <main class="admin-main">
+
     <h1>Promotions & Campaigns</h1>
+
+    <!-- SEARCH -->
+    <input 
+      type="text"
+      id="searchPromo"
+      placeholder="Search campaigns..."
+      class="admin-search"
+    >
+
+    <!-- TABLE -->
     <table class="neon-table">
       <thead>
         <tr>
           <th>ID</th>
           <th>Title</th>
           <th>Type</th>
-          <th>Start Date</th>
-          <th>End Date</th>
+          <th>Start</th>
+          <th>End</th>
           <th>Status</th>
           <th>Actions</th>
         </tr>
       </thead>
+
       <tbody id="promo-list"></tbody>
     </table>
+
   </main>
 
   <script src="../js/admin.js"></script>
+
   <script>
-    const promotions = [
-      {id: 1, title: 'Afrobeat Launch', type: 'Banner', start: '2026-03-01', end: '2026-03-10', status: 'Active'},
-      {id: 2, title: 'Top Artists Promo', type: 'Carousel', start: '2026-03-05', end: '2026-03-15', status: 'Upcoming'},
-      {id: 3, title: 'New Releases Spotlight', type: 'Popup', start: '2026-03-08', end: '2026-03-20', status: 'Active'},
+    let promotions = [
+      {id: 1, title: 'Afrobeat Launch', type: 'Banner', start: '2026-03-01', end: '2026-03-10'},
+      {id: 2, title: 'Top Artists Promo', type: 'Carousel', start: '2026-04-05', end: '2026-04-15'},
+      {id: 3, title: 'New Releases Spotlight', type: 'Popup', start: '2026-03-08', end: '2026-03-20'},
     ];
 
     const tbody = document.getElementById('promo-list');
-    promotions.forEach(p => {
-      const row = document.createElement('tr');
-      row.innerHTML = `
-        <td>${p.id}</td>
-        <td>${p.title}</td>
-        <td>${p.type}</td>
-        <td>${p.start}</td>
-        <td>${p.end}</td>
-        <td>${p.status}</td>
-        <td>
-          <button class="btn btn-neon-outline">Edit</button>
-          <button class="btn btn-neon">Delete</button>
-        </td>
-      `;
-      tbody.appendChild(row);
+
+    function getStatus(start, end){
+      const today = new Date();
+      const s = new Date(start);
+      const e = new Date(end);
+
+      if(today < s) return "Upcoming";
+      if(today > e) return "Ended";
+      return "Active";
+    }
+
+    function render(data){
+      tbody.innerHTML = "";
+
+      data.forEach(p => {
+        const status = getStatus(p.start, p.end);
+
+        const row = document.createElement('tr');
+
+        row.innerHTML = `
+          <td>${p.id}</td>
+          <td>${p.title}</td>
+          <td>${p.type}</td>
+          <td>${p.start}</td>
+          <td>${p.end}</td>
+
+          <td>
+            <span class="status status-${status.toLowerCase()}">
+              ${status}
+            </span>
+          </td>
+
+          <td>
+            <button class="btn btn-neon-outline edit">Edit</button>
+            <button class="btn btn-neon delete">Delete</button>
+          </td>
+        `;
+
+        /* EDIT */
+        row.querySelector('.edit').addEventListener('click', () => {
+          alert(`Editing: ${p.title}`);
+        });
+
+        /* DELETE */
+        row.querySelector('.delete').addEventListener('click', () => {
+          promotions = promotions.filter(item => item.id !== p.id);
+          render(promotions);
+        });
+
+        tbody.appendChild(row);
+      });
+    }
+
+    render(promotions);
+
+    /* SEARCH */
+    document.getElementById("searchPromo").addEventListener("input", e => {
+      const q = e.target.value.toLowerCase();
+
+      const filtered = promotions.filter(p =>
+        p.title.toLowerCase().includes(q)
+      );
+
+      render(filtered);
     });
+
   </script>
 
 </body>

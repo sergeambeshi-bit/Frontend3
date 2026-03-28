@@ -1,19 +1,22 @@
-<!-- frontend/admin/transactions.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>JENGU Admin – Transactions</title>
+
   <link rel="stylesheet" href="../css/base.css">
   <link rel="stylesheet" href="../css/layout.css">
   <link rel="stylesheet" href="../css/components.css">
   <link rel="stylesheet" href="../css/theme-afro.css">
 </head>
+
 <body class="dark-theme admin-panel">
 
+  <!-- HEADER -->
   <header class="admin-header">
-    <img src="../assets/logo.svg" class="logo" alt="JENGU Logo">
+    <img src="../assets/logo.svg" class="logo">
+
     <nav>
       <a href="dashboard.html">Dashboard</a>
       <a href="users.html">Users</a>
@@ -26,8 +29,46 @@
     </nav>
   </header>
 
+  <!-- MAIN -->
   <main class="admin-main">
+
     <h1>Transactions</h1>
+
+    <!-- SUMMARY CARDS -->
+    <div class="stats-grid" style="margin-bottom:15px;">
+      <div class="stat-card">
+        <h2 id="totalRevenue">0</h2>
+        <p>Total Revenue</p>
+      </div>
+
+      <div class="stat-card">
+        <h2 id="totalTx">0</h2>
+        <p>Total Transactions</p>
+      </div>
+
+      <div class="stat-card">
+        <h2 id="failedTx">0</h2>
+        <p>Failed</p>
+      </div>
+    </div>
+
+    <!-- FILTERS -->
+    <div style="display:flex; gap:10px; margin-bottom:10px;">
+      <input 
+        type="text"
+        id="searchTx"
+        placeholder="Search user..."
+        class="admin-search"
+      >
+
+      <select id="filterType" class="admin-search">
+        <option value="">All Types</option>
+        <option value="Purchase">Purchase</option>
+        <option value="Subscription">Subscription</option>
+      </select>
+    </div>
+
+    <!-- TABLE -->
     <table class="neon-table">
       <thead>
         <tr>
@@ -39,31 +80,111 @@
           <th>Status</th>
         </tr>
       </thead>
+
       <tbody id="transaction-list"></tbody>
     </table>
+
+    <!-- EMPTY STATE -->
+    <p id="emptyState" class="empty-state" style="display:none;">
+      No transactions found
+    </p>
+
   </main>
 
   <script src="../js/admin.js"></script>
+
   <script>
-    const transactions = [
-      {id: 1, user: 'afrofan', type: 'Purchase', amount: '$5', date: '2026-03-01', status: 'Completed'},
-      {id: 2, user: 'beatking', type: 'Purchase', amount: '$10', date: '2026-03-03', status: 'Pending'},
-      {id: 3, user: 'songbird', type: 'Subscription', amount: '$15', date: '2026-03-05', status: 'Completed'},
+    let transactions = [
+      {id: 1, user: 'afrofan', type: 'Purchase', amount: 300, date: '2026-03-01', status: 'Completed'},
+      {id: 2, user: 'beatking', type: 'Purchase', amount: 600, date: '2026-03-03', status: 'Pending'},
+      {id: 3, user: 'songbird', type: 'Subscription', amount: 1500, date: '2026-03-05', status: 'Completed'},
+      {id: 4, user: 'djflow', type: 'Purchase', amount: 500, date: '2026-03-06', status: 'Failed'},
     ];
 
     const tbody = document.getElementById('transaction-list');
-    transactions.forEach(t => {
-      const row = document.createElement('tr');
-      row.innerHTML = `
-        <td>${t.id}</td>
-        <td>${t.user}</td>
-        <td>${t.type}</td>
-        <td>${t.amount}</td>
-        <td>${t.date}</td>
-        <td>${t.status}</td>
-      `;
-      tbody.appendChild(row);
-    });
+    const emptyState = document.getElementById('emptyState');
+
+    /* =========================
+       RENDER
+    ========================= */
+    function render(data){
+      tbody.innerHTML = "";
+
+      if(data.length === 0){
+        emptyState.style.display = "block";
+        return;
+      } else {
+        emptyState.style.display = "none";
+      }
+
+      data.forEach(t => {
+        const row = document.createElement('tr');
+
+        row.innerHTML = `
+          <td>${t.id}</td>
+          <td>${t.user}</td>
+          <td>${t.type}</td>
+          <td>${t.amount} XAF</td>
+          <td>${t.date}</td>
+
+          <td>
+            <span class="status status-${t.status.toLowerCase()}">
+              ${t.status}
+            </span>
+          </td>
+        `;
+
+        tbody.appendChild(row);
+      });
+    }
+
+    /* =========================
+       STATS
+    ========================= */
+    function updateStats(){
+      const totalRevenue = transactions
+        .filter(t => t.status === "Completed")
+        .reduce((sum, t) => sum + t.amount, 0);
+
+      const totalTx = transactions.length;
+
+      const failedTx = transactions.filter(t => t.status === "Failed").length;
+
+      document.getElementById("totalRevenue").innerText = totalRevenue + " XAF";
+      document.getElementById("totalTx").innerText = totalTx;
+      document.getElementById("failedTx").innerText = failedTx;
+    }
+
+    render(transactions);
+    updateStats();
+
+    /* =========================
+       FILTERS
+    ========================= */
+    function applyFilters(){
+      const q = document.getElementById("searchTx").value.toLowerCase();
+      const type = document.getElementById("filterType").value;
+
+      let filtered = transactions;
+
+      if(q){
+        filtered = filtered.filter(t =>
+          t.user.toLowerCase().includes(q)
+        );
+      }
+
+      if(type){
+        filtered = filtered.filter(t =>
+          t.type === type
+        );
+      }
+
+      render(filtered);
+    }
+
+    document.getElementById("searchTx").addEventListener("input", applyFilters);
+    document.getElementById("filterType").addEventListener("change", applyFilters);
+
   </script>
 
 </body>

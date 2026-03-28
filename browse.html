@@ -45,7 +45,7 @@ function createCard(item){
   return `
     <div class="card">
       <div class="cover">
-        <img src="${item.cover}">
+        <img src="${item.cover}" loading="lazy">
         <button class="play">▶</button>
       </div>
 
@@ -73,17 +73,30 @@ function createCard(item){
 ========================= */
 function render(data){
   const container = document.getElementById("browseGrid");
-  container.innerHTML = "";
 
-  data.forEach(item => {
-    container.innerHTML += createCard(item);
-  });
+  /* EMPTY STATE */
+  if(!data.length){
+    container.innerHTML = `
+      <p class="sub" style="text-align:center;">
+        Aucun résultat trouvé
+      </p>
+    `;
+    return;
+  }
+
+  container.innerHTML = data.map(createCard).join("");
 }
 
 /* =========================
    LOAD + FILTER
 ========================= */
 async function loadBrowse(){
+
+  const container = document.getElementById("browseGrid");
+
+  /* LOADING STATE */
+  container.innerHTML = `<p class="sub">Chargement...</p>`;
+
   allData = await fetchBrowseResults();
 
   let filtered = allData;
@@ -93,8 +106,11 @@ async function loadBrowse(){
       (item.genre || "").toLowerCase() === selectedGenre.toLowerCase()
     );
 
-    document.querySelector("h3").textContent =
-      selectedGenre.charAt(0).toUpperCase() + selectedGenre.slice(1);
+    const title = document.querySelector("h3");
+    if(title){
+      title.textContent =
+        selectedGenre.charAt(0).toUpperCase() + selectedGenre.slice(1);
+    }
   }
 
   render(filtered);
@@ -103,23 +119,27 @@ async function loadBrowse(){
 /* =========================
    SEARCH
 ========================= */
-document.getElementById("searchInput").addEventListener("input", (e) => {
-  const query = e.target.value.toLowerCase();
+const searchInput = document.getElementById("searchInput");
 
-  let base = allData;
+if(searchInput){
+  searchInput.addEventListener("input", (e) => {
+    const query = e.target.value.toLowerCase();
 
-  if(selectedGenre){
-    base = allData.filter(item =>
-      (item.genre || "").toLowerCase() === selectedGenre.toLowerCase()
+    let base = allData;
+
+    if(selectedGenre){
+      base = allData.filter(item =>
+        (item.genre || "").toLowerCase() === selectedGenre.toLowerCase()
+      );
+    }
+
+    const filtered = base.filter(item =>
+      item.name.toLowerCase().includes(query)
     );
-  }
 
-  const filtered = base.filter(item =>
-    item.name.toLowerCase().includes(query)
-  );
-
-  render(filtered);
-});
+    render(filtered);
+  });
+}
 
 /* =========================
    EVENTS
@@ -149,11 +169,18 @@ document.addEventListener("click", e=>{
       price: 300
     };
 
-    savePurchase(currentItem);
+    /* REALISTIC UX */
+    alert("Traitement du paiement...");
 
-    alert("Achat réussi 🎉");
+    setTimeout(() => {
 
-    loadBrowse(); // refresh UI
+      savePurchase(currentItem);
+
+      alert("Paiement confirmé ✅");
+
+      loadBrowse(); // refresh UI
+
+    }, 1500);
   }
 
 });

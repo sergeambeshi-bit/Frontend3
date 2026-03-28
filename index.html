@@ -52,14 +52,23 @@
 <section class="section">
   <h3>Tendance au Cameroun</h3>
   <p class="sub">À la Une au Cameroun</p>
-  <div class="scroll-row" id="trending"></div>
+  <div class="scroll-row" id="trending">
+    <p class="sub">Chargement...</p>
+  </div>
 </section>
 
 <!-- NEW RELEASES -->
 <section class="section">
   <h3>Nouvelles Sorties</h3>
-  <div class="scroll-row" id="releases"></div>
+  <div class="scroll-row" id="releases">
+    <p class="sub">Chargement...</p>
+  </div>
 </section>
+
+<!-- WHATSAPP SUPPORT -->
+<a href="https://wa.me/237XXXXXXXXX" class="whatsapp">
+  💬 Support
+</a>
 
 <!-- PAYMENT MODAL -->
 <div id="paymentModal" class="modal hidden">
@@ -86,7 +95,7 @@
 import { fetchBrowseResults } from "/js/api.js";
 import { savePurchase } from "/js/store.js";
 
-/* HERO */
+/* HERO (SMOOTH LOAD) */
 const heroImages = [
   "/assets/hero/hero1.png",
   "/assets/hero/hero2.png",
@@ -94,11 +103,20 @@ const heroImages = [
 ];
 
 let heroIndex = 0;
+
 function rotateHero() {
   const hero = document.querySelector(".hero-bg");
-  hero.style.backgroundImage = `url(${heroImages[heroIndex]})`;
+
+  const img = new Image();
+  img.src = heroImages[heroIndex];
+
+  img.onload = () => {
+    hero.style.backgroundImage = `url(${img.src})`;
+  };
+
   heroIndex = (heroIndex + 1) % heroImages.length;
 }
+
 setInterval(rotateHero, 5000);
 rotateHero();
 
@@ -119,7 +137,7 @@ function createCard(item){
   return `
     <div class="card">
       <div class="cover">
-        <img src="${item.cover}">
+        <img src="${item.cover}" loading="lazy">
         <button class="play">▶</button>
       </div>
 
@@ -146,29 +164,27 @@ function createCard(item){
 const trending = document.getElementById("trending");
 const releases = document.getElementById("releases");
 
+trending.innerHTML = "";
+releases.innerHTML = "";
+
 data.forEach(item => {
   trending.innerHTML += createCard(item);
   releases.innerHTML += createCard(item);
 });
 
-/* CURRENT ITEM */
-let currentItem = null;
-
 /* EVENTS */
+let currentItem = null;
 let selectedMethod = null;
 
 document.addEventListener("click", e => {
 
-  /* PLAY */
   if(e.target.classList.contains("play")){
     const audio = new Audio("/assets/sample.mp3");
     audio.play();
     setTimeout(()=>audio.pause(),30000);
   }
 
-  /* BUY */
   if(e.target.classList.contains("buy")){
-
     if(e.target.classList.contains("disabled")) return;
 
     const card = e.target.closest(".card");
@@ -183,7 +199,6 @@ document.addEventListener("click", e => {
     document.getElementById("paymentModal").classList.remove("hidden");
   }
 
-  /* SELECT PAYMENT */
   if(e.target.classList.contains("pay-btn")){
     selectedMethod = e.target.dataset.method;
 
@@ -196,7 +211,6 @@ document.addEventListener("click", e => {
     e.target.style.color = "black";
   }
 
-  /* CONFIRM */
   if(e.target.classList.contains("confirm")){
 
     if(!selectedMethod){
@@ -204,13 +218,15 @@ document.addEventListener("click", e => {
       return;
     }
 
-    savePurchase(currentItem);
+    alert("Traitement du paiement...");
 
-    document.getElementById("paymentModal").classList.add("hidden");
+    setTimeout(() => {
+      savePurchase(currentItem);
 
-    alert("Achat réussi 🎉");
+      alert("Paiement confirmé ✅");
 
-    location.reload(); // refresh to show Owned
+      location.reload();
+    }, 2000);
   }
 
 });

@@ -3,10 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Upload Album – JENGU</title>
+<title>Analytics – JENGU</title>
 
 <link rel="stylesheet" href="/styles/app.css">
-<script src="/js/artist-dashboard.js" defer></script>
 </head>
 
 <body>
@@ -18,48 +17,89 @@
     <img src="/assets/logo.png" class="menu-logo">
   </div>
 
-  <!-- MAIN -->
   <a href="/pages/index.html">🏠 Accueil</a>
   <a href="/pages/browse.html">🔍 Parcourir</a>
   <a href="/pages/genres.html">🎵 Genres</a>
-  <a href="/pages/charts.html">📊 Charts</a>
 
   <hr>
 
-  <!-- ARTIST -->
   <a href="/artist/dashboard.html">📈 Dashboard</a>
   <a href="/artist/catalog.html">🎶 Catalogue</a>
   <a href="/artist/upload-track.html">⬆ Upload Track</a>
   <a href="/artist/upload-album.html">💿 Upload Album</a>
+  <a href="/artist/payouts.html">💰 Paiements</a>
+  <a href="/artist/analytics.html">📊 Analytics</a>
 
 </div>
 
 <!-- HEADER -->
 <div class="topbar">
   <span class="menu" id="menuBtn">☰</span>
-  <h3>Upload Album</h3>
+  <h3>Analytics</h3>
   <span></span>
 </div>
 
-<!-- FORM -->
+<!-- OVERVIEW -->
 <section class="section">
 
-  <form id="upload-album-form" class="upload-form">
+  <div class="stats-grid">
 
-    <label>Titre de l’album</label>
-    <input type="text" name="title" placeholder="Ex: Afro Vibes Vol.1">
+    <div class="stat-card">
+      <h2>12.4K</h2>
+      <p>Streams</p>
+    </div>
 
-    <label>Fichiers audio (ZIP ou multiples)</label>
-    <input type="file" name="tracks" multiple>
+    <div class="stat-card">
+      <h2>320</h2>
+      <p>Ventes</p>
+    </div>
 
-    <label>Image de couverture</label>
-    <input type="file" name="cover">
+    <div class="stat-card">
+      <h2>85K XAF</h2>
+      <p>Revenus</p>
+    </div>
 
-    <button type="submit" class="btn-primary">
-      Publier l’album
-    </button>
+  </div>
 
-  </form>
+</section>
+
+<!-- TOP TRACKS -->
+<section class="section">
+
+  <h3>Top Tracks</h3>
+
+  <div class="analytics-list">
+
+    <div class="chart-item">
+      <img src="/assets/patterns/toghu.svg">
+      <div class="info">
+        <b>Mboko Anthem</b>
+        <p>4,200 streams</p>
+      </div>
+      <div class="price">15K XAF</div>
+    </div>
+
+    <div class="chart-item">
+      <img src="/assets/patterns/kuba.svg">
+      <div class="info">
+        <b>Afro Vibes</b>
+        <p>3,100 streams</p>
+      </div>
+      <div class="price">10K XAF</div>
+    </div>
+
+  </div>
+
+</section>
+
+<!-- PERFORMANCE -->
+<section class="section">
+
+  <h3>Performance</h3>
+
+  <div class="performance-card">
+    <p>📈 Vos streams ont augmenté de <b>+23%</b> cette semaine</p>
+  </div>
 
 </section>
 
@@ -73,6 +113,7 @@
 </div>
 
 <script>
+
 /* MENU */
 const menuBtn = document.getElementById("menuBtn");
 const sideMenu = document.getElementById("sideMenu");
@@ -95,16 +136,6 @@ document.querySelectorAll(".nav-item").forEach(link => {
   }
 });
 
-/* FAKE SUCCESS (UX BOOST) */
-document.getElementById("upload-album-form").addEventListener("submit", e=>{
-  e.preventDefault();
-
-  alert("Upload en cours...");
-
-  setTimeout(()=>{
-    alert("Album publié avec succès 🎉");
-  }, 1500);
-});
 </script>
 
 </body>

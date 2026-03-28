@@ -1,19 +1,22 @@
-<!-- frontend/admin/fraud.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>JENGU Admin – Fraud Monitoring</title>
+
   <link rel="stylesheet" href="../css/base.css">
   <link rel="stylesheet" href="../css/layout.css">
   <link rel="stylesheet" href="../css/components.css">
   <link rel="stylesheet" href="../css/theme-afro.css">
 </head>
+
 <body class="dark-theme admin-panel">
 
+  <!-- HEADER -->
   <header class="admin-header">
-    <img src="../assets/logo.svg" class="logo" alt="JENGU Logo">
+    <img src="../assets/logo.svg" class="logo">
+
     <nav>
       <a href="dashboard.html">Dashboard</a>
       <a href="users.html">Users</a>
@@ -26,8 +29,20 @@
     </nav>
   </header>
 
+  <!-- MAIN -->
   <main class="admin-main">
+
     <h1>Fraud Monitoring</h1>
+
+    <!-- SEARCH -->
+    <input 
+      type="text"
+      id="searchFraud"
+      placeholder="Search users or activity..."
+      class="admin-search"
+    >
+
+    <!-- TABLE -->
     <table class="neon-table">
       <thead>
         <tr>
@@ -39,34 +54,90 @@
           <th>Actions</th>
         </tr>
       </thead>
+
       <tbody id="fraud-list"></tbody>
     </table>
+
   </main>
 
   <script src="../js/admin.js"></script>
+
   <script>
-    const fraudReports = [
+    let fraudReports = [
       {id: 1, user: 'afrofan', activity: 'Multiple failed logins', date: '2026-03-01', status: 'Under Review'},
       {id: 2, user: 'beatking', activity: 'Suspicious payment', date: '2026-03-03', status: 'Investigating'},
       {id: 3, user: 'songbird', activity: 'Abnormal download pattern', date: '2026-03-05', status: 'Resolved'},
     ];
 
     const tbody = document.getElementById('fraud-list');
-    fraudReports.forEach(f => {
-      const row = document.createElement('tr');
-      row.innerHTML = `
-        <td>${f.id}</td>
-        <td>${f.user}</td>
-        <td>${f.activity}</td>
-        <td>${f.date}</td>
-        <td>${f.status}</td>
-        <td>
-          <button class="btn btn-neon-outline">Investigate</button>
-          <button class="btn btn-neon">Resolve</button>
-        </td>
-      `;
-      tbody.appendChild(row);
+
+    function render(data){
+      tbody.innerHTML = "";
+
+      data.forEach(f => {
+        const row = document.createElement('tr');
+
+        row.innerHTML = `
+          <td>${f.id}</td>
+          <td>${f.user}</td>
+          <td>${f.activity}</td>
+          <td>${f.date}</td>
+
+          <td>
+            <span class="status status-${formatStatus(f.status)}">
+              ${f.status}
+            </span>
+          </td>
+
+          <td>
+
+            ${f.status !== 'Resolved' ? `
+              <button class="btn btn-neon-outline investigate">Investigate</button>
+              <button class="btn btn-neon resolve">Resolve</button>
+            ` : '<span style="color:#aaa; font-size:12px;">Closed</span>'}
+
+          </td>
+        `;
+
+        /* ACTIONS */
+        const investigateBtn = row.querySelector('.investigate');
+        if(investigateBtn){
+          investigateBtn.addEventListener('click', () => {
+            f.status = 'Investigating';
+            render(fraudReports);
+          });
+        }
+
+        const resolveBtn = row.querySelector('.resolve');
+        if(resolveBtn){
+          resolveBtn.addEventListener('click', () => {
+            f.status = 'Resolved';
+            render(fraudReports);
+          });
+        }
+
+        tbody.appendChild(row);
+      });
+    }
+
+    function formatStatus(status){
+      return status.toLowerCase().replace(" ", "-");
+    }
+
+    render(fraudReports);
+
+    /* SEARCH */
+    document.getElementById("searchFraud").addEventListener("input", e => {
+      const q = e.target.value.toLowerCase();
+
+      const filtered = fraudReports.filter(f =>
+        f.user.toLowerCase().includes(q) ||
+        f.activity.toLowerCase().includes(q)
+      );
+
+      render(filtered);
     });
+
   </script>
 
 </body>

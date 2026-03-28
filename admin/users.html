@@ -1,19 +1,22 @@
-<!-- frontend/admin/users.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>JENGU Admin – Users</title>
+
   <link rel="stylesheet" href="../css/base.css">
   <link rel="stylesheet" href="../css/layout.css">
   <link rel="stylesheet" href="../css/components.css">
   <link rel="stylesheet" href="../css/theme-afro.css">
 </head>
+
 <body class="dark-theme admin-panel">
 
+  <!-- HEADER -->
   <header class="admin-header">
-    <img src="../assets/logo.svg" class="logo" alt="JENGU Logo">
+    <img src="../assets/logo.svg" class="logo">
+
     <nav>
       <a href="dashboard.html">Dashboard</a>
       <a href="users.html" class="active">Users</a>
@@ -26,8 +29,20 @@
     </nav>
   </header>
 
+  <!-- MAIN -->
   <main class="admin-main">
+
     <h1>Manage Users</h1>
+
+    <!-- SEARCH -->
+    <input 
+      type="text"
+      id="searchUser"
+      placeholder="Search users..."
+      class="admin-search"
+    >
+
+    <!-- TABLE -->
     <table class="neon-table">
       <thead>
         <tr>
@@ -39,36 +54,84 @@
           <th>Actions</th>
         </tr>
       </thead>
-      <tbody id="user-list">
-        <!-- JS will populate users -->
-      </tbody>
+
+      <tbody id="user-list"></tbody>
     </table>
+
   </main>
 
   <script src="../js/admin.js"></script>
+
   <script>
-    const users = [
+    let users = [
       {id: 1, username: 'afrofan', email: 'afrofan@example.com', joined: '2026-01-01', status: 'Active'},
       {id: 2, username: 'beatking', email: 'beatking@example.com', joined: '2026-02-15', status: 'Inactive'},
       {id: 3, username: 'songbird', email: 'songbird@example.com', joined: '2026-03-10', status: 'Active'},
     ];
 
     const tbody = document.getElementById('user-list');
-    users.forEach(user => {
-      const row = document.createElement('tr');
-      row.innerHTML = `
-        <td>${user.id}</td>
-        <td>${user.username}</td>
-        <td>${user.email}</td>
-        <td>${user.joined}</td>
-        <td>${user.status}</td>
-        <td>
-          <button class="btn btn-neon-outline">Edit</button>
-          <button class="btn btn-neon">Delete</button>
-        </td>
-      `;
-      tbody.appendChild(row);
+
+    function render(data){
+      tbody.innerHTML = "";
+
+      data.forEach(user => {
+        const row = document.createElement('tr');
+
+        row.innerHTML = `
+          <td>${user.id}</td>
+          <td>${user.username}</td>
+          <td>${user.email}</td>
+          <td>${user.joined}</td>
+
+          <td>
+            <span class="status status-${user.status.toLowerCase()}">
+              ${user.status}
+            </span>
+          </td>
+
+          <td>
+
+            <button class="btn btn-neon-outline toggle">
+              ${user.status === 'Active' ? 'Deactivate' : 'Activate'}
+            </button>
+
+            <button class="btn btn-neon delete">
+              Delete
+            </button>
+
+          </td>
+        `;
+
+        /* TOGGLE STATUS */
+        row.querySelector('.toggle').addEventListener('click', () => {
+          user.status = user.status === 'Active' ? 'Inactive' : 'Active';
+          render(users);
+        });
+
+        /* DELETE */
+        row.querySelector('.delete').addEventListener('click', () => {
+          users = users.filter(u => u.id !== user.id);
+          render(users);
+        });
+
+        tbody.appendChild(row);
+      });
+    }
+
+    render(users);
+
+    /* SEARCH */
+    document.getElementById("searchUser").addEventListener("input", e => {
+      const q = e.target.value.toLowerCase();
+
+      const filtered = users.filter(u =>
+        u.username.toLowerCase().includes(q) ||
+        u.email.toLowerCase().includes(q)
+      );
+
+      render(filtered);
     });
+
   </script>
 
 </body>

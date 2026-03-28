@@ -3,10 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Dashboard Artiste – JENGU</title>
+<title>Paiements – JENGU</title>
 
 <link rel="stylesheet" href="/styles/app.css">
-<script src="/js/artist-dashboard.js" defer></script>
 </head>
 
 <body>
@@ -18,76 +17,86 @@
     <img src="/assets/logo.png" class="menu-logo">
   </div>
 
-  <!-- MAIN -->
   <a href="/pages/index.html">🏠 Accueil</a>
   <a href="/pages/browse.html">🔍 Parcourir</a>
   <a href="/pages/genres.html">🎵 Genres</a>
-  <a href="/pages/charts.html">📊 Charts</a>
 
   <hr>
 
-  <!-- ARTIST -->
   <a href="/artist/dashboard.html">📈 Dashboard</a>
   <a href="/artist/catalog.html">🎶 Catalogue</a>
   <a href="/artist/upload-track.html">⬆ Upload Track</a>
   <a href="/artist/upload-album.html">💿 Upload Album</a>
+  <a href="/artist/payouts.html">💰 Paiements</a>
 
 </div>
 
 <!-- HEADER -->
 <div class="topbar">
   <span class="menu" id="menuBtn">☰</span>
-  <h3>Dashboard</h3>
+  <h3>Paiements</h3>
   <span></span>
 </div>
 
-<!-- DASHBOARD -->
+<!-- BALANCE -->
 <section class="section">
 
-  <!-- STATS -->
-  <div class="stats-grid">
+  <div class="balance-card">
+    <h2>85,000 XAF</h2>
+    <p>Solde disponible</p>
 
-    <div class="stat-card">
-      <h2>12.4K</h2>
-      <p>Streams</p>
+    <button class="btn-primary" id="withdrawBtn">
+      Retirer mes gains
+    </button>
+  </div>
+
+</section>
+
+<!-- PAYOUT HISTORY -->
+<section class="section">
+
+  <h3>Historique des paiements</h3>
+
+  <div id="payoutList">
+
+    <div class="chart-item">
+      <div class="info">
+        <b>Retrait Mobile Money</b>
+        <p>15 Mars 2026</p>
+      </div>
+      <div class="price">20,000 XAF</div>
     </div>
 
-    <div class="stat-card">
-      <h2>320</h2>
-      <p>Ventes</p>
-    </div>
-
-    <div class="stat-card">
-      <h2>85K XAF</h2>
-      <p>Revenus</p>
+    <div class="chart-item">
+      <div class="info">
+        <b>Retrait Mobile Money</b>
+        <p>01 Mars 2026</p>
+      </div>
+      <div class="price">15,000 XAF</div>
     </div>
 
   </div>
 
 </section>
 
-<!-- QUICK ACTIONS -->
-<section class="section">
+<!-- WITHDRAW MODAL -->
+<div id="withdrawModal" class="modal hidden">
+  <div class="modal-content">
 
-  <h3>Actions rapides</h3>
+    <h3>Retirer vos gains</h3>
 
-  <div class="actions">
+    <label class="label">Numéro Mobile Money</label>
+    <input type="text" id="withdrawPhone" placeholder="6XXXXXXXX">
 
-    <a href="/artist/upload-track.html" class="action-btn">
-      ⬆ Upload Track
-    </a>
+    <label class="label">Montant</label>
+    <input type="number" id="withdrawAmount" placeholder="Ex: 10000">
 
-    <a href="/artist/upload-album.html" class="action-btn">
-      💿 Upload Album
-    </a>
-
-    <a href="/artist/catalog.html" class="action-btn">
-      🎶 Voir Catalogue
-    </a>
+    <button class="confirm" id="confirmWithdraw">
+      Confirmer le retrait
+    </button>
 
   </div>
-
-</section>
+</div>
 
 <!-- BOTTOM NAV -->
 <div class="bottom-nav">
@@ -99,6 +108,7 @@
 </div>
 
 <script>
+
 /* MENU */
 const menuBtn = document.getElementById("menuBtn");
 const sideMenu = document.getElementById("sideMenu");
@@ -120,6 +130,29 @@ document.querySelectorAll(".nav-item").forEach(link => {
     link.classList.add("active");
   }
 });
+
+/* WITHDRAW FLOW */
+const withdrawBtn = document.getElementById("withdrawBtn");
+const modal = document.getElementById("withdrawModal");
+
+withdrawBtn.addEventListener("click", () => {
+  modal.classList.remove("hidden");
+});
+
+document.getElementById("confirmWithdraw").addEventListener("click", () => {
+  const phone = document.getElementById("withdrawPhone").value;
+  const amount = document.getElementById("withdrawAmount").value;
+
+  if(!phone || !amount){
+    alert("Veuillez remplir les champs");
+    return;
+  }
+
+  alert("Demande de retrait envoyée ✅");
+
+  modal.classList.add("hidden");
+});
+
 </script>
 
 </body>

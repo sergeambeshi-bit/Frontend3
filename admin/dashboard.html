@@ -1,20 +1,22 @@
-<!-- frontend/admin/dashboard.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>JENGU Admin – Dashboard</title>
+
   <link rel="stylesheet" href="../css/base.css">
   <link rel="stylesheet" href="../css/layout.css">
   <link rel="stylesheet" href="../css/components.css">
   <link rel="stylesheet" href="../css/theme-afro.css">
 </head>
+
 <body class="dark-theme admin-panel">
 
   <!-- HEADER -->
   <header class="admin-header">
-    <img src="../assets/logo.svg" class="logo" alt="JENGU Logo">
+    <img src="../assets/logo.svg" class="logo">
+
     <nav>
       <a href="dashboard.html" class="active">Dashboard</a>
       <a href="users.html">Users</a>
@@ -27,37 +29,88 @@
     </nav>
   </header>
 
-  <!-- MAIN CONTENT -->
+  <!-- MAIN -->
   <main class="admin-main">
+
     <h1>Admin Dashboard</h1>
+
+    <!-- STATS -->
     <div class="dashboard-cards">
+
       <div class="card neon-card">
         <h2>Total Users</h2>
         <p id="total-users">--</p>
       </div>
+
       <div class="card neon-card">
         <h2>Total Artists</h2>
         <p id="total-artists">--</p>
       </div>
+
       <div class="card neon-card">
         <h2>Total Revenue</h2>
         <p id="total-revenue">--</p>
       </div>
+
       <div class="card neon-card">
         <h2>Pending Payouts</h2>
         <p id="pending-payouts">--</p>
       </div>
+
     </div>
+
+    <!-- QUICK ACTIONS -->
+    <section class="admin-section">
+
+      <h2>Quick Actions</h2>
+
+      <div class="admin-actions">
+
+        <a href="catalog.html" class="admin-btn">🎶 Review Catalog</a>
+        <a href="payouts.html" class="admin-btn">💰 Manage Payouts</a>
+        <a href="users.html" class="admin-btn">👤 View Users</a>
+        <a href="fraud.html" class="admin-btn">⚠️ Fraud Alerts</a>
+
+      </div>
+
+    </section>
+
+    <!-- RECENT ACTIVITY -->
+    <section class="admin-section">
+
+      <h2>Recent Activity</h2>
+
+      <div class="activity-feed">
+
+        <div class="activity-item">
+          <p><b>AfroBeatz</b> uploaded a new track</p>
+          <span>2 min ago</span>
+        </div>
+
+        <div class="activity-item">
+          <p>New user registered</p>
+          <span>10 min ago</span>
+        </div>
+
+        <div class="activity-item">
+          <p>Payout request submitted</p>
+          <span>1 hour ago</span>
+        </div>
+
+      </div>
+
+    </section>
+
   </main>
 
   <script src="../js/admin.js"></script>
+
   <script>
-    // Placeholder JS – will connect to backend APIs
     document.addEventListener('DOMContentLoaded', () => {
       document.getElementById('total-users').textContent = '1,245';
       document.getElementById('total-artists').textContent = '312';
-      document.getElementById('total-revenue').textContent = '$45,890';
-      document.getElementById('pending-payouts').textContent = '$3,120';
+      document.getElementById('total-revenue').textContent = '45,890 XAF';
+      document.getElementById('pending-payouts').textContent = '3,120 XAF';
     });
   </script>
 

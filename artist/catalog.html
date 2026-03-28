@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Upload Album – JENGU</title>
+<title>Catalogue – JENGU</title>
 
 <link rel="stylesheet" href="/styles/app.css">
 <script src="/js/artist-dashboard.js" defer></script>
@@ -18,48 +18,67 @@
     <img src="/assets/logo.png" class="menu-logo">
   </div>
 
-  <!-- MAIN -->
   <a href="/pages/index.html">🏠 Accueil</a>
   <a href="/pages/browse.html">🔍 Parcourir</a>
   <a href="/pages/genres.html">🎵 Genres</a>
-  <a href="/pages/charts.html">📊 Charts</a>
 
   <hr>
 
-  <!-- ARTIST -->
   <a href="/artist/dashboard.html">📈 Dashboard</a>
   <a href="/artist/catalog.html">🎶 Catalogue</a>
   <a href="/artist/upload-track.html">⬆ Upload Track</a>
   <a href="/artist/upload-album.html">💿 Upload Album</a>
+  <a href="/artist/payouts.html">💰 Paiements</a>
 
 </div>
 
 <!-- HEADER -->
 <div class="topbar">
   <span class="menu" id="menuBtn">☰</span>
-  <h3>Upload Album</h3>
+  <h3>Mon Catalogue</h3>
   <span></span>
 </div>
 
-<!-- FORM -->
+<!-- CATALOG -->
 <section class="section">
 
-  <form id="upload-album-form" class="upload-form">
+  <div id="catalogList">
 
-    <label>Titre de l’album</label>
-    <input type="text" name="title" placeholder="Ex: Afro Vibes Vol.1">
+    <!-- ITEM -->
+    <div class="catalog-item">
 
-    <label>Fichiers audio (ZIP ou multiples)</label>
-    <input type="file" name="tracks" multiple>
+      <img src="/assets/patterns/toghu.svg">
 
-    <label>Image de couverture</label>
-    <input type="file" name="cover">
+      <div class="info">
+        <b>Mboko Anthem</b>
+        <p>Track • 300 XAF</p>
+      </div>
 
-    <button type="submit" class="btn-primary">
-      Publier l’album
-    </button>
+      <div class="actions">
+        <button class="edit-btn">✏️</button>
+        <button class="delete-btn">🗑</button>
+      </div>
 
-  </form>
+    </div>
+
+    <!-- ITEM -->
+    <div class="catalog-item">
+
+      <img src="/assets/patterns/kuba.svg">
+
+      <div class="info">
+        <b>Afro Vibes Vol.1</b>
+        <p>Album • 1000 XAF</p>
+      </div>
+
+      <div class="actions">
+        <button class="edit-btn">✏️</button>
+        <button class="delete-btn">🗑</button>
+      </div>
+
+    </div>
+
+  </div>
 
 </section>
 
@@ -73,6 +92,7 @@
 </div>
 
 <script>
+
 /* MENU */
 const menuBtn = document.getElementById("menuBtn");
 const sideMenu = document.getElementById("sideMenu");
@@ -95,16 +115,21 @@ document.querySelectorAll(".nav-item").forEach(link => {
   }
 });
 
-/* FAKE SUCCESS (UX BOOST) */
-document.getElementById("upload-album-form").addEventListener("submit", e=>{
-  e.preventDefault();
+/* ACTIONS */
+document.addEventListener("click", e => {
 
-  alert("Upload en cours...");
+  if(e.target.classList.contains("edit-btn")){
+    alert("Modifier (à connecter plus tard)");
+  }
 
-  setTimeout(()=>{
-    alert("Album publié avec succès 🎉");
-  }, 1500);
+  if(e.target.classList.contains("delete-btn")){
+    const item = e.target.closest(".catalog-item");
+    item.remove();
+    alert("Supprimé du catalogue");
+  }
+
 });
+
 </script>
 
 </body>

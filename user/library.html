@@ -37,13 +37,31 @@
 <!-- LIBRARY -->
 <section class="section">
 
-  <div id="libraryList"></div>
+  <div id="libraryList">
+    <p class="sub">Chargement...</p>
+  </div>
 
 </section>
 
-<script>
+<script type="module">
 
-/* MENU */
+/* =========================
+   AUTH PROTECTION
+========================= */
+function requireAuth(){
+  const user = localStorage.getItem("user");
+
+  if(!user){
+    alert("Veuillez vous connecter");
+    window.location.href = "/user/login.html";
+  }
+}
+
+requireAuth();
+
+/* =========================
+   MENU
+========================= */
 const menuBtn = document.getElementById("menuBtn");
 const sideMenu = document.getElementById("sideMenu");
 
@@ -57,48 +75,48 @@ document.addEventListener("click", (e) => {
   }
 });
 
-/* GET PURCHASES FROM STORAGE */
-const purchases = JSON.parse(localStorage.getItem("purchases")) || [];
-
-/* RENDER */
+/* =========================
+   LOAD LIBRARY
+========================= */
 function renderLibrary(){
 
   const container = document.getElementById("libraryList");
 
+  const purchases = JSON.parse(localStorage.getItem("purchases")) || [];
+
+  /* EMPTY STATE */
   if(purchases.length === 0){
     container.innerHTML = `
       <p class="sub" style="text-align:center;">
-        Votre bibliothèque est vide
+        🎧 Votre bibliothèque est vide
       </p>
     `;
     return;
   }
 
-  container.innerHTML = "";
+  container.innerHTML = purchases.map(item => `
+    <div class="chart-item">
+      <img src="${item.cover}" loading="lazy">
 
-  purchases.forEach((item, i)=>{
-    container.innerHTML += `
-      <div class="chart-item">
-        <img src="${item.cover}">
-        <div class="info">
-          <b>${item.name}</b>
-          <p>${item.artist}</p>
-        </div>
-
-        <button class="play">▶</button>
-
-        <a href="/assets/sample.mp3" download class="download-btn">
-          ↓
-        </a>
+      <div class="info">
+        <b>${item.name}</b>
+        <p>${item.artist}</p>
       </div>
-    `;
-  });
 
+      <button class="play">▶</button>
+
+      <a href="/assets/sample.mp3" download class="download-btn">
+        ↓
+      </a>
+    </div>
+  `).join("");
 }
 
 renderLibrary();
 
-/* PREVIEW */
+/* =========================
+   PREVIEW
+========================= */
 document.addEventListener("click", e=>{
   if(e.target.classList.contains("play")){
     const audio = new Audio("/assets/sample.mp3");

@@ -10,6 +10,8 @@ body {
   max-width:420px;
   margin-left:auto;
   margin-right:auto;
+
+  padding-bottom:80px; /* prevents bottom nav overlap */
 }
 
 /* =========================
@@ -80,7 +82,6 @@ body {
   display:flex;
   justify-content:space-between;
   padding:0 16px;
-  font-size:18px;
 }
 
 .logo {
@@ -88,7 +89,6 @@ body {
   filter:drop-shadow(0 0 10px #01d4ab);
 }
 
-/* MENU BUTTON */
 .menu {
   font-size:26px;
   cursor:pointer;
@@ -122,6 +122,11 @@ body {
   color:white;
   text-decoration:none;
   font-size:16px;
+  opacity:0.8;
+}
+
+.side-menu a:hover {
+  opacity:1;
 }
 
 .menu-logo {
@@ -184,6 +189,11 @@ body {
 ========================= */
 .section {
   padding:16px;
+}
+
+/* prevent last section being hidden */
+.section:last-child {
+  margin-bottom:20px;
 }
 
 h3 {
@@ -253,6 +263,19 @@ h3 {
   font-weight:600;
 }
 
+.buy.disabled {
+  background:#333;
+  color:#777;
+}
+
+/* OWNED BADGE */
+.owned-badge {
+  font-size:11px;
+  color:#01d4ab;
+  font-weight:600;
+}
+
+/* TEXT */
 .title {
   font-size:13px;
   margin-top:6px;
@@ -264,7 +287,7 @@ h3 {
 }
 
 /* =========================
-   CHART (FIXED)
+   CHART
 ========================= */
 .chart-item {
   display:flex;
@@ -289,24 +312,11 @@ h3 {
 
 .chart-item .info {
   flex:1;
-  display:flex;
-  flex-direction:column;
-}
-
-.chart-item .info b {
-  font-size:13px;
-}
-
-.chart-item .info p {
-  font-size:11px;
-  color:#aaa;
-  margin:2px 0 0;
 }
 
 .chart-item .price {
   font-size:12px;
   color:#01d4ab;
-  white-space:nowrap;
 }
 
 /* =========================
@@ -324,7 +334,6 @@ h3 {
   border-radius:10px;
   text-align:center;
   font-size:13px;
-
   border:1px solid rgba(255,255,255,0.05);
   transition:0.2s;
 }
@@ -336,7 +345,60 @@ h3 {
 }
 
 /* =========================
-   PAYMENT MODAL
+   WHATSAPP BUTTON
+========================= */
+.whatsapp {
+  position:fixed;
+  bottom:90px;
+  right:20px;
+  background:#25D366;
+  color:white;
+  padding:10px 14px;
+  border-radius:25px;
+  font-size:12px;
+  text-decoration:none;
+  z-index:300;
+}
+
+/* =========================
+   BOTTOM NAV (APP FEEL)
+========================= */
+.bottom-nav {
+  position:fixed;
+  bottom:0;
+  left:50%;
+  transform:translateX(-50%);
+  width:100%;
+  max-width:420px;
+
+  display:flex;
+  justify-content:space-around;
+
+  background:#0b0b0f;
+  border-top:1px solid rgba(255,255,255,0.05);
+
+  padding:8px 0;
+  z-index:250;
+}
+
+.nav-item {
+  text-align:center;
+  font-size:11px;
+  color:#aaa;
+  text-decoration:none;
+}
+
+.nav-item span {
+  display:block;
+  font-size:18px;
+}
+
+.nav-item.active {
+  color:#01d4ab;
+}
+
+/* =========================
+   MODAL
 ========================= */
 .modal {
   position:fixed;
@@ -359,16 +421,6 @@ h3 {
   width:90%;
 }
 
-.pay-section {
-  margin:10px 0;
-}
-
-.label {
-  font-size:12px;
-  color:#aaa;
-  margin-bottom:5px;
-}
-
 .pay-btn {
   width:100%;
   margin:5px 0;
@@ -377,14 +429,6 @@ h3 {
   border:none;
   background:#222;
   color:white;
-}
-
-.pay-btn.momo {
-  border:1px solid #01d4ab;
-}
-
-.pay-btn.card {
-  border:1px solid #888;
 }
 
 .confirm {
@@ -397,11 +441,77 @@ h3 {
   color:black;
   font-weight:600;
 }
+/* =========================
+   DASHBOARD (ARTIST)
+========================= */
+.stats-grid {
+  display:grid;
+  grid-template-columns:1fr 1fr 1fr;
+  gap:10px;
+  margin-bottom:10px;
+}
 
-#phone {
-  width:100%;
-  padding:10px;
+.stat-card {
+  background:#15151a;
+  padding:15px;
+  border-radius:10px;
+  text-align:center;
+  border:1px solid rgba(255,255,255,0.05);
+}
+
+.stat-card h2 {
+  color:#01d4ab;
+  font-size:18px;
+  margin:0;
+}
+
+.stat-card p {
+  font-size:11px;
+  color:#aaa;
+  margin-top:5px;
+}
+
+/* ACTION BUTTONS */
+.actions {
+  display:flex;
+  flex-direction:column;
+  gap:10px;
   margin-top:10px;
+}
+
+.action-btn {
+  display:block;
+  background:#15151a;
+  padding:12px;
+  border-radius:10px;
+  text-decoration:none;
+  color:white;
+  text-align:center;
+  border:1px solid rgba(255,255,255,0.05);
+  transition:0.2s;
+}
+
+.action-btn:active {
+  background:#01d4ab;
+  color:black;
+}
+
+/* =========================
+   UPLOAD FORMS
+========================= */
+.upload-form {
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+}
+
+.upload-form label {
+  font-size:12px;
+  color:#aaa;
+}
+
+.upload-form input {
+  padding:10px;
   border-radius:8px;
   border:none;
   background:#222;
@@ -409,26 +519,220 @@ h3 {
 }
 
 /* =========================
-   DOWNLOAD
+   BUTTON UX POLISH
 ========================= */
-.download-btn {
-  display:block;
-  margin-top:10px;
-  text-align:center;
-  background:#01d4ab;
-  color:black;
-  padding:10px;
-  border-radius:8px;
-  font-weight:600;
-  text-decoration:none;
+.btn-primary:active,
+.buy:active {
+  transform:scale(0.95);
 }
 
-.close-download {
-  margin-top:10px;
-  width:100%;
-  background:#222;
-  color:white;
-  padding:10px;
-  border:none;
+.btn-outline:active {
+  background:#01d4ab;
+  color:black;
+}
+
+/* =========================
+   SCROLLBAR (PREMIUM FEEL)
+========================= */
+.scroll-row::-webkit-scrollbar {
+  height:4px;
+}
+
+.scroll-row::-webkit-scrollbar-thumb {
+  background:#01d4ab;
+  border-radius:10px;
+}
+
+/* =========================
+   SMALL UI POLISH
+========================= */
+.card {
+  transition:0.2s;
+}
+
+.card:active {
+  transform:scale(0.97);
+}
+
+/* BETTER SPACING */
+.section {
+  padding:18px 16px;
+}
+
+/* =========================
+   EMPTY STATE
+========================= */
+.empty-state {
+  text-align:center;
+  color:#aaa;
+  font-size:13px;
+  margin-top:20px;
+}
+/* =========================
+   PAYOUTS
+========================= */
+.balance-card {
+  background:#15151a;
+  padding:20px;
+  border-radius:12px;
+  text-align:center;
+  border:1px solid rgba(255,255,255,0.05);
+}
+
+.balance-card h2 {
+  color:#01d4ab;
+  font-size:22px;
+  margin-bottom:5px;
+}
+
+.balance-card p {
+  font-size:12px;
+  color:#aaa;
+  margin-bottom:10px;
+}
+/* =========================
+   CATALOG
+========================= */
+.catalog-item {
+  display:flex;
+  align-items:center;
+  gap:10px;
+  padding:10px 0;
+  border-bottom:1px solid rgba(255,255,255,0.05);
+}
+
+.catalog-item img {
+  width:50px;
+  height:50px;
   border-radius:8px;
+  object-fit:cover;
+}
+
+.catalog-item .info {
+  flex:1;
+}
+
+.catalog-item .info b {
+  font-size:13px;
+}
+
+.catalog-item .info p {
+  font-size:11px;
+  color:#aaa;
+}
+
+.catalog-item .actions {
+  display:flex;
+  gap:6px;
+}
+
+.edit-btn,
+.delete-btn {
+  background:#222;
+  border:none;
+  padding:6px 8px;
+  border-radius:6px;
+  color:white;
+  font-size:12px;
+}
+
+.delete-btn {
+  color:#ff4d4d;
+}
+/* =========================
+   ANALYTICS
+========================= */
+.analytics-list {
+  margin-top:10px;
+}
+
+.performance-card {
+  background:#15151a;
+  padding:15px;
+  border-radius:10px;
+  font-size:13px;
+  border:1px solid rgba(255,255,255,0.05);
+}
+/* =========================
+   ADMIN STATUS (GLOBAL)
+========================= */
+.status {
+  padding:4px 8px;
+  border-radius:6px;
+  font-size:11px;
+  font-weight:600;
+  display:inline-block;
+}
+
+/* ARTISTS STATUS */
+.status-active {
+  background:#01d4ab;
+  color:black;
+}
+
+.status-inactive {
+  background:#333;
+  color:#aaa;
+}
+
+/* CATALOG STATUS */
+.status-approved {
+  background:#01d4ab;
+  color:black;
+}
+
+.status-pending {
+  background:#ffaa00;
+  color:black;
+}
+
+.status-rejected {
+  background:#ff4d4d;
+  color:white;
+}
+/* =========================
+   PAYOUT STATUS
+========================= */
+.status-paid {
+  background:#01d4ab;
+  color:black;
+}
+
+.status-pending {
+  background:#ffaa00;
+  color:black;
+}
+/* =========================
+   PROMOTION STATUS
+========================= */
+.status-active {
+  background:#01d4ab;
+  color:black;
+}
+
+.status-upcoming {
+  background:#ffaa00;
+  color:black;
+}
+
+.status-ended {
+  background:#444;
+  color:#aaa;
+}
+/* =========================
+   TRANSACTION STATUS
+========================= */
+.status-completed {
+  background:#01d4ab;
+  color:black;
+}
+
+.status-pending {
+  background:#ffaa00;
+  color:black;
+}
+
+.status-failed {
+  background:#ff4d4d;
+  color:white;
 }
