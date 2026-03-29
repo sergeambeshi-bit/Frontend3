@@ -107,52 +107,67 @@
   <a href="/user/purchases.html" class="nav-item">💰</a>
 </div>
 
-<script>
+<script type="module">
+import { getCurrentUser } from "/js/auth.js";
+import { getArtistEarnings, requestPayout, getArtistPayouts } from "/js/store.js";
 
-/* MENU */
-const menuBtn = document.getElementById("menuBtn");
-const sideMenu = document.getElementById("sideMenu");
+const user = getCurrentUser();
 
-menuBtn.addEventListener("click", () => {
-  sideMenu.classList.toggle("open");
-});
+if(!user){
+  window.location.href = "/user/login.html";
+}
 
-document.addEventListener("click", (e) => {
-  if (!sideMenu.contains(e.target) && !menuBtn.contains(e.target)) {
-    sideMenu.classList.remove("open");
-  }
-});
+if(user.role !== "artist"){
+  alert("Artist account required");
+  window.location.href = "/";
+}
 
-/* ACTIVE NAV */
-const currentPath = window.location.pathname;
-document.querySelectorAll(".nav-item").forEach(link => {
-  if(currentPath.includes(link.getAttribute("href"))){
-    link.classList.add("active");
-  }
-});
+/* =========================
+   LOAD DATA
+========================= */
+const stats = getArtistEarnings(user.name);
+const payouts = getArtistPayouts(user.name);
 
-/* WITHDRAW FLOW */
-const withdrawBtn = document.getElementById("withdrawBtn");
-const modal = document.getElementById("withdrawModal");
+/* =========================
+   RENDER BALANCE
+========================= */
+document.getElementById("balance").innerHTML = `
+  <h2>${stats.total} XAF</h2>
+  <p>Available Balance</p>
+`;
 
-withdrawBtn.addEventListener("click", () => {
-  modal.classList.remove("hidden");
-});
+/* =========================
+   REQUEST WITHDRAWAL
+========================= */
+document.getElementById("withdrawBtn").onclick = () => {
 
-document.getElementById("confirmWithdraw").addEventListener("click", () => {
-  const phone = document.getElementById("withdrawPhone").value;
-  const amount = document.getElementById("withdrawAmount").value;
-
-  if(!phone || !amount){
-    alert("Veuillez remplir les champs");
+  if(stats.total <= 0){
+    alert("No earnings yet");
     return;
   }
 
-  alert("Demande de retrait envoyée ✅");
+  requestPayout(user.name, stats.total);
 
-  modal.classList.add("hidden");
+  alert("Withdrawal requested ✅");
+
+  location.reload();
+};
+
+/* =========================
+   RENDER HISTORY
+========================= */
+const list = document.getElementById("payoutList");
+
+payouts.forEach(p => {
+  list.innerHTML += `
+    <div class="chart-item">
+      <div class="info">
+        <b>${p.amount} XAF</b>
+        <p>${p.status}</p>
+      </div>
+    </div>
+  `;
 });
-
 </script>
 
 </body>

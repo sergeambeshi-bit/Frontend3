@@ -94,6 +94,7 @@ const selectedGenre = params.get("genre");
    DATA
 ========================= */
 let allData = [];
+let currentData = [];
 
 function isOwned(name){
   const purchases = JSON.parse(localStorage.getItem("purchases")) || [];
@@ -146,6 +147,8 @@ function render(data){
   data.forEach(item=>{
     grid.innerHTML += createCard(item);
   });
+
+  currentData = data; // 🔥 important for search
 }
 
 /* =========================
@@ -161,10 +164,10 @@ async function load(){
 
   let filtered = allData;
 
-  /* GENRE FILTER */
+  /* ✅ GENRE FILTER (FIXED) */
   if(selectedGenre){
     filtered = allData.filter(item =>
-      item.genre === selectedGenre.toLowerCase()
+      item.genre?.toLowerCase() === selectedGenre.toLowerCase()
     );
 
     document.getElementById("pageTitle").textContent =
@@ -181,15 +184,7 @@ document.getElementById("searchInput").addEventListener("input", (e)=>{
 
   const q = e.target.value.toLowerCase();
 
-  let base = allData;
-
-  if(selectedGenre){
-    base = allData.filter(item =>
-      item.genre === selectedGenre.toLowerCase()
-    );
-  }
-
-  const filtered = base.filter(item =>
+  const filtered = currentData.filter(item =>
     item.name.toLowerCase().includes(q)
   );
 
@@ -215,18 +210,18 @@ document.addEventListener("click", e=>{
 
     const card = e.target.closest(".card");
 
-    const item = {
-      name: card.querySelector(".title").innerText,
-      artist: "Artist",
-      cover: card.querySelector("img").src,
-      price: 300
-    };
+    // 🔥 FIX: USE REAL DATA (NOT HARDCODED)
+    const name = card.querySelector(".title").innerText;
+
+    const item = allData.find(i => i.name === name);
+
+    if(!item) return;
 
     savePurchase(item);
 
     alert("Purchase successful 🎉");
 
-    load(); // refresh UI
+    load();
   }
 
 });

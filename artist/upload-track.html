@@ -39,19 +39,38 @@
   <span></span>
 </div>
 
-<!-- FORM -->
+<<!-- FORM -->
 <section class="section">
 
   <form id="upload-track-form" class="upload-form">
 
     <label>Titre du morceau</label>
-    <input type="text" name="title" placeholder="Ex: Mboko Anthem">
+    <input type="text" name="title" placeholder="Ex: Mboko Anthem" required>
 
     <label>Fichier audio</label>
-    <input type="file" name="track">
+    <input type="file" name="track" accept="audio/*" required>
 
     <label>Image de couverture</label>
-    <input type="file" name="cover">
+    <input type="file" name="cover" accept="image/*">
+
+    <!-- 🎵 GENRE -->
+    <label>Genre</label>
+    <select name="genre" required>
+      <option value="">Choisir un genre</option>
+      <option value="mboko">Mboko</option>
+      <option value="makossa">Makossa</option>
+      <option value="bikutsi">Bikutsi</option>
+      <option value="afropop">Afropop</option>
+      <option value="afrobeat">Afrobeat</option>
+      <option value="ndombolo">Ndombolo</option>
+      <option value="rnb">RnB Afro</option>
+      <option value="drill">Drill</option>
+      <option value="gospel">Gospel Camer</option>
+    </select>
+
+    <!-- 💰 PRICE -->
+    <label>Prix (XAF)</label>
+    <input type="number" name="price" min="100" max="300" value="300" required>
 
     <button type="submit" class="btn-primary">
       Publier le morceau
@@ -70,27 +89,50 @@
   <a href="/user/purchases.html" class="nav-item">💰</a>
 </div>
 
-<script>
-/* MENU */
-const menuBtn = document.getElementById("menuBtn");
-const sideMenu = document.getElementById("sideMenu");
+<script type="module">
+import { getCurrentUser } from "/js/auth.js";
+import { saveUpload } from "/js/store.js";
 
-menuBtn.addEventListener("click", () => {
-  sideMenu.classList.toggle("open");
-});
+const user = getCurrentUser();
 
-document.addEventListener("click", (e) => {
-  if (!sideMenu.contains(e.target) && !menuBtn.contains(e.target)) {
-    sideMenu.classList.remove("open");
+/* 🔐 PROTECT PAGE */
+if(!user){
+  window.location.href = "/user/login.html";
+}
+
+if(user.role !== "artist"){
+  alert("Artist account required");
+  window.location.href = "/";
+}
+
+/* 🎵 FORM */
+document.getElementById("upload-track-form").addEventListener("submit", e => {
+  e.preventDefault();
+
+  const form = e.target;
+
+  // ✅ FIXED PRICE LOGIC (TRACK RANGE)
+  let price = Number(form.price.value);
+
+  if(price < 100 || price > 300){
+    alert("Track price must be between 100–300 XAF");
+    return;
   }
-});
 
-/* ACTIVE NAV */
-const currentPath = window.location.pathname;
-document.querySelectorAll(".nav-item").forEach(link => {
-  if(currentPath.includes(link.getAttribute("href"))){
-    link.classList.add("active");
-  }
+  const track = {
+    name: form.title.value,
+    artist: user.name, // ✅ correct
+    genre: form.genre?.value || "unknown",
+    price: price, // ✅ correct placement
+    cover: "/assets/covers/cover1.png",
+    type: "track"
+  };
+
+  saveUpload(track);
+
+  alert("Track uploaded successfully ✅");
+
+  form.reset();
 });
 </script>
 

@@ -98,28 +98,51 @@
   <a href="/user/purchases.html" class="nav-item">💰</a>
 </div>
 
-<script>
-/* MENU */
-const menuBtn = document.getElementById("menuBtn");
-const sideMenu = document.getElementById("sideMenu");
+<script type="module">
+import { getCurrentUser } from "/js/auth.js";
+import { getArtistEarnings } from "/js/store.js";
 
-menuBtn.addEventListener("click", () => {
-  sideMenu.classList.toggle("open");
-});
+const user = getCurrentUser();
 
-document.addEventListener("click", (e) => {
-  if (!sideMenu.contains(e.target) && !menuBtn.contains(e.target)) {
-    sideMenu.classList.remove("open");
-  }
-});
+if(!user){
+  window.location.href = "/user/login.html";
+}
 
-/* ACTIVE NAV */
-const currentPath = window.location.pathname;
-document.querySelectorAll(".nav-item").forEach(link => {
-  if(currentPath.includes(link.getAttribute("href"))){
-    link.classList.add("active");
-  }
-});
+if(user.role !== "artist"){
+  alert("Artist account required");
+  window.location.href = "/";
+}
+
+/* =========================
+   LOAD EARNINGS
+========================= */
+const stats = getArtistEarnings(user.name);
+
+document.getElementById("artist-stats").innerHTML = `
+  <div class="stats-grid">
+    <div class="stat-card">
+      <h2>${stats.total} XAF</h2>
+      <p>Total Earnings</p>
+    </div>
+
+    <div class="stat-card">
+      <h2>${stats.sales}</h2>
+      <p>Total Sales</p>
+    </div>
+
+    <div class="stat-card">
+      <h2>--</h2>
+      <p>Streams</p>
+    </div>
+  </div>
+
+  <div class="actions">
+    <a href="/artist/upload-track.html" class="action-btn">Upload Track</a>
+    <a href="/artist/catalog.html" class="action-btn">My Catalog</a>
+    <a href="/artist/payouts.html" class="action-btn">Payouts</a>
+    <a href="/artist/analytics.html" class="action-btn">Analytics</a>
+  </div>
+`;
 </script>
 
 </body>

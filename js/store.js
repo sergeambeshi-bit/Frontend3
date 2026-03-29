@@ -20,7 +20,11 @@ export function savePurchase(item){
   if(!exists){
     purchases.push({
       ...item,
-      purchasedAt: new Date().toISOString()
+      purchasedAt: new Date().toISOString(),
+
+      // 🔥 earnings-ready fields
+      artist: item.artist || "Unknown",
+      price: item.price || 0
     });
   }
 
@@ -30,6 +34,29 @@ export function savePurchase(item){
 // GET PURCHASES
 export function getPurchases(){
   return JSON.parse(localStorage.getItem(PURCHASES_KEY)) || [];
+}
+
+
+// =========================
+// ARTIST EARNINGS SYSTEM
+// =========================
+
+// TOTAL EARNINGS FOR ARTIST
+export function getArtistEarnings(artistName){
+
+  const purchases = getPurchases();
+
+  const artistSales = purchases.filter(p => p.artist === artistName);
+
+  const total = artistSales.reduce((sum, item)=>{
+    return sum + (item.price || 0);
+  }, 0);
+
+  return {
+    total,
+    sales: artistSales.length,
+    tracks: artistSales
+  };
 }
 
 
@@ -72,4 +99,34 @@ export function getMarketplaceData(apiData = []){
   );
 
   return [...sortedUploads, ...apiData];
+}
+
+// =========================
+// PAYOUT SYSTEM
+// =========================
+
+const PAYOUTS_KEY = "payouts";
+
+// REQUEST PAYOUT
+export function requestPayout(artistName, amount){
+
+  let payouts = JSON.parse(localStorage.getItem(PAYOUTS_KEY)) || [];
+
+  payouts.push({
+    id: Date.now(),
+    artist: artistName,
+    amount,
+    status: "pending",
+    date: new Date().toISOString()
+  });
+
+  localStorage.setItem(PAYOUTS_KEY, JSON.stringify(payouts));
+}
+
+// GET ARTIST PAYOUTS
+export function getArtistPayouts(artistName){
+
+  const payouts = JSON.parse(localStorage.getItem(PAYOUTS_KEY)) || [];
+
+  return payouts.filter(p => p.artist === artistName);
 }

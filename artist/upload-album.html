@@ -55,6 +55,9 @@
     <label>Image de couverture</label>
     <input type="file" name="cover">
 
+    <label>Price (XAF)</label>
+<input type="number" name="price" min="1000" max="2000" value="1500">
+
     <button type="submit" class="btn-primary">
       Publier l’album
     </button>
@@ -71,39 +74,58 @@
   <a href="/user/library.html" class="nav-item">📚</a>
   <a href="/user/purchases.html" class="nav-item">💰</a>
 </div>
+<script type="module">
+import { getCurrentUser } from "/js/auth.js";
+import { saveUpload } from "/js/store.js";
 
-<script>
-/* MENU */
-const menuBtn = document.getElementById("menuBtn");
-const sideMenu = document.getElementById("sideMenu");
+const user = getCurrentUser();
 
-menuBtn.addEventListener("click", () => {
-  sideMenu.classList.toggle("open");
-});
+/* 🔐 PROTECT */
+if(!user){
+  window.location.href = "/user/login.html";
+}
 
-document.addEventListener("click", (e) => {
-  if (!sideMenu.contains(e.target) && !menuBtn.contains(e.target)) {
-    sideMenu.classList.remove("open");
-  }
-});
+if(user.role !== "artist"){
+  alert("Artist account required");
+  window.location.href = "/";
+}
 
-/* ACTIVE NAV */
-const currentPath = window.location.pathname;
-document.querySelectorAll(".nav-item").forEach(link => {
-  if(currentPath.includes(link.getAttribute("href"))){
-    link.classList.add("active");
-  }
-});
-
-/* FAKE SUCCESS (UX BOOST) */
-document.getElementById("upload-album-form").addEventListener("submit", e=>{
+/* 💿 FORM */
+document.getElementById("upload-album-form").addEventListener("submit", e => {
   e.preventDefault();
 
-  alert("Upload en cours...");
+  const form = e.target;
 
-  setTimeout(()=>{
-    alert("Album publié avec succès 🎉");
-  }, 1500);
+  // ✅ GENRE VALIDATION
+  if(!form.genre.value){
+    alert("Please select a genre");
+    return;
+  }
+
+  const genre = form.genre.value;
+
+  // ✅ PRICE VALIDATION (ALBUM RANGE)
+  let price = Number(form.price.value);
+
+  if(price < 1000 || price > 2000){
+    alert("Album price must be between 1000–2000 XAF");
+    return;
+  }
+
+  const album = {
+    name: form.title.value,
+    artist: user.name,
+    genre: genre, // ✅ NOW INCLUDED
+    type: "album",
+    price: price,
+    cover: "/assets/covers/cover2.png"
+  };
+
+  saveUpload(album);
+
+  alert("Album uploaded successfully ✅");
+
+  form.reset();
 });
 </script>
 

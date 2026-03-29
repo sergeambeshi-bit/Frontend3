@@ -34,16 +34,13 @@
   <div class="hero-content">
 
     <div class="topbar">
-
       <span class="menu" id="menuBtn">☰</span>
-
       <img src="/assets/logo.png" class="logo">
 
       <!-- AUTH AREA -->
       <div id="authArea" style="display:flex; gap:10px; align-items:center;"></div>
 
       <span class="lang" id="langBtn">FR ▾</span>
-
     </div>
 
     <h1 data-i18n="hero"></h1>
@@ -62,7 +59,7 @@
 
   <div class="genres">
     <a href="/browse.html" class="genre">🎧 Fan</a>
-    <a href="/artist/dashboard.html" class="genre">🎤 Artist</a>
+    <a href="#" id="artistLink" class="genre">🎤 Artist</a>
   </div>
 </section>
 
@@ -111,7 +108,32 @@ import { fetchBrowseResults } from "/js/api.js";
 import { getCurrentUser, logout } from "/js/auth.js";
 
 /* =========================
-   AUTH SYSTEM (FIXED)
+   HERO FIX (CRITICAL)
+========================= */
+const heroImages = [
+  "/assets/hero/hero1.png",
+  "/assets/hero/hero2.png",
+  "/assets/hero/hero3.png"
+];
+
+let heroIndex = 0;
+
+window.addEventListener("DOMContentLoaded", () => {
+  const hero = document.querySelector(".hero-bg");
+
+  if(hero){
+    // force first image immediately
+    hero.style.backgroundImage = `url(${heroImages[0]})`;
+
+    setInterval(() => {
+      heroIndex = (heroIndex + 1) % heroImages.length;
+      hero.style.backgroundImage = `url(${heroImages[heroIndex]})`;
+    }, 5000);
+  }
+});
+
+/* =========================
+   AUTH SYSTEM
 ========================= */
 const user = getCurrentUser();
 const authArea = document.getElementById("authArea");
@@ -121,15 +143,31 @@ if(user){
     <span style="font-size:12px;">👋 ${user.name}</span>
     <button id="logoutBtn">Logout</button>
   `;
-
   document.getElementById("logoutBtn").onclick = logout;
-
 }else{
   authArea.innerHTML = `
     <a href="/user/login.html" class="nav-btn">Login</a>
     <a href="/user/signup.html" class="nav-btn primary">Sign Up</a>
   `;
 }
+
+/* =========================
+   PROTECT ARTIST ACCESS
+========================= */
+document.getElementById("artistLink").onclick = () => {
+
+  if(!user){
+    window.location.href = "/user/login.html";
+    return;
+  }
+
+  if(user.role !== "artist"){
+    alert("Artist account required");
+    return;
+  }
+
+  window.location.href = "/artist/dashboard.html";
+};
 
 /* =========================
    LANGUAGE
@@ -205,10 +243,6 @@ function createCard(item){
 const trending = document.getElementById("trending");
 const releases = document.getElementById("releases");
 const charts = document.getElementById("charts");
-
-trending.innerHTML = "";
-releases.innerHTML = "";
-charts.innerHTML = "";
 
 data.forEach(item=>{
   trending.innerHTML += createCard(item);
