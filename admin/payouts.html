@@ -60,71 +60,114 @@
 
   </main>
 
-  <script src="../js/admin.js"></script>
+<script type="module">
 
-  <script>
-    let payouts = [
-      {id: 1, artist: 'AfroBeatz', amount: '15000 XAF', date: '2026-03-01', status: 'Paid'},
-      {id: 2, artist: 'King Kora', amount: '20000 XAF', date: '2026-03-03', status: 'Pending'},
-      {id: 3, artist: 'Mali Groove', amount: '12000 XAF', date: '2026-03-05', status: 'Paid'},
-    ];
+const API = "http://localhost:5001";
 
-    const tbody = document.getElementById('payout-list');
+let payouts = [];
 
-    function render(data){
-      tbody.innerHTML = "";
+/* =========================
+   LOAD PAYOUTS
+========================= */
+async function loadPayouts(){
 
-      data.forEach(p => {
-        const row = document.createElement('tr');
-
-        row.innerHTML = `
-          <td>${p.id}</td>
-          <td>${p.artist}</td>
-          <td>${p.amount}</td>
-          <td>${p.date}</td>
-
-          <td>
-            <span class="status status-${p.status.toLowerCase()}">
-              ${p.status}
-            </span>
-          </td>
-
-          <td>
-            ${p.status === 'Pending' ? `
-              <button class="btn btn-neon-outline mark-paid">
-                Mark Paid
-              </button>
-            ` : '<span style="color:#aaa; font-size:12px;">Completed</span>'}
-          </td>
-        `;
-
-        /* ACTION */
-        const btn = row.querySelector('.mark-paid');
-        if(btn){
-          btn.addEventListener('click', () => {
-            p.status = 'Paid';
-            render(payouts);
-          });
-        }
-
-        tbody.appendChild(row);
-      });
-    }
+  try {
+    const res = await fetch(`${API}/api/payouts`);
+    payouts = await res.json();
 
     render(payouts);
 
-    /* SEARCH */
-    document.getElementById("searchPayout").addEventListener("input", e => {
-      const q = e.target.value.toLowerCase();
+  } catch(err){
+    console.error("Failed to load payouts:", err);
+  }
+}
 
-      const filtered = payouts.filter(p =>
-        p.artist.toLowerCase().includes(q)
-      );
+/* =========================
+   RENDER
+========================= */
+function render(data){
 
-      render(filtered);
-    });
+  const tbody = document.getElementById('payout-list');
+  tbody.innerHTML = "";
 
-  </script>
+  if(!data.length){
+    tbody.innerHTML = `<tr><td colspan="6">No payouts</td></tr>`;
+    return;
+  }
+
+  data.forEach(p => {
+
+    const row = document.createElement('tr');
+
+    row.innerHTML = `
+      <td>${p.id}</td>
+      <td>${p.artist}</td>
+      <td>${p.amount} XAF</td>
+      <td>${new Date(p.createdAt).toLocaleDateString()}</td>
+
+      <td>
+        <span class="status status-${p.status}">
+          ${p.status}
+        </span>
+      </td>
+
+      <td>
+        ${p.status === 'requested' ? `
+          <button class="btn btn-neon-outline mark-paid">
+            Mark Paid
+          </button>
+        ` : '<span style="color:#aaa; font-size:12px;">Completed</span>'}
+      </td>
+    `;
+
+    /* ACTION */
+    const btn = row.querySelector('.mark-paid');
+
+    if(btn){
+      btn.addEventListener('click', async () => {
+
+        btn.innerText = "Processing...";
+        btn.disabled = true;
+
+        try {
+
+          await fetch(`${API}/api/payouts/approve/${p.id}`, {
+            method: "PATCH"
+          });
+
+          loadPayouts();
+
+        } catch(err){
+          console.error(err);
+          alert("Failed to update payout ❌");
+          btn.innerText = "Mark Paid";
+          btn.disabled = false;
+        }
+      });
+    }
+
+    tbody.appendChild(row);
+  });
+}
+
+/* =========================
+   SEARCH
+========================= */
+document.getElementById("searchPayout").addEventListener("input", e => {
+
+  const q = e.target.value.toLowerCase();
+
+  const filtered = payouts.filter(p =>
+    p.artist.toLowerCase().includes(q)
+  );
+
+  render(filtered);
+});
+
+/* INIT */
+loadPayouts();
+
+</script>
 
 </body>
 </html>

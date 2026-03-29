@@ -33,6 +33,7 @@
     type="text" 
     id="searchInput" 
     placeholder="Search music..."
+    class="admin-search"
     style="width:100%; padding:10px; border-radius:8px; border:none; background:#222; color:white;"
   >
 </section>
@@ -44,7 +45,23 @@
 
 <script type="module">
 import { fetchBrowseResults } from "/js/api.js";
-import { savePurchase } from "/js/store.js";
+import { getCurrentUser } from "/js/auth.js";
+
+/* =========================
+   CONFIG
+========================= */
+const API = "http://localhost:5001";
+
+/* =========================
+   AUTH
+========================= */
+const user = getCurrentUser();
+
+/* =========================
+   STATE
+========================= */
+let allData = [];
+let currentData = [];
 
 /* =========================
    LANGUAGE
@@ -85,17 +102,14 @@ document.addEventListener("click",(e)=>{
 });
 
 /* =========================
-   GET GENRE FROM URL
+   URL PARAMS
 ========================= */
 const params = new URLSearchParams(window.location.search);
 const selectedGenre = params.get("genre");
 
 /* =========================
-   DATA
+   HELPERS
 ========================= */
-let allData = [];
-let currentData = [];
-
 function isOwned(name){
   const purchases = JSON.parse(localStorage.getItem("purchases")) || [];
   return purchases.some(p => p.name === name);
@@ -109,9 +123,9 @@ function createCard(item){
   const owned = isOwned(item.name);
 
   return `
-    <div class="card">
+    <div class="card" data-id="${item.id}">
       <div class="cover">
-        <img src="${item.cover}">
+        <img src="${item.cover}" loading="lazy">
         <button class="play">▶</button>
       </div>
 
@@ -137,34 +151,35 @@ function createCard(item){
 ========================= */
 function render(data){
   const grid = document.getElementById("browseGrid");
-  grid.innerHTML = "";
 
-  if(data.length === 0){
+  if(!data.length){
     grid.innerHTML = `<p class="empty-state">No results</p>`;
     return;
   }
 
+  let html = "";
   data.forEach(item=>{
-    grid.innerHTML += createCard(item);
+    html += createCard(item);
   });
 
-  currentData = data; // 🔥 important for search
+  grid.innerHTML = html;
+  currentData = data;
 }
 
 /* =========================
-   LOAD
+   LOAD DATA
 ========================= */
 async function load(){
 
   try {
     allData = await fetchBrowseResults();
   } catch(e){
-    console.error(e);
+    console.error("Failed to load data:", e);
+    return;
   }
 
   let filtered = allData;
 
-  /* ✅ GENRE FILTER (FIXED) */
   if(selectedGenre){
     filtered = allData.filter(item =>
       item.genre?.toLowerCase() === selectedGenre.toLowerCase()
@@ -194,7 +209,7 @@ document.getElementById("searchInput").addEventListener("input", (e)=>{
 /* =========================
    EVENTS
 ========================= */
-document.addEventListener("click", e=>{
+document.addEventListener("click", async e=>{
 
   /* PLAY */
   if(e.target.classList.contains("play")){
@@ -208,20 +223,50 @@ document.addEventListener("click", e=>{
 
     if(e.target.classList.contains("disabled")) return;
 
-    const card = e.target.closest(".card");
+    if(!user){
+      window.location.href = "/user/login.html";
+      return;
+    }
 
-    // 🔥 FIX: USE REAL DATA (NOT HARDCODED)
-    const name = card.querySelector(".title").innerText;
+    const btn = e.target;
+    btn.innerText = "Processing...";
+    btn.disabled = true;
 
-    const item = allData.find(i => i.name === name);
+    const card = btn.closest(".card");
+    const id = card.dataset.id;
 
+    const item = allData.find(i => i.id == id);
     if(!item) return;
 
-    savePurchase(item);
+    try {
 
-    alert("Purchase successful 🎉");
+      const res = await fetch(`${API}/api/purchases`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          userId: user.id,
+          trackId: item.id,
+          price: item.price
+        })
+      });
 
-    load();
+      const data = await res.json();
+
+      if(data.message === "Already purchased"){
+        alert("You already own this track");
+      } else {
+        alert("Purchase successful 🎉");
+      }
+
+      btn.innerText = "Owned";
+      btn.classList.add("disabled");
+
+    } catch(err){
+      console.error(err);
+      alert("Purchase failed ❌");
+      btn.innerText = "Buy";
+      btn.disabled = false;
+    }
   }
 
 });

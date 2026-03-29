@@ -6,7 +6,6 @@
 <title>Dashboard Artiste – JENGU</title>
 
 <link rel="stylesheet" href="/styles/app.css">
-<script src="/js/artist-dashboard.js" defer></script>
 </head>
 
 <body>
@@ -18,15 +17,13 @@
     <img src="/assets/logo.png" class="menu-logo">
   </div>
 
-  <!-- MAIN -->
-  <a href="/pages/index.html">🏠 Accueil</a>
-  <a href="/pages/browse.html">🔍 Parcourir</a>
-  <a href="/pages/genres.html">🎵 Genres</a>
-  <a href="/pages/charts.html">📊 Charts</a>
+  <a href="/">🏠 Accueil</a>
+  <a href="/browse.html">🔍 Parcourir</a>
+  <a href="/genres.html">🎵 Genres</a>
+  <a href="/charts.html">📊 Charts</a>
 
   <hr>
 
-  <!-- ARTIST -->
   <a href="/artist/dashboard.html">📈 Dashboard</a>
   <a href="/artist/catalog.html">🎶 Catalogue</a>
   <a href="/artist/upload-track.html">⬆ Upload Track</a>
@@ -41,67 +38,41 @@
   <span></span>
 </div>
 
-<!-- DASHBOARD -->
+<!-- EARNINGS -->
 <section class="section">
+  <h3>💰 Earnings</h3>
 
-  <!-- STATS -->
-  <div class="stats-grid">
-
-    <div class="stat-card">
-      <h2>12.4K</h2>
-      <p>Streams</p>
-    </div>
-
-    <div class="stat-card">
-      <h2>320</h2>
-      <p>Ventes</p>
-    </div>
-
-    <div class="stat-card">
-      <h2>85K XAF</h2>
-      <p>Revenus</p>
-    </div>
-
+  <div id="earningsBox" class="card" style="padding:20px;">
+    <h2 id="totalEarnings">Loading...</h2>
+    <button id="withdrawBtn" class="btn-primary">Withdraw</button>
   </div>
+</section>
 
+<!-- PAYOUT HISTORY -->
+<section class="section">
+  <h3>📤 Payout History</h3>
+  <div id="payoutList"></div>
 </section>
 
 <!-- QUICK ACTIONS -->
 <section class="section">
-
   <h3>Actions rapides</h3>
 
   <div class="actions">
-
-    <a href="/artist/upload-track.html" class="action-btn">
-      ⬆ Upload Track
-    </a>
-
-    <a href="/artist/upload-album.html" class="action-btn">
-      💿 Upload Album
-    </a>
-
-    <a href="/artist/catalog.html" class="action-btn">
-      🎶 Voir Catalogue
-    </a>
-
+    <a href="/artist/upload-track.html" class="action-btn">⬆ Upload Track</a>
+    <a href="/artist/upload-album.html" class="action-btn">💿 Upload Album</a>
+    <a href="/artist/catalog.html" class="action-btn">🎶 Voir Catalogue</a>
   </div>
-
 </section>
-
-<!-- BOTTOM NAV -->
-<div class="bottom-nav">
-  <a href="/pages/index.html" class="nav-item">🏠</a>
-  <a href="/pages/browse.html" class="nav-item">🔍</a>
-  <a href="/pages/genres.html" class="nav-item">🎵</a>
-  <a href="/user/library.html" class="nav-item">📚</a>
-  <a href="/user/purchases.html" class="nav-item">💰</a>
-</div>
 
 <script type="module">
 import { getCurrentUser } from "/js/auth.js";
-import { getArtistEarnings } from "/js/store.js";
 
+const API = "http://localhost:5001";
+
+/* =========================
+   AUTH
+========================= */
 const user = getCurrentUser();
 
 if(!user){
@@ -114,35 +85,108 @@ if(user.role !== "artist"){
 }
 
 /* =========================
+   MENU
+========================= */
+const menuBtn = document.getElementById("menuBtn");
+const sideMenu = document.getElementById("sideMenu");
+
+menuBtn.onclick = ()=> sideMenu.classList.toggle("open");
+
+document.addEventListener("click",(e)=>{
+  if(!sideMenu.contains(e.target) && !menuBtn.contains(e.target)){
+    sideMenu.classList.remove("open");
+  }
+});
+
+/* =========================
    LOAD EARNINGS
 ========================= */
-const stats = getArtistEarnings(user.name);
+async function loadEarnings(){
 
-document.getElementById("artist-stats").innerHTML = `
-  <div class="stats-grid">
-    <div class="stat-card">
-      <h2>${stats.total} XAF</h2>
-      <p>Total Earnings</p>
-    </div>
+  try {
+    const res = await fetch(
+      `${API}/api/purchases/artist/${user.name}`
+    );
 
-    <div class="stat-card">
-      <h2>${stats.sales}</h2>
-      <p>Total Sales</p>
-    </div>
+    const data = await res.json();
 
-    <div class="stat-card">
-      <h2>--</h2>
-      <p>Streams</p>
-    </div>
-  </div>
+    document.getElementById("totalEarnings").innerText =
+      data.total + " XAF";
 
-  <div class="actions">
-    <a href="/artist/upload-track.html" class="action-btn">Upload Track</a>
-    <a href="/artist/catalog.html" class="action-btn">My Catalog</a>
-    <a href="/artist/payouts.html" class="action-btn">Payouts</a>
-    <a href="/artist/analytics.html" class="action-btn">Analytics</a>
-  </div>
-`;
+    renderPayouts(data.transactions);
+
+  } catch(err){
+    console.error(err);
+    document.getElementById("totalEarnings").innerText = "Error";
+  }
+}
+
+/* =========================
+   RENDER PAYOUT HISTORY
+========================= */
+function renderPayouts(list){
+
+  const container = document.getElementById("payoutList");
+
+  if(!list.length){
+    container.innerHTML = "<p>No earnings yet</p>";
+    return;
+  }
+
+  let html = "";
+
+  list.forEach(p=>{
+    html += `
+      <div class="card" style="margin-bottom:10px;">
+        <b>${p.amount} XAF</b>
+        <p>Status: ${p.status}</p>
+        <small>${new Date(p.createdAt).toLocaleString()}</small>
+      </div>
+    `;
+  });
+
+  container.innerHTML = html;
+}
+
+/* =========================
+   WITHDRAW
+========================= */
+document.getElementById("withdrawBtn").onclick = async ()=>{
+
+  const btn = document.getElementById("withdrawBtn");
+
+  const confirmWithdraw = confirm("Withdraw all earnings?");
+  if(!confirmWithdraw) return;
+
+  btn.innerText = "Processing...";
+  btn.disabled = true;
+
+  try {
+
+    await fetch(`${API}/api/payouts/request`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        artist: user.name
+      })
+    });
+
+    alert("Withdrawal requested ✅");
+
+    loadEarnings();
+
+  } catch(err){
+    console.error(err);
+    alert("Withdrawal failed ❌");
+  }
+
+  btn.innerText = "Withdraw";
+  btn.disabled = false;
+};
+
+/* INIT */
+loadEarnings();
+
 </script>
 
 </body>

@@ -16,11 +16,11 @@
     <img src="/assets/logo.png" class="menu-logo">
   </div>
 
-  <a href="/pages/index.html">Accueil</a>
-  <a href="/pages/browse.html">Parcourir</a>
-  <a href="/pages/genres.html">Genres</a>
-  <a href="/pages/charts.html">Top Charts</a>
-  <a href="/pages/new-releases.html">Nouveautés</a>
+  <a href="/">Accueil</a>
+  <a href="/browse.html">Parcourir</a>
+  <a href="/genres.html">Genres</a>
+  <a href="/charts.html">Top Charts</a>
+  <a href="/new-releases.html">Nouveautés</a>
 
   <a href="/user/library.html">Ma Bibliothèque</a>
   <a href="/user/purchases.html">Mes Achats</a>
@@ -36,47 +36,62 @@
 
 <!-- PURCHASES -->
 <section class="section">
-
   <div id="purchasesList"></div>
-
 </section>
 
-<script>
+<script type="module">
+import { getCurrentUser } from "/js/auth.js";
 
-/* MENU */
+const API = "http://localhost:5001";
+
+/* =========================
+   AUTH
+========================= */
+const user = getCurrentUser();
+
+if(!user){
+  window.location.href = "/user/login.html";
+}
+
+/* =========================
+   MENU
+========================= */
 const menuBtn = document.getElementById("menuBtn");
 const sideMenu = document.getElementById("sideMenu");
 
-menuBtn.addEventListener("click", () => {
-  sideMenu.classList.toggle("open");
-});
+menuBtn.onclick = ()=> sideMenu.classList.toggle("open");
 
-document.addEventListener("click", (e) => {
-  if (!sideMenu.contains(e.target) && !menuBtn.contains(e.target)) {
+document.addEventListener("click",(e)=>{
+  if(!sideMenu.contains(e.target) && !menuBtn.contains(e.target)){
     sideMenu.classList.remove("open");
   }
 });
 
-/* MOCK DATA (replace later with API) */
-const purchases = [
-  {
-    name: "Mboko Anthem",
-    artist: "Artist X",
-    cover: "/assets/covers/cover1.png"
-  },
-  {
-    name: "Makossa Vibes",
-    artist: "Artist Y",
-    cover: "/assets/covers/cover2.png"
-  }
-];
+/* =========================
+   LOAD PURCHASES
+========================= */
+async function loadPurchases(){
 
-/* RENDER */
-function renderPurchases(){
+  let purchases = [];
+
+  try {
+    const res = await fetch(`${API}/api/purchases/${user.id}`);
+    purchases = await res.json();
+  } catch(err){
+    console.error("Failed to load purchases:", err);
+  }
+
+  renderPurchases(purchases);
+}
+
+/* =========================
+   RENDER
+========================= */
+function renderPurchases(purchases){
 
   const container = document.getElementById("purchasesList");
 
-  if(purchases.length === 0){
+  if(!purchases.length){
     container.innerHTML = `
       <p class="sub" style="text-align:center;">
         Aucun achat pour le moment
@@ -85,15 +100,16 @@ function renderPurchases(){
     return;
   }
 
-  container.innerHTML = "";
+  let html = "";
 
-  purchases.forEach((item, i)=>{
-    container.innerHTML += `
+  purchases.forEach(p => {
+    html += `
       <div class="chart-item">
-        <img src="${item.cover}">
+        <img src="/assets/covers/cover1.png">
+
         <div class="info">
-          <b>${item.name}</b>
-          <p>${item.artist}</p>
+          <b>Track #${p.trackId}</b>
+          <p>${p.price} XAF</p>
         </div>
 
         <a href="/assets/sample.mp3" download class="download-btn">
@@ -103,9 +119,11 @@ function renderPurchases(){
     `;
   });
 
+  container.innerHTML = html;
 }
 
-renderPurchases();
+/* INIT */
+loadPurchases();
 
 </script>
 
