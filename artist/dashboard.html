@@ -12,7 +12,6 @@
 
 <!-- SIDE MENU -->
 <div id="sideMenu" class="side-menu">
-
   <div class="menu-header">
     <img src="/assets/logo.png" class="menu-logo">
   </div>
@@ -28,7 +27,6 @@
   <a href="/artist/catalog.html">🎶 Catalogue</a>
   <a href="/artist/upload-track.html">⬆ Upload Track</a>
   <a href="/artist/upload-album.html">💿 Upload Album</a>
-
 </div>
 
 <!-- HEADER -->
@@ -67,8 +65,7 @@
 
 <script type="module">
 import { getCurrentUser } from "/js/auth.js";
-
-const API = "http://localhost:5001";
+import { supabase } from "/js/supabase.js";
 
 /* =========================
    AUTH
@@ -103,22 +100,68 @@ document.addEventListener("click",(e)=>{
 ========================= */
 async function loadEarnings(){
 
-  try {
-    const res = await fetch(
-      `${API}/api/purchases/artist/${user.name}`
-    );
+  document.getElementById("totalEarnings").innerText = "Loading...";
 
-    const data = await res.json();
+  try {
+
+    const { data: tracks, error: trackError } = await supabase
+      .from("tracks")
+      .select("id")
+      .eq("artist", user.name);
+
+    if(trackError){
+      console.error(trackError);
+      throw new Error("Track fetch failed");
+    }
+
+    if(!tracks?.length){
+      document.getElementById("totalEarnings").innerText = "0 XAF";
+      renderPayouts([]);
+      return;
+    }
+
+    const trackIds = tracks.map(t => t.id);
+
+    const { data: purchases, error: purchaseError } = await supabase
+      .from("purchases")
+      .select("*")
+      .in("track_id", trackIds);
+
+    if(purchaseError){
+      console.error(purchaseError);
+      throw new Error("Purchase fetch failed");
+    }
+
+    const total = purchases.reduce((sum, p) => sum + (p.price || 0), 0);
 
     document.getElementById("totalEarnings").innerText =
-      data.total + " XAF";
+      total + " XAF";
 
-    renderPayouts(data.transactions);
+    await loadPayoutHistory();
 
   } catch(err){
     console.error(err);
     document.getElementById("totalEarnings").innerText = "Error";
   }
+}
+
+/* =========================
+   LOAD PAYOUT HISTORY
+========================= */
+async function loadPayoutHistory(){
+
+  const { data, error } = await supabase
+    .from("payouts")
+    .select("*")
+    .eq("artist", user.name)
+    .order("created_at", { ascending: false });
+
+  if(error){
+    console.error(error);
+    return;
+  }
+
+  renderPayouts(data || []);
 }
 
 /* =========================
@@ -129,23 +172,17 @@ function renderPayouts(list){
   const container = document.getElementById("payoutList");
 
   if(!list.length){
-    container.innerHTML = "<p>No earnings yet</p>";
+    container.innerHTML = "<p>No payouts yet</p>";
     return;
   }
 
-  let html = "";
-
-  list.forEach(p=>{
-    html += `
-      <div class="card" style="margin-bottom:10px;">
-        <b>${p.amount} XAF</b>
-        <p>Status: ${p.status}</p>
-        <small>${new Date(p.createdAt).toLocaleString()}</small>
-      </div>
-    `;
-  });
-
-  container.innerHTML = html;
+  container.innerHTML = list.map(p => `
+    <div class="card" style="margin-bottom:10px;">
+      <b>${p.amount} XAF</b>
+      <p>Status: ${p.status}</p>
+      <small>${new Date(p.created_at).toLocaleString()}</small>
+    </div>
+  `).join("");
 }
 
 /* =========================
@@ -155,6 +192,8 @@ document.getElementById("withdrawBtn").onclick = async ()=>{
 
   const btn = document.getElementById("withdrawBtn");
 
+  if(btn.disabled) return;
+
   const confirmWithdraw = confirm("Withdraw all earnings?");
   if(!confirmWithdraw) return;
 
@@ -163,21 +202,50 @@ document.getElementById("withdrawBtn").onclick = async ()=>{
 
   try {
 
-    await fetch(`${API}/api/payouts/request`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        artist: user.name
-      })
-    });
+    const amount = parseInt(
+      document.getElementById("totalEarnings").innerText
+    );
+
+    if(!amount){
+      alert("No earnings yet");
+      return;
+    }
+
+    // prevent duplicate payout
+    const { data: existing } = await supabase
+      .from("payouts")
+      .select("id")
+      .eq("artist", user.name)
+      .eq("status", "requested");
+
+    if(existing?.length){
+      alert("You already have a pending payout");
+      return;
+    }
+
+    const { error } = await supabase
+      .from("payouts")
+      .insert([
+        {
+          artist: user.name,
+          amount,
+          status: "requested"
+        }
+      ]);
+
+    if(error){
+      console.error(error);
+      alert("Withdrawal failed ❌");
+      return;
+    }
 
     alert("Withdrawal requested ✅");
 
-    loadEarnings();
+    await loadEarnings();
 
   } catch(err){
     console.error(err);
-    alert("Withdrawal failed ❌");
+    alert("Error occurred ❌");
   }
 
   btn.innerText = "Withdraw";

@@ -17,9 +17,9 @@
     <img src="/assets/logo.png" class="menu-logo">
   </div>
 
-  <a href="/pages/index.html">🏠 Accueil</a>
-  <a href="/pages/browse.html">🔍 Parcourir</a>
-  <a href="/pages/genres.html">🎵 Genres</a>
+  <a href="/index.html">🏠 Accueil</a>
+  <a href="/browse.html">🔍 Parcourir</a>
+  <a href="/genres.html">🎵 Genres</a>
 
   <hr>
 
@@ -108,66 +108,136 @@
 </div>
 
 <script type="module">
-import { getCurrentUser } from "/js/auth.js";
-import { getArtistEarnings, requestPayout, getArtistPayouts } from "/js/store.js";
+import { supabase } from "/js/supabase.js";
 
-const user = getCurrentUser();
+/* =========================
+   STATE
+========================= */
+let payouts = [];
 
-if(!user){
-  window.location.href = "/user/login.html";
+/* =========================
+   FETCH PAYOUTS
+========================= */
+async function loadPayouts(){
+
+  try {
+
+    const { data, error } = await supabase
+      .from("payouts")
+      .select("*")
+      .order("created_at", { ascending: false });
+
+    if(error){
+      console.error(error);
+      return;
+    }
+
+    payouts = data || [];
+    render(payouts);
+
+  } catch(err){
+    console.error(err);
+  }
 }
 
-if(user.role !== "artist"){
-  alert("Artist account required");
-  window.location.href = "/";
-}
-
 /* =========================
-   LOAD DATA
+   RENDER
 ========================= */
-const stats = getArtistEarnings(user.name);
-const payouts = getArtistPayouts(user.name);
+function render(data){
 
-/* =========================
-   RENDER BALANCE
-========================= */
-document.getElementById("balance").innerHTML = `
-  <h2>${stats.total} XAF</h2>
-  <p>Available Balance</p>
-`;
+  const tbody = document.getElementById("payout-list");
+  tbody.innerHTML = "";
 
-/* =========================
-   REQUEST WITHDRAWAL
-========================= */
-document.getElementById("withdrawBtn").onclick = () => {
-
-  if(stats.total <= 0){
-    alert("No earnings yet");
+  if(!data.length){
+    tbody.innerHTML = `
+      <tr>
+        <td colspan="6" style="text-align:center;">No payouts</td>
+      </tr>
+    `;
     return;
   }
 
-  requestPayout(user.name, stats.total);
+  data.forEach(p => {
 
-  alert("Withdrawal requested ✅");
+    const row = document.createElement("tr");
 
-  location.reload();
-};
+    row.innerHTML = `
+      <td>${p.id}</td>
+      <td>${p.artist}</td>
+      <td>${p.amount} XAF</td>
+      <td>${new Date(p.created_at).toLocaleDateString()}</td>
+
+      <td>
+        <span class="status status-${p.status}">
+          ${p.status}
+        </span>
+      </td>
+
+      <td>
+        ${
+          p.status === "requested"
+          ? `<button class="btn btn-neon-outline mark-paid" data-id="${p.id}">
+               Mark Paid
+             </button>`
+          : `<span style="color:#aaa;">Completed</span>`
+        }
+      </td>
+    `;
+
+    tbody.appendChild(row);
+  });
+}
 
 /* =========================
-   RENDER HISTORY
+   MARK AS PAID
 ========================= */
-const list = document.getElementById("payoutList");
+document.addEventListener("click", async (e)=>{
 
-payouts.forEach(p => {
-  list.innerHTML += `
-    <div class="chart-item">
-      <div class="info">
-        <b>${p.amount} XAF</b>
-        <p>${p.status}</p>
-      </div>
-    </div>
-  `;
+  if(e.target.classList.contains("mark-paid")){
+
+    const id = e.target.dataset.id;
+
+    const confirmAction = confirm("Mark this payout as paid?");
+    if(!confirmAction) return;
+
+    e.target.innerText = "Processing...";
+    e.target.disabled = true;
+
+    const { error } = await supabase
+      .from("payouts")
+      .update({ status: "paid" })
+      .eq("id", id);
+
+    if(error){
+      console.error(error);
+      alert("Update failed ❌");
+      return;
+    }
+
+    alert("Payout marked as paid ✅");
+
+    loadPayouts();
+  }
+
 });
+
+/* =========================
+   SEARCH
+========================= */
+document.getElementById("searchPayout").addEventListener("input", e => {
+
+  const q = e.target.value.toLowerCase();
+
+  const filtered = payouts.filter(p =>
+    p.artist.toLowerCase().includes(q)
+  );
+
+  render(filtered);
+});
+
+/* INIT */
+loadPayouts();
+
 </script>
 
 </body>

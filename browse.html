@@ -44,13 +44,8 @@
 </section>
 
 <script type="module">
-import { fetchBrowseResults } from "/js/api.js";
+import { supabase } from "/js/supabase.js";
 import { getCurrentUser } from "/js/auth.js";
-
-/* =========================
-   CONFIG
-========================= */
-const API = "http://localhost:5001";
 
 /* =========================
    AUTH
@@ -108,19 +103,9 @@ const params = new URLSearchParams(window.location.search);
 const selectedGenre = params.get("genre");
 
 /* =========================
-   HELPERS
-========================= */
-function isOwned(name){
-  const purchases = JSON.parse(localStorage.getItem("purchases")) || [];
-  return purchases.some(p => p.name === name);
-}
-
-/* =========================
    CARD
 ========================= */
 function createCard(item){
-
-  const owned = isOwned(item.name);
 
   return `
     <div class="card" data-id="${item.id}">
@@ -132,15 +117,8 @@ function createCard(item){
       <div class="title">${item.name}</div>
 
       <div class="card-bottom">
-        ${
-          owned
-          ? `<span class="owned-badge">✓ Owned</span>`
-          : `<span class="price">${item.price} XAF</span>`
-        }
-
-        <button class="buy ${owned ? 'disabled' : ''}">
-          ${owned ? 'Owned' : 'Buy'}
-        </button>
+        <span class="price">${item.price} XAF</span>
+        <button class="buy">Buy</button>
       </div>
     </div>
   `;
@@ -172,9 +150,20 @@ function render(data){
 async function load(){
 
   try {
-    allData = await fetchBrowseResults();
+
+    const { data, error } = await supabase
+      .from("tracks")
+      .select("*");
+
+    if(error){
+      console.error(error);
+      return;
+    }
+
+    allData = data || [];
+
   } catch(e){
-    console.error("Failed to load data:", e);
+    console.error("Failed to load tracks:", e);
     return;
   }
 
@@ -221,8 +210,6 @@ document.addEventListener("click", async e=>{
   /* BUY */
   if(e.target.classList.contains("buy")){
 
-    if(e.target.classList.contains("disabled")) return;
-
     if(!user){
       window.location.href = "/user/login.html";
       return;
@@ -240,30 +227,46 @@ document.addEventListener("click", async e=>{
 
     try {
 
-      const res = await fetch(`${API}/api/purchases`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          userId: user.id,
-          trackId: item.id,
-          price: item.price
-        })
-      });
+      // 🔥 check if already purchased
+      const { data: existing } = await supabase
+        .from("purchases")
+        .select("*")
+        .eq("user_id", user.id)
+        .eq("track_id", item.id);
 
-      const data = await res.json();
-
-      if(data.message === "Already purchased"){
+      if(existing.length){
         alert("You already own this track");
-      } else {
-        alert("Purchase successful 🎉");
+        btn.innerText = "Owned";
+        return;
       }
+
+      // 🔥 insert purchase
+      const { error } = await supabase
+        .from("purchases")
+        .insert([
+          {
+            user_id: user.id,
+            track_id: item.id,
+            price: item.price
+          }
+        ]);
+
+      if(error){
+        console.error(error);
+        alert("Purchase failed ❌");
+        btn.innerText = "Buy";
+        btn.disabled = false;
+        return;
+      }
+
+      alert("Purchase successful 🎉");
 
       btn.innerText = "Owned";
       btn.classList.add("disabled");
 
     } catch(err){
       console.error(err);
-      alert("Purchase failed ❌");
+      alert("Error occurred ❌");
       btn.innerText = "Buy";
       btn.disabled = false;
     }
