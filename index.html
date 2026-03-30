@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#0b0b0f">
 <title>JENGU</title>
 
 <link rel="stylesheet" href="/styles/app.css">
@@ -53,6 +54,23 @@
     </div>
 
   </div>
+</section>
+<!-- SINGLES -->
+<section class="section">
+  <div class="row-between">
+    <h3>🎧 Singles</h3>
+    <a href="/browse.html">View</a>
+  </div>
+  <div class="scroll-row" id="singles"></div>
+</section>
+
+<!-- ALBUMS -->
+<section class="section">
+  <div class="row-between">
+    <h3>💿 Albums</h3>
+    <a href="/albums.html">View</a>
+  </div>
+  <div class="scroll-row" id="albums"></div>
 </section>
 
 <!-- USER TYPE -->
@@ -110,6 +128,9 @@
 </a>
 
 <script type="module">
+  import { initLang } from "/js/lang.js";
+
+initLang();
 import { fetchBrowseResults } from "/js/api.js";
 import { getCurrentUser, logout } from "/js/auth.js";
 
@@ -228,37 +249,76 @@ try {
   console.error(e);
 }
 
-/* HELPERS */
+/* =========================
+   HELPERS
+========================= */
 const trendingData = data.slice(0,6);
-const newData = [...data].sort((a,b)=> new Date(b.createdAt||0) - new Date(a.createdAt||0)).slice(0,6);
+
+const newData = [...data]
+  .sort((a,b)=> new Date(b.createdAt||0) - new Date(a.createdAt||0))
+  .slice(0,6);
+
 const chartsData = data.slice(0,5);
 
 const genres = [...new Set(data.map(d=>d.genre).filter(Boolean))];
 
-/* CARD */
+/* 🔥 NEW: Singles + Albums */
+const singles = data.filter(i => i.type === "track").slice(0,6);
+const albums = data.filter(i => i.type === "album").slice(0,6);
+
+/* =========================
+   CARD
+========================= */
 function createCard(item){
   return `
-    <div class="card">
+    <div class="card ${item.type === 'album' ? 'album' : ''}">
       <img src="${item.cover}">
       <div class="title">${item.name}</div>
     </div>
   `;
 }
 
-/* RENDER */
+/* =========================
+   ELEMENTS
+========================= */
 const trending = document.getElementById("trending");
 const releases = document.getElementById("releases");
 const charts = document.getElementById("charts");
 const genresGrid = document.getElementById("genresGrid");
 
+/* 🔥 NEW */
+const singlesContainer = document.getElementById("singles");
+const albumsContainer = document.getElementById("albums");
+
+/* =========================
+   RENDER
+========================= */
+
+/* 🔥 SINGLES */
+if(singlesContainer){
+  singles.forEach(item=>{
+    singlesContainer.innerHTML += createCard(item);
+  });
+}
+
+/* 🔥 ALBUMS */
+if(albumsContainer){
+  albums.forEach(item=>{
+    albumsContainer.innerHTML += createCard(item);
+  });
+}
+
+/* TRENDING */
 trendingData.forEach(item=>{
   trending.innerHTML += createCard(item);
 });
 
+/* NEW RELEASES */
 newData.forEach(item=>{
   releases.innerHTML += createCard(item);
 });
 
+/* CHARTS */
 chartsData.forEach((item,i)=>{
   charts.innerHTML += `
     <div class="chart-item">
@@ -272,6 +332,7 @@ chartsData.forEach((item,i)=>{
   `;
 });
 
+/* GENRES */
 genres.slice(0,6).forEach(g=>{
   genresGrid.innerHTML += `
     <a href="/browse.html?genre=${g}" class="genre-card">

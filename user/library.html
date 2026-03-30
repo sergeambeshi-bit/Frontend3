@@ -48,6 +48,9 @@
 /* =========================
    AUTH PROTECTION
 ========================= */
+import { initLang } from "/js/lang.js";
+
+initLang();
 function requireAuth(){
   const user = localStorage.getItem("user");
 

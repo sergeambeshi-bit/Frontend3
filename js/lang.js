@@ -1,3 +1,5 @@
+// js/lang.js
+
 const translations = {
   fr: {
     hero: "Télécharger la musique africaine",
@@ -20,43 +22,64 @@ const translations = {
   }
 };
 
-export function applyTranslations() {
-  const lang = localStorage.getItem("lang") || "fr";
-
-  document.querySelectorAll("[data-i18n]").forEach(el => {
-    const key = el.dataset.i18n;
-    if(translations[lang][key]){
-      el.textContent = translations[lang][key];
-    }
-  });
-}
-
+/* =========================
+   GET / SET LANGUAGE
+========================= */
 export function getLang(){
   return localStorage.getItem("lang") || "fr";
 }
 
-export function setLang(l){
-  localStorage.setItem("lang", l);
+export function setLang(lang){
+  localStorage.setItem("lang", lang);
 }
 
-export function applyLang(translations){
+/* =========================
+   APPLY LANGUAGE (GLOBAL)
+========================= */
+export function applyLang(){
 
   const lang = getLang();
 
-  Object.keys(translations[lang]).forEach(id => {
-    const el = document.getElementById(id);
-    if(el){
-      el.textContent = translations[lang][id];
+  document.querySelectorAll("[data-i18n]").forEach(el => {
+    const key = el.dataset.i18n;
+
+    if(!translations[lang] || !translations[lang][key]) return;
+
+    // INPUTS → placeholder
+    if(el.tagName === "INPUT"){
+      el.placeholder = translations[lang][key];
+    } 
+    // OTHERS → text
+    else {
+      el.textContent = translations[lang][key];
     }
   });
 
-  // optional: placeholder support
-  Object.keys(translations[lang]).forEach(id => {
-    const el = document.getElementById(id);
-    if(el && el.placeholder !== undefined){
-      el.placeholder = translations[lang][id];
-    }
-  });
+  // update button
+  const btn = document.getElementById("langBtn");
+  if(btn){
+    btn.textContent = lang.toUpperCase() + " ▾";
+  }
+}
 
-  return lang;
+/* =========================
+   INIT (AUTO RUN)
+========================= */
+export function initLang(){
+
+  document.addEventListener("DOMContentLoaded", () => {
+
+    applyLang();
+
+    const btn = document.getElementById("langBtn");
+
+    if(btn){
+      btn.onclick = () => {
+        const newLang = getLang() === "fr" ? "en" : "fr";
+        setLang(newLang);
+        applyLang();
+      };
+    }
+
+  });
 }

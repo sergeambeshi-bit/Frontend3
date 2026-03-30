@@ -106,6 +106,9 @@
   <script src="../js/admin.js"></script>
 
   <script>
+    import { initLang } from "/js/lang.js";
+
+initLang();
     document.addEventListener('DOMContentLoaded', () => {
       document.getElementById('total-users').textContent = '1,245';
       document.getElementById('total-artists').textContent = '312';

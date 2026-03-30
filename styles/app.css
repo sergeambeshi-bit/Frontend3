@@ -337,3 +337,89 @@ h3 {
 .status-paid { background:#01d4ab; color:black; }
 .status-pending { background:#ffaa00; color:black; }
 .status-failed { background:#ff4d4d; color:white; }
+
+/* iPhone safe areas */
+body {
+  padding-bottom: calc(80px + env(safe-area-inset-bottom));
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+.scroll-row {
+  scroll-snap-type: x mandatory;
+}
+
+.card {
+  scroll-snap-align: start;
+}
+
+* {
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* press feel */
+.card:active,
+.genre-card:active,
+.btn-primary:active,
+.btn-outline:active {
+  transform: scale(0.95);
+}
+
+.card {
+  transition: transform 0.15s ease, box-shadow 0.2s ease;
+}
+
+.card:hover {
+  transform: translateY(-3px);
+}
+
+.card:active {
+  transform: scale(0.94);
+}
+
+.scroll-row::-webkit-scrollbar {
+  height:4px;
+}
+
+.scroll-row::-webkit-scrollbar-thumb {
+  background:#01d4ab;
+  border-radius:10px;
+}
+
+.bottom-nav {
+  backdrop-filter: blur(10px);
+  background: rgba(11,11,15,0.85);
+}
+
+.bottom-nav {
+  backdrop-filter: blur(10px);
+  background: rgba(11,11,15,0.85);
+}
+
+.btn-primary {
+  transition: all 0.2s ease;
+}
+
+.btn-primary:active {
+  transform: scale(0.95);
+  box-shadow: 0 0 20px rgba(1,212,171,0.6);
+}
+
+.section {
+  animation: fadeIn 0.4s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity:0; transform: translateY(10px); }
+  to { opacity:1; transform: translateY(0); }
+}
+
+.card img {
+  transition: opacity 0.3s ease;
+}
+
+.card img[loading="lazy"] {
+  opacity: 0.9;
+}
