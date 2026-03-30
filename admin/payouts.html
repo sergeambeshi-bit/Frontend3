@@ -61,112 +61,55 @@
   </main>
 
 <script type="module">
-
-const API = "http://localhost:5001";
+import { supabase } from "/js/supabase.js";
 
 let payouts = [];
 
-/* =========================
-   LOAD PAYOUTS
-========================= */
-async function loadPayouts(){
+async function load(){
 
-  try {
-    const res = await fetch(`${API}/api/payouts`);
-    payouts = await res.json();
+  const { data } = await supabase
+    .from("payouts")
+    .select("*")
+    .order("created_at",{ascending:false});
 
-    render(payouts);
-
-  } catch(err){
-    console.error("Failed to load payouts:", err);
-  }
+  payouts = data || [];
+  render(payouts);
 }
 
-/* =========================
-   RENDER
-========================= */
 function render(data){
+  const tbody = document.getElementById("payout-list");
 
-  const tbody = document.getElementById('payout-list');
-  tbody.innerHTML = "";
-
-  if(!data.length){
-    tbody.innerHTML = `<tr><td colspan="6">No payouts</td></tr>`;
-    return;
-  }
-
-  data.forEach(p => {
-
-    const row = document.createElement('tr');
-
-    row.innerHTML = `
+  tbody.innerHTML = data.map(p=>`
+    <tr>
       <td>${p.id}</td>
       <td>${p.artist}</td>
-      <td>${p.amount} XAF</td>
-      <td>${new Date(p.createdAt).toLocaleDateString()}</td>
-
+      <td>${p.amount}</td>
+      <td>${p.status}</td>
       <td>
-        <span class="status status-${p.status}">
-          ${p.status}
-        </span>
-      </td>
-
-      <td>
-        ${p.status === 'requested' ? `
-          <button class="btn btn-neon-outline mark-paid">
-            Mark Paid
-          </button>
-        ` : '<span style="color:#aaa; font-size:12px;">Completed</span>'}
-      </td>
-    `;
-
-    /* ACTION */
-    const btn = row.querySelector('.mark-paid');
-
-    if(btn){
-      btn.addEventListener('click', async () => {
-
-        btn.innerText = "Processing...";
-        btn.disabled = true;
-
-        try {
-
-          await fetch(`${API}/api/payouts/approve/${p.id}`, {
-            method: "PATCH"
-          });
-
-          loadPayouts();
-
-        } catch(err){
-          console.error(err);
-          alert("Failed to update payout ❌");
-          btn.innerText = "Mark Paid";
-          btn.disabled = false;
+        ${
+          p.status==="requested"
+          ? `<button class="pay" data-id="${p.id}">Mark Paid</button>`
+          : "Done"
         }
-      });
-    }
-
-    tbody.appendChild(row);
-  });
+      </td>
+    </tr>
+  `).join("");
 }
 
-/* =========================
-   SEARCH
-========================= */
-document.getElementById("searchPayout").addEventListener("input", e => {
+document.addEventListener("click", async e=>{
+  if(e.target.classList.contains("pay")){
+    const id = e.target.dataset.id;
 
-  const q = e.target.value.toLowerCase();
+    await supabase
+      .from("payouts")
+      .update({status:"paid"})
+      .eq("id",id);
 
-  const filtered = payouts.filter(p =>
-    p.artist.toLowerCase().includes(q)
-  );
-
-  render(filtered);
+    load();
+  }
 });
 
-/* INIT */
-loadPayouts();
-
+load();
 </script>
 
 </body>

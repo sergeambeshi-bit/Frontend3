@@ -67,126 +67,55 @@
 
 <script type="module">
 import { getCurrentUser } from "/js/auth.js";
+import { supabase } from "/js/supabase.js";
 
-const API = "http://localhost:5001";
-
-/* =========================
-   AUTH
-========================= */
 const user = getCurrentUser();
 
-if(!user){
-  window.location.href = "/user/login.html";
-}
+if(!user) location.href="/user/login.html";
 
-if(user.role !== "artist"){
-  alert("Artist account required");
-  window.location.href = "/";
-}
+async function load(){
 
-/* =========================
-   MENU
-========================= */
-const menuBtn = document.getElementById("menuBtn");
-const sideMenu = document.getElementById("sideMenu");
+  const { data: tracks } = await supabase
+    .from("tracks")
+    .select("id")
+    .eq("artist", user.name);
 
-menuBtn.onclick = ()=> sideMenu.classList.toggle("open");
-
-document.addEventListener("click",(e)=>{
-  if(!sideMenu.contains(e.target) && !menuBtn.contains(e.target)){
-    sideMenu.classList.remove("open");
-  }
-});
-
-/* =========================
-   LOAD EARNINGS
-========================= */
-async function loadEarnings(){
-
-  try {
-    const res = await fetch(
-      `${API}/api/purchases/artist/${user.name}`
-    );
-
-    const data = await res.json();
-
-    document.getElementById("totalEarnings").innerText =
-      data.total + " XAF";
-
-    renderPayouts(data.transactions);
-
-  } catch(err){
-    console.error(err);
-    document.getElementById("totalEarnings").innerText = "Error";
-  }
-}
-
-/* =========================
-   RENDER PAYOUT HISTORY
-========================= */
-function renderPayouts(list){
-
-  const container = document.getElementById("payoutList");
-
-  if(!list.length){
-    container.innerHTML = "<p>No earnings yet</p>";
+  if(!tracks.length){
+    document.getElementById("totalEarnings").innerText="0 XAF";
     return;
   }
 
-  let html = "";
+  const ids = tracks.map(t=>t.id);
 
-  list.forEach(p=>{
-    html += `
-      <div class="card" style="margin-bottom:10px;">
-        <b>${p.amount} XAF</b>
-        <p>Status: ${p.status}</p>
-        <small>${new Date(p.createdAt).toLocaleString()}</small>
-      </div>
-    `;
-  });
+  const { data: purchases } = await supabase
+    .from("purchases")
+    .select("*")
+    .in("track_id", ids);
 
-  container.innerHTML = html;
+  let total = purchases.reduce((s,p)=>s+p.price,0);
+
+  document.getElementById("totalEarnings").innerText = total+" XAF";
 }
 
-/* =========================
-   WITHDRAW
-========================= */
 document.getElementById("withdrawBtn").onclick = async ()=>{
 
-  const btn = document.getElementById("withdrawBtn");
+  const amount = parseInt(document.getElementById("totalEarnings").innerText);
 
-  const confirmWithdraw = confirm("Withdraw all earnings?");
-  if(!confirmWithdraw) return;
-
-  btn.innerText = "Processing...";
-  btn.disabled = true;
-
-  try {
-
-    await fetch(`${API}/api/payouts/request`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        artist: user.name
-      })
-    });
-
-    alert("Withdrawal requested ✅");
-
-    loadEarnings();
-
-  } catch(err){
-    console.error(err);
-    alert("Withdrawal failed ❌");
+  if(!amount){
+    alert("No earnings");
+    return;
   }
 
-  btn.innerText = "Withdraw";
-  btn.disabled = false;
+  await supabase.from("payouts").insert([{
+    artist: user.name,
+    amount,
+    status: "requested"
+  }]);
+
+  alert("Withdrawal requested");
 };
 
-/* INIT */
-loadEarnings();
-
+load();
 </script>
 
 </body>

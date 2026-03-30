@@ -1,173 +1,205 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Paiements – JENGU</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JENGU Admin – Payouts</title>
 
-<link rel="stylesheet" href="/styles/app.css">
+  <link rel="stylesheet" href="../css/base.css">
+  <link rel="stylesheet" href="../css/layout.css">
+  <link rel="stylesheet" href="../css/components.css">
+  <link rel="stylesheet" href="../css/theme-afro.css">
 </head>
 
-<body>
+<body class="dark-theme admin-panel">
 
-<!-- SIDE MENU -->
-<div id="sideMenu" class="side-menu">
+  <!-- HEADER -->
+  <header class="admin-header">
+    <img src="../assets/logo.svg" class="logo">
 
-  <div class="menu-header">
-    <img src="/assets/logo.png" class="menu-logo">
-  </div>
+    <nav>
+      <a href="/admin/dashboard.html">Dashboard</a>
+      <a href="/admin/users.html">Users</a>
+      <a href="/admin/artists.html">Artists</a>
+      <a href="/admin/catalog.html">Catalog</a>
+      <a href="/admin/transactions.html">Transactions</a>
+      <a href="/admin/payouts.html" class="active">Payouts</a>
+      <a href="/admin/promotions.html">Promotions</a>
+      <a href="/admin/fraud.html">Fraud</a>
+    </nav>
+  </header>
 
-  <a href="/pages/index.html">🏠 Accueil</a>
-  <a href="/pages/browse.html">🔍 Parcourir</a>
-  <a href="/pages/genres.html">🎵 Genres</a>
+  <!-- MAIN -->
+  <main class="admin-main">
 
-  <hr>
+    <h1>Artist Payouts</h1>
 
-  <a href="/artist/dashboard.html">📈 Dashboard</a>
-  <a href="/artist/catalog.html">🎶 Catalogue</a>
-  <a href="/artist/upload-track.html">⬆ Upload Track</a>
-  <a href="/artist/upload-album.html">💿 Upload Album</a>
-  <a href="/artist/payouts.html">💰 Paiements</a>
+    <!-- SEARCH -->
+    <input 
+      type="text"
+      id="searchPayout"
+      placeholder="Search artist..."
+      class="admin-search"
+    >
 
-</div>
+    <!-- TABLE -->
+    <table class="neon-table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Artist</th>
+          <th>Amount</th>
+          <th>Date</th>
+          <th>Status</th>
+          <th>Action</th>
+        </tr>
+      </thead>
 
-<!-- HEADER -->
-<div class="topbar">
-  <span class="menu" id="menuBtn">☰</span>
-  <h3>Paiements</h3>
-  <span></span>
-</div>
+      <tbody id="payout-list"></tbody>
+    </table>
 
-<!-- BALANCE -->
-<section class="section">
-
-  <div class="balance-card">
-    <h2>85,000 XAF</h2>
-    <p>Solde disponible</p>
-
-    <button class="btn-primary" id="withdrawBtn">
-      Retirer mes gains
-    </button>
-  </div>
-
-</section>
-
-<!-- PAYOUT HISTORY -->
-<section class="section">
-
-  <h3>Historique des paiements</h3>
-
-  <div id="payoutList">
-
-    <div class="chart-item">
-      <div class="info">
-        <b>Retrait Mobile Money</b>
-        <p>15 Mars 2026</p>
-      </div>
-      <div class="price">20,000 XAF</div>
-    </div>
-
-    <div class="chart-item">
-      <div class="info">
-        <b>Retrait Mobile Money</b>
-        <p>01 Mars 2026</p>
-      </div>
-      <div class="price">15,000 XAF</div>
-    </div>
-
-  </div>
-
-</section>
-
-<!-- WITHDRAW MODAL -->
-<div id="withdrawModal" class="modal hidden">
-  <div class="modal-content">
-
-    <h3>Retirer vos gains</h3>
-
-    <label class="label">Numéro Mobile Money</label>
-    <input type="text" id="withdrawPhone" placeholder="6XXXXXXXX">
-
-    <label class="label">Montant</label>
-    <input type="number" id="withdrawAmount" placeholder="Ex: 10000">
-
-    <button class="confirm" id="confirmWithdraw">
-      Confirmer le retrait
-    </button>
-
-  </div>
-</div>
-
-<!-- BOTTOM NAV -->
-<div class="bottom-nav">
-  <a href="/pages/index.html" class="nav-item">🏠</a>
-  <a href="/pages/browse.html" class="nav-item">🔍</a>
-  <a href="/pages/genres.html" class="nav-item">🎵</a>
-  <a href="/user/library.html" class="nav-item">📚</a>
-  <a href="/user/purchases.html" class="nav-item">💰</a>
-</div>
+  </main>
 
 <script type="module">
-import { getCurrentUser } from "/js/auth.js";
-import { getArtistEarnings, requestPayout, getArtistPayouts } from "/js/store.js";
+import { supabase } from "/js/supabase.js";
 
-const user = getCurrentUser();
+/* =========================
+   STATE
+========================= */
+let payouts = [];
 
-if(!user){
-  window.location.href = "/user/login.html";
+/* =========================
+   LOAD PAYOUTS
+========================= */
+async function loadPayouts(){
+
+  try {
+
+    const { data, error } = await supabase
+      .from("payouts")
+      .select("*")
+      .order("created_at", { ascending: false });
+
+    if(error){
+      console.error(error);
+      alert("Failed to load payouts ❌");
+      return;
+    }
+
+    payouts = data || [];
+    render(payouts);
+
+  } catch(err){
+    console.error(err);
+  }
 }
 
-if(user.role !== "artist"){
-  alert("Artist account required");
-  window.location.href = "/";
-}
-
 /* =========================
-   LOAD DATA
+   RENDER TABLE
 ========================= */
-const stats = getArtistEarnings(user.name);
-const payouts = getArtistPayouts(user.name);
+function render(data){
 
-/* =========================
-   RENDER BALANCE
-========================= */
-document.getElementById("balance").innerHTML = `
-  <h2>${stats.total} XAF</h2>
-  <p>Available Balance</p>
-`;
+  const tbody = document.getElementById("payout-list");
 
-/* =========================
-   REQUEST WITHDRAWAL
-========================= */
-document.getElementById("withdrawBtn").onclick = () => {
-
-  if(stats.total <= 0){
-    alert("No earnings yet");
+  if(!data.length){
+    tbody.innerHTML = `
+      <tr>
+        <td colspan="6" style="text-align:center;">No payouts found</td>
+      </tr>
+    `;
     return;
   }
 
-  requestPayout(user.name, stats.total);
+  let html = "";
 
-  alert("Withdrawal requested ✅");
+  data.forEach(p => {
 
-  location.reload();
-};
+    html += `
+      <tr>
+        <td>${p.id}</td>
+        <td>${p.artist}</td>
+        <td>${p.amount} XAF</td>
+        <td>${new Date(p.created_at).toLocaleDateString()}</td>
+
+        <td>
+          <span class="status status-${p.status}">
+            ${p.status}
+          </span>
+        </td>
+
+        <td>
+          ${
+            p.status === "requested"
+            ? `<button class="btn btn-neon-outline mark-paid" data-id="${p.id}">
+                Mark Paid
+               </button>`
+            : `<span style="color:#aaa;">Completed</span>`
+          }
+        </td>
+      </tr>
+    `;
+  });
+
+  tbody.innerHTML = html;
+}
 
 /* =========================
-   RENDER HISTORY
+   MARK AS PAID
 ========================= */
-const list = document.getElementById("payoutList");
+document.addEventListener("click", async (e)=>{
 
-payouts.forEach(p => {
-  list.innerHTML += `
-    <div class="chart-item">
-      <div class="info">
-        <b>${p.amount} XAF</b>
-        <p>${p.status}</p>
-      </div>
-    </div>
-  `;
+  if(e.target.classList.contains("mark-paid")){
+
+    const id = e.target.dataset.id;
+
+    const confirmAction = confirm("Mark this payout as paid?");
+    if(!confirmAction) return;
+
+    e.target.innerText = "Processing...";
+    e.target.disabled = true;
+
+    try {
+
+      const { error } = await supabase
+        .from("payouts")
+        .update({ status: "paid" })
+        .eq("id", id);
+
+      if(error){
+        console.error(error);
+        alert("Update failed ❌");
+        return;
+      }
+
+      alert("Payout marked as paid ✅");
+
+      loadPayouts();
+
+    } catch(err){
+      console.error(err);
+      alert("Error occurred ❌");
+    }
+  }
+
 });
+
+/* =========================
+   SEARCH
+========================= */
+document.getElementById("searchPayout").addEventListener("input", e => {
+
+  const q = e.target.value.toLowerCase();
+
+  const filtered = payouts.filter(p =>
+    p.artist.toLowerCase().includes(q)
+  );
+
+  render(filtered);
+});
+
+/* INIT */
+loadPayouts();
+
 </script>
 
 </body>

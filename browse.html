@@ -4,276 +4,99 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Browse – JENGU</title>
-
 <link rel="stylesheet" href="/styles/app.css">
 </head>
 
 <body>
 
-<!-- TOPBAR -->
 <div class="topbar">
   <span class="menu" id="menuBtn">☰</span>
   <h3 id="pageTitle">Browse</h3>
   <span id="langBtn">FR ▾</span>
 </div>
 
-<!-- SIDE MENU -->
 <div id="sideMenu" class="side-menu">
   <a href="/">Accueil</a>
   <a href="/browse.html">Parcourir</a>
   <a href="/genres.html">Genres</a>
   <a href="/charts.html">Charts</a>
   <a href="/new-releases.html">New</a>
-  <a href="/user/library.html">Library</a>
 </div>
 
-<!-- SEARCH -->
 <section class="section">
-  <input 
-    type="text" 
-    id="searchInput" 
-    placeholder="Search music..."
-    class="admin-search"
-    style="width:100%; padding:10px; border-radius:8px; border:none; background:#222; color:white;"
-  >
+  <input id="searchInput" placeholder="Search..." style="width:100%">
 </section>
 
-<!-- RESULTS -->
 <section class="section">
-  <div id="browseGrid" class="scroll-row" style="flex-wrap:wrap;"></div>
+  <div id="browseGrid"></div>
 </section>
 
 <script type="module">
-import { fetchBrowseResults } from "/js/api.js";
+import { supabase } from "/js/supabase.js";
 import { getCurrentUser } from "/js/auth.js";
 
-/* =========================
-   CONFIG
-========================= */
-const API = "http://localhost:5001";
-
-/* =========================
-   AUTH
-========================= */
 const user = getCurrentUser();
 
-/* =========================
-   STATE
-========================= */
 let allData = [];
 let currentData = [];
 
-/* =========================
-   LANGUAGE
-========================= */
-const translations = {
-  fr: { browse:"Parcourir", search:"Rechercher..." },
-  en: { browse:"Browse", search:"Search music..." }
-};
-
-let lang = localStorage.getItem("lang") || "fr";
-
-function applyLang(){
-  document.getElementById("pageTitle").textContent = translations[lang].browse;
-  document.getElementById("searchInput").placeholder = translations[lang].search;
-  document.getElementById("langBtn").textContent = lang.toUpperCase()+" ▾";
-}
-
-document.getElementById("langBtn").onclick = ()=>{
-  lang = lang === "fr" ? "en" : "fr";
-  localStorage.setItem("lang", lang);
-  applyLang();
-};
-
-applyLang();
-
-/* =========================
-   MENU
-========================= */
-const menuBtn = document.getElementById("menuBtn");
-const sideMenu = document.getElementById("sideMenu");
-
-menuBtn.onclick = ()=> sideMenu.classList.toggle("open");
-
-document.addEventListener("click",(e)=>{
-  if(!sideMenu.contains(e.target) && !menuBtn.contains(e.target)){
-    sideMenu.classList.remove("open");
-  }
-});
-
-/* =========================
-   URL PARAMS
-========================= */
-const params = new URLSearchParams(window.location.search);
-const selectedGenre = params.get("genre");
-
-/* =========================
-   HELPERS
-========================= */
-function isOwned(name){
-  const purchases = JSON.parse(localStorage.getItem("purchases")) || [];
-  return purchases.some(p => p.name === name);
-}
-
-/* =========================
-   CARD
-========================= */
 function createCard(item){
-
-  const owned = isOwned(item.name);
-
   return `
     <div class="card" data-id="${item.id}">
-      <div class="cover">
-        <img src="${item.cover}" loading="lazy">
-        <button class="play">▶</button>
-      </div>
-
-      <div class="title">${item.name}</div>
-
-      <div class="card-bottom">
-        ${
-          owned
-          ? `<span class="owned-badge">✓ Owned</span>`
-          : `<span class="price">${item.price} XAF</span>`
-        }
-
-        <button class="buy ${owned ? 'disabled' : ''}">
-          ${owned ? 'Owned' : 'Buy'}
-        </button>
-      </div>
+      <img src="${item.cover}">
+      <div>${item.name}</div>
+      <div>${item.price} XAF</div>
+      <button class="buy">Buy</button>
     </div>
   `;
 }
 
-/* =========================
-   RENDER
-========================= */
 function render(data){
   const grid = document.getElementById("browseGrid");
-
-  if(!data.length){
-    grid.innerHTML = `<p class="empty-state">No results</p>`;
-    return;
-  }
-
-  let html = "";
-  data.forEach(item=>{
-    html += createCard(item);
-  });
-
-  grid.innerHTML = html;
+  grid.innerHTML = data.map(createCard).join("");
   currentData = data;
 }
 
-/* =========================
-   LOAD DATA
-========================= */
 async function load(){
-
-  try {
-    allData = await fetchBrowseResults();
-  } catch(e){
-    console.error("Failed to load data:", e);
-    return;
-  }
-
-  let filtered = allData;
-
-  if(selectedGenre){
-    filtered = allData.filter(item =>
-      item.genre?.toLowerCase() === selectedGenre.toLowerCase()
-    );
-
-    document.getElementById("pageTitle").textContent =
-      selectedGenre.toUpperCase();
-  }
-
-  render(filtered);
+  const { data } = await supabase.from("tracks").select("*");
+  allData = data || [];
+  render(allData);
 }
 
-/* =========================
-   SEARCH
-========================= */
-document.getElementById("searchInput").addEventListener("input", (e)=>{
-
-  const q = e.target.value.toLowerCase();
-
-  const filtered = currentData.filter(item =>
-    item.name.toLowerCase().includes(q)
-  );
-
-  render(filtered);
-});
-
-/* =========================
-   EVENTS
-========================= */
 document.addEventListener("click", async e=>{
-
-  /* PLAY */
-  if(e.target.classList.contains("play")){
-    const audio = new Audio("/assets/sample.mp3");
-    audio.play();
-    setTimeout(()=>audio.pause(),30000);
-  }
-
-  /* BUY */
   if(e.target.classList.contains("buy")){
-
-    if(e.target.classList.contains("disabled")) return;
 
     if(!user){
       window.location.href = "/user/login.html";
       return;
     }
 
-    const btn = e.target;
-    btn.innerText = "Processing...";
-    btn.disabled = true;
-
-    const card = btn.closest(".card");
+    const card = e.target.closest(".card");
     const id = card.dataset.id;
-
     const item = allData.find(i => i.id == id);
-    if(!item) return;
 
-    try {
+    const { data: existing } = await supabase
+      .from("purchases")
+      .select("*")
+      .eq("user_id", user.id)
+      .eq("track_id", item.id);
 
-      const res = await fetch(`${API}/api/purchases`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          userId: user.id,
-          trackId: item.id,
-          price: item.price
-        })
-      });
-
-      const data = await res.json();
-
-      if(data.message === "Already purchased"){
-        alert("You already own this track");
-      } else {
-        alert("Purchase successful 🎉");
-      }
-
-      btn.innerText = "Owned";
-      btn.classList.add("disabled");
-
-    } catch(err){
-      console.error(err);
-      alert("Purchase failed ❌");
-      btn.innerText = "Buy";
-      btn.disabled = false;
+    if(existing.length){
+      alert("Already purchased");
+      return;
     }
-  }
 
+    await supabase.from("purchases").insert([{
+      user_id: user.id,
+      track_id: item.id,
+      price: item.price
+    }]);
+
+    alert("Purchased 🎉");
+  }
 });
 
-/* INIT */
 load();
-
 </script>
 
 </body>
