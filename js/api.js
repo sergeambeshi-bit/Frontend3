@@ -5,7 +5,7 @@ import { getUploads } from "/js/store.js";
 const API_BASE = '/api';
 
 /* =========================================
-   MOCK DATA (STABLE + NORMALIZED)
+   MOCK DATA
 ========================================= */
 const MOCK_DATA = [
   {
@@ -16,7 +16,8 @@ const MOCK_DATA = [
     album: "Street Kings",
     genre: "mboko",
     price: 300,
-    cover: "/assets/covers/cover1.png"
+    cover: "/assets/covers/cover1.png",
+    createdAt: new Date().toISOString()
   },
   {
     id: 2,
@@ -26,7 +27,8 @@ const MOCK_DATA = [
     album: "Douala Nights",
     genre: "makossa",
     price: 300,
-    cover: "/assets/covers/cover2.png"
+    cover: "/assets/covers/cover2.png",
+    createdAt: new Date().toISOString()
   },
   {
     id: 3,
@@ -36,7 +38,8 @@ const MOCK_DATA = [
     album: "Congo Heat",
     genre: "ndombolo",
     price: 300,
-    cover: "/assets/covers/cover1.png"
+    cover: "/assets/covers/cover1.png",
+    createdAt: new Date().toISOString()
   },
   {
     id: 4,
@@ -46,7 +49,8 @@ const MOCK_DATA = [
     album: "Global Vibes",
     genre: "afropop",
     price: 300,
-    cover: "/assets/covers/cover2.png"
+    cover: "/assets/covers/cover2.png",
+    createdAt: new Date().toISOString()
   },
   {
     id: 5,
@@ -56,7 +60,8 @@ const MOCK_DATA = [
     album: "Village Rhythm",
     genre: "bikutsi",
     price: 300,
-    cover: "/assets/covers/cover1.png"
+    cover: "/assets/covers/cover1.png",
+    createdAt: new Date().toISOString()
   }
 ];
 
@@ -76,7 +81,6 @@ const BLOG_POSTS = [
   }
 ];
 
-
 /* =========================================
    NORMALIZER
 ========================================= */
@@ -92,34 +96,33 @@ function normalizeData(data) {
     price: item.price || 300,
     cover: item.cover || "/assets/covers/cover1.png",
     type: item.type || "track",
-    createdAt: item.createdAt || null
+    createdAt: item.createdAt || new Date().toISOString()
   }));
 }
 
-
 /* =========================================
-   MERGE UPLOADS + API DATA
+   MERGE MARKETPLACE DATA
 ========================================= */
-function mergeMarketplaceData(apiData = []){
+function mergeMarketplaceData(apiData = []) {
 
   const uploads = getUploads();
 
   const normalizedUploads = normalizeData(uploads);
   const normalizedApi = normalizeData(apiData);
 
-  // sort uploads first (newest first)
+  // newest uploads first
   const sortedUploads = normalizedUploads.sort((a,b)=>{
-    return new Date(b.createdAt || 0) - new Date(a.createdAt || 0);
+    return new Date(b.createdAt) - new Date(a.createdAt);
   });
 
   return [...sortedUploads, ...normalizedApi];
 }
 
-
 /* =========================================
-   SAFE FETCH (MARKETPLACE READY)
+   SAFE FETCH
 ========================================= */
 async function safeFetch(endpoint) {
+
   try {
     const res = await fetch(`${API_BASE}${endpoint}`);
 
@@ -130,6 +133,7 @@ async function safeFetch(endpoint) {
     return mergeMarketplaceData(data);
 
   } catch (err) {
+
     console.warn("⚠️ Using mock + uploads:", err.message);
 
     if (endpoint.includes("blog")) return BLOG_POSTS;
@@ -137,7 +141,6 @@ async function safeFetch(endpoint) {
     return mergeMarketplaceData(MOCK_DATA);
   }
 }
-
 
 /* =========================================
    API FUNCTIONS
@@ -167,7 +170,6 @@ export async function fetchTrending(country = 'Cameroon') {
 export async function fetchBlogPosts() {
   return safeFetch('/blog');
 }
-
 
 /* =========================================
    DETAIL FETCHERS

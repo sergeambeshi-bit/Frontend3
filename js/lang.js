@@ -30,3 +30,33 @@ export function applyTranslations() {
     }
   });
 }
+
+export function getLang(){
+  return localStorage.getItem("lang") || "fr";
+}
+
+export function setLang(l){
+  localStorage.setItem("lang", l);
+}
+
+export function applyLang(translations){
+
+  const lang = getLang();
+
+  Object.keys(translations[lang]).forEach(id => {
+    const el = document.getElementById(id);
+    if(el){
+      el.textContent = translations[lang][id];
+    }
+  });
+
+  // optional: placeholder support
+  Object.keys(translations[lang]).forEach(id => {
+    const el = document.getElementById(id);
+    if(el && el.placeholder !== undefined){
+      el.placeholder = translations[lang][id];
+    }
+  });
+
+  return lang;
+}

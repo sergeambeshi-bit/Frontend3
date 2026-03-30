@@ -29,37 +29,39 @@
 <!-- HERO -->
 <section class="hero">
   <div class="hero-bg"></div>
-  <div class="hero-patterns"></div>
 
   <div class="hero-content">
 
+    <!-- TOPBAR -->
     <div class="topbar">
       <span class="menu" id="menuBtn">☰</span>
       <img src="/assets/logo.png" class="logo">
 
-      <!-- AUTH AREA -->
-      <div id="authArea" style="display:flex; gap:10px; align-items:center;"></div>
+      <div id="authArea"></div>
 
       <span class="lang" id="langBtn">FR ▾</span>
     </div>
 
+    <!-- TITLE -->
     <h1 data-i18n="hero"></h1>
+    <p class="hero-sub">Stream • Download • Support African Artists</p>
 
+    <!-- CTA -->
     <div class="cta">
       <a href="/browse.html" class="btn-primary" data-i18n="browse"></a>
-      <a href="/new-releases.html" class="btn-outline" data-i18n="releases"></a>
+      <a href="/genres.html" class="btn-outline">Genres</a>
     </div>
 
   </div>
 </section>
 
 <!-- USER TYPE -->
-<section class="section">
-  <h3 style="text-align:center;">Get Started</h3>
+<section class="section center">
+  <h3>Get Started</h3>
 
   <div class="genres">
-    <a href="/browse.html" class="genre">🎧 Fan</a>
-    <a href="#" id="artistLink" class="genre">🎤 Artist</a>
+    <a href="/browse.html" class="genre big">🎧 Fan</a>
+    <a href="#" id="artistLink" class="genre big">🎤 Artist</a>
   </div>
 </section>
 
@@ -79,7 +81,7 @@
 <!-- TOP CHARTS -->
 <section class="section">
   <div class="row-between">
-    <h3>Top Charts</h3>
+    <h3>📊 Top Charts</h3>
     <a href="/charts.html">View</a>
   </div>
   <div id="charts"></div>
@@ -87,15 +89,19 @@
 
 <!-- GENRES -->
 <section class="section">
-  <h3 data-i18n="exploreGenres"></h3>
-
-  <div class="genres">
-    <a href="/browse.html?genre=mboko" class="genre">Mboko</a>
-    <a href="/browse.html?genre=makossa" class="genre">Makossa</a>
-    <a href="/browse.html?genre=bikutsi" class="genre">Bikutsi</a>
-    <a href="/browse.html?genre=afropop" class="genre">Afropop</a>
-    <a href="/browse.html?genre=ndombolo" class="genre">Ndombolo</a>
+  <div class="row-between">
+    <h3 data-i18n="exploreGenres"></h3>
+    <a href="/genres.html">View All</a>
   </div>
+
+  <div class="genres grid" id="genresGrid"></div>
+</section>
+
+<!-- CTA -->
+<section class="section center">
+  <h3>Support African Music</h3>
+  <p class="sub">Buy tracks and empower artists directly</p>
+  <a href="/browse.html" class="btn-primary">Start Exploring</a>
 </section>
 
 <!-- WHATSAPP -->
@@ -108,7 +114,7 @@ import { fetchBrowseResults } from "/js/api.js";
 import { getCurrentUser, logout } from "/js/auth.js";
 
 /* =========================
-   HERO FIX (CRITICAL)
+   HERO ROTATION (KEPT)
 ========================= */
 const heroImages = [
   "/assets/hero/hero1.png",
@@ -122,7 +128,6 @@ window.addEventListener("DOMContentLoaded", () => {
   const hero = document.querySelector(".hero-bg");
 
   if(hero){
-    // force first image immediately
     hero.style.backgroundImage = `url(${heroImages[0]})`;
 
     setInterval(() => {
@@ -133,26 +138,26 @@ window.addEventListener("DOMContentLoaded", () => {
 });
 
 /* =========================
-   AUTH SYSTEM
+   AUTH SYSTEM (KEPT)
 ========================= */
 const user = getCurrentUser();
 const authArea = document.getElementById("authArea");
 
 if(user){
   authArea.innerHTML = `
-    <span style="font-size:12px;">👋 ${user.name}</span>
+    <span>👋 ${user.name}</span>
     <button id="logoutBtn">Logout</button>
   `;
   document.getElementById("logoutBtn").onclick = logout;
 }else{
   authArea.innerHTML = `
-    <a href="/user/login.html" class="nav-btn">Login</a>
-    <a href="/user/signup.html" class="nav-btn primary">Sign Up</a>
+    <a href="/user/login.html">Login</a>
+    <a href="/user/signup.html" class="primary">Sign Up</a>
   `;
 }
 
 /* =========================
-   PROTECT ARTIST ACCESS
+   ARTIST ACCESS (KEPT)
 ========================= */
 document.getElementById("artistLink").onclick = () => {
 
@@ -170,7 +175,7 @@ document.getElementById("artistLink").onclick = () => {
 };
 
 /* =========================
-   LANGUAGE
+   LANGUAGE (KEPT)
 ========================= */
 const translations = {
   fr: {
@@ -178,10 +183,10 @@ const translations = {
     browse:"Parcourir",
     releases:"Nouveautés",
     hero:"Télécharger la musique africaine",
-    trending:"Tendance au Cameroun",
-    trendingSub:"À la Une",
-    newReleases:"Nouvelles Sorties",
-    exploreGenres:"Explorer les Genres"
+    trending:"Tendance",
+    trendingSub:"À la une",
+    newReleases:"Nouvelles sorties",
+    exploreGenres:"Explorer les genres"
   },
   en: {
     home:"Home",
@@ -213,7 +218,7 @@ document.getElementById("langBtn").onclick = ()=>{
 applyLang();
 
 /* =========================
-   DATA LOAD
+   DATA (UPGRADED)
 ========================= */
 let data = [];
 
@@ -223,33 +228,38 @@ try {
   console.error(e);
 }
 
-/* =========================
-   CARD
-========================= */
+/* HELPERS */
+const trendingData = data.slice(0,6);
+const newData = [...data].sort((a,b)=> new Date(b.createdAt||0) - new Date(a.createdAt||0)).slice(0,6);
+const chartsData = data.slice(0,5);
+
+const genres = [...new Set(data.map(d=>d.genre).filter(Boolean))];
+
+/* CARD */
 function createCard(item){
   return `
     <div class="card">
-      <div class="cover">
-        <img src="${item.cover}">
-      </div>
+      <img src="${item.cover}">
       <div class="title">${item.name}</div>
     </div>
   `;
 }
 
-/* =========================
-   RENDER
-========================= */
+/* RENDER */
 const trending = document.getElementById("trending");
 const releases = document.getElementById("releases");
 const charts = document.getElementById("charts");
+const genresGrid = document.getElementById("genresGrid");
 
-data.forEach(item=>{
+trendingData.forEach(item=>{
   trending.innerHTML += createCard(item);
+});
+
+newData.forEach(item=>{
   releases.innerHTML += createCard(item);
 });
 
-data.slice(0,3).forEach((item,i)=>{
+chartsData.forEach((item,i)=>{
   charts.innerHTML += `
     <div class="chart-item">
       <span>${i+1}</span>
@@ -262,8 +272,16 @@ data.slice(0,3).forEach((item,i)=>{
   `;
 });
 
+genres.slice(0,6).forEach(g=>{
+  genresGrid.innerHTML += `
+    <a href="/browse.html?genre=${g}" class="genre-card">
+      ${g.toUpperCase()}
+    </a>
+  `;
+});
+
 /* =========================
-   MENU
+   MENU (KEPT)
 ========================= */
 const menuBtn = document.getElementById("menuBtn");
 const sideMenu = document.getElementById("sideMenu");
