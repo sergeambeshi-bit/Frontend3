@@ -60,78 +60,75 @@
 
   </main>
 
-  <script src="../js/admin.js"></script>
+  <script type="module">
+  import { initLang } from "/js/lang.js";
 
-  <script>
-    import { initLang } from "/js/lang.js";
+  initLang();
 
-initLang();
-    let artists = [
-      {id: 1, name: 'AfroBeatz', email: 'afrobeatz@example.com', joined: '2026-01-05', status: 'Active'},
-      {id: 2, name: 'King Kora', email: 'kingkora@example.com', joined: '2026-02-20', status: 'Active'},
-      {id: 3, name: 'Mali Groove', email: 'maligroove@example.com', joined: '2026-03-12', status: 'Inactive'},
-    ];
+  let artists = [
+    {id: 1, name: 'AfroBeatz', email: 'afrobeatz@example.com', joined: '2026-01-05', status: 'Active'},
+    {id: 2, name: 'King Kora', email: 'kingkora@example.com', joined: '2026-02-20', status: 'Active'},
+    {id: 3, name: 'Mali Groove', email: 'maligroove@example.com', joined: '2026-03-12', status: 'Inactive'},
+  ];
 
-    const tbody = document.getElementById('artist-list');
+  const tbody = document.getElementById('artist-list');
 
-    function render(data){
-      tbody.innerHTML = "";
+  function render(data){
+    tbody.innerHTML = "";
 
-      data.forEach(a => {
-        const row = document.createElement('tr');
+    data.forEach(a => {
+      const row = document.createElement('tr');
 
-        row.innerHTML = `
-          <td>${a.id}</td>
-          <td>${a.name}</td>
-          <td>${a.email}</td>
-          <td>${a.joined}</td>
+      row.innerHTML = `
+        <td>${a.id}</td>
+        <td>${a.name}</td>
+        <td>${a.email}</td>
+        <td>${a.joined}</td>
 
-          <td>
-            <span class="status ${a.status === 'Active' ? 'status-active' : 'status-inactive'}">
-              ${a.status}
-            </span>
-          </td>
+        <td>
+          <span class="status ${a.status === 'Active' ? 'status-active' : 'status-inactive'}">
+            ${a.status}
+          </span>
+        </td>
 
-          <td>
-            <button class="btn btn-neon-outline toggle-status">
-              ${a.status === 'Active' ? 'Suspend' : 'Activate'}
-            </button>
+        <td>
+          <button class="btn btn-neon-outline toggle-status">
+            ${a.status === 'Active' ? 'Suspend' : 'Activate'}
+          </button>
 
-            <button class="btn btn-neon delete">
-              Delete
-            </button>
-          </td>
-        `;
+          <button class="btn btn-neon delete">
+            Delete
+          </button>
+        </td>
+      `;
 
-        /* ACTIONS */
-        row.querySelector('.toggle-status').addEventListener('click', () => {
-          a.status = a.status === 'Active' ? 'Inactive' : 'Active';
-          render(artists);
-        });
-
-        row.querySelector('.delete').addEventListener('click', () => {
-          artists = artists.filter(x => x.id !== a.id);
-          render(artists);
-        });
-
-        tbody.appendChild(row);
+      row.querySelector('.toggle-status').addEventListener('click', () => {
+        a.status = a.status === 'Active' ? 'Inactive' : 'Active';
+        render(artists);
       });
-    }
 
-    render(artists);
+      row.querySelector('.delete').addEventListener('click', () => {
+        artists = artists.filter(x => x.id !== a.id);
+        render(artists);
+      });
 
-    /* SEARCH */
-    document.getElementById("searchArtist").addEventListener("input", e => {
-      const q = e.target.value.toLowerCase();
-
-      const filtered = artists.filter(a =>
-        a.name.toLowerCase().includes(q) ||
-        a.email.toLowerCase().includes(q)
-      );
-
-      render(filtered);
+      tbody.appendChild(row);
     });
-  </script>
+  }
+
+  render(artists);
+
+  document.getElementById("searchArtist").addEventListener("input", e => {
+    const q = e.target.value.toLowerCase();
+
+    const filtered = artists.filter(a =>
+      a.name.toLowerCase().includes(q) ||
+      a.email.toLowerCase().includes(q)
+    );
+
+    render(filtered);
+  });
+</script>
 
 </body>
 </html>
