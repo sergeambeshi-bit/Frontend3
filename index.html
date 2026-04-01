@@ -132,8 +132,6 @@ import { getCurrentUser, logout } from "/js/auth.js";
 
 initLang();
 
-/* KEEP EVERYTHING BELOW EXACTLY SAME */
-
 /* HERO ROTATION */
 const heroImages = [
   "/assets/hero/hero1.png",
@@ -173,7 +171,114 @@ if(user){
   `;
 }
 
-/* REST OF YOUR JS UNCHANGED */
+/* =========================
+   DATA LOAD (RESTORED)
+========================= */
+let data = [];
+
+try {
+  data = await fetchBrowseResults();
+  console.log("DATA:", data);
+} catch(e){
+  console.error(e);
+}
+
+/* =========================
+   HELPERS
+========================= */
+const trendingData = data.slice(0,6);
+
+const newData = [...data]
+  .sort((a,b)=> new Date(b.createdAt||0) - new Date(a.createdAt||0))
+  .slice(0,6);
+
+const chartsData = data.slice(0,5);
+
+const genres = [...new Set(data.map(d=>d.genre).filter(Boolean))];
+
+const singles = data.filter(i => i.type === "track").slice(0,6);
+const albums = data.filter(i => i.type === "album").slice(0,6);
+
+/* =========================
+   CARD (FIXED)
+========================= */
+function createCard(item){
+  return `
+    <div class="card ${item.type === 'album' ? 'album' : ''}">
+      <img src="${item.cover || 'assets/covers/cover1.png'}">
+      <div class="title">${item.name}</div>
+    </div>
+  `;
+}
+
+/* =========================
+   ELEMENTS
+========================= */
+const trending = document.getElementById("trending");
+const releases = document.getElementById("releases");
+const charts = document.getElementById("charts");
+const genresGrid = document.getElementById("genresGrid");
+const singlesContainer = document.getElementById("singles");
+const albumsContainer = document.getElementById("albums");
+
+/* =========================
+   RENDER
+========================= */
+
+if(singlesContainer){
+  singles.forEach(item=>{
+    singlesContainer.innerHTML += createCard(item);
+  });
+}
+
+if(albumsContainer){
+  albums.forEach(item=>{
+    albumsContainer.innerHTML += createCard(item);
+  });
+}
+
+trendingData.forEach(item=>{
+  trending.innerHTML += createCard(item);
+});
+
+newData.forEach(item=>{
+  releases.innerHTML += createCard(item);
+});
+
+chartsData.forEach((item,i)=>{
+  charts.innerHTML += `
+    <div class="chart-item">
+      <span>${i+1}</span>
+      <img src="${item.cover || 'assets/covers/cover1.png'}">
+      <div class="info">
+        <b>${item.name}</b>
+        <p>${item.artist}</p>
+      </div>
+    </div>
+  `;
+});
+
+genres.slice(0,6).forEach(g=>{
+  genresGrid.innerHTML += `
+    <a href="/browse.html?genre=${g}" class="genre-card">
+      ${g.toUpperCase()}
+    </a>
+  `;
+});
+
+/* =========================
+   MENU
+========================= */
+const menuBtn = document.getElementById("menuBtn");
+const sideMenu = document.getElementById("sideMenu");
+
+menuBtn.onclick = ()=> sideMenu.classList.toggle("open");
+
+document.addEventListener("click",(e)=>{
+  if(!sideMenu.contains(e.target) && !menuBtn.contains(e.target)){
+    sideMenu.classList.remove("open");
+  }
+});
 </script>
 
 </body>

@@ -16,7 +16,7 @@ const MOCK_DATA = [
     album: "Street Kings",
     genre: "mboko",
     price: 300,
-    cover: "/assets/covers/cover1.png",
+    cover: "assets/covers/cover1.png",
     createdAt: new Date().toISOString()
   },
   {
