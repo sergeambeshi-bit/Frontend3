@@ -48,7 +48,7 @@
 <section class="section">
 
   <div class="cover" style="max-width:200px; margin:auto;">
-    <img id="albumCover" src="/assets/covers/cover1.png">
+    <img src="${item.cover || 'assets/covers/cover1.png'}">
   </div>
 
   <h3 id="albumName" style="text-align:center;">Nom de l'album</h3>
@@ -93,9 +93,9 @@
 
 <script type="module">
 import { initLang } from "/js/lang.js";
+import { fetchBrowseResults } from "/js/api.js";
 
 initLang();
-import { fetchBrowseResults } from "/js/api.js";
 
 /* MENU */
 const menuBtn = document.getElementById("menuBtn");
@@ -120,7 +120,7 @@ function createTrack(item, index){
   return `
     <div class="chart-item">
       <span>${String(index+1).padStart(2,'0')}</span>
-      <img src="${item.cover}">
+      <img src="${item.cover || 'assets/covers/cover1.png'}">
       <div class="info">
         <b>${item.name}</b>
         <p>${item.artist}</p>
@@ -135,11 +135,19 @@ function createTrack(item, index){
 async function loadAlbum(){
   const data = await fetchBrowseResults();
 
+  if(!data || !data.length){
+    document.getElementById("albumName").textContent = "Album not found";
+    return;
+  }
+
   const tracks = data.filter(item =>
     (item.album || "").toLowerCase() === (albumName || "").toLowerCase()
   );
 
-  if(tracks.length === 0) return;
+  if(tracks.length === 0){
+    document.getElementById("albumName").textContent = "Album not found";
+    return;
+  }
 
   const album = tracks[0];
 
@@ -148,8 +156,11 @@ async function loadAlbum(){
   document.getElementById("albumArtist").textContent = album.artist;
   document.getElementById("albumArtist2").textContent = album.artist;
 
-  document.getElementById("albumCover").src = album.cover;
-  document.getElementById("albumBg").style.backgroundImage = `url(${album.cover})`;
+  document.getElementById("albumCover").src =
+    album.cover || "assets/covers/cover1.png";
+
+  document.getElementById("albumBg").style.backgroundImage =
+    `url(${album.cover || 'assets/covers/cover1.png'})`;
 
   const container = document.getElementById("albumTracks");
   container.innerHTML = "";
@@ -196,7 +207,6 @@ document.addEventListener("click", e => {
     }
 
     document.getElementById("paymentModal").classList.add("hidden");
-
     showDownloadModal();
   }
 
@@ -231,7 +241,6 @@ function showDownloadModal(){
 }
 
 loadAlbum();
-
 </script>
 
 </body>

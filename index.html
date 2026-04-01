@@ -77,8 +77,9 @@
   <h3 data-i18n="getStarted"></h3>
 
   <div class="genres">
-    <a href="/browse.html" class="genre big" data-i18n="fan"></a>
-    <a href="#" id="artistLink" class="genre big" data-i18n="artist"></a>
+    <a href="/user/signup.html?role=fan" class="genre big">🎧 Fan</a>
+    <a href="/user/signup.html?role=artist" class="genre big">🎤 Artist</a>
+    
   </div>
 </section>
 
@@ -258,7 +259,7 @@ chartsData.forEach((item,i)=>{
   `;
 });
 
-genres.slice(0,6).forEach(g=>{
+  genres.forEach(g=>{
   genresGrid.innerHTML += `
     <a href="/browse.html?genre=${g}" class="genre-card">
       ${g.toUpperCase()}
