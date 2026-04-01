@@ -18,27 +18,27 @@
     <img src="../assets/logo.svg" class="logo">
 
     <nav>
-      <a href="dashboard.html">Dashboard</a>
-      <a href="users.html" class="active">Users</a>
-      <a href="artists.html">Artists</a>
-      <a href="catalog.html">Catalog</a>
-      <a href="transactions.html">Transactions</a>
-      <a href="payouts.html">Payouts</a>
-      <a href="promotions.html">Promotions</a>
-      <a href="fraud.html">Fraud</a>
+      <a href="dashboard.html" data-i18n="dashboard"></a>
+      <a href="users.html" class="active" data-i18n="users"></a>
+      <a href="artists.html" data-i18n="artists"></a>
+      <a href="catalog.html" data-i18n="catalog"></a>
+      <a href="transactions.html" data-i18n="transactions"></a>
+      <a href="payouts.html" data-i18n="payouts"></a>
+      <a href="promotions.html" data-i18n="promotions"></a>
+      <a href="fraud.html" data-i18n="fraud"></a>
     </nav>
   </header>
 
   <!-- MAIN -->
   <main class="admin-main">
 
-    <h1>Manage Users</h1>
+    <h1 data-i18n="manageUsers"></h1>
 
     <!-- SEARCH -->
     <input 
       type="text"
       id="searchUser"
-      placeholder="Search users..."
+      data-i18n="searchUsers"
       class="admin-search"
     >
 
@@ -47,11 +47,11 @@
       <thead>
         <tr>
           <th>ID</th>
-          <th>Username</th>
-          <th>Email</th>
-          <th>Joined</th>
-          <th>Status</th>
-          <th>Actions</th>
+          <th data-i18n="username"></th>
+          <th data-i18n="email"></th>
+          <th data-i18n="joined"></th>
+          <th data-i18n="status"></th>
+          <th data-i18n="actions"></th>
         </tr>
       </thead>
 
@@ -63,9 +63,10 @@
   <script src="../js/admin.js"></script>
 
   <script type="module">
-    import { initLang } from "/js/lang.js";
+    import { initLang, getLang } from "/js/lang.js";
 
-initLang();
+    initLang();
+
     let users = [
       {id: 1, username: 'afrofan', email: 'afrofan@example.com', joined: '2026-01-01', status: 'Active'},
       {id: 2, username: 'beatking', email: 'beatking@example.com', joined: '2026-02-15', status: 'Inactive'},
@@ -74,11 +75,36 @@ initLang();
 
     const tbody = document.getElementById('user-list');
 
+    function t(key){
+      const lang = getLang();
+
+      const dict = {
+        fr: {
+          active: "Actif",
+          inactive: "Inactif",
+          deactivate: "Désactiver",
+          activate: "Activer",
+          delete: "Supprimer"
+        },
+        en: {
+          active: "Active",
+          inactive: "Inactive",
+          deactivate: "Deactivate",
+          activate: "Activate",
+          delete: "Delete"
+        }
+      };
+
+      return dict[lang][key] || key;
+    }
+
     function render(data){
       tbody.innerHTML = "";
 
       data.forEach(user => {
         const row = document.createElement('tr');
+
+        const isActive = user.status === 'Active';
 
         row.innerHTML = `
           <td>${user.id}</td>
@@ -88,30 +114,26 @@ initLang();
 
           <td>
             <span class="status status-${user.status.toLowerCase()}">
-              ${user.status}
+              ${isActive ? t("active") : t("inactive")}
             </span>
           </td>
 
           <td>
-
             <button class="btn btn-neon-outline toggle">
-              ${user.status === 'Active' ? 'Deactivate' : 'Activate'}
+              ${isActive ? t("deactivate") : t("activate")}
             </button>
 
             <button class="btn btn-neon delete">
-              Delete
+              ${t("delete")}
             </button>
-
           </td>
         `;
 
-        /* TOGGLE STATUS */
         row.querySelector('.toggle').addEventListener('click', () => {
-          user.status = user.status === 'Active' ? 'Inactive' : 'Active';
+          user.status = isActive ? 'Inactive' : 'Active';
           render(users);
         });
 
-        /* DELETE */
         row.querySelector('.delete').addEventListener('click', () => {
           users = users.filter(u => u.id !== user.id);
           render(users);
@@ -123,7 +145,6 @@ initLang();
 
     render(users);
 
-    /* SEARCH */
     document.getElementById("searchUser").addEventListener("input", e => {
       const q = e.target.value.toLowerCase();
 
