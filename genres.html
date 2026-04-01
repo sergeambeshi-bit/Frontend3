@@ -30,7 +30,9 @@
 <!-- HEADER -->
 <div class="topbar">
   <span class="menu" id="menuBtn">☰</span>
-  <img src="/assets/logo.png" class="logo">
+  <a href="/index.html">
+    <img src="/assets/logo.png" class="logo">
+  </a>
   <span></span>
 </div>
 
@@ -42,10 +44,11 @@
 </section>
 
 <script type="module">
-/* MENU */
 import { initLang } from "/js/lang.js";
 
 initLang();
+
+/* MENU */
 const menuBtn = document.getElementById("menuBtn");
 const sideMenu = document.getElementById("sideMenu");
 
@@ -59,7 +62,16 @@ document.addEventListener("click", (e) => {
   }
 });
 
-/* GENRES LIST (AFRICAN FOCUSED) */
+/* 🔥 NORMALIZE (MATCH browse.html) */
+function normalize(str){
+  return (str || "")
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/\s+/g, "-");
+}
+
+/* GENRES LIST (UNCHANGED VISUALLY) */
 const genres = [
   "Mboko",
   "Makossa",
@@ -78,6 +90,7 @@ const genres = [
 /* RENDER */
 function renderGenres(){
   const container = document.getElementById("genresGrid");
+  container.innerHTML = "";
 
   genres.forEach(genre => {
     const div = document.createElement("div");
@@ -85,7 +98,8 @@ function renderGenres(){
     div.textContent = genre;
 
     div.addEventListener("click", () => {
-      window.location.href = `/browse.html?genre=${encodeURIComponent(genre.toLowerCase())}`;
+      const value = normalize(genre);
+      window.location.href = `/browse.html?genre=${value}`;
     });
 
     container.appendChild(div);

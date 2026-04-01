@@ -24,7 +24,7 @@
 </div>
 
 <section class="section">
-  <input id="searchInput" placeholder="Search..." style="width:100%">
+  <input type="text" id="searchInput" placeholder="Search..." style="width:100%">
 </section>
 
 <section class="section">
@@ -33,20 +33,37 @@
 
 <script type="module">
 import { initLang } from "/js/lang.js";
-
-initLang();
 import { supabase } from "/js/supabase.js";
 import { getCurrentUser } from "/js/auth.js";
 
+initLang();
+
+/* =========================
+   STATE
+========================= */
 const user = getCurrentUser();
 
 let allData = [];
 let currentData = [];
 
+/* =========================
+   HELPERS
+========================= */
+function normalize(str){
+  return (str || "")
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/\s+/g, "-");
+}
+
+/* =========================
+   CARD
+========================= */
 function createCard(item){
   return `
     <div class="card" data-id="${item.id}">
-      <img src="${item.cover}">
+      <img src="${item.cover || '/assets/covers/cover1.png'}">
       <div>${item.name}</div>
       <div>${item.price} XAF</div>
       <button class="buy">Buy</button>
@@ -54,18 +71,55 @@ function createCard(item){
   `;
 }
 
+/* =========================
+   RENDER
+========================= */
 function render(data){
   const grid = document.getElementById("browseGrid");
   grid.innerHTML = data.map(createCard).join("");
   currentData = data;
 }
 
+/* =========================
+   LOAD DATA (SUPABASE)
+========================= */
+const params = new URLSearchParams(window.location.search);
+const genreParam = params.get("genre");
+
 async function load(){
   const { data } = await supabase.from("tracks").select("*");
+
   allData = data || [];
-  render(allData);
+
+  let filtered = [...allData];
+
+  /* 🔥 GENRE FILTER */
+  if(genreParam){
+    filtered = filtered.filter(item =>
+      normalize(item.genre) === genreParam
+    );
+  }
+
+  render(filtered);
 }
 
+/* =========================
+   SEARCH
+========================= */
+document.getElementById("searchInput").addEventListener("input", e=>{
+  const q = e.target.value.toLowerCase();
+
+  const filtered = allData.filter(item =>
+    item.name.toLowerCase().includes(q) ||
+    item.artist.toLowerCase().includes(q)
+  );
+
+  render(filtered);
+});
+
+/* =========================
+   PURCHASE SYSTEM (UNCHANGED)
+========================= */
 document.addEventListener("click", async e=>{
   if(e.target.classList.contains("buy")){
 
@@ -99,6 +153,21 @@ document.addEventListener("click", async e=>{
   }
 });
 
+/* =========================
+   MENU
+========================= */
+const menuBtn = document.getElementById("menuBtn");
+const sideMenu = document.getElementById("sideMenu");
+
+menuBtn.onclick = ()=> sideMenu.classList.toggle("open");
+
+document.addEventListener("click",(e)=>{
+  if(!sideMenu.contains(e.target) && !menuBtn.contains(e.target)){
+    sideMenu.classList.remove("open");
+  }
+});
+
+/* INIT */
 load();
 </script>
 
