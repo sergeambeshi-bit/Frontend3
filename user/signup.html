@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Créer un compte – JENGU</title>
+<title>Inscription – JENGU</title>
 
 <link rel="stylesheet" href="/styles/app.css">
 </head>
@@ -18,48 +18,47 @@
   </div>
 
   <!-- TITLE -->
-  <h2 style="text-align:center;">Créer un compte</h2>
-  <p class="sub" style="text-align:center;">
-    Accédez à vos téléchargements et achats
-  </p>
+  <h2 style="text-align:center;" data-i18n="signup"></h2>
+  <p class="sub" style="text-align:center;" data-i18n="signupSub"></p>
 
   <!-- FORM -->
   <form id="signupForm" style="margin-top:20px;">
 
-    <input type="text" placeholder="Nom complet" required>
-    <input type="email" placeholder="Email" required>
-    <input type="password" placeholder="Mot de passe" required>
+    <input type="text" data-i18n="name" required>
+    <input type="email" data-i18n="email" required>
+    <input type="password" data-i18n="password" required>
 
-    <button class="btn-primary" style="width:100%; margin-top:10px;">
-      S'inscrire
-    </button>
+    <button class="btn-primary" style="width:100%; margin-top:10px;" data-i18n="signup"></button>
 
   </form>
 
-  <!-- LOGIN -->
+  <!-- LOGIN LINK -->
   <p style="text-align:center; margin-top:15px;">
-    Déjà un compte ? 
-    <a href="/user/login.html" style="color:#01d4ab;">
-      Se connecter
-    </a>
+    <span data-i18n="haveAccount"></span>
+    <a href="/user/login.html" style="color:#01d4ab;" data-i18n="login"></a>
   </p>
 
 </section>
 
-<script>
-
-/* SIMPLE UX FEEDBACK */
-import { initLang } from "/js/lang.js";
+<script type="module">
+import { initLang, getLang } from "/js/lang.js";
 
 initLang();
+
+/* SIMPLE SIGNUP SYSTEM (FRONTEND MOCK) */
 document.getElementById("signupForm").addEventListener("submit", e=>{
   e.preventDefault();
 
-  alert("Compte créé avec succès (simulation)");
+  localStorage.setItem("user", "registered");
 
-  window.location.href = "/pages/index.html";
+  const msg = getLang() === "fr"
+    ? "Compte créé avec succès"
+    : "Account created successfully";
+
+  alert(msg);
+
+  window.location.href = "/";
 });
-
 </script>
 
 </body>

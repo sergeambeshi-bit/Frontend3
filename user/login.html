@@ -18,50 +18,43 @@
   </div>
 
   <!-- TITLE -->
-  <h2 style="text-align:center;">Connexion</h2>
-  <p class="sub" style="text-align:center;">
-    Accédez à vos achats et téléchargements
-  </p>
+  <h2 style="text-align:center;" data-i18n="login"></h2>
+  <p class="sub" style="text-align:center;" data-i18n="loginSub"></p>
 
   <!-- FORM -->
   <form id="loginForm" style="margin-top:20px;">
 
-    <input type="email" placeholder="Email" required>
-    <input type="password" placeholder="Mot de passe" required>
+    <input type="email" data-i18n="email" required>
+    <input type="password" data-i18n="password" required>
 
-    <button class="btn-primary" style="width:100%; margin-top:10px;">
-      Se connecter
-    </button>
+    <button class="btn-primary" style="width:100%; margin-top:10px;" data-i18n="login"></button>
 
   </form>
 
   <!-- SIGNUP -->
   <p style="text-align:center; margin-top:15px;">
-    Pas encore de compte ? 
-    <a href="/user/signup.html" style="color:#01d4ab;">
-      S'inscrire
-    </a>
+    <span data-i18n="noAccount"></span>
+    <a href="/user/signup.html" style="color:#01d4ab;" data-i18n="signup"></a>
   </p>
 
 </section>
 
-<script>
-
-/* SIMPLE LOGIN SYSTEM (FRONTEND MOCK) */
-import { initLang } from "/js/lang.js";
+<script type="module">
+import { initLang, getLang } from "/js/lang.js";
 
 initLang();
+
+/* SIMPLE LOGIN SYSTEM (FRONTEND MOCK) */
 document.getElementById("loginForm").addEventListener("submit", e=>{
   e.preventDefault();
 
-  // simulate login
   localStorage.setItem("user", "logged");
 
-  alert("Connexion réussie");
+  const msg = getLang() === "fr" ? "Connexion réussie" : "Login successful";
+  alert(msg);
 
-  window.location.href = "/pages/index.html";
+  window.location.href = "/";
 });
-
 </script>
 
 </body>

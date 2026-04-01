@@ -56,7 +56,17 @@ const translations = {
     inactive: "Inactif",
     activate: "Activer",
     deactivate: "Désactiver",
-    delete: "Supprimer"
+    delete: "Supprimer",
+
+    /* 🔥 AUTH (NEW) */
+    login: "Connexion",
+    loginSub: "Accédez à vos achats et téléchargements",
+    signup: "S'inscrire",
+    signupSub: "Créez un compte pour acheter et télécharger",
+    password: "Mot de passe",
+    noAccount: "Pas encore de compte ?",
+    haveAccount: "Vous avez déjà un compte ?",
+    name: "Nom"
   },
 
   en: {
@@ -114,7 +124,17 @@ const translations = {
     inactive: "Inactive",
     activate: "Activate",
     deactivate: "Deactivate",
-    delete: "Delete"
+    delete: "Delete",
+
+    /* 🔥 AUTH (NEW) */
+    login: "Login",
+    loginSub: "Access your purchases and downloads",
+    signup: "Sign Up",
+    signupSub: "Create an account to buy and download",
+    password: "Password",
+    noAccount: "Don’t have an account?",
+    haveAccount: "Already have an account?",
+    name: "Name"
   }
 };
 
