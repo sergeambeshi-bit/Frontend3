@@ -1,135 +1,9 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#0b0b0f">
-<title>JENGU</title>
-
-<link rel="stylesheet" href="/styles/app.css">
-</head>
-
-<body>
-
-<!-- SIDE MENU -->
-<div id="sideMenu" class="side-menu">
-  <img src="/assets/logo.png" class="menu-logo">
-
-  <a href="/" data-i18n="home"></a>
-  <a href="/browse.html" data-i18n="browse"></a>
-  <a href="/genres.html" data-i18n="genres"></a>
-  <a href="/charts.html" data-i18n="charts"></a>
-  <a href="/new-releases.html" data-i18n="releases"></a>
-
-  <hr>
-
-  <a href="/user/library.html" data-i18n="library"></a>
-  <a href="/user/purchases.html" data-i18n="purchases"></a>
-</div>
-
-<!-- HERO -->
-<section class="hero">
-  <div class="hero-bg"></div>
-
-  <div class="hero-content">
-
-    <!-- TOPBAR -->
-    <div class="topbar">
-      <span class="menu" id="menuBtn">☰</span>
-      <img src="/assets/logo.png" class="logo">
-
-      <div id="authArea"></div>
-
-      <span class="lang" id="langBtn">FR ▾</span>
-    </div>
-
-    <h1 data-i18n="hero"></h1>
-    <p class="hero-sub" data-i18n="heroSub"></p>
-
-    <div class="cta">
-      <a href="/browse.html" class="btn-primary" data-i18n="browse"></a>
-      <a href="/genres.html" class="btn-outline" data-i18n="genres"></a>
-    </div>
-
-  </div>
-</section>
-
-<!-- SINGLES -->
-<section class="section">
-  <div class="row-between">
-    <h3 data-i18n="singles"></h3>
-    <a href="/browse.html" data-i18n="view"></a>
-  </div>
-  <div class="scroll-row" id="singles"></div>
-</section>
-
-<!-- ALBUMS -->
-<section class="section">
-  <div class="row-between">
-    <h3 data-i18n="albums"></h3>
-    <a href="/albums.html" data-i18n="view"></a>
-  </div>
-  <div class="scroll-row" id="albums"></div>
-</section>
-
-<!-- USER TYPE -->
-<section class="section center">
-  <h3 data-i18n="getStarted"></h3>
-
-  <div class="genres">
-    <a href="/user/signup.html?role=fan" class="genre big">🎧 Fan</a>
-    <a href="/user/signup.html?role=artist" class="genre big">🎤 Artist</a>
-    
-  </div>
-</section>
-
-<!-- TRENDING -->
-<section class="section">
-  <h3 data-i18n="trending"></h3>
-  <p class="sub" data-i18n="trendingSub"></p>
-  <div class="scroll-row" id="trending"></div>
-</section>
-
-<!-- NEW RELEASES -->
-<section class="section">
-  <h3 data-i18n="newReleases"></h3>
-  <div class="scroll-row" id="releases"></div>
-</section>
-
-<!-- TOP CHARTS -->
-<section class="section">
-  <div class="row-between">
-    <h3 data-i18n="charts"></h3>
-    <a href="/charts.html" data-i18n="view"></a>
-  </div>
-  <div id="charts"></div>
-</section>
-
-<!-- GENRES -->
-<section class="section">
-  <div class="row-between">
-    <h3 data-i18n="exploreGenres"></h3>
-    <a href="/genres.html" data-i18n="viewAll"></a>
-  </div>
-
-  <div class="genres grid" id="genresGrid"></div>
-</section>
-
-<!-- CTA -->
-<section class="section center">
-  <h3 data-i18n="support"></h3>
-  <p class="sub" data-i18n="supportSub"></p>
-  <a href="/browse.html" class="btn-primary" data-i18n="start"></a>
-</section>
-
-<a href="https://wa.me/237XXXXXXXXX" class="whatsapp">
-  💬 Support
-</a>
-
 <script type="module">
 import { initLang } from "/js/lang.js";
 import { fetchBrowseResults } from "/js/api.js";
 import { getCurrentUser, logout } from "/js/auth.js";
+
+document.addEventListener("DOMContentLoaded", async () => {
 
 initLang();
 
@@ -142,18 +16,16 @@ const heroImages = [
 
 let heroIndex = 0;
 
-window.addEventListener("DOMContentLoaded", () => {
-  const hero = document.querySelector(".hero-bg");
+const hero = document.querySelector(".hero-bg");
 
-  if(hero){
-    hero.style.backgroundImage = `url(${heroImages[0]})`;
+if(hero){
+  hero.style.backgroundImage = `url(${heroImages[0]})`;
 
-    setInterval(() => {
-      heroIndex = (heroIndex + 1) % heroImages.length;
-      hero.style.backgroundImage = `url(${heroImages[heroIndex]})`;
-    }, 5000);
-  }
-});
+  setInterval(() => {
+    heroIndex = (heroIndex + 1) % heroImages.length;
+    hero.style.backgroundImage = `url(${heroImages[heroIndex]})`;
+  }, 5000);
+}
 
 /* AUTH */
 const user = getCurrentUser();
@@ -259,7 +131,7 @@ chartsData.forEach((item,i)=>{
   `;
 });
 
-  genres.forEach(g=>{
+genres.forEach(g=>{
   genresGrid.innerHTML += `
     <a href="/browse.html?genre=${g}" class="genre-card">
       ${g.toUpperCase()}
@@ -280,7 +152,6 @@ document.addEventListener("click",(e)=>{
     sideMenu.classList.remove("open");
   }
 });
-</script>
 
-</body>
-</html>
+});
+</script>
