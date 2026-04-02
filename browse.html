@@ -75,14 +75,12 @@ window.addEventListener("DOMContentLoaded", async () => {
 
   let allData = [];
 
-  /* LOAD DATA */
   async function load(){
     const { data } = await supabase.from("tracks").select("*");
     allData = data || [];
     render(allData);
   }
 
-  /* CARD */
   function createCard(item){
     const link = item.type === "album"
       ? `/album.html?album=${encodeURIComponent(item.album || item.name)}`
@@ -98,17 +96,17 @@ window.addEventListener("DOMContentLoaded", async () => {
     `;
   }
 
-  /* RENDER */
   function render(data){
     grid.innerHTML = data.map(createCard).join("");
   }
 
-  /* =========================
-     🔍 SEARCH SYSTEM (FINAL)
-  ========================= */
-
   function runSearch(){
-    const q = searchInput.value.toLowerCase();
+    const q = searchInput.value.trim().toLowerCase();
+
+    if(!q){
+      render(allData);
+      return;
+    }
 
     const filtered = allData.filter(item =>
       (item.name || "").toLowerCase().includes(q) ||
@@ -119,20 +117,15 @@ window.addEventListener("DOMContentLoaded", async () => {
     render(filtered);
   }
 
-  /* LIVE SEARCH (typing) */
   searchInput.addEventListener("input", runSearch);
-
-  /* BUTTON CLICK */
   searchBtn.onclick = runSearch;
 
-  /* ENTER KEY (mobile + desktop) */
   searchInput.addEventListener("keypress", (e)=>{
     if(e.key === "Enter"){
       runSearch();
     }
   });
 
-  /* PURCHASE */
   document.addEventListener("click", async e=>{
     if(e.target.classList.contains("buy")){
 
@@ -168,7 +161,6 @@ window.addEventListener("DOMContentLoaded", async () => {
     }
   });
 
-  /* MENU */
   const menuBtn = document.getElementById("menuBtn");
   const sideMenu = document.getElementById("sideMenu");
 
@@ -180,7 +172,6 @@ window.addEventListener("DOMContentLoaded", async () => {
     }
   });
 
-  /* INIT */
   load();
 
 });

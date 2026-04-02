@@ -432,21 +432,18 @@ input {
   position: relative;
 }
 
-/* =========================
-   🔥 HERO POSITION FIX
-========================= */
-
+/* FINAL HERO FIX */
 .hero {
   margin-top: 0 !important;
-  top: 0;
 }
 
 .topbar {
-  position: absolute !important;
+  position: absolute;
   top: 15px;
   left: 0;
+  right: 0;
 }
 
-.hero-content {
-  margin-top: 0;
+body {
+  margin: 0;
 }
