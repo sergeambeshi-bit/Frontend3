@@ -431,3 +431,22 @@ input {
   z-index: 5;
   position: relative;
 }
+
+/* =========================
+   🔥 HERO POSITION FIX
+========================= */
+
+.hero {
+  margin-top: 0 !important;
+  top: 0;
+}
+
+.topbar {
+  position: absolute !important;
+  top: 15px;
+  left: 0;
+}
+
+.hero-content {
+  margin-top: 0;
+}

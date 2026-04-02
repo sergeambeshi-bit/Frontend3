@@ -31,15 +31,27 @@
 </div>
 
 <!-- SEARCH -->
-<div style="display:flex; gap:10px; padding:16px;">
-  <input 
-    type="search"
-    id="searchInput"
-    placeholder="Search songs or albums..."
-    style="flex:1"
-  >
-  <button id="searchBtn">🔍</button>
-</div>
+function runSearch(){
+  const q = searchInput.value.trim().toLowerCase();
+
+  console.log("Searching for:", q);
+  console.log("Total data:", allData.length);
+
+  if(!q){
+    render(allData);
+    return;
+  }
+
+  const filtered = allData.filter(item =>
+    (item.name || "").toLowerCase().includes(q) ||
+    (item.artist || "").toLowerCase().includes(q) ||
+    (item.album || "").toLowerCase().includes(q)
+  );
+
+  console.log("Results found:", filtered.length);
+
+  render(filtered);
+}
 
 <!-- RESULTS -->
 <section class="section">
