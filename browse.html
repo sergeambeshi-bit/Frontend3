@@ -13,7 +13,7 @@
 <div class="topbar">
   <span class="menu" id="menuBtn">☰</span>
 
-  <!-- ✅ HOME LOGO -->
+  <!-- HOME LOGO -->
   <a href="/index.html">
     <img src="/assets/logo.png" class="logo">
   </a>
@@ -31,14 +31,15 @@
 </div>
 
 <!-- SEARCH -->
-<section class="section">
+<div style="display:flex; gap:10px; padding:16px;">
   <input 
-    type="text" 
-    id="searchInput" 
-    placeholder="Search songs or albums..." 
-    style="width:100%"
+    type="search"
+    id="searchInput"
+    placeholder="Search songs or albums..."
+    style="flex:1"
   >
-</section>
+  <button id="searchBtn">🔍</button>
+</div>
 
 <!-- RESULTS -->
 <section class="section">
@@ -52,30 +53,24 @@ import { getCurrentUser } from "/js/auth.js";
 
 initLang();
 
-/* =========================
-   WAIT FOR DOM (CRITICAL FIX)
-========================= */
 window.addEventListener("DOMContentLoaded", async () => {
 
   const user = getCurrentUser();
 
   const searchInput = document.getElementById("searchInput");
+  const searchBtn = document.getElementById("searchBtn");
   const grid = document.getElementById("browseGrid");
 
   let allData = [];
 
-  /* =========================
-     LOAD DATA
-  ========================= */
+  /* LOAD DATA */
   async function load(){
     const { data } = await supabase.from("tracks").select("*");
     allData = data || [];
     render(allData);
   }
 
-  /* =========================
-     CARD
-  ========================= */
+  /* CARD */
   function createCard(item){
     const link = item.type === "album"
       ? `/album.html?album=${encodeURIComponent(item.album || item.name)}`
@@ -91,18 +86,17 @@ window.addEventListener("DOMContentLoaded", async () => {
     `;
   }
 
-  /* =========================
-     RENDER
-  ========================= */
+  /* RENDER */
   function render(data){
     grid.innerHTML = data.map(createCard).join("");
   }
 
   /* =========================
-     SEARCH (FIXED)
+     🔍 SEARCH SYSTEM (FINAL)
   ========================= */
-  searchInput.addEventListener("input", (e)=>{
-    const q = e.target.value.toLowerCase();
+
+  function runSearch(){
+    const q = searchInput.value.toLowerCase();
 
     const filtered = allData.filter(item =>
       (item.name || "").toLowerCase().includes(q) ||
@@ -111,11 +105,22 @@ window.addEventListener("DOMContentLoaded", async () => {
     );
 
     render(filtered);
+  }
+
+  /* LIVE SEARCH (typing) */
+  searchInput.addEventListener("input", runSearch);
+
+  /* BUTTON CLICK */
+  searchBtn.onclick = runSearch;
+
+  /* ENTER KEY (mobile + desktop) */
+  searchInput.addEventListener("keypress", (e)=>{
+    if(e.key === "Enter"){
+      runSearch();
+    }
   });
 
-  /* =========================
-     PURCHASE (UNCHANGED)
-  ========================= */
+  /* PURCHASE */
   document.addEventListener("click", async e=>{
     if(e.target.classList.contains("buy")){
 
@@ -151,9 +156,7 @@ window.addEventListener("DOMContentLoaded", async () => {
     }
   });
 
-  /* =========================
-     MENU
-  ========================= */
+  /* MENU */
   const menuBtn = document.getElementById("menuBtn");
   const sideMenu = document.getElementById("sideMenu");
 
