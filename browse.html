@@ -9,12 +9,19 @@
 
 <body>
 
+<!-- TOPBAR -->
 <div class="topbar">
   <span class="menu" id="menuBtn">☰</span>
-  <h3 id="pageTitle">Browse</h3>
+
+  <!-- ✅ HOME LOGO -->
+  <a href="/index.html">
+    <img src="/assets/logo.png" class="logo">
+  </a>
+
   <span id="langBtn">FR ▾</span>
 </div>
 
+<!-- SIDE MENU -->
 <div id="sideMenu" class="side-menu">
   <a href="/">Accueil</a>
   <a href="/browse.html">Parcourir</a>
@@ -23,10 +30,17 @@
   <a href="/new-releases.html">New</a>
 </div>
 
+<!-- SEARCH -->
 <section class="section">
-  <input type="text" id="searchInput" placeholder="Search..." style="width:100%">
+  <input 
+    type="text" 
+    id="searchInput" 
+    placeholder="Search songs or albums..." 
+    style="width:100%"
+  >
 </section>
 
+<!-- RESULTS -->
 <section class="section">
   <div id="browseGrid"></div>
 </section>
@@ -39,136 +53,122 @@ import { getCurrentUser } from "/js/auth.js";
 initLang();
 
 /* =========================
-   STATE
+   WAIT FOR DOM (CRITICAL FIX)
 ========================= */
-const user = getCurrentUser();
+window.addEventListener("DOMContentLoaded", async () => {
 
-let allData = [];
-let currentData = [];
+  const user = getCurrentUser();
 
-/* =========================
-   HELPERS
-========================= */
-function normalize(str){
-  return (str || "")
-    .toLowerCase()
-    .normalize("NFD")
-    .replace(/[\u0300-\u036f]/g, "")
-    .replace(/\s+/g, "-");
-}
-
-/* =========================
-   CARD
-========================= */
-function createCard(item){
-  return `
-    <div class="card" data-id="${item.id}">
-      <img src="${item.cover || '/assets/covers/cover1.png'}">
-      <div>${item.name}</div>
-      <div>${item.price} XAF</div>
-      <button class="buy">Buy</button>
-    </div>
-  `;
-}
-
-/* =========================
-   RENDER
-========================= */
-function render(data){
+  const searchInput = document.getElementById("searchInput");
   const grid = document.getElementById("browseGrid");
-  grid.innerHTML = data.map(createCard).join("");
-  currentData = data;
-}
 
-/* =========================
-   LOAD DATA (SUPABASE)
-========================= */
-const params = new URLSearchParams(window.location.search);
-const genreParam = params.get("genre");
+  let allData = [];
 
-async function load(){
-  const { data } = await supabase.from("tracks").select("*");
+  /* =========================
+     LOAD DATA
+  ========================= */
+  async function load(){
+    const { data } = await supabase.from("tracks").select("*");
+    allData = data || [];
+    render(allData);
+  }
 
-  allData = data || [];
+  /* =========================
+     CARD
+  ========================= */
+  function createCard(item){
+    const link = item.type === "album"
+      ? `/album.html?album=${encodeURIComponent(item.album || item.name)}`
+      : `/track.html?id=${item.id}`;
 
-  let filtered = [...allData];
+    return `
+      <a href="${link}" class="card" data-id="${item.id}">
+        <img src="${item.cover || '/assets/covers/cover1.png'}">
+        <div>${item.name}</div>
+        <div>${item.price} XAF</div>
+        <button class="buy">Buy</button>
+      </a>
+    `;
+  }
 
-  /* 🔥 GENRE FILTER */
-  if(genreParam){
-    filtered = filtered.filter(item =>
-      normalize(item.genre) === genreParam
+  /* =========================
+     RENDER
+  ========================= */
+  function render(data){
+    grid.innerHTML = data.map(createCard).join("");
+  }
+
+  /* =========================
+     SEARCH (FIXED)
+  ========================= */
+  searchInput.addEventListener("input", (e)=>{
+    const q = e.target.value.toLowerCase();
+
+    const filtered = allData.filter(item =>
+      (item.name || "").toLowerCase().includes(q) ||
+      (item.artist || "").toLowerCase().includes(q) ||
+      (item.album || "").toLowerCase().includes(q)
     );
-  }
 
-  render(filtered);
-}
+    render(filtered);
+  });
 
-/* =========================
-   SEARCH
-========================= */
-document.getElementById("searchInput").addEventListener("input", e=>{
-  const q = e.target.value.toLowerCase();
+  /* =========================
+     PURCHASE (UNCHANGED)
+  ========================= */
+  document.addEventListener("click", async e=>{
+    if(e.target.classList.contains("buy")){
 
-  const filtered = allData.filter(item =>
-    item.name.toLowerCase().includes(q) ||
-    item.artist.toLowerCase().includes(q)
-  );
+      e.preventDefault();
 
-  render(filtered);
-});
+      if(!user){
+        window.location.href = "/user/login.html";
+        return;
+      }
 
-/* =========================
-   PURCHASE SYSTEM (UNCHANGED)
-========================= */
-document.addEventListener("click", async e=>{
-  if(e.target.classList.contains("buy")){
+      const card = e.target.closest(".card");
+      const id = card.dataset.id;
+      const item = allData.find(i => i.id == id);
 
-    if(!user){
-      window.location.href = "/user/login.html";
-      return;
+      const { data: existing } = await supabase
+        .from("purchases")
+        .select("*")
+        .eq("user_id", user.id)
+        .eq("track_id", item.id);
+
+      if(existing.length){
+        alert("Already purchased");
+        return;
+      }
+
+      await supabase.from("purchases").insert([{
+        user_id: user.id,
+        track_id: item.id,
+        price: item.price
+      }]);
+
+      alert("Purchased 🎉");
     }
+  });
 
-    const card = e.target.closest(".card");
-    const id = card.dataset.id;
-    const item = allData.find(i => i.id == id);
+  /* =========================
+     MENU
+  ========================= */
+  const menuBtn = document.getElementById("menuBtn");
+  const sideMenu = document.getElementById("sideMenu");
 
-    const { data: existing } = await supabase
-      .from("purchases")
-      .select("*")
-      .eq("user_id", user.id)
-      .eq("track_id", item.id);
+  menuBtn.onclick = ()=> sideMenu.classList.toggle("open");
 
-    if(existing.length){
-      alert("Already purchased");
-      return;
+  document.addEventListener("click",(e)=>{
+    if(!sideMenu.contains(e.target) && !menuBtn.contains(e.target)){
+      sideMenu.classList.remove("open");
     }
+  });
 
-    await supabase.from("purchases").insert([{
-      user_id: user.id,
-      track_id: item.id,
-      price: item.price
-    }]);
+  /* INIT */
+  load();
 
-    alert("Purchased 🎉");
-  }
 });
-
-/* =========================
-   MENU
-========================= */
-const menuBtn = document.getElementById("menuBtn");
-const sideMenu = document.getElementById("sideMenu");
-
-menuBtn.onclick = ()=> sideMenu.classList.toggle("open");
-
-document.addEventListener("click",(e)=>{
-  if(!sideMenu.contains(e.target) && !menuBtn.contains(e.target)){
-    sideMenu.classList.remove("open");
-  }
-});
-
-/* INIT */
-load();
 </script>
 
 </body>
