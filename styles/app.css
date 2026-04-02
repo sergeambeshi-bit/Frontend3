@@ -417,22 +417,14 @@ input {
    SEARCH SUGGESTIONS
 ========================= */
 .suggestions {
+  position: absolute;
+  top: 60px;
+  left: 16px;
+  right: 16px;
+
   background:#15151a;
   border-radius:10px;
-  margin-top:8px;
   overflow:hidden;
-  position:relative;
-  z-index:1000;
-}
 
-.suggestion-item {
-  padding:10px;
-  font-size:14px;
-  border-bottom:1px solid rgba(255,255,255,0.05);
-  cursor:pointer;
-}
-
-.suggestion-item:hover {
-  background:#01d4ab;
-  color:black;
+  z-index: 50;
 }
