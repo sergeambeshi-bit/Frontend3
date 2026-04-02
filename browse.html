@@ -31,19 +31,23 @@
 
 <!-- 🔥 SEARCH (FIXED CLEAN) -->
 <section class="section">
-  <div style="position:relative;">
+  <div class="main-container">
 
-    <div style="display:flex; gap:10px;">
-      <input 
-        type="search"
-        id="searchInput"
-        placeholder="Search songs or albums..."
-        style="flex:1"
-      >
-      <button id="searchBtn">🔍</button>
+    <div style="position:relative;">
+
+      <div style="display:flex; gap:10px;">
+        <input 
+          type="search"
+          id="searchInput"
+          placeholder="Search songs or albums..."
+          style="flex:1"
+        >
+        <button id="searchBtn">🔍</button>
+      </div>
+
+      <div id="suggestions" class="suggestions"></div>
+
     </div>
-
-    <div id="suggestions" class="suggestions"></div>
 
   </div>
 </section>
