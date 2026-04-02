@@ -11,6 +11,8 @@
 
 <body>
 
+<div class="main-container">
+
 <!-- SIDE MENU -->
 <div id="sideMenu" class="side-menu">
   <img src="/assets/logo.png" class="menu-logo">
@@ -37,7 +39,7 @@
     <div class="topbar">
       <span class="menu" id="menuBtn">☰</span>
 
-      <!-- ✅ FIXED LOGO CLICK -->
+      <!-- LOGO -->
       <a href="/index.html">
         <img src="/assets/logo.png" class="logo">
       </a>
@@ -128,6 +130,8 @@
   💬 Support
 </a>
 
+</div> <!-- END main-container -->
+
 <script type="module">
 import { initLang } from "/js/lang.js";
 import { fetchBrowseResults } from "/js/api.js";
@@ -170,7 +174,7 @@ if(user){
   `;
 }
 
-/* 🔥 NORMALIZE (NEW) */
+/* NORMALIZE */
 function normalize(str){
   return (str || "")
     .toLowerCase()
@@ -237,7 +241,6 @@ async function initPage(){
     `;
   });
 
-  /* 🔥 FIXED GENRES */
   genres.forEach(g=>{
     genresGrid.innerHTML += `
       <a href="/browse.html?genre=${normalize(g)}" class="genre-card">

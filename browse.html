@@ -13,7 +13,6 @@
 <div class="topbar">
   <span class="menu" id="menuBtn">☰</span>
 
-  <!-- HOME LOGO -->
   <a href="/index.html">
     <img src="/assets/logo.png" class="logo">
   </a>
@@ -30,28 +29,18 @@
   <a href="/new-releases.html">New</a>
 </div>
 
-<!-- SEARCH -->
-function runSearch(){
-  const q = searchInput.value.trim().toLowerCase();
-
-  console.log("Searching for:", q);
-  console.log("Total data:", allData.length);
-
-  if(!q){
-    render(allData);
-    return;
-  }
-
-  const filtered = allData.filter(item =>
-    (item.name || "").toLowerCase().includes(q) ||
-    (item.artist || "").toLowerCase().includes(q) ||
-    (item.album || "").toLowerCase().includes(q)
-  );
-
-  console.log("Results found:", filtered.length);
-
-  render(filtered);
-}
+<!-- 🔥 SEARCH (RESTORED) -->
+<section class="section">
+  <div style="display:flex; gap:10px;">
+    <input 
+      type="search"
+      id="searchInput"
+      placeholder="Search songs or albums..."
+      style="flex:1"
+    >
+    <button id="searchBtn">🔍</button>
+  </div>
+</section>
 
 <!-- RESULTS -->
 <section class="section">
@@ -117,6 +106,7 @@ window.addEventListener("DOMContentLoaded", async () => {
     render(filtered);
   }
 
+  /* 🔥 SEARCH EVENTS */
   searchInput.addEventListener("input", runSearch);
   searchBtn.onclick = runSearch;
 
@@ -126,6 +116,7 @@ window.addEventListener("DOMContentLoaded", async () => {
     }
   });
 
+  /* PURCHASE */
   document.addEventListener("click", async e=>{
     if(e.target.classList.contains("buy")){
 
@@ -161,6 +152,7 @@ window.addEventListener("DOMContentLoaded", async () => {
     }
   });
 
+  /* MENU */
   const menuBtn = document.getElementById("menuBtn");
   const sideMenu = document.getElementById("sideMenu");
 

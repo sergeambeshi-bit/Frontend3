@@ -6,12 +6,13 @@ body {
   font-family: Inter, sans-serif;
   background:#0b0b0f;
   color:white;
-
-  max-width:420px;
-  margin-left:auto;
-  margin-right:auto;
-
   padding-bottom:80px;
+}
+
+/* 🔥 FIX: centered layout */
+.main-container {
+  max-width: 420px;
+  margin: auto;
 }
 
 /* =========================
@@ -20,6 +21,7 @@ body {
 .hero {
   height:100vh;
   position:relative;
+  margin-top:0;
 }
 
 .hero-bg {
@@ -108,14 +110,11 @@ body {
   transform:translateX(-100%);
   transition:0.3s;
 
-  /* 🔥 FIX ADDED */
   pointer-events: none;
 }
 
 .side-menu.open {
   transform:translateX(0);
-
-  /* 🔥 FIX ADDED */
   pointer-events: auto;
 }
 
@@ -175,8 +174,6 @@ body {
 ========================= */
 .section {
   padding:22px 16px;
-
-  /* 🔥 FIX ADDED */
   position: relative;
   z-index: 2;
 }
@@ -204,7 +201,7 @@ h3 {
 }
 
 /* =========================
-   CARD (UPGRADED)
+   CARD
 ========================= */
 .card {
   min-width:140px;
@@ -244,7 +241,7 @@ h3 {
 }
 
 /* =========================
-   GENRES (UPGRADED)
+   GENRES
 ========================= */
 .genres.grid {
   display:grid;
@@ -293,15 +290,13 @@ h3 {
   transform:translateX(-50%);
   width:100%;
   max-width:420px;
-
   display:flex;
   justify-content:space-around;
-
   background:#0b0b0f;
   border-top:1px solid rgba(255,255,255,0.05);
-
   padding:8px 0;
   z-index:250;
+  backdrop-filter: blur(10px);
 }
 
 /* =========================
@@ -323,7 +318,7 @@ h3 {
 }
 
 /* =========================
-   STATUS SYSTEM
+   STATUS
 ========================= */
 .status {
   padding:4px 8px;
@@ -336,11 +331,9 @@ h3 {
 .status-pending { background:#ffaa00; color:black; }
 .status-failed { background:#ff4d4d; color:white; }
 
-/* iPhone safe areas */
-body {
-  padding-bottom: calc(80px + env(safe-area-inset-bottom));
-}
-
+/* =========================
+   UX POLISH
+========================= */
 html {
   scroll-behavior: smooth;
 }
@@ -357,7 +350,6 @@ html {
   -webkit-tap-highlight-color: transparent;
 }
 
-/* press feel */
 .card:active,
 .genre-card:active,
 .btn-primary:active,
@@ -384,11 +376,6 @@ html {
 .scroll-row::-webkit-scrollbar-thumb {
   background:#01d4ab;
   border-radius:10px;
-}
-
-.bottom-nav {
-  backdrop-filter: blur(10px);
-  background: rgba(11,11,15,0.85);
 }
 
 .btn-primary {
@@ -418,32 +405,10 @@ html {
 }
 
 /* =========================
-   🔥 FINAL FIX: INPUT CLICK ISSUE
+   INPUT FIX
 ========================= */
-
 input {
   position: relative;
   z-index: 1000;
   pointer-events: auto;
-}
-
-.topbar {
-  z-index: 5;
-  position: relative;
-}
-
-/* FINAL HERO FIX */
-.hero {
-  margin-top: 0 !important;
-}
-
-.topbar {
-  position: absolute;
-  top: 15px;
-  left: 0;
-  right: 0;
-}
-
-body {
-  margin: 0;
 }
