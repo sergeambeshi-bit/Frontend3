@@ -102,95 +102,54 @@ window.addEventListener("DOMContentLoaded", async () => {
   }
 
   /* =========================
-   SEARCH + SUGGESTIONS
-========================= */
+     SEARCH + SUGGESTIONS
+  ========================= */
 
-const suggestionsBox = document.getElementById("suggestions");
+  function showSuggestions(query){
+    if(!query){
+      suggestionsBox.innerHTML = "";
+      return;
+    }
 
-/* SUGGESTIONS */
-function showSuggestions(query){
-  if(!query){
-    suggestionsBox.innerHTML = "";
-    return;
+    const matches = allData
+      .filter(item =>
+        (item.name || "").toLowerCase().includes(query) ||
+        (item.artist || "").toLowerCase().includes(query)
+      )
+      .slice(0,5);
+
+    suggestionsBox.innerHTML = matches.map(item => `
+      <div class="suggestion-item" data-name="${item.name}">
+        ${item.name} • ${item.artist || ""}
+      </div>
+    `).join("");
   }
 
-  const matches = allData
-    .filter(item =>
-      (item.name || "").toLowerCase().includes(query) ||
-      (item.artist || "").toLowerCase().includes(query)
-    )
-    .slice(0,5);
+  function runSearch(){
+    const q = searchInput.value.trim().toLowerCase();
 
-  suggestionsBox.innerHTML = matches.map(item => `
-    <div class="suggestion-item" data-name="${item.name}">
-      ${item.name} • ${item.artist || ""}
-    </div>
-  `).join("");
-}
+    if(!q){
+      render(allData);
+      return;
+    }
 
-/* SEARCH */
-function runSearch(){
-  const q = searchInput.value.trim().toLowerCase();
+    const filtered = allData.filter(item =>
+      (item.name || "").toLowerCase().includes(q) ||
+      (item.artist || "").toLowerCase().includes(q) ||
+      (item.album || "").toLowerCase().includes(q)
+    );
 
-  if(!q){
-    render(allData);
-    return;
+    render(filtered);
   }
 
-  const filtered = allData.filter(item =>
-    (item.name || "").toLowerCase().includes(q) ||
-    (item.artist || "").toLowerCase().includes(q) ||
-    (item.album || "").toLowerCase().includes(q)
-  );
-
-  render(filtered);
-}
-
-/* INPUT EVENT */
-searchInput.addEventListener("input", (e)=>{
-  const q = e.target.value.toLowerCase();
-  showSuggestions(q);
-  runSearch();
-});
-
-/* CLICK SUGGESTION */
-suggestionsBox.addEventListener("click", (e)=>{
-  const item = e.target.closest(".suggestion-item");
-  if(!item) return;
-
-  const name = item.dataset.name;
-
-  searchInput.value = name;
-  suggestionsBox.innerHTML = "";
-
-  runSearch();
-});
-
-/* BUTTON */
-searchBtn.onclick = runSearch;
-
-/* ENTER KEY */
-searchInput.addEventListener("keypress", (e)=>{
-  if(e.key === "Enter"){
-    runSearch();
-  }
-});
-
-  /* EVENTS */
+  /* INPUT */
   searchInput.addEventListener("input", (e)=>{
     const q = e.target.value.toLowerCase();
     showSuggestions(q);
     runSearch();
   });
 
-  searchBtn.onclick = runSearch;
-
-  searchInput.addEventListener("keypress", (e)=>{
-    if(e.key === "Enter"){
-      runSearch();
-    }
-  });
-
+  /* CLICK SUGGESTION */
   suggestionsBox.addEventListener("click", (e)=>{
     const item = e.target.closest(".suggestion-item");
     if(!item) return;
@@ -201,6 +160,16 @@ searchInput.addEventListener("keypress", (e)=>{
     suggestionsBox.innerHTML = "";
 
     runSearch();
+  });
+
+  /* BUTTON */
+  searchBtn.onclick = runSearch;
+
+  /* ENTER */
+  searchInput.addEventListener("keypress", (e)=>{
+    if(e.key === "Enter"){
+      runSearch();
+    }
   });
 
   /* PURCHASE */
