@@ -416,15 +416,26 @@ input {
 /* =========================
    SEARCH SUGGESTIONS
 ========================= */
+
 .suggestions {
   position: absolute;
-  top: 100%;
+  top: 50px;
   left: 0;
-  right: 0;
+  width: 100%;
+  background: #15151a;
+  border-radius: 10px;
+  z-index: 999;
+  overflow: hidden;
+}
 
-  background:#15151a;
-  border-radius:10px;
-  overflow:hidden;
+.suggestion-item {
+  padding: 10px;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+  cursor: pointer;
+  font-size: 13px;
+}
 
-  z-index: 20;
+.suggestion-item:hover {
+  background: #01d4ab;
+  color: black;
 }
