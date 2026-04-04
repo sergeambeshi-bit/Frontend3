@@ -24,12 +24,19 @@
   <!-- FORM -->
   <form id="loginForm" style="margin-top:20px;">
 
-    <input type="email" data-i18n="email" required>
-    <input type="password" data-i18n="password" required>
+    <input type="email" id="email" placeholder="Email" required>
+    <input type="password" id="password" placeholder="Password" required>
 
     <button class="btn-primary" style="width:100%; margin-top:10px;" data-i18n="login"></button>
 
   </form>
+
+  <!-- 🔥 FORGOT PASSWORD -->
+  <p style="text-align:center; margin-top:10px;">
+    <a href="/user/reset.html" style="color:#01d4ab;">
+      Forgot Password?
+    </a>
+  </p>
 
   <!-- SIGNUP -->
   <p style="text-align:center; margin-top:15px;">
@@ -41,14 +48,32 @@
 
 <script type="module">
 import { initLang, getLang } from "/js/lang.js";
+import { supabase } from "/js/supabase.js";
 
 initLang();
 
-/* SIMPLE LOGIN SYSTEM (FRONTEND MOCK) */
-document.getElementById("loginForm").addEventListener("submit", e=>{
+/* 🔥 REAL LOGIN SYSTEM */
+document.getElementById("loginForm").addEventListener("submit", async (e)=>{
   e.preventDefault();
 
-  localStorage.setItem("user", "logged");
+  const email = document.getElementById("email").value;
+  const password = document.getElementById("password").value;
+
+  const { data, error } = await supabase.auth.signInWithPassword({
+    email,
+    password
+  });
+
+  if(error){
+    alert(error.message);
+    return;
+  }
+
+  /* 🔥 CHECK EMAIL CONFIRMATION */
+  if(!data.user.email_confirmed_at){
+    alert("Please confirm your email before logging in.");
+    return;
+  }
 
   const msg = getLang() === "fr" ? "Connexion réussie" : "Login successful";
   alert(msg);
