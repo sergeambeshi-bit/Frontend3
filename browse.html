@@ -66,14 +66,21 @@ window.addEventListener("DOMContentLoaded", async () => {
 
   let allData = [];
 
-  /* LOAD DATA */
+  /* =========================
+     LOAD DATA
+  ========================= */
   async function load(){
     const { data } = await supabase.from("tracks").select("*");
     allData = data || [];
+
+    console.log("DATA LOADED:", allData); // 🔥 DEBUG
+
     render(allData);
   }
 
-  /* CARD */
+  /* =========================
+     CARD
+  ========================= */
   function createCard(item){
     const link = item.type === "album"
       ? `/album.html?album=${encodeURIComponent(item.album || item.name)}`
@@ -89,44 +96,49 @@ window.addEventListener("DOMContentLoaded", async () => {
     `;
   }
 
-  /* RENDER */
+  /* =========================
+     RENDER
+  ========================= */
   function render(data){
     grid.innerHTML = data.map(createCard).join("");
   }
 
   /* =========================
-     SEARCH + SUGGESTIONS
+     SUGGESTIONS
   ========================= */
-
   function showSuggestions(query){
-  if(!query){
-    suggestionsBox.innerHTML = "";
-    return;
+    if(!query){
+      suggestionsBox.innerHTML = "";
+      return;
+    }
+
+    const matches = allData
+      .filter(item =>
+        (item.name || "").toLowerCase().includes(query) ||
+        (item.artist || "").toLowerCase().includes(query)
+      )
+      .slice(0,5);
+
+    console.log("SUGGESTIONS:", matches); // 🔥 DEBUG
+
+    suggestionsBox.innerHTML = matches.map(item => `
+      <div class="suggestion-item" data-name="${item.name}">
+        <img src="${item.cover || '/assets/covers/cover1.png'}">
+        <div>
+          <div>${item.name}</div>
+          <small>${item.artist || ""}</small>
+        </div>
+      </div>
+    `).join("");
   }
 
-  const matches = allData
-    .filter(item =>
-      (item.name || "").toLowerCase().includes(query) ||
-      (item.artist || "").toLowerCase().includes(query)
-    )
-    .slice(0,5);
-
-  suggestionsBox.innerHTML = matches.map(item => `
-    <div class="suggestion-item" data-name="${item.name}">
-      
-      <img src="${item.cover || '/assets/covers/cover1.png'}">
-
-      <div class="suggestion-text">
-        <div class="suggestion-title">${item.name}</div>
-        <div class="suggestion-artist">${item.artist || ""}</div>
-      </div>
-
-    </div>
-  `).join("");
-}
-
+  /* =========================
+     SEARCH
+  ========================= */
   function runSearch(){
     const q = searchInput.value.trim().toLowerCase();
+
+    console.log("SEARCH:", q); // 🔥 DEBUG
 
     if(!q){
       render(allData);
@@ -139,22 +151,39 @@ window.addEventListener("DOMContentLoaded", async () => {
       (item.album || "").toLowerCase().includes(q)
     );
 
+    console.log("RESULTS:", filtered);
+
     render(filtered);
   }
-searchInput.addEventListener("input", (e)=>{
-  const q = e.target.value.toLowerCase();
 
-  if(!q){
-    suggestionsBox.innerHTML = "";
-    render(allData); // restore full list
-    return;
-  }
+  /* =========================
+     EVENTS
+  ========================= */
 
-  showSuggestions(q);
-  runSearch();
-});
+  // INPUT
+  searchInput.addEventListener("input", (e)=>{
+    const q = e.target.value.toLowerCase();
 
-  /* CLICK SUGGESTION */
+    if(!q){
+      suggestionsBox.innerHTML = "";
+      render(allData);
+      return;
+    }
+
+    showSuggestions(q);
+  });
+
+  // BUTTON
+  searchBtn.onclick = runSearch;
+
+  // ENTER
+  searchInput.addEventListener("keypress", (e)=>{
+    if(e.key === "Enter"){
+      runSearch();
+    }
+  });
+
+  // CLICK SUGGESTION
   suggestionsBox.addEventListener("click", (e)=>{
     const item = e.target.closest(".suggestion-item");
     if(!item) return;
@@ -167,17 +196,9 @@ searchInput.addEventListener("input", (e)=>{
     runSearch();
   });
 
-  /* BUTTON */
-  searchBtn.onclick = runSearch;
-
-  /* ENTER */
-  searchInput.addEventListener("keypress", (e)=>{
-    if(e.key === "Enter"){
-      runSearch();
-    }
-  });
-
-  /* PURCHASE */
+  /* =========================
+     PURCHASE (UNCHANGED)
+  ========================= */
   document.addEventListener("click", async e=>{
     if(e.target.classList.contains("buy")){
 
