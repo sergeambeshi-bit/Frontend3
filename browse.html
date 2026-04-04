@@ -99,24 +99,31 @@ window.addEventListener("DOMContentLoaded", async () => {
   ========================= */
 
   function showSuggestions(query){
-    if(!query){
-      suggestionsBox.innerHTML = "";
-      return;
-    }
-
-    const matches = allData
-      .filter(item =>
-        (item.name || "").toLowerCase().includes(query) ||
-        (item.artist || "").toLowerCase().includes(query)
-      )
-      .slice(0,5);
-
-    suggestionsBox.innerHTML = matches.map(item => `
-      <div class="suggestion-item" data-name="${item.name}">
-        ${item.name} • ${item.artist || ""}
-      </div>
-    `).join("");
+  if(!query){
+    suggestionsBox.innerHTML = "";
+    return;
   }
+
+  const matches = allData
+    .filter(item =>
+      (item.name || "").toLowerCase().includes(query) ||
+      (item.artist || "").toLowerCase().includes(query)
+    )
+    .slice(0,5);
+
+  suggestionsBox.innerHTML = matches.map(item => `
+    <div class="suggestion-item" data-name="${item.name}">
+      
+      <img src="${item.cover || '/assets/covers/cover1.png'}">
+
+      <div class="suggestion-text">
+        <div class="suggestion-title">${item.name}</div>
+        <div class="suggestion-artist">${item.artist || ""}</div>
+      </div>
+
+    </div>
+  `).join("");
+}
 
   function runSearch(){
     const q = searchInput.value.trim().toLowerCase();
@@ -134,13 +141,18 @@ window.addEventListener("DOMContentLoaded", async () => {
 
     render(filtered);
   }
+searchInput.addEventListener("input", (e)=>{
+  const q = e.target.value.toLowerCase();
 
-  /* INPUT */
-  searchInput.addEventListener("input", (e)=>{
-    const q = e.target.value.toLowerCase();
-    showSuggestions(q);
-    runSearch();
-  });
+  if(!q){
+    suggestionsBox.innerHTML = "";
+    render(allData); // restore full list
+    return;
+  }
+
+  showSuggestions(q);
+  runSearch();
+});
 
   /* CLICK SUGGESTION */
   suggestionsBox.addEventListener("click", (e)=>{

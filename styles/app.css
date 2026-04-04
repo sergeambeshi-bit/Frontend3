@@ -506,3 +506,52 @@ input {
   right: 0;
   z-index: 10;
 }
+
+/* =========================
+   SEARCH SUGGESTIONS (UPGRADE)
+========================= */
+
+.suggestions {
+  position: absolute;
+  bottom: 55px;
+  left: 0;
+  width: 100%;
+  background: #15151a;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+  z-index: 400;
+}
+
+.suggestion-item {
+  padding: 10px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.suggestion-item:hover {
+  background: rgba(255,255,255,0.05);
+}
+
+.suggestion-item img {
+  width: 40px;
+  height: 40px;
+  border-radius: 8px;
+}
+
+.suggestion-text {
+  display: flex;
+  flex-direction: column;
+}
+
+.suggestion-title {
+  font-size: 13px;
+}
+
+.suggestion-artist {
+  font-size: 11px;
+  color: #aaa;
+}
