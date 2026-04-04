@@ -201,20 +201,44 @@ async function initPage(){
   const genres = [...new Set(data.map(d=>d.genre).filter(Boolean))];
 
   const singles = data.filter(i=>i.type==="track").slice(0,6);
-  const albums = data.filter(i=>i.type==="album").slice(0,6);
+  let albums = data.filter(i => i.type === "album").slice(0,6);
+
+/* 🔥 FALLBACK ALBUMS */
+if(albums.length === 0){
+  albums = [
+    {
+      name: "Street Vibes",
+      artist: "Various",
+      cover: "/assets/covers/album1.png",
+      type: "album"
+    },
+    {
+      name: "Makossa Classics",
+      artist: "Legends",
+      cover: "/assets/covers/album2.png",
+      type: "album"
+    },
+    {
+      name: "Afro Heat",
+      artist: "Top Artists",
+      cover: "/assets/covers/album3.png",
+      type: "album"
+    }
+  ];
+}
 
   function createCard(item){
-    const link = item.type === "album"
-      ? `/album.html?album=${encodeURIComponent(item.album || item.name)}`
-      : `/track.html?id=${item.id}`;
+  const link = item.type === "album"
+    ? `/album.html?album=${encodeURIComponent(item.name)}`
+    : `/track.html?id=${item.id || 1}`;
 
-    return `
-      <a href="${link}" class="card">
-        <img src="${item.cover || '/assets/covers/cover1.png'}">
-        <div class="title">${item.name}</div>
-      </a>
-    `;
-  }
+  return `
+    <a href="${link}" class="card">
+      <img src="${item.cover || '/assets/covers/cover1.png'}">
+      <div class="title">${item.name}</div>
+    </a>
+  `;
+}
 
   const trending = document.getElementById("trending");
   const releases = document.getElementById("releases");
