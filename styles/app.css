@@ -490,3 +490,19 @@ input {
   position: relative;
   z-index: 1;
 }
+
+/* FIX HERO POSITION */
+.hero {
+  height: 100vh;
+  position: relative;
+  margin: 0;
+}
+
+/* KEEP TOPBAR INSIDE HERO */
+.topbar {
+  position: absolute;
+  top: 15px;
+  left: 0;
+  right: 0;
+  z-index: 10;
+}
