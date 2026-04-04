@@ -439,3 +439,54 @@ input {
   background: #01d4ab;
   color: black;
 }
+
+/* 🔥 FIX: SEARCH BAR AT BOTTOM */
+.search-fixed {
+  position: fixed;
+  bottom: 80px; /* above bottom nav */
+  left: 50%;
+  transform: translateX(-50%);
+  width: 90%;
+  max-width: 400px;
+  z-index: 300;
+}
+
+.search-box {
+  display: flex;
+  gap: 8px;
+  background: #15151a;
+  padding: 8px;
+  border-radius: 25px;
+}
+
+.search-box input {
+  flex: 1;
+  border: none;
+  outline: none;
+  background: transparent;
+  color: white;
+  padding: 8px;
+}
+
+.search-box button {
+  background: #01d4ab;
+  border: none;
+  border-radius: 50%;
+  width: 38px;
+  height: 38px;
+  cursor: pointer;
+}
+
+/* 🔥 FIX: MAKE TOPBAR ALWAYS CLICKABLE */
+.topbar {
+  position: relative;
+  z-index: 500;
+}
+
+/* 🔥 FIX: PREVENT OVERLAYS BLOCKING CLICKS */
+.hero,
+.section,
+.main-container {
+  position: relative;
+  z-index: 1;
+}

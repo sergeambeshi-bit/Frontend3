@@ -29,26 +29,19 @@
   <a href="/new-releases.html">New</a>
 </div>
 
-<!-- 🔥 SEARCH -->
-<section class="section">
-  <div class="main-container">
-    <div style="position:relative;">
-
-      <div style="display:flex; gap:10px;">
-        <input 
-          type="search"
-          id="searchInput"
-          placeholder="Search songs or albums..."
-          style="flex:1"
-        >
-        <button id="searchBtn">🔍</button>
-      </div>
-
-      <div id="suggestions" class="suggestions"></div>
-
-    </div>
+<!-- 🔥 FIXED SEARCH (BOTTOM FLOATING) -->
+<div class="search-fixed">
+  <div class="search-box">
+    <input 
+      type="search"
+      id="searchInput"
+      placeholder="Search..."
+    >
+    <button id="searchBtn">🔍</button>
   </div>
-</section>
+
+  <div id="suggestions" class="suggestions"></div>
+</div>
 
 <!-- RESULTS -->
 <section class="section">
