@@ -3,7 +3,6 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#0b0b0f">
 <title>JENGU</title>
 
 <link rel="stylesheet" href="/styles/app.css">
@@ -11,37 +10,13 @@
 
 <body>
 
-<!-- SIDE MENU -->
-<div id="sideMenu" class="side-menu">
-  <img src="/assets/logo.png" class="menu-logo">
-
-  <a href="/">Accueil</a>
-  <a href="/browse.html">Parcourir</a>
-  <a href="/genres.html">Genres</a>
-  <a href="/charts.html">Charts</a>
-  <a href="/new-releases.html">Nouveautés</a>
-
-  <hr>
-
-  <a href="/user/library.html">📁 Library</a>
-  <a href="/user/purchases.html">💳 Purchases</a>
-</div>
-
 <!-- HERO -->
 <section class="hero">
-
   <div class="hero-bg"></div>
-
-  <!-- 🔥 PREMIUM OVERLAY -->
-  <div style="
-    position:absolute;
-    inset:0;
-    background:linear-gradient(to bottom, rgba(0,0,0,0.3), #0b0b0f);
-  "></div>
 
   <div class="hero-content">
 
-    <!-- TOPBAR -->
+    <!-- HEADER -->
     <div class="topbar">
       <span class="menu" id="menuBtn">☰</span>
 
@@ -53,26 +28,21 @@
       <span class="lang" id="langBtn">FR ▾</span>
     </div>
 
-    <!-- 🔥 HERO TEXT IMPROVED -->
-    <div style="margin-top:40px;">
-      <h1 style="max-width:280px;">
-        Discover African Music
-     </h1>
-      <p class="hero-sub" style="max-width:260px;">
-        Support artists. Own the music.
-      </p>
-    </div>
+    <!-- TEXT -->
+    <div style="max-width:300px;">
+      <h1>Discover African Music</h1>
+      <p class="hero-sub">Support artists. Own the music.</p>
 
-    <!-- CTA -->
-    <div class="cta">
-      <a href="/browse.html" class="btn-primary">Explore</a>
-      <a href="/genres.html" class="btn-outline">Genres</a>
+      <div class="cta">
+        <a href="/browse.html" class="btn-primary">Explore</a>
+        <a href="/genres.html" class="btn-outline">Genres</a>
+      </div>
     </div>
 
   </div>
 </section>
 
-<!-- 🔥 SECTION TEMPLATE -->
+<!-- CONTENT -->
 <section class="section">
   <h3>🎧 Singles</h3>
   <div class="scroll-row" id="singles"></div>
@@ -94,20 +64,17 @@
 </section>
 
 <section class="section">
-  <h3>📊 Top Charts</h3>
-  <div id="charts"></div>
-</section>
-
-<section class="section">
   <h3>🎵 Explore Genres</h3>
   <div class="genres grid" id="genresGrid"></div>
 </section>
 
-<!-- CTA -->
-<section class="section center">
+<section class="section" style="padding-bottom:40px;">
   <h3>Support African Artists</h3>
   <p class="sub">Buy music. Empower creators.</p>
-  <a href="/browse.html" class="btn-primary">Start Now</a>
+
+  <a href="/browse.html" class="btn-primary" style="margin-top:10px; display:inline-block;">
+    Start Now
+  </a>
 </section>
 
 <a href="https://wa.me/447888314381" class="whatsapp">
@@ -135,7 +102,7 @@ if(hero){
   hero.style.backgroundImage = `url(${heroImages[0]})`;
 
   setInterval(()=>{
-    heroIndex = (heroIndex + 1) % heroImages.length;
+    heroIndex = (heroIndex+1)%heroImages.length;
     hero.style.backgroundImage = `url(${heroImages[heroIndex]})`;
   },5000);
 }
@@ -146,14 +113,14 @@ const authArea = document.getElementById("authArea");
 
 if(user){
   authArea.innerHTML = `
-    <span>👋 ${user.name}</span>
-    <button id="logoutBtn">Logout</button>
+    <span style="font-size:13px;">👋 ${user.name}</span>
+    <button id="logoutBtn" class="btn-outline" style="padding:6px 10px;">Logout</button>
   `;
   document.getElementById("logoutBtn").onclick = logout;
 }else{
   authArea.innerHTML = `
     <a href="/user/login.html">Login</a>
-    <a href="/user/signup.html" class="primary">Sign Up</a>
+    <a href="/user/signup.html" class="btn-outline">Sign Up</a>
   `;
 }
 
@@ -166,8 +133,36 @@ function normalize(str){
     .replace(/\s+/g, "-");
 }
 
-/* DATA */
+/* SKELETON LOADER */
+function showSkeleton(container){
+  container.innerHTML = "";
+  for(let i=0;i<6;i++){
+    container.innerHTML += `<div class="skeleton skeleton-card"></div>`;
+  }
+}
+
+/* IMAGE FADE-IN */
+function activateImageLoading(){
+  setTimeout(()=>{
+    document.querySelectorAll(".card img").forEach(img=>{
+      img.classList.add("loaded");
+    });
+  },100);
+}
+
+/* INIT */
 async function initPage(){
+
+  const singlesEl = document.getElementById("singles");
+  const albumsEl = document.getElementById("albums");
+  const trendingEl = document.getElementById("trending");
+  const releasesEl = document.getElementById("releases");
+
+  /* show skeletons */
+  showSkeleton(singlesEl);
+  showSkeleton(albumsEl);
+  showSkeleton(trendingEl);
+  showSkeleton(releasesEl);
 
   let data = [];
 
@@ -177,17 +172,24 @@ async function initPage(){
     console.error(e);
   }
 
+  /* clear skeletons */
+  singlesEl.innerHTML = "";
+  albumsEl.innerHTML = "";
+  trendingEl.innerHTML = "";
+  releasesEl.innerHTML = "";
+
   const singles = data.filter(i=>i.type==="track").slice(0,6);
   const albums = data.filter(i=>i.type==="album").slice(0,6);
-  const trendingData = data.slice(0,6);
-  const newData = [...data].slice(0,6);
-  const chartsData = data.slice(0,5);
+  const trending = data.slice(0,6);
+  const releases = [...data]
+    .sort((a,b)=> new Date(b.createdAt||0)-new Date(a.createdAt||0))
+    .slice(0,6);
 
   const genres = [...new Set(data.map(d=>d.genre).filter(Boolean))];
 
   function createCard(item){
     const link = item.type === "album"
-      ? `/album.html?album=${encodeURIComponent(item.name)}`
+      ? `/album.html?album=${encodeURIComponent(item.album || item.name)}`
       : `/track.html?id=${item.id}`;
 
     return `
@@ -198,38 +200,22 @@ async function initPage(){
     `;
   }
 
-  const singlesContainer = document.getElementById("singles");
-  const albumsContainer = document.getElementById("albums");
-  const trending = document.getElementById("trending");
-  const releases = document.getElementById("releases");
-  const charts = document.getElementById("charts");
-  const genresGrid = document.getElementById("genresGrid");
+  singles.forEach(i=> singlesEl.innerHTML += createCard(i));
+  albums.forEach(i=> albumsEl.innerHTML += createCard(i));
+  trending.forEach(i=> trendingEl.innerHTML += createCard(i));
+  releases.forEach(i=> releasesEl.innerHTML += createCard(i));
 
-  singles.forEach(i=> singlesContainer.innerHTML += createCard(i));
-  albums.forEach(i=> albumsContainer.innerHTML += createCard(i));
-  trendingData.forEach(i=> trending.innerHTML += createCard(i));
-  newData.forEach(i=> releases.innerHTML += createCard(i));
-
-  chartsData.forEach((item,i)=>{
-    charts.innerHTML += `
-      <div class="chart-item">
-        <span>${i+1}</span>
-        <img src="${item.cover}">
-        <div class="info">
-          <b>${item.name}</b>
-          <p>${item.artist}</p>
-        </div>
-      </div>
-    `;
-  });
+  const genresEl = document.getElementById("genresGrid");
 
   genres.forEach(g=>{
-    genresGrid.innerHTML += `
+    genresEl.innerHTML += `
       <a href="/browse.html?genre=${normalize(g)}" class="genre-card">
         ${g.toUpperCase()}
       </a>
     `;
   });
+
+  activateImageLoading();
 }
 
 window.addEventListener("DOMContentLoaded", initPage);
