@@ -51,6 +51,10 @@ small {
   color: #888;
 }
 
+h1, h2, h3 {
+  color: #ffffff;
+}
+
 /* =========================
    HERO
 ========================= */
@@ -321,6 +325,11 @@ small {
   color: #01d4ab;
 }
 
+.genre-card {
+  color: #ffffff;
+  text-decoration: none;
+}
+
 /* =========================
    WHATSAPP
 ========================= */
@@ -439,4 +448,28 @@ small {
 .skeleton-card {
   width: 140px;
   height: 180px;
+}
+
+/* =========================
+   REMOVE BLUE LINKS
+========================= */
+a {
+  color: #ffffff;
+  text-decoration: none;
+}
+
+a:visited {
+  color: #ffffff;
+}
+
+a:hover {
+  color: #01d4ab; /* brand accent on hover */
+}
+
+#authArea a {
+  color: #ffffff;
+}
+
+* {
+  color: inherit;
 }
