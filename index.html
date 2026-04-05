@@ -119,10 +119,14 @@ import { initLang, applyLang } from "/js/lang.js";
 import { fetchBrowseResults } from "/js/api.js";
 import { getCurrentUser, logout } from "/js/auth.js";
 
-/* 🔥 FIX: Proper language init */
+/* =========================
+   LANGUAGE
+========================= */
 initLang();
 
-/* HERO IMAGE ROTATION */
+/* =========================
+   HERO ROTATION
+========================= */
 const heroImages = [
   "/assets/hero/hero1.png",
   "/assets/hero/hero2.png",
@@ -141,7 +145,9 @@ if(hero){
   },5000);
 }
 
-/* AUTH */
+/* =========================
+   AUTH
+========================= */
 const user = getCurrentUser();
 const authArea = document.getElementById("authArea");
 
@@ -158,10 +164,12 @@ if(user){
   `;
 }
 
-/* 🔥 VERY IMPORTANT: re-apply language after dynamic content */
+/* 🔥 re-apply language after dynamic HTML */
 applyLang();
 
-/* NORMALIZE */
+/* =========================
+   HELPERS
+========================= */
 function normalize(str){
   return (str || "")
     .toLowerCase()
@@ -170,7 +178,56 @@ function normalize(str){
     .replace(/\s+/g, "-");
 }
 
-/* LOAD DATA */
+/* 🔥 PRO IMAGE SYSTEM */
+function getCoverUrl(item){
+  const fallback = "/assets/logo.png";
+
+  if(!item.cover || item.cover.trim() === ""){
+    return fallback;
+  }
+
+  const cover = item.cover.trim();
+
+  if(cover.startsWith("http")){
+    return cover;
+  }
+
+  if(cover.startsWith("/assets/")){
+    return cover;
+  }
+
+  return `/assets/covers/${cover}`;
+}
+
+/* =========================
+   CARD (PREMIUM)
+========================= */
+function createCard(item){
+  const link = item.type === "album"
+    ? `/album.html?album=${encodeURIComponent(item.album || item.name)}`
+    : `/track.html?id=${item.id}`;
+
+  return `
+    <a href="${link}" class="card premium-card">
+      
+      <div class="card-image">
+        <img 
+          src="${getCoverUrl(item)}"
+          onerror="this.onerror=null; this.src='/assets/logo.png';"
+        >
+      </div>
+
+      <div class="card-overlay">
+        <div class="card-title">${item.name}</div>
+      </div>
+
+    </a>
+  `;
+}
+
+/* =========================
+   LOAD DATA
+========================= */
 async function initPage(){
 
   let data = [];
@@ -189,19 +246,6 @@ async function initPage(){
     .slice(0,6);
 
   const genres = [...new Set(data.map(d=>d.genre).filter(Boolean))];
-
-  function createCard(item){
-    const link = item.type === "album"
-      ? `/album.html?album=${encodeURIComponent(item.album || item.name)}`
-      : `/track.html?id=${item.id}`;
-
-    return `
-      <a href="${link}" class="card">
-        <img src="${item.cover || '/assets/covers/cover1.png'}">
-        <div class="title">${item.name}</div>
-      </a>
-    `;
-  }
 
   const singlesEl = document.getElementById("singles");
   const albumsEl = document.getElementById("albums");
@@ -225,7 +269,9 @@ async function initPage(){
 
 window.addEventListener("DOMContentLoaded", initPage);
 
-/* 🔥 FIXED MENU (WORKS PROPERLY) */
+/* =========================
+   MENU (FIXED)
+========================= */
 const menuBtn = document.getElementById("menuBtn");
 const sideMenu = document.getElementById("sideMenu");
 
