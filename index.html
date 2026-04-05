@@ -10,6 +10,22 @@
 
 <body>
 
+  <!-- SIDE MENU -->
+<div id="sideMenu" class="side-menu">
+  <img src="/assets/logo.png" class="menu-logo">
+
+  <a href="/">Accueil</a>
+  <a href="/browse.html">Browse</a>
+  <a href="/genres.html">Genres</a>
+  <a href="/charts.html">Charts</a>
+  <a href="/new-releases.html">New</a>
+
+  <hr>
+
+  <a href="/user/library.html">Library</a>
+  <a href="/user/purchases.html">Purchases</a>
+</div>
+
 <!-- HERO -->
 <section class="hero">
   <div class="hero-bg"></div>
@@ -86,9 +102,33 @@ import { initLang } from "/js/lang.js";
 import { fetchBrowseResults } from "/js/api.js";
 import { getCurrentUser, logout } from "/js/auth.js";
 
-initLang();
+/* =========================
+   LANGUAGE SYSTEM
+========================= */
 
-/* HERO ROTATION */
+function applyLang(){
+  initLang();
+}
+
+const langBtn = document.getElementById("langBtn");
+
+if(langBtn){
+  langBtn.onclick = () => {
+    const current = localStorage.getItem("lang") || "fr";
+    const next = current === "fr" ? "en" : "fr";
+
+    localStorage.setItem("lang", next);
+
+    applyLang(); // instant update
+  };
+}
+
+/* Apply on load */
+applyLang();
+
+/* =========================
+   HERO ROTATION
+========================= */
 const heroImages = [
   "/assets/hero/hero1.png",
   "/assets/hero/hero2.png",
@@ -107,7 +147,9 @@ if(hero){
   },5000);
 }
 
-/* AUTH */
+/* =========================
+   AUTH
+========================= */
 const user = getCurrentUser();
 const authArea = document.getElementById("authArea");
 
@@ -119,12 +161,17 @@ if(user){
   document.getElementById("logoutBtn").onclick = logout;
 }else{
   authArea.innerHTML = `
-    <a href="/user/login.html">Login</a>
-    <a href="/user/signup.html" class="btn-outline">Sign Up</a>
+    <a href="/user/login.html" data-i18n="login"></a>
+    <a href="/user/signup.html" class="btn-outline" data-i18n="signup"></a>
   `;
 }
 
-/* NORMALIZE */
+/* 🔥 re-apply language AFTER dynamic HTML */
+applyLang();
+
+/* =========================
+   NORMALIZE
+========================= */
 function normalize(str){
   return (str || "")
     .toLowerCase()
@@ -133,7 +180,9 @@ function normalize(str){
     .replace(/\s+/g, "-");
 }
 
-/* SKELETON LOADER */
+/* =========================
+   SKELETON LOADER
+========================= */
 function showSkeleton(container){
   container.innerHTML = "";
   for(let i=0;i<6;i++){
@@ -141,7 +190,9 @@ function showSkeleton(container){
   }
 }
 
-/* IMAGE FADE-IN */
+/* =========================
+   IMAGE FADE-IN
+========================= */
 function activateImageLoading(){
   setTimeout(()=>{
     document.querySelectorAll(".card img").forEach(img=>{
@@ -150,7 +201,9 @@ function activateImageLoading(){
   },100);
 }
 
-/* INIT */
+/* =========================
+   INIT PAGE
+========================= */
 async function initPage(){
 
   const singlesEl = document.getElementById("singles");
@@ -158,7 +211,6 @@ async function initPage(){
   const trendingEl = document.getElementById("trending");
   const releasesEl = document.getElementById("releases");
 
-  /* show skeletons */
   showSkeleton(singlesEl);
   showSkeleton(albumsEl);
   showSkeleton(trendingEl);
@@ -172,7 +224,6 @@ async function initPage(){
     console.error(e);
   }
 
-  /* clear skeletons */
   singlesEl.innerHTML = "";
   albumsEl.innerHTML = "";
   trendingEl.innerHTML = "";
@@ -220,17 +271,21 @@ async function initPage(){
 
 window.addEventListener("DOMContentLoaded", initPage);
 
-/* MENU */
+/* =========================
+   MENU
+========================= */
 const menuBtn = document.getElementById("menuBtn");
 const sideMenu = document.getElementById("sideMenu");
 
-menuBtn.onclick = ()=> sideMenu.classList.toggle("open");
+if(menuBtn && sideMenu){
+  menuBtn.onclick = ()=> sideMenu.classList.toggle("open");
 
-document.addEventListener("click",(e)=>{
-  if(!sideMenu.contains(e.target) && !menuBtn.contains(e.target)){
-    sideMenu.classList.remove("open");
-  }
-});
+  document.addEventListener("click",(e)=>{
+    if(!sideMenu.contains(e.target) && !menuBtn.contains(e.target)){
+      sideMenu.classList.remove("open");
+    }
+  });
+}
 </script>
 
 </body>
