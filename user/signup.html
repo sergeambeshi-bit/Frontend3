@@ -24,9 +24,9 @@
   <!-- FORM -->
   <form id="signupForm" style="margin-top:20px;">
 
-    <input type="text" data-i18n="name" required>
-    <input type="email" data-i18n="email" required>
-    <input type="password" data-i18n="password" required>
+    <input type="text" id="name" data-i18n="name" required>
+    <input type="email" id="email" data-i18n="email" required>
+    <input type="password" id="password" data-i18n="password" required>
 
     <button class="btn-primary" style="width:100%; margin-top:10px;" data-i18n="signup"></button>
 
@@ -41,23 +41,43 @@
 </section>
 
 <script type="module">
-import { initLang, getLang } from "/js/lang.js";
+import { initLang, getLang, applyLang } from "/js/lang.js";
+import { supabase } from "/js/supabase.js";
 
+/* INIT LANGUAGE */
 initLang();
+applyLang();
 
-/* SIMPLE SIGNUP SYSTEM (FRONTEND MOCK) */
-document.getElementById("signupForm").addEventListener("submit", e=>{
+/* REAL SIGNUP */
+document.getElementById("signupForm").addEventListener("submit", async (e)=>{
   e.preventDefault();
 
-  localStorage.setItem("user", "registered");
+  const name = document.getElementById("name").value;
+  const email = document.getElementById("email").value;
+  const password = document.getElementById("password").value;
+
+  const { data, error } = await supabase.auth.signUp({
+    email,
+    password,
+    options: {
+      data: {
+        name: name
+      }
+    }
+  });
+
+  if(error){
+    alert(error.message);
+    return;
+  }
 
   const msg = getLang() === "fr"
-    ? "Compte créé avec succès"
-    : "Account created successfully";
+    ? "Compte créé ! Vérifiez votre email pour confirmer."
+    : "Account created! Check your email to confirm.";
 
   alert(msg);
 
-  window.location.href = "/";
+  window.location.href = "/user/login.html";
 });
 </script>
 

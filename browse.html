@@ -17,25 +17,25 @@
     <img src="/assets/logo.png" class="logo">
   </a>
 
-  <span id="langBtn">FR ▾</span>
+  <span id="langBtn"></span>
 </div>
 
 <!-- SIDE MENU -->
 <div id="sideMenu" class="side-menu">
-  <a href="/">Accueil</a>
-  <a href="/browse.html">Parcourir</a>
-  <a href="/genres.html">Genres</a>
-  <a href="/charts.html">Charts</a>
-  <a href="/new-releases.html">New</a>
+  <a href="/" data-i18n="browse"></a>
+  <a href="/browse.html" data-i18n="browse"></a>
+  <a href="/genres.html" data-i18n="genres"></a>
+  <a href="/charts.html" data-i18n="charts"></a>
+  <a href="/new-releases.html" data-i18n="new"></a>
 </div>
 
-<!-- 🔥 FIXED SEARCH (BOTTOM FLOATING) -->
+<!-- SEARCH -->
 <div class="search-fixed">
   <div class="search-box">
     <input 
       type="search"
       id="searchInput"
-      placeholder="Search..."
+      data-i18n="search"
     >
     <button id="searchBtn">🔍</button>
   </div>
@@ -49,10 +49,11 @@
 </section>
 
 <script type="module">
-import { initLang } from "/js/lang.js";
+import { initLang, applyLang } from "/js/lang.js";
 import { supabase } from "/js/supabase.js";
 import { getCurrentUser } from "/js/auth.js";
 
+/* INIT LANGUAGE */
 initLang();
 
 window.addEventListener("DOMContentLoaded", async () => {
@@ -66,21 +67,14 @@ window.addEventListener("DOMContentLoaded", async () => {
 
   let allData = [];
 
-  /* =========================
-     LOAD DATA
-  ========================= */
+  /* LOAD DATA */
   async function load(){
     const { data } = await supabase.from("tracks").select("*");
     allData = data || [];
-
-    console.log("DATA LOADED:", allData); // 🔥 DEBUG
-
     render(allData);
   }
 
-  /* =========================
-     CARD
-  ========================= */
+  /* CARD */
   function createCard(item){
     const link = item.type === "album"
       ? `/album.html?album=${encodeURIComponent(item.album || item.name)}`
@@ -91,21 +85,20 @@ window.addEventListener("DOMContentLoaded", async () => {
         <img src="${item.cover || '/assets/covers/cover1.png'}">
         <div>${item.name}</div>
         <div>${item.price} XAF</div>
-        <button class="buy">Buy</button>
+        <button class="buy" data-i18n="buy"></button>
       </a>
     `;
   }
 
-  /* =========================
-     RENDER
-  ========================= */
+  /* RENDER */
   function render(data){
     grid.innerHTML = data.map(createCard).join("");
+
+    /* 🔥 apply translations after render */
+    applyLang();
   }
 
-  /* =========================
-     SUGGESTIONS
-  ========================= */
+  /* SUGGESTIONS */
   function showSuggestions(query){
     if(!query){
       suggestionsBox.innerHTML = "";
@@ -119,8 +112,6 @@ window.addEventListener("DOMContentLoaded", async () => {
       )
       .slice(0,5);
 
-    console.log("SUGGESTIONS:", matches); // 🔥 DEBUG
-
     suggestionsBox.innerHTML = matches.map(item => `
       <div class="suggestion-item" data-name="${item.name}">
         <img src="${item.cover || '/assets/covers/cover1.png'}">
@@ -132,13 +123,9 @@ window.addEventListener("DOMContentLoaded", async () => {
     `).join("");
   }
 
-  /* =========================
-     SEARCH
-  ========================= */
+  /* SEARCH */
   function runSearch(){
     const q = searchInput.value.trim().toLowerCase();
-
-    console.log("SEARCH:", q); // 🔥 DEBUG
 
     if(!q){
       render(allData);
@@ -151,16 +138,11 @@ window.addEventListener("DOMContentLoaded", async () => {
       (item.album || "").toLowerCase().includes(q)
     );
 
-    console.log("RESULTS:", filtered);
-
     render(filtered);
   }
 
-  /* =========================
-     EVENTS
-  ========================= */
+  /* EVENTS */
 
-  // INPUT
   searchInput.addEventListener("input", (e)=>{
     const q = e.target.value.toLowerCase();
 
@@ -173,17 +155,14 @@ window.addEventListener("DOMContentLoaded", async () => {
     showSuggestions(q);
   });
 
-  // BUTTON
   searchBtn.onclick = runSearch;
 
-  // ENTER
   searchInput.addEventListener("keypress", (e)=>{
     if(e.key === "Enter"){
       runSearch();
     }
   });
 
-  // CLICK SUGGESTION
   suggestionsBox.addEventListener("click", (e)=>{
     const item = e.target.closest(".suggestion-item");
     if(!item) return;
@@ -196,9 +175,7 @@ window.addEventListener("DOMContentLoaded", async () => {
     runSearch();
   });
 
-  /* =========================
-     PURCHASE (UNCHANGED)
-  ========================= */
+  /* PURCHASE */
   document.addEventListener("click", async e=>{
     if(e.target.classList.contains("buy")){
 
@@ -246,7 +223,6 @@ window.addEventListener("DOMContentLoaded", async () => {
     }
   });
 
-  /* INIT */
   await load();
 
 });

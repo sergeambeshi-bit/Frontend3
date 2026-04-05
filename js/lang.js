@@ -3,15 +3,14 @@
 const translations = {
   fr: {
     hero: "Télécharger la musique africaine",
+    heroSub: "Télécharger • Soutenir les artistes africains",
+
     browse: "Parcourir",
     new: "Nouveautés",
     trending: "Tendance au Cameroun",
     releases: "Nouvelles Sorties",
     charts: "Top Charts",
     genres: "Explorer les Genres",
-
-    /* 🔥 NEW ADDITIONS */
-    heroSub: "Télécharger • Soutenir les artistes africains",
 
     singles: "Singles",
     albums: "Albums",
@@ -34,31 +33,7 @@ const translations = {
     library: "Bibliothèque",
     purchases: "Achats",
 
-    /* ADMIN */
-    dashboard: "Dashboard",
-    users: "Utilisateurs",
-    artists: "Artistes",
-    catalog: "Catalogue",
-    transactions: "Transactions",
-    payouts: "Paiements",
-    promotions: "Promotions",
-    fraud: "Fraude",
-
-    manageUsers: "Gérer les utilisateurs",
-    searchUsers: "Rechercher des utilisateurs...",
-    username: "Nom",
-    email: "Email",
-    joined: "Inscrit",
-    status: "Statut",
-    actions: "Actions",
-
-    active: "Actif",
-    inactive: "Inactif",
-    activate: "Activer",
-    deactivate: "Désactiver",
-    delete: "Supprimer",
-
-    /* 🔥 AUTH (NEW) */
+   /* AUTH */
     login: "Connexion",
     loginSub: "Accédez à vos achats et téléchargements",
     signup: "S'inscrire",
@@ -70,16 +45,15 @@ const translations = {
   },
 
   en: {
-    hero: "Download African music",
+    hero: "Download African Music",
+    heroSub: "Download • Support African Artists",
+
     browse: "Browse",
     new: "New Releases",
     trending: "Trending in Cameroon",
     releases: "New Releases",
     charts: "Top Charts",
     genres: "Explore Genres",
-
-    /* 🔥 NEW ADDITIONS */
-    heroSub: "Download • Support African Artists",
 
     singles: "Singles",
     albums: "Albums",
@@ -102,31 +76,7 @@ const translations = {
     library: "Library",
     purchases: "Purchases",
 
-    /* ADMIN */
-    dashboard: "Dashboard",
-    users: "Users",
-    artists: "Artists",
-    catalog: "Catalog",
-    transactions: "Transactions",
-    payouts: "Payouts",
-    promotions: "Promotions",
-    fraud: "Fraud",
-
-    manageUsers: "Manage Users",
-    searchUsers: "Search users...",
-    username: "Username",
-    email: "Email",
-    joined: "Joined",
-    status: "Status",
-    actions: "Actions",
-
-    active: "Active",
-    inactive: "Inactive",
-    activate: "Activate",
-    deactivate: "Deactivate",
-    delete: "Delete",
-
-    /* 🔥 AUTH (NEW) */
+    /* AUTH */
     login: "Login",
     loginSub: "Access your purchases and downloads",
     signup: "Sign Up",
@@ -139,7 +89,7 @@ const translations = {
 };
 
 /* =========================
-   GET / SET LANGUAGE
+   LANGUAGE STATE
 ========================= */
 export function getLang(){
   return localStorage.getItem("lang") || "fr";
@@ -150,7 +100,7 @@ export function setLang(lang){
 }
 
 /* =========================
-   APPLY LANGUAGE (GLOBAL)
+   APPLY LANGUAGE
 ========================= */
 export function applyLang(){
 
@@ -159,19 +109,18 @@ export function applyLang(){
   document.querySelectorAll("[data-i18n]").forEach(el => {
     const key = el.dataset.i18n;
 
-    if(!translations[lang] || !translations[lang][key]) return;
+    const text = translations[lang]?.[key];
 
-    // INPUTS → placeholder
+    if(!text) return;
+
     if(el.tagName === "INPUT"){
-      el.placeholder = translations[lang][key];
-    } 
-    // OTHERS → text
-    else {
-      el.textContent = translations[lang][key];
+      el.placeholder = text;
+    } else {
+      el.textContent = text;
     }
   });
 
-  // update button
+  /* update switch label */
   const btn = document.getElementById("langBtn");
   if(btn){
     btn.textContent = lang.toUpperCase() + " ▾";
@@ -179,23 +128,28 @@ export function applyLang(){
 }
 
 /* =========================
-   INIT (AUTO RUN)
+   TOGGLE LANGUAGE
+========================= */
+export function toggleLang(){
+  const current = getLang();
+  const next = current === "fr" ? "en" : "fr";
+
+  setLang(next);
+  applyLang();
+}
+
+/* =========================
+   INIT (CLEAN)
 ========================= */
 export function initLang(){
 
-  document.addEventListener("DOMContentLoaded", () => {
+  // apply immediately
+  applyLang();
 
-    applyLang();
+  // attach click
+  const btn = document.getElementById("langBtn");
 
-    const btn = document.getElementById("langBtn");
-
-    if(btn){
-      btn.onclick = () => {
-        const newLang = getLang() === "fr" ? "en" : "fr";
-        setLang(newLang);
-        applyLang();
-      };
-    }
-
-  });
+  if(btn){
+    btn.onclick = toggleLang;
+  }
 }

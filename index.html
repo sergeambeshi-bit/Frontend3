@@ -10,20 +10,20 @@
 
 <body>
 
-  <!-- SIDE MENU -->
+<!-- SIDE MENU -->
 <div id="sideMenu" class="side-menu">
   <img src="/assets/logo.png" class="menu-logo">
 
-  <a href="/">Accueil</a>
-  <a href="/browse.html">Browse</a>
-  <a href="/genres.html">Genres</a>
-  <a href="/charts.html">Charts</a>
-  <a href="/new-releases.html">New</a>
+  <a href="/" data-i18n="browse"></a>
+  <a href="/browse.html" data-i18n="browse"></a>
+  <a href="/genres.html" data-i18n="genres"></a>
+  <a href="/charts.html" data-i18n="charts"></a>
+  <a href="/new-releases.html" data-i18n="new"></a>
 
   <hr>
 
-  <a href="/user/library.html">Library</a>
-  <a href="/user/purchases.html">Purchases</a>
+  <a href="/user/library.html" data-i18n="library"></a>
+  <a href="/user/purchases.html" data-i18n="purchases"></a>
 </div>
 
 <!-- HERO -->
@@ -32,7 +32,6 @@
 
   <div class="hero-content">
 
-    <!-- HEADER -->
     <div class="topbar">
       <span class="menu" id="menuBtn">☰</span>
 
@@ -41,56 +40,58 @@
       </a>
 
       <div id="authArea"></div>
-      <span class="lang" id="langBtn">FR ▾</span>
+      <span class="lang" id="langBtn"></span>
     </div>
 
-    <!-- TEXT -->
     <div style="max-width:300px;">
-      <h1>Discover African Music</h1>
-      <p class="hero-sub">Support artists. Own the music.</p>
+      <h1 data-i18n="hero"></h1>
+      <p class="hero-sub" data-i18n="heroSub"></p>
 
       <div class="cta">
-        <a href="/browse.html" class="btn-primary">Explore</a>
-        <a href="/genres.html" class="btn-outline">Genres</a>
+        <a href="/browse.html" class="btn-primary" data-i18n="browse"></a>
+        <a href="/genres.html" class="btn-outline" data-i18n="genres"></a>
       </div>
     </div>
 
   </div>
 </section>
 
-<!-- CONTENT -->
+<!-- SINGLES -->
 <section class="section">
-  <h3>🎧 Singles</h3>
+  <h3 data-i18n="singles"></h3>
   <div class="scroll-row" id="singles"></div>
 </section>
 
+<!-- ALBUMS -->
 <section class="section">
-  <h3>💿 Albums</h3>
+  <h3 data-i18n="albums"></h3>
   <div class="scroll-row" id="albums"></div>
 </section>
 
+<!-- TRENDING -->
 <section class="section">
-  <h3>🔥 Trending</h3>
+  <h3 data-i18n="trending"></h3>
   <div class="scroll-row" id="trending"></div>
 </section>
 
+<!-- NEW RELEASES -->
 <section class="section">
-  <h3>🆕 New Releases</h3>
+  <h3 data-i18n="newReleases"></h3>
   <div class="scroll-row" id="releases"></div>
 </section>
 
+<!-- GENRES -->
 <section class="section">
-  <h3>🎵 Explore Genres</h3>
+  <h3 data-i18n="exploreGenres"></h3>
   <div class="genres grid" id="genresGrid"></div>
 </section>
 
+<!-- CTA -->
 <section class="section" style="padding-bottom:40px;">
-  <h3>Support African Artists</h3>
-  <p class="sub">Buy music. Empower creators.</p>
+  <h3 data-i18n="support"></h3>
+  <p class="sub" data-i18n="supportSub"></p>
 
-  <a href="/browse.html" class="btn-primary" style="margin-top:10px; display:inline-block;">
-    Start Now
-  </a>
+  <a href="/browse.html" class="btn-primary" data-i18n="start"></a>
 </section>
 
 <a href="https://wa.me/447888314381" class="whatsapp">
@@ -98,37 +99,14 @@
 </a>
 
 <script type="module">
-import { initLang } from "/js/lang.js";
+import { initLang, applyLang } from "/js/lang.js";
 import { fetchBrowseResults } from "/js/api.js";
 import { getCurrentUser, logout } from "/js/auth.js";
 
-/* =========================
-   LANGUAGE SYSTEM
-========================= */
+/* LANGUAGE */
+initLang();
 
-function applyLang(){
-  initLang();
-}
-
-const langBtn = document.getElementById("langBtn");
-
-if(langBtn){
-  langBtn.onclick = () => {
-    const current = localStorage.getItem("lang") || "fr";
-    const next = current === "fr" ? "en" : "fr";
-
-    localStorage.setItem("lang", next);
-
-    applyLang(); // instant update
-  };
-}
-
-/* Apply on load */
-applyLang();
-
-/* =========================
-   HERO ROTATION
-========================= */
+/* HERO ROTATION */
 const heroImages = [
   "/assets/hero/hero1.png",
   "/assets/hero/hero2.png",
@@ -147,9 +125,7 @@ if(hero){
   },5000);
 }
 
-/* =========================
-   AUTH
-========================= */
+/* AUTH */
 const user = getCurrentUser();
 const authArea = document.getElementById("authArea");
 
@@ -166,12 +142,10 @@ if(user){
   `;
 }
 
-/* 🔥 re-apply language AFTER dynamic HTML */
+/* 🔥 APPLY AGAIN AFTER DYNAMIC HTML */
 applyLang();
 
-/* =========================
-   NORMALIZE
-========================= */
+/* NORMALIZE */
 function normalize(str){
   return (str || "")
     .toLowerCase()
@@ -180,41 +154,14 @@ function normalize(str){
     .replace(/\s+/g, "-");
 }
 
-/* =========================
-   SKELETON LOADER
-========================= */
-function showSkeleton(container){
-  container.innerHTML = "";
-  for(let i=0;i<6;i++){
-    container.innerHTML += `<div class="skeleton skeleton-card"></div>`;
-  }
-}
-
-/* =========================
-   IMAGE FADE-IN
-========================= */
-function activateImageLoading(){
-  setTimeout(()=>{
-    document.querySelectorAll(".card img").forEach(img=>{
-      img.classList.add("loaded");
-    });
-  },100);
-}
-
-/* =========================
-   INIT PAGE
-========================= */
+/* INIT PAGE */
 async function initPage(){
 
   const singlesEl = document.getElementById("singles");
   const albumsEl = document.getElementById("albums");
   const trendingEl = document.getElementById("trending");
   const releasesEl = document.getElementById("releases");
-
-  showSkeleton(singlesEl);
-  showSkeleton(albumsEl);
-  showSkeleton(trendingEl);
-  showSkeleton(releasesEl);
+  const genresEl = document.getElementById("genresGrid");
 
   let data = [];
 
@@ -223,11 +170,6 @@ async function initPage(){
   }catch(e){
     console.error(e);
   }
-
-  singlesEl.innerHTML = "";
-  albumsEl.innerHTML = "";
-  trendingEl.innerHTML = "";
-  releasesEl.innerHTML = "";
 
   const singles = data.filter(i=>i.type==="track").slice(0,6);
   const albums = data.filter(i=>i.type==="album").slice(0,6);
@@ -256,8 +198,6 @@ async function initPage(){
   trending.forEach(i=> trendingEl.innerHTML += createCard(i));
   releases.forEach(i=> releasesEl.innerHTML += createCard(i));
 
-  const genresEl = document.getElementById("genresGrid");
-
   genres.forEach(g=>{
     genresEl.innerHTML += `
       <a href="/browse.html?genre=${normalize(g)}" class="genre-card">
@@ -265,27 +205,21 @@ async function initPage(){
       </a>
     `;
   });
-
-  activateImageLoading();
 }
 
 window.addEventListener("DOMContentLoaded", initPage);
 
-/* =========================
-   MENU
-========================= */
+/* MENU */
 const menuBtn = document.getElementById("menuBtn");
 const sideMenu = document.getElementById("sideMenu");
 
-if(menuBtn && sideMenu){
-  menuBtn.onclick = ()=> sideMenu.classList.toggle("open");
+menuBtn.onclick = ()=> sideMenu.classList.toggle("open");
 
-  document.addEventListener("click",(e)=>{
-    if(!sideMenu.contains(e.target) && !menuBtn.contains(e.target)){
-      sideMenu.classList.remove("open");
-    }
-  });
-}
+document.addEventListener("click",(e)=>{
+  if(!sideMenu.contains(e.target) && !menuBtn.contains(e.target)){
+    sideMenu.classList.remove("open");
+  }
+});
 </script>
 
 </body>

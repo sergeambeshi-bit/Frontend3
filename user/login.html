@@ -24,18 +24,16 @@
   <!-- FORM -->
   <form id="loginForm" style="margin-top:20px;">
 
-    <input type="email" id="email" placeholder="Email" required>
-    <input type="password" id="password" placeholder="Password" required>
+    <input type="email" id="email" data-i18n="email" required>
+    <input type="password" id="password" data-i18n="password" required>
 
     <button class="btn-primary" style="width:100%; margin-top:10px;" data-i18n="login"></button>
 
   </form>
 
-  <!-- 🔥 FORGOT PASSWORD -->
+  <!-- FORGOT PASSWORD -->
   <p style="text-align:center; margin-top:10px;">
-    <a href="/user/reset.html" style="color:#01d4ab;">
-      Forgot Password?
-    </a>
+    <a href="/user/reset.html" style="color:#01d4ab;" data-i18n="forgot"></a>
   </p>
 
   <!-- SIGNUP -->
@@ -47,12 +45,16 @@
 </section>
 
 <script type="module">
-import { initLang, getLang } from "/js/lang.js";
+import { initLang, getLang, applyLang } from "/js/lang.js";
 import { supabase } from "/js/supabase.js";
 
+/* INIT LANGUAGE */
 initLang();
 
-/* 🔥 REAL LOGIN SYSTEM */
+/* ensure placeholders applied */
+applyLang();
+
+/* LOGIN */
 document.getElementById("loginForm").addEventListener("submit", async (e)=>{
   e.preventDefault();
 
@@ -69,13 +71,20 @@ document.getElementById("loginForm").addEventListener("submit", async (e)=>{
     return;
   }
 
-  /* 🔥 CHECK EMAIL CONFIRMATION */
+  /* EMAIL CONFIRM CHECK */
   if(!data.user.email_confirmed_at){
-    alert("Please confirm your email before logging in.");
+    const msg = getLang() === "fr"
+      ? "Veuillez confirmer votre email avant de vous connecter."
+      : "Please confirm your email before logging in.";
+
+    alert(msg);
     return;
   }
 
-  const msg = getLang() === "fr" ? "Connexion réussie" : "Login successful";
+  const msg = getLang() === "fr"
+    ? "Connexion réussie"
+    : "Login successful";
+
   alert(msg);
 
   window.location.href = "/";
