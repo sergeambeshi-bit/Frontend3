@@ -11,8 +11,6 @@
 
 <body>
 
-<div class="main-container">
-
 <!-- SIDE MENU -->
 <div id="sideMenu" class="side-menu">
   <img src="/assets/logo.png" class="menu-logo">
@@ -31,7 +29,15 @@
 
 <!-- HERO -->
 <section class="hero">
+
   <div class="hero-bg"></div>
+
+  <!-- 🔥 PREMIUM OVERLAY -->
+  <div style="
+    position:absolute;
+    inset:0;
+    background:linear-gradient(to bottom, rgba(0,0,0,0.3), #0b0b0f);
+  "></div>
 
   <div class="hero-content">
 
@@ -39,7 +45,6 @@
     <div class="topbar">
       <span class="menu" id="menuBtn">☰</span>
 
-      <!-- LOGO -->
       <a href="/index.html">
         <img src="/assets/logo.png" class="logo">
       </a>
@@ -48,89 +53,64 @@
       <span class="lang" id="langBtn">FR ▾</span>
     </div>
 
-    <h1 data-i18n="hero"></h1>
-    <p class="hero-sub" data-i18n="heroSub"></p>
+    <!-- 🔥 HERO TEXT IMPROVED -->
+    <div style="margin-top:40px;">
+      <h1 style="font-size:34px;">Discover African Sound</h1>
+      <p class="hero-sub" style="max-width:260px;">
+        Support artists. Stream culture. Own the music.
+      </p>
+    </div>
 
+    <!-- CTA -->
     <div class="cta">
-      <a href="/browse.html" class="btn-primary" data-i18n="browse"></a>
+      <a href="/browse.html" class="btn-primary">Explore</a>
       <a href="/genres.html" class="btn-outline">Genres</a>
     </div>
 
   </div>
 </section>
 
-<!-- SINGLES -->
+<!-- 🔥 SECTION TEMPLATE -->
 <section class="section">
-  <div class="row-between">
-    <h3 data-i18n="singles">🎧 Singles</h3>
-    <a href="/browse.html" data-i18n="view">View</a>
-  </div>
+  <h3>🎧 Singles</h3>
   <div class="scroll-row" id="singles"></div>
 </section>
 
-<!-- ALBUMS -->
 <section class="section">
-  <div class="row-between">
-    <h3 data-i18n="albums">💿 Albums</h3>
-    <a href="/browse.html" data-i18n="view">View</a>
-  </div>
+  <h3>💿 Albums</h3>
   <div class="scroll-row" id="albums"></div>
 </section>
 
-<!-- USER TYPE -->
-<section class="section center">
-  <h3 data-i18n="getStarted"></h3>
-
-  <div class="genres">
-    <a href="/user/login.html" class="genre big" data-i18n="fan"></a>
-    <a href="/user/login.html" class="genre big" data-i18n="artist"></a>
-  </div>
-</section>
-
-<!-- TRENDING -->
 <section class="section">
-  <h3 data-i18n="trending"></h3>
-  <p class="sub" data-i18n="trendingSub"></p>
+  <h3>🔥 Trending</h3>
   <div class="scroll-row" id="trending"></div>
 </section>
 
-<!-- NEW RELEASES -->
 <section class="section">
-  <h3 data-i18n="newReleases"></h3>
+  <h3>🆕 New Releases</h3>
   <div class="scroll-row" id="releases"></div>
 </section>
 
-<!-- TOP CHARTS -->
 <section class="section">
-  <div class="row-between">
-    <h3 data-i18n="charts"></h3>
-    <a href="/charts.html" data-i18n="view"></a>
-  </div>
+  <h3>📊 Top Charts</h3>
   <div id="charts"></div>
 </section>
 
-<!-- GENRES -->
 <section class="section">
-  <div class="row-between">
-    <h3 data-i18n="exploreGenres"></h3>
-    <a href="/genres.html" data-i18n="viewAll"></a>
-  </div>
-
+  <h3>🎵 Explore Genres</h3>
   <div class="genres grid" id="genresGrid"></div>
 </section>
 
 <!-- CTA -->
 <section class="section center">
-  <h3 data-i18n="support"></h3>
-  <p class="sub" data-i18n="supportSub"></p>
-  <a href="/browse.html" class="btn-primary" data-i18n="start"></a>
+  <h3>Support African Artists</h3>
+  <p class="sub">Buy music. Empower creators.</p>
+  <a href="/browse.html" class="btn-primary">Start Now</a>
 </section>
 
 <a href="https://wa.me/447888314381" class="whatsapp">
   💬 Support
 </a>
-
-</div> <!-- END main-container -->
 
 <script type="module">
 import { initLang } from "/js/lang.js";
@@ -139,7 +119,7 @@ import { getCurrentUser, logout } from "/js/auth.js";
 
 initLang();
 
-/* HERO */
+/* HERO ROTATION */
 const heroImages = [
   "/assets/hero/hero1.png",
   "/assets/hero/hero2.png",
@@ -151,8 +131,9 @@ const hero = document.querySelector(".hero-bg");
 
 if(hero){
   hero.style.backgroundImage = `url(${heroImages[0]})`;
+
   setInterval(()=>{
-    heroIndex = (heroIndex+1)%heroImages.length;
+    heroIndex = (heroIndex + 1) % heroImages.length;
     hero.style.backgroundImage = `url(${heroImages[heroIndex]})`;
   },5000);
 }
@@ -194,58 +175,33 @@ async function initPage(){
     console.error(e);
   }
 
+  const singles = data.filter(i=>i.type==="track").slice(0,6);
+  const albums = data.filter(i=>i.type==="album").slice(0,6);
   const trendingData = data.slice(0,6);
-  const newData = [...data].sort((a,b)=> new Date(b.createdAt||0)-new Date(a.createdAt||0)).slice(0,6);
+  const newData = [...data].slice(0,6);
   const chartsData = data.slice(0,5);
 
   const genres = [...new Set(data.map(d=>d.genre).filter(Boolean))];
 
-  const singles = data.filter(i=>i.type==="track").slice(0,6);
-  let albums = data.filter(i => i.type === "album").slice(0,6);
-
-/* 🔥 FALLBACK ALBUMS */
-if(albums.length === 0){
-  albums = [
-    {
-      name: "Street Vibes",
-      artist: "Various",
-      cover: "/assets/covers/album1.png",
-      type: "album"
-    },
-    {
-      name: "Makossa Classics",
-      artist: "Legends",
-      cover: "/assets/covers/album2.png",
-      type: "album"
-    },
-    {
-      name: "Afro Heat",
-      artist: "Top Artists",
-      cover: "/assets/covers/album3.png",
-      type: "album"
-    }
-  ];
-}
-
   function createCard(item){
-  const link = item.type === "album"
-    ? `/album.html?album=${encodeURIComponent(item.name)}`
-    : `/track.html?id=${item.id || 1}`;
+    const link = item.type === "album"
+      ? `/album.html?album=${encodeURIComponent(item.name)}`
+      : `/track.html?id=${item.id}`;
 
-  return `
-    <a href="${link}" class="card">
-      <img src="${item.cover || '/assets/covers/cover1.png'}">
-      <div class="title">${item.name}</div>
-    </a>
-  `;
-}
+    return `
+      <a href="${link}" class="card">
+        <img src="${item.cover || '/assets/covers/cover1.png'}">
+        <div class="title">${item.name}</div>
+      </a>
+    `;
+  }
 
+  const singlesContainer = document.getElementById("singles");
+  const albumsContainer = document.getElementById("albums");
   const trending = document.getElementById("trending");
   const releases = document.getElementById("releases");
   const charts = document.getElementById("charts");
   const genresGrid = document.getElementById("genresGrid");
-  const singlesContainer = document.getElementById("singles");
-  const albumsContainer = document.getElementById("albums");
 
   singles.forEach(i=> singlesContainer.innerHTML += createCard(i));
   albums.forEach(i=> albumsContainer.innerHTML += createCard(i));
