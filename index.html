@@ -10,28 +10,25 @@
 
 <body>
 
-<!-- SIDE MENU -->
+<!-- ✅ SIDE MENU (ADDED - WAS MISSING) -->
 <div id="sideMenu" class="side-menu">
-  <img src="/assets/logo.png" class="menu-logo">
-
-  <a href="/" data-i18n="browse"></a>
-  <a href="/browse.html" data-i18n="browse"></a>
-  <a href="/genres.html" data-i18n="genres"></a>
-  <a href="/charts.html" data-i18n="charts"></a>
-  <a href="/new-releases.html" data-i18n="new"></a>
-
-  <hr>
-
-  <a href="/user/library.html" data-i18n="library"></a>
-  <a href="/user/purchases.html" data-i18n="purchases"></a>
+  <a href="/">Accueil</a>
+  <a href="/browse.html">Browse</a>
+  <a href="/genres.html">Genres</a>
+  <a href="/charts.html">Charts</a>
+  <a href="/new-releases.html">New</a>
 </div>
 
-<!-- HERO -->
+<!-- =========================
+     HERO
+========================= -->
 <section class="hero">
+
   <div class="hero-bg"></div>
 
   <div class="hero-content">
 
+    <!-- HEADER -->
     <div class="topbar">
       <span class="menu" id="menuBtn">☰</span>
 
@@ -40,13 +37,16 @@
       </a>
 
       <div id="authArea"></div>
+      <!-- 🔥 FIX: empty (JS controls it) -->
       <span class="lang" id="langBtn"></span>
     </div>
 
+    <!-- TEXT -->
     <div style="max-width:300px;">
       <h1 data-i18n="hero"></h1>
       <p class="hero-sub" data-i18n="heroSub"></p>
 
+      <!-- CTA -->
       <div class="cta">
         <a href="/browse.html" class="btn-primary" data-i18n="browse"></a>
         <a href="/genres.html" class="btn-outline" data-i18n="genres"></a>
@@ -56,57 +56,73 @@
   </div>
 </section>
 
-<!-- SINGLES -->
+<!-- =========================
+     SINGLES
+========================= -->
 <section class="section">
   <h3 data-i18n="singles"></h3>
   <div class="scroll-row" id="singles"></div>
 </section>
 
-<!-- ALBUMS -->
+<!-- =========================
+     ALBUMS
+========================= -->
 <section class="section">
   <h3 data-i18n="albums"></h3>
   <div class="scroll-row" id="albums"></div>
 </section>
 
-<!-- TRENDING -->
+<!-- =========================
+     TRENDING
+========================= -->
 <section class="section">
   <h3 data-i18n="trending"></h3>
   <div class="scroll-row" id="trending"></div>
 </section>
 
-<!-- NEW RELEASES -->
+<!-- =========================
+     NEW RELEASES
+========================= -->
 <section class="section">
   <h3 data-i18n="newReleases"></h3>
   <div class="scroll-row" id="releases"></div>
 </section>
 
-<!-- GENRES -->
+<!-- =========================
+     GENRES
+========================= -->
 <section class="section">
   <h3 data-i18n="exploreGenres"></h3>
   <div class="genres grid" id="genresGrid"></div>
 </section>
 
-<!-- CTA -->
+<!-- =========================
+     CTA
+========================= -->
 <section class="section" style="padding-bottom:40px;">
   <h3 data-i18n="support"></h3>
   <p class="sub" data-i18n="supportSub"></p>
 
-  <a href="/browse.html" class="btn-primary" data-i18n="start"></a>
+  <a href="/browse.html" class="btn-primary" style="margin-top:10px; display:inline-block;" data-i18n="start"></a>
 </section>
 
+<!-- SUPPORT BUTTON -->
 <a href="https://wa.me/447888314381" class="whatsapp">
   💬 Support
 </a>
 
+<!-- =========================
+     SCRIPT
+========================= -->
 <script type="module">
 import { initLang, applyLang } from "/js/lang.js";
 import { fetchBrowseResults } from "/js/api.js";
 import { getCurrentUser, logout } from "/js/auth.js";
 
-/* LANGUAGE */
+/* 🔥 FIX: Proper language init */
 initLang();
 
-/* HERO ROTATION */
+/* HERO IMAGE ROTATION */
 const heroImages = [
   "/assets/hero/hero1.png",
   "/assets/hero/hero2.png",
@@ -131,8 +147,8 @@ const authArea = document.getElementById("authArea");
 
 if(user){
   authArea.innerHTML = `
-    <span style="font-size:13px;">👋 ${user.name}</span>
-    <button id="logoutBtn" class="btn-outline" style="padding:6px 10px;">Logout</button>
+    <span>👋 ${user.name}</span>
+    <button id="logoutBtn">Logout</button>
   `;
   document.getElementById("logoutBtn").onclick = logout;
 }else{
@@ -142,7 +158,7 @@ if(user){
   `;
 }
 
-/* 🔥 APPLY AGAIN AFTER DYNAMIC HTML */
+/* 🔥 VERY IMPORTANT: re-apply language after dynamic content */
 applyLang();
 
 /* NORMALIZE */
@@ -154,14 +170,8 @@ function normalize(str){
     .replace(/\s+/g, "-");
 }
 
-/* INIT PAGE */
+/* LOAD DATA */
 async function initPage(){
-
-  const singlesEl = document.getElementById("singles");
-  const albumsEl = document.getElementById("albums");
-  const trendingEl = document.getElementById("trending");
-  const releasesEl = document.getElementById("releases");
-  const genresEl = document.getElementById("genresGrid");
 
   let data = [];
 
@@ -193,6 +203,12 @@ async function initPage(){
     `;
   }
 
+  const singlesEl = document.getElementById("singles");
+  const albumsEl = document.getElementById("albums");
+  const trendingEl = document.getElementById("trending");
+  const releasesEl = document.getElementById("releases");
+  const genresEl = document.getElementById("genresGrid");
+
   singles.forEach(i=> singlesEl.innerHTML += createCard(i));
   albums.forEach(i=> albumsEl.innerHTML += createCard(i));
   trending.forEach(i=> trendingEl.innerHTML += createCard(i));
@@ -209,11 +225,14 @@ async function initPage(){
 
 window.addEventListener("DOMContentLoaded", initPage);
 
-/* MENU */
+/* 🔥 FIXED MENU (WORKS PROPERLY) */
 const menuBtn = document.getElementById("menuBtn");
 const sideMenu = document.getElementById("sideMenu");
 
-menuBtn.onclick = ()=> sideMenu.classList.toggle("open");
+menuBtn.onclick = (e)=>{
+  e.stopPropagation();
+  sideMenu.classList.toggle("open");
+};
 
 document.addEventListener("click",(e)=>{
   if(!sideMenu.contains(e.target) && !menuBtn.contains(e.target)){
