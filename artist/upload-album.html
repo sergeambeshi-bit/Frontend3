@@ -27,17 +27,17 @@
   <hr>
 
   <!-- ARTIST -->
-  <a href="/artist/dashboard.html">📈 Dashboard</a>
-  <a href="/artist/catalog.html">🎶 Catalogue</a>
-  <a href="/artist/upload-track.html">⬆ Upload Track</a>
-  <a href="/artist/upload-album.html">💿 Upload Album</a>
+  <a href="/artist/dashboard.html" data-i18n="dashboard">📈 Dashboard</a>
+  <a href="/artist/catalog.html" data-i18n="catalog">🎶 Catalogue</a>
+  <a href="/artist/upload-track.html" data-i18n="uploadTrack">⬆ Upload Track</a>
+  <a href="/artist/upload-album.html" data-i18n="uploadAlbum">💿 Upload Album</a>
 
 </div>
 
 <!-- HEADER -->
 <div class="topbar">
   <span class="menu" id="menuBtn">☰</span>
-  <h3>Upload Album</h3>
+  <h3 data-i18n="uploadAlbum">Upload Album</h3>
   <span></span>
 </div>
 
@@ -75,7 +75,7 @@
   <a href="/purchases.html" class="nav-item">💰</a>
 </div>
 <script type="module">
-import { initLang } from "/js/lang.js";
+import { initLang, translate } from "/js/lang.js";
 
 initLang();
 import { getCurrentUser } from "/js/auth.js";
@@ -89,7 +89,7 @@ if(!user){
 }
 
 if(user.role !== "artist"){
-  alert("Artist account required");
+  alert(translate("artistAccountRequired"));
   window.location.href = "/";
 }
 
@@ -101,7 +101,7 @@ document.getElementById("upload-album-form").addEventListener("submit", e => {
 
   // ✅ GENRE VALIDATION
   if(!form.genre.value){
-    alert("Please select a genre");
+    alert(translate("selectGenre"));
     return;
   }
 
@@ -111,7 +111,7 @@ document.getElementById("upload-album-form").addEventListener("submit", e => {
   let price = Number(form.price.value);
 
   if(price < 1000 || price > 2000){
-    alert("Album price must be between 1000–2000 XAF");
+    alert(translate("albumPriceRange"));
     return;
   }
 

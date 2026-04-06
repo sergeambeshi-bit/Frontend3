@@ -30,7 +30,7 @@
 <!-- HEADER -->
 <div class="topbar">
   <span class="menu" id="menuBtn">☰</span>
-  <h3>Mes Achats</h3>
+  <h3 data-i18n="purchasesHeader">Mes Achats</h3>
   <span></span>
 </div>
 
@@ -40,7 +40,7 @@
 </section>
 
 <script type="module">
-import { initLang } from "/js/lang.js";
+import { initLang, translate } from "/js/lang.js";
 
 initLang();
 import { getCurrentUser } from "/js/auth.js";
@@ -116,7 +116,7 @@ function renderPurchases(purchases){
   if(!purchases.length){
     container.innerHTML = `
       <p class="sub" style="text-align:center;">
-        Aucun achat pour le moment
+        ${translate("noPurchases")}
       </p>
     `;
     return;

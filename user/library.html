@@ -30,7 +30,7 @@
 <!-- HEADER -->
 <div class="topbar">
   <span class="menu" id="menuBtn">☰</span>
-  <h3>Ma Bibliothèque</h3>
+  <h3 data-i18n="libraryHeader">Ma Bibliothèque</h3>
   <span></span>
 </div>
 
@@ -48,14 +48,14 @@
 /* =========================
    AUTH PROTECTION
 ========================= */
-import { initLang } from "/js/lang.js";
+import { initLang, translate } from "/js/lang.js";
 
 initLang();
 function requireAuth(){
   const user = localStorage.getItem("user");
 
   if(!user){
-    alert("Veuillez vous connecter");
+    alert(translate("pleaseLogin"));
     window.location.href = "/user/login.html";
   }
 }
@@ -91,7 +91,7 @@ function renderLibrary(){
   if(purchases.length === 0){
     container.innerHTML = `
       <p class="sub" style="text-align:center;">
-        🎧 Votre bibliothèque est vide
+        ${translate("libraryEmpty")}
       </p>
     `;
     return;

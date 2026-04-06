@@ -41,13 +41,13 @@
   </div>
 
   <div class="hero-content">
-    <h1 id="articleTitle">Titre de l'article</h1>
+    <h1 id="articleTitle" data-i18n="articleTitlePlaceholder">Titre de l'article</h1>
   </div>
 </section>
 
 <!-- ARTICLE CONTENT -->
 <section class="section">
-  <p id="articleContent" style="line-height:1.6; font-size:14px;">
+  <p id="articleContent" style="line-height:1.6; font-size:14px;" data-i18n="loading">
     Chargement...
   </p>
 </section>
@@ -84,8 +84,14 @@ async function loadArticle(){
 
   if(!article) return;
 
-  document.getElementById("articleTitle").textContent = article.title;
-  document.getElementById("articleContent").textContent = article.content;
+  const titleEl = document.getElementById("articleTitle");
+  const contentEl = document.getElementById("articleContent");
+
+  titleEl.textContent = article.title;
+  contentEl.textContent = article.content;
+
+  titleEl.removeAttribute("data-i18n");
+  contentEl.removeAttribute("data-i18n");
 
   document.getElementById("articleBg").style.backgroundImage = `url(${article.image})`;
 }

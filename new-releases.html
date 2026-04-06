@@ -38,13 +38,13 @@
 
 <!-- NEW RELEASES -->
 <section class="section">
-  <h3>Nouvelles Sorties</h3>
+  <h3 data-i18n="newReleases">Nouvelles Sorties</h3>
   <div class="scroll-row" id="releases"></div>
 </section>
 
 <script type="module">
 import { fetchNewReleases } from "/js/api.js";
-import { initLang } from "/js/lang.js";
+import { initLang, translate } from "/js/lang.js";
 
 initLang();
 
@@ -75,7 +75,7 @@ function createCard(item){
 
       <div class="card-bottom">
         <span class="price">${Math.floor(Math.random()*1500)} XAF</span>
-        <button class="buy">Buy</button>
+        <button class="buy">${translate("buy")}</button>
       </div>
     </div>
   `;
@@ -95,7 +95,7 @@ async function loadReleases(){
     });
 
   } catch (err) {
-    container.innerHTML = "<p>Erreur de chargement</p>";
+    container.innerHTML = `<p>${translate("loadingError")}</p>`;
   }
 }
 
@@ -111,7 +111,7 @@ document.addEventListener("click", e=>{
 /* BUY */
 document.addEventListener("click", e=>{
   if(e.target.classList.contains("buy")){
-    alert("Paiement bientôt disponible");
+    alert(translate("paymentUnavailable"));
   }
 });
 

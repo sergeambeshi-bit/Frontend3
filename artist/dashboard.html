@@ -17,56 +17,56 @@
     <img src="/assets/logo.png" class="menu-logo">
   </div>
 
-  <a href="/">🏠 Accueil</a>
-  <a href="/browse.html">🔍 Parcourir</a>
-  <a href="/genres.html">🎵 Genres</a>
-  <a href="/charts.html">📊 Charts</a>
+  <a href="/index.html" data-i18n="home">Accueil</a>
+  <a href="/browse.html" data-i18n="browse">Parcourir</a>
+  <a href="/genres.html" data-i18n="genres">Genres</a>
+  <a href="/charts.html" data-i18n="charts">Charts</a>
 
   <hr>
 
-  <a href="/artist/dashboard.html">📈 Dashboard</a>
-  <a href="/artist/catalog.html">🎶 Catalogue</a>
-  <a href="/artist/upload-track.html">⬆ Upload Track</a>
-  <a href="/artist/upload-album.html">💿 Upload Album</a>
+  <a href="/artist/dashboard.html" data-i18n="dashboard">Dashboard</a>
+  <a href="/artist/catalog.html" data-i18n="catalog">Catalogue</a>
+  <a href="/artist/upload-track.html" data-i18n="uploadTrack">Upload Track</a>
+  <a href="/artist/upload-album.html" data-i18n="uploadAlbum">Upload Album</a>
 
 </div>
 
 <!-- HEADER -->
 <div class="topbar">
   <span class="menu" id="menuBtn">☰</span>
-  <h3>Dashboard</h3>
+  <h3 data-i18n="dashboard">Dashboard</h3>
   <span></span>
 </div>
 
 <!-- EARNINGS -->
 <section class="section">
-  <h3>💰 Earnings</h3>
+  <h3 data-i18n="earnings">💰 Earnings</h3>
 
   <div id="earningsBox" class="card" style="padding:20px;">
     <h2 id="totalEarnings">Loading...</h2>
-    <button id="withdrawBtn" class="btn-primary">Withdraw</button>
+    <button id="withdrawBtn" class="btn-primary" data-i18n="withdraw">Withdraw</button>
   </div>
 </section>
 
 <!-- PAYOUT HISTORY -->
 <section class="section">
-  <h3>📤 Payout History</h3>
+  <h3 data-i18n="payoutHistory">📤 Payout History</h3>
   <div id="payoutList"></div>
 </section>
 
 <!-- QUICK ACTIONS -->
 <section class="section">
-  <h3>Actions rapides</h3>
+  <h3 data-i18n="quickActions">Actions rapides</h3>
 
   <div class="actions">
-    <a href="/artist/upload-track.html" class="action-btn">⬆ Upload Track</a>
-    <a href="/artist/upload-album.html" class="action-btn">💿 Upload Album</a>
-    <a href="/artist/catalog.html" class="action-btn">🎶 Voir Catalogue</a>
+    <a href="/artist/upload-track.html" class="action-btn" data-i18n="uploadTrack">⬆ Upload Track</a>
+    <a href="/artist/upload-album.html" class="action-btn" data-i18n="uploadAlbum">💿 Upload Album</a>
+    <a href="/artist/catalog.html" class="action-btn" data-i18n="viewCatalog">🎶 Voir Catalogue</a>
   </div>
 </section>
 
 <script type="module">
-import { initLang } from "/js/lang.js";
+import { initLang, translate } from "/js/lang.js";
 
 initLang();
 import { getCurrentUser } from "/js/auth.js";
@@ -105,7 +105,7 @@ document.getElementById("withdrawBtn").onclick = async ()=>{
   const amount = parseInt(document.getElementById("totalEarnings").innerText);
 
   if(!amount){
-    alert("No earnings");
+    alert(translate("noEarnings"));
     return;
   }
 
@@ -115,7 +115,7 @@ document.getElementById("withdrawBtn").onclick = async ()=>{
     status: "requested"
   }]);
 
-  alert("Withdrawal requested");
+  alert(translate("withdrawalRequested"));
 };
 
 load();

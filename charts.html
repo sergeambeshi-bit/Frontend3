@@ -36,18 +36,18 @@
 
 <!-- TOP TRACKS -->
 <section class="section">
-  <h3>Top Tracks</h3>
+  <h3 data-i18n="topTracks">Top Tracks</h3>
   <div id="topTracks"></div>
 </section>
 
 <!-- TRENDING -->
 <section class="section">
-  <h3>Tendance</h3>
+  <h3 data-i18n="trending">Tendance</h3>
   <div id="trendingTracks"></div>
 </section>
 
 <script type="module">
-import { initLang } from "/js/lang.js";
+import { initLang, translate } from "/js/lang.js";
 
 initLang();
 import { fetchBrowseResults } from "/js/api.js";
@@ -74,7 +74,7 @@ function createChartItem(item, index){
       <img src="${item.cover}">
       <div class="info">
         <b>${item.name}</b>
-        <p>${item.artist || "Artist"}</p>
+        <p>${item.artist || translate("artist")}</p>
       </div>
       <div class="price">${Math.floor(Math.random()*300)} XAF</div>
     </div>
@@ -114,7 +114,7 @@ document.addEventListener("click", e=>{
 /* BUY */
 document.addEventListener("click", e=>{
   if(e.target.classList.contains("price")){
-    alert("Paiement bientôt disponible");
+    alert(translate("paymentUnavailable"));
   }
 });
 

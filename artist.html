@@ -45,19 +45,19 @@
 
 <!-- ARTIST INFO -->
 <section class="section">
-  <p id="artistBio" class="sub" style="text-align:center;">
+  <p id="artistBio" class="sub" style="text-align:center;" data-i18n="artistBio">
     Biographie de l'artiste...
   </p>
 </section>
 
 <!-- TRACKS -->
 <section class="section">
-  <h3>Morceaux</h3>
+  <h3 data-i18n="tracks">Morceaux</h3>
   <div id="artistTracks"></div>
 </section>
 
 <script type="module">
-import { initLang } from "/js/lang.js";
+import { initLang, translate } from "/js/lang.js";
 
 initLang();
 import { fetchBrowseResults } from "/js/api.js";
@@ -130,7 +130,7 @@ document.addEventListener("click", e=>{
 /* BUY */
 document.addEventListener("click", e=>{
   if(e.target.classList.contains("price")){
-    alert("Paiement bientôt disponible");
+    alert(translate("paymentUnavailable"));
   }
 });
 

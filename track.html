@@ -41,8 +41,8 @@
   </div>
 
   <div class="hero-content">
-    <h1 id="trackTitle">Titre du morceau</h1>
-    <p id="trackArtist" class="sub">Artiste</p>
+    <h1 id="trackTitle" data-i18n="trackTitlePlaceholder">Titre du morceau</h1>
+    <p id="trackArtist" class="sub" data-i18n="artist">Artiste</p>
   </div>
 </section>
 
@@ -53,12 +53,12 @@
     <img id="trackCover" src="">
   </div>
 
-  <h3 id="trackName" style="text-align:center;">Titre</h3>
-  <p id="trackArtist2" class="sub" style="text-align:center;">Artiste</p>
+  <h3 id="trackName" style="text-align:center;" data-i18n="trackNameLabel">Titre</h3>
+  <p id="trackArtist2" class="sub" style="text-align:center;" data-i18n="artist">Artiste</p>
 
   <div class="cta" style="justify-content:center;">
-    <button class="btn-primary play">▶ Preview</button>
-    <button class="btn-outline buy">Acheter</button>
+    <button class="btn-primary play" data-i18n="preview">▶ Preview</button>
+    <button class="btn-outline buy" data-i18n="buy">Acheter</button>
   </div>
 
   <p class="price" style="text-align:center; margin-top:10px;">
@@ -70,7 +70,7 @@
 <!-- PAYMENT MODAL -->
 <div id="paymentModal" class="modal hidden">
   <div class="modal-content">
-    <h3>Paiement</h3>
+    <h3 data-i18n="payment">Paiement</h3>
 
     <div class="pay-section">
       <p class="label">🇨🇲 Mobile Money</p>
@@ -84,13 +84,13 @@
     </div>
 
     <input type="text" id="phone" placeholder="6XXXXXXXX">
-    <button class="confirm">Confirmer</button>
+    <button class="confirm" data-i18n="confirm">Confirmer</button>
   </div>
 </div>
 
 <script type="module">
 import { fetchBrowseResults } from "/js/api.js";
-import { initLang } from "/js/lang.js";
+import { initLang, applyLang, translate } from "/js/lang.js";
 
 initLang();
 
@@ -140,10 +140,20 @@ async function loadTrack(){
 
   if(!track) return;
 
-  document.getElementById("trackTitle").textContent = track.name;
-  document.getElementById("trackName").textContent = track.name;
-  document.getElementById("trackArtist").textContent = track.artist || "Artist";
-  document.getElementById("trackArtist2").textContent = track.artist || "Artist";
+  const trackTitleEl = document.getElementById("trackTitle");
+  const trackNameEl = document.getElementById("trackName");
+  const trackArtistEl = document.getElementById("trackArtist");
+  const trackArtist2El = document.getElementById("trackArtist2");
+
+  trackTitleEl.textContent = track.name;
+  trackNameEl.textContent = track.name;
+  trackArtistEl.textContent = track.artist || "Artist";
+  trackArtist2El.textContent = track.artist || "Artist";
+
+  trackTitleEl.removeAttribute("data-i18n");
+  trackNameEl.removeAttribute("data-i18n");
+  trackArtistEl.removeAttribute("data-i18n");
+  trackArtist2El.removeAttribute("data-i18n");
 
   document.getElementById("trackCover").src = track.cover || getRandomCover();
   document.getElementById("trackBg").style.backgroundImage = `url(${track.cover || getRandomCover()})`;
@@ -181,7 +191,7 @@ document.addEventListener("click", e => {
 
   if(e.target.classList.contains("confirm")){
     if(!selectedMethod){
-      alert("Choisissez un moyen de paiement");
+      alert(translate("choosePayment"));
       return;
     }
 
@@ -200,18 +210,19 @@ function showDownloadModal(){
 
   modal.innerHTML = `
     <div class="modal-content">
-      <h3>Téléchargement prêt</h3>
-      <p>Votre achat a été confirmé.</p>
+      <h3 data-i18n="readyDownload">Téléchargement prêt</h3>
+      <p data-i18n="purchaseConfirmed">Votre achat a été confirmé.</p>
 
-      <a href="/assets/sample.mp3" download class="download-btn">
+      <a href="/assets/sample.mp3" download class="download-btn" data-i18n="downloadZip">
         Télécharger
       </a>
 
-      <button class="close-download">Fermer</button>
+      <button class="close-download" data-i18n="close">Fermer</button>
     </div>
   `;
 
   document.body.appendChild(modal);
+  applyLang();
 
   modal.addEventListener("click", e=>{
     if(e.target.classList.contains("close-download")){

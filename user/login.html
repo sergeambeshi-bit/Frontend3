@@ -45,7 +45,7 @@
 </section>
 
 <script type="module">
-import { initLang, getLang, applyLang } from "/js/lang.js";
+import { initLang, applyLang, translate } from "/js/lang.js";
 import { supabase } from "/js/supabase.js";
 
 /* INIT LANGUAGE */
@@ -73,19 +73,11 @@ document.getElementById("loginForm").addEventListener("submit", async (e)=>{
 
   /* EMAIL CONFIRM CHECK */
   if(!data.user.email_confirmed_at){
-    const msg = getLang() === "fr"
-      ? "Veuillez confirmer votre email avant de vous connecter."
-      : "Please confirm your email before logging in.";
-
-    alert(msg);
+    alert(translate("confirmEmail"));
     return;
   }
 
-  const msg = getLang() === "fr"
-    ? "Connexion réussie"
-    : "Login successful";
-
-  alert(msg);
+  alert(translate("loginSuccess"));
 
   window.location.href = "/";
 });

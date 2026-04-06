@@ -12,7 +12,7 @@
 
 <section class="section">
 
-  <h3>Paiement</h3>
+  <h3 data-i18n="payment">Paiement</h3>
 
   <!-- ITEMS -->
   <div id="checkoutItems"></div>
@@ -23,7 +23,7 @@
   <!-- PAYMENT -->
   <form id="checkout-form">
 
-    <p class="sub">Méthode de paiement</p>
+    <p class="sub" data-i18n="paymentMethod">Méthode de paiement</p>
 
     <button type="button" class="pay-btn momo" data-method="mtn">
       MTN MoMo
@@ -37,7 +37,7 @@
       Carte bancaire
     </button>
 
-    <button class="btn-primary" style="width:100%; margin-top:10px;">
+    <button class="btn-primary" style="width:100%; margin-top:10px;" data-i18n="payNow">
       Payer maintenant
     </button>
 
@@ -46,7 +46,7 @@
 </section>
 
 <script type="module">
-import { initLang } from "/js/lang.js";
+import { initLang, translate } from "/js/lang.js";
 
 initLang();
 import { initCheckout } from "/js/checkout.js";
