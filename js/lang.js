@@ -140,6 +140,17 @@ export function toggleLang(){
 
   setLang(next);
   applyLang();
+  attachLangButton();
+}
+
+/* =========================
+   ATTACH BUTTON HANDLER
+========================= */
+export function attachLangButton(){
+  const btn = document.getElementById("langBtn");
+  if(btn){
+    btn.onclick = toggleLang;
+  }
 }
 
 /* =========================
@@ -150,10 +161,10 @@ export function initLang(){
   // apply immediately
   applyLang();
 
-  // attach click
-  const btn = document.getElementById("langBtn");
-
-  if(btn){
-    btn.onclick = toggleLang;
+  // attach click handler
+  if(document.readyState === "loading"){
+    document.addEventListener("DOMContentLoaded", attachLangButton);
+  } else {
+    attachLangButton();
   }
 }
