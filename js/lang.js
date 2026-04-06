@@ -41,7 +41,9 @@ const translations = {
     password: "Mot de passe",
     noAccount: "Pas encore de compte ?",
     haveAccount: "Vous avez déjà un compte ?",
-    name: "Nom"
+    name: "Nom",
+    email: "E-mail",
+    forgot: "Mot de passe oublié ?"
   },
 
   en: {
@@ -84,7 +86,9 @@ const translations = {
     password: "Password",
     noAccount: "Don’t have an account?",
     haveAccount: "Already have an account?",
-    name: "Name"
+    name: "Name",
+    email: "Email",
+    forgot: "Forgot Password?"
   }
 };
 

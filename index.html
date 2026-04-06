@@ -208,19 +208,6 @@ function createCard(item){
     ? `/album.html?album=${encodeURIComponent(item.album || item.name)}`
     : `/track.html?id=${item.id}`;
 
-  function getCoverUrl(item){
-    const fallback = "/assets/logo.png";
-
-    if(!item.cover || item.cover.trim() === "") return fallback;
-
-    const cover = item.cover.trim();
-
-    if(cover.startsWith("http")) return cover;
-    if(cover.startsWith("/assets/")) return cover;
-
-    return `/assets/covers/${cover}`;
-  }
-
   return `
     <a href="${link}" class="card premium-card">
 

@@ -126,7 +126,7 @@ async function safeFetch(endpoint) {
   try {
     const res = await fetch(`${API_BASE}${endpoint}`);
 
-    if (!res.ok) throw new Error("API error");
+    if (!res.ok) throw new Error(`API error: ${res.status} ${res.statusText}`);
 
     const data = await res.json();
 
@@ -134,7 +134,7 @@ async function safeFetch(endpoint) {
 
   } catch (err) {
 
-    console.warn("⚠️ Using mock + uploads:", err.message);
+    console.error("⚠️ Using mock + uploads:", err.message);
 
     if (endpoint.includes("blog")) return BLOG_POSTS;
 
