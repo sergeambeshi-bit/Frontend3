@@ -10,7 +10,7 @@ const translations = {
     trending: "Tendance au Cameroun",
     releases: "Nouvelles Sorties",
     charts: "Top Charts",
-    genres: "Explorer les Genres",
+    genres: "Genres",
 
     singles: "Singles",
     albums: "Albums",
@@ -55,7 +55,7 @@ const translations = {
     trending: "Trending in Cameroon",
     releases: "New Releases",
     charts: "Top Charts",
-    genres: "Explore Genres",
+    genres: "Genres",
 
     singles: "Singles",
     albums: "Albums",
