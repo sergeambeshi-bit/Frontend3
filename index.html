@@ -203,19 +203,31 @@ function getCoverUrl(item){
    CARD (PREMIUM)
 ========================= */
 function createCard(item){
+
   const link = item.type === "album"
     ? `/album.html?album=${encodeURIComponent(item.album || item.name)}`
     : `/track.html?id=${item.id}`;
 
+  function getCoverUrl(item){
+    const fallback = "/assets/logo.png";
+
+    if(!item.cover || item.cover.trim() === "") return fallback;
+
+    const cover = item.cover.trim();
+
+    if(cover.startsWith("http")) return cover;
+    if(cover.startsWith("/assets/")) return cover;
+
+    return `/assets/covers/${cover}`;
+  }
+
   return `
     <a href="${link}" class="card premium-card">
-      
-      <div class="card-image">
-        <img 
-          src="${getCoverUrl(item)}"
-          onerror="this.onerror=null; this.src='/assets/logo.png';"
-        >
-      </div>
+
+      <img 
+        src="${getCoverUrl(item)}"
+        onerror="this.onerror=null; this.src='/assets/logo.png';"
+      >
 
       <div class="card-overlay">
         <div class="card-title">${item.name}</div>
