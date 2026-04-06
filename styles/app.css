@@ -195,15 +195,16 @@ small {
 }
 
 .btn-outline {
-  border: 1px solid rgba(255,255,255,0.2);
+  background: #01d4ab;
+  color: #0f1115;
   padding: 12px 20px;
   border-radius: 30px;
-  color: white;
+  font-weight: 600;
   transition: 0.2s;
 }
 
 .btn-outline:hover {
-  background: rgba(255,255,255,0.05);
+  transform: translateY(-1px);
 }
 
 /* =========================
