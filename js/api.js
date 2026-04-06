@@ -12,14 +12,15 @@ function getRandomCover() {
     '/assets/covers/album1.png',
     '/assets/covers/album2.png',
     '/assets/covers/album3.png',
-    '/assets/covers/album4.png',
-    '/assets/covers/album5.png',
-    '/assets/covers/album6.png',
-    '/assets/covers/album7.png',
+    '/assets/covers/cover.png',
+    '/assets/covers/cover02.png',
+    '/assets/covers/cover03.png',
     '/assets/covers/cover1.png',
     '/assets/covers/cover2.png',
     '/assets/covers/cover3.png',
-    '/assets/covers/cover4.png'
+    '/assets/covers/cover5.png',
+    '/assets/covers/cover6.png',
+    '/assets/covers/cover7.png'
   ];
   return covers[Math.floor(Math.random() * covers.length)];
 }
