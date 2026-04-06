@@ -169,42 +169,113 @@ small {
 }
 
 /* =========================
-   BUTTONS
+   🔥 PREMIUM ANIMATED BUTTONS
 ========================= */
 .cta {
   margin-top: 20px;
   display: flex;
-  gap: 10px;
+  gap: 12px;
 }
 
-.btn-primary {
-  background: #01d4ab;
-  color: white;
-  padding: 12px 20px;
+.cta a {
+  flex: 1;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+/* BASE BUTTON */
+.btn-primary,
+.btn-secondary {
+  background: linear-gradient(
+    135deg,
+    #01d4ab,
+    #00c2a0,
+    #01d4ab
+  );
+  background-size: 200% 200%;
+
+  color: #0f1115;
+  padding: 14px 0;
   border-radius: 30px;
   font-weight: 600;
-  transition: all 0.2s ease;
+  font-size: 15px;
+
+  transition: all 0.25s ease;
 }
 
-.btn-primary:hover {
-  transform: translateY(-1px);
+/* ✨ ANIMATED GRADIENT (alive effect) */
+.btn-primary:hover,
+.btn-secondary:hover {
+  background-position: right center;
+  transform: translateY(-2px) scale(1.02);
+
+  box-shadow:
+    0 8px 25px rgba(1,212,171,0.35),
+    0 0 10px rgba(1,212,171,0.2);
 }
 
-.btn-primary:active {
-  transform: scale(0.96);
+/* 💥 PRESS EFFECT (mobile feel) */
+.btn-primary:active,
+.btn-secondary:active {
+  transform: scale(0.94);
+  box-shadow:
+    0 4px 12px rgba(1,212,171,0.3);
 }
 
-.btn-outline {
-  background: #01d4ab;
-  color: white;
-  padding: 12px 20px;
+/* ✨ SOFT GLOW PULSE */
+.btn-primary::before,
+.btn-secondary::before {
+  content: "";
+  position: absolute;
+  inset: 0;
   border-radius: 30px;
-  font-weight: 600;
-  transition: 0.2s;
+
+  background: radial-gradient(
+    circle at center,
+    rgba(255,255,255,0.25),
+    transparent 60%
+  );
+
+  opacity: 0;
+  transition: 0.3s;
 }
 
-.btn-outline:hover {
-  transform: translateY(-1px);
+/* glow appears on hover */
+.btn-primary:hover::before,
+.btn-secondary:hover::before {
+  opacity: 1;
+}
+
+/* 🔥 SHINE SWEEP (ULTRA PREMIUM) */
+.btn-primary::after,
+.btn-secondary::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 50%;
+  height: 100%;
+
+  background: linear-gradient(
+    120deg,
+    transparent,
+    rgba(255,255,255,0.4),
+    transparent
+  );
+
+  transform: skewX(-20deg);
+}
+
+/* animate shine */
+.btn-primary:hover::after,
+.btn-secondary:hover::after {
+  animation: shine 0.8s ease;
+}
+
+@keyframes shine {
+  from { left: -100%; }
+  to { left: 150%; }
 }
 
 /* =========================
