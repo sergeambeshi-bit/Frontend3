@@ -74,6 +74,25 @@ window.addEventListener("DOMContentLoaded", async () => {
     render(allData);
   }
 
+  /* GET RANDOM COVER */
+  function getRandomCover(){
+    const covers = [
+      "/assets/covers/album1.png",
+      "/assets/covers/album2.png", 
+      "/assets/covers/album3.png",
+      "/assets/covers/cover.png",
+      "/assets/covers/cover02.png",
+      "/assets/covers/cover03.png",
+      "/assets/covers/cover1.png",
+      "/assets/covers/cover2.png",
+      "/assets/covers/cover3.png",
+      "/assets/covers/cover5.png",
+      "/assets/covers/cover6.png",
+      "/assets/covers/cover7.png"
+    ];
+    return covers[Math.floor(Math.random() * covers.length)];
+  }
+
   /* NORMALIZE DATA */
   function normalizeData(data) {
     if (!Array.isArray(data)) return [];
@@ -85,7 +104,7 @@ window.addEventListener("DOMContentLoaded", async () => {
       album: item.album || "",
       genre: (item.genre || "").toLowerCase(),
       price: item.price || 300,
-      cover: item.cover || "/assets/covers/cover1.png",
+      cover: item.cover || getRandomCover(),
       type: item.type || "track",
       createdAt: item.createdAt || new Date().toISOString()
     }));
@@ -99,7 +118,7 @@ window.addEventListener("DOMContentLoaded", async () => {
 
     return `
       <a href="${link}" class="card" data-id="${item.id}">
-        <img src="${item.cover || '/assets/covers/cover1.png'}">
+        <img src="${item.cover || getRandomCover()}">
         <div>${item.name}</div>
         <div>${item.price} XAF</div>
         <button class="buy" data-i18n="buy"></button>
@@ -131,7 +150,7 @@ window.addEventListener("DOMContentLoaded", async () => {
 
     suggestionsBox.innerHTML = matches.map(item => `
       <div class="suggestion-item" data-name="${item.name}">
-        <img src="${item.cover || '/assets/covers/cover1.png'}">
+        <img src="${item.cover || getRandomCover()}">
         <div>
           <div>${item.name}</div>
           <small>${item.artist || ""}</small>

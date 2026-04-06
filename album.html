@@ -48,7 +48,7 @@
 <section class="section">
 
   <div class="cover" style="max-width:200px; margin:auto;">
-    <img src="${item.cover || 'assets/covers/cover1.png'}">
+    <img src="${item.cover || getRandomCover()}">
   </div>
 
   <h3 id="albumName" style="text-align:center;">Nom de l'album</h3>
@@ -97,6 +97,24 @@ import { fetchBrowseResults } from "/js/api.js";
 
 initLang();
 
+/* UTILITY FUNCTIONS */
+function getRandomCover() {
+  const covers = [
+    '/assets/covers/album1.png',
+    '/assets/covers/album2.png',
+    '/assets/covers/album3.png',
+    '/assets/covers/album4.png',
+    '/assets/covers/album5.png',
+    '/assets/covers/album6.png',
+    '/assets/covers/album7.png',
+    '/assets/covers/cover1.png',
+    '/assets/covers/cover2.png',
+    '/assets/covers/cover3.png',
+    '/assets/covers/cover4.png'
+  ];
+  return covers[Math.floor(Math.random() * covers.length)];
+}
+
 /* MENU */
 const menuBtn = document.getElementById("menuBtn");
 const sideMenu = document.getElementById("sideMenu");
@@ -120,7 +138,7 @@ function createTrack(item, index){
   return `
     <div class="chart-item">
       <span>${String(index+1).padStart(2,'0')}</span>
-      <img src="${item.cover || 'assets/covers/cover1.png'}">
+      <img src="${item.cover || getRandomCover()}">
       <div class="info">
         <b>${item.name}</b>
         <p>${item.artist}</p>
@@ -157,10 +175,10 @@ async function loadAlbum(){
   document.getElementById("albumArtist2").textContent = album.artist;
 
   document.getElementById("albumCover").src =
-    album.cover || "assets/covers/cover1.png";
+    album.cover || getRandomCover();
 
   document.getElementById("albumBg").style.backgroundImage =
-    `url(${album.cover || 'assets/covers/cover1.png'})`;
+    `url(${album.cover || getRandomCover()})`;
 
   const container = document.getElementById("albumTracks");
   container.innerHTML = "";

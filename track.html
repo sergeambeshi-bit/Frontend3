@@ -50,7 +50,7 @@
 <section class="section">
 
   <div class="cover" style="max-width:200px; margin:auto;">
-    <img id="trackCover" src="/assets/covers/cover1.png">
+    <img id="trackCover" src="">
   </div>
 
   <h3 id="trackName" style="text-align:center;">Titre</h3>
@@ -94,6 +94,24 @@ import { initLang } from "/js/lang.js";
 
 initLang();
 
+/* UTILITY FUNCTIONS */
+function getRandomCover() {
+  const covers = [
+    '/assets/covers/album1.png',
+    '/assets/covers/album2.png',
+    '/assets/covers/album3.png',
+    '/assets/covers/album4.png',
+    '/assets/covers/album5.png',
+    '/assets/covers/album6.png',
+    '/assets/covers/album7.png',
+    '/assets/covers/cover1.png',
+    '/assets/covers/cover2.png',
+    '/assets/covers/cover3.png',
+    '/assets/covers/cover4.png'
+  ];
+  return covers[Math.floor(Math.random() * covers.length)];
+}
+
 /* MENU */
 const menuBtn = document.getElementById("menuBtn");
 const sideMenu = document.getElementById("sideMenu");
@@ -126,8 +144,8 @@ async function loadTrack(){
   document.getElementById("trackArtist").textContent = track.artist || "Artist";
   document.getElementById("trackArtist2").textContent = track.artist || "Artist";
 
-  document.getElementById("trackCover").src = track.cover;
-  document.getElementById("trackBg").style.backgroundImage = `url(${track.cover})`;
+  document.getElementById("trackCover").src = track.cover || getRandomCover();
+  document.getElementById("trackBg").style.backgroundImage = `url(${track.cover || getRandomCover()})`;
 }
 
 /* PREVIEW */

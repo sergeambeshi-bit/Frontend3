@@ -5,6 +5,26 @@ import { getUploads } from "/js/store.js";
 const API_BASE = '/api';
 
 /* =========================================
+   UTILITY FUNCTIONS
+========================================= */
+function getRandomCover() {
+  const covers = [
+    '/assets/covers/album1.png',
+    '/assets/covers/album2.png',
+    '/assets/covers/album3.png',
+    '/assets/covers/album4.png',
+    '/assets/covers/album5.png',
+    '/assets/covers/album6.png',
+    '/assets/covers/album7.png',
+    '/assets/covers/cover1.png',
+    '/assets/covers/cover2.png',
+    '/assets/covers/cover3.png',
+    '/assets/covers/cover4.png'
+  ];
+  return covers[Math.floor(Math.random() * covers.length)];
+}
+
+/* =========================================
    MOCK DATA
 ========================================= */
 const MOCK_DATA = [
@@ -94,7 +114,7 @@ function normalizeData(data) {
     album: item.album || "",
     genre: (item.genre || "").toLowerCase(),
     price: item.price || 300,
-    cover: item.cover || "/assets/covers/cover1.png",
+    cover: item.cover || getRandomCover(),
     type: item.type || "track",
     createdAt: item.createdAt || new Date().toISOString()
   }));
