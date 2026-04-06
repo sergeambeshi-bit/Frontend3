@@ -40,7 +40,7 @@
 <section class="section">
   <h3>Explorer les Genres</h3>
 
-  <div class="genres" id="genresGrid"></div>
+  <div class="genres grid" id="genresGrid"></div>
 </section>
 
 <script type="module">
@@ -94,7 +94,7 @@ function renderGenres(){
 
   genres.forEach(genre => {
     const div = document.createElement("div");
-    div.className = "genre";
+    div.className = "genre-card";
     div.textContent = genre;
 
     div.addEventListener("click", () => {
