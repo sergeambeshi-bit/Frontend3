@@ -195,13 +195,29 @@ small {
   );
   background-size: 200% 200%;
 
-  color: #0f1115;
+  color: #ffffff;
   padding: 14px 0;
   border-radius: 30px;
   font-weight: 600;
   font-size: 15px;
 
   transition: all 0.25s ease;
+}
+
+.btn-outline {
+  background: transparent;
+  color: #ffffff;
+  padding: 14px 0;
+  border-radius: 30px;
+  font-weight: 600;
+  font-size: 15px;
+  border: 1px solid rgba(255,255,255,0.18);
+  transition: all 0.25s ease;
+}
+
+.btn-outline:hover {
+  background: rgba(255,255,255,0.08);
+  transform: translateY(-1px);
 }
 
 /* ✨ ANIMATED GRADIENT (alive effect) */
@@ -381,6 +397,123 @@ small {
 .chart-item p {
   font-size: 12px;
   color: #a1a1aa;
+}
+
+/* =========================
+   RESPONSIVE DESIGN (DESKTOP)
+========================= */
+
+@media (min-width: 768px) {
+  /* Tablet and Desktop */
+
+  .main-container {
+    max-width: 1200px;
+    padding: 0 40px;
+  }
+
+  .hero {
+    height: 70vh;
+  }
+
+  .hero-content {
+    padding: 40px 20px 80px;
+  }
+
+  .topbar {
+    padding: 0 40px;
+  }
+
+  .section {
+    padding: 40px 20px;
+  }
+
+  .scroll-row {
+    gap: 20px;
+  }
+
+  .card,
+  .premium-card {
+    width: 180px;
+    height: 220px;
+    border-radius: 20px;
+  }
+
+  .side-menu {
+    width: 300px;
+  }
+
+  /* Typography scaling */
+  h1 {
+    font-size: 40px;
+  }
+
+  h2 {
+    font-size: 26px;
+  }
+
+  h3 {
+    font-size: 20px;
+  }
+
+  p {
+    font-size: 16px;
+  }
+
+  .sub {
+    font-size: 14px;
+  }
+}
+
+@media (min-width: 1024px) {
+  /* Large Desktop */
+
+  .main-container {
+    max-width: 1400px;
+    padding: 0 60px;
+  }
+
+  .hero {
+    height: 60vh;
+  }
+
+  .section {
+    padding: 50px 30px;
+  }
+
+  .scroll-row {
+    gap: 24px;
+  }
+
+  .card,
+  .premium-card {
+    width: 200px;
+    height: 240px;
+  }
+
+  .topbar {
+    padding: 0 60px;
+  }
+
+  /* Larger typography */
+  h1 {
+    font-size: 48px;
+  }
+
+  h2 {
+    font-size: 28px;
+  }
+
+  h3 {
+    font-size: 22px;
+  }
+
+  p {
+    font-size: 18px;
+  }
+
+  .sub {
+    font-size: 16px;
+  }
 }
 
 /* =========================

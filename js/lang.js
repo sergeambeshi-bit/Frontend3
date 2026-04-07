@@ -2,8 +2,8 @@
 
 const translations = {
   fr: {
-    hero: "Télécharger la musique africaine",
-    heroSub: "Télécharger • Soutenir les artistes africains",
+    hero: "Possédez le Son de l'Afrique",
+    heroSub: "Découvrez, soutenez et possédez de la musique du Cameroun et au-delà.",
 
     browse: "Parcourir",
     new: "Nouveautés",
@@ -103,8 +103,8 @@ const translations = {
   },
 
   en: {
-    hero: "Download African Music",
-    heroSub: "Download • Support African Artists",
+    hero: "Own the Sound of Africa",
+    heroSub: "Discover, support, and own music from Cameroon and beyond.",
 
     browse: "Browse",
     new: "New Releases",
