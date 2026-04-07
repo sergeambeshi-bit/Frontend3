@@ -94,6 +94,7 @@ small {
 /* =========================
    HEADER
 ========================= */
+/* CENTERED LOGO HEADER */
 .topbar {
   position: absolute;
   top: 16px;
@@ -106,12 +107,16 @@ small {
 
   padding: 0 20px;
   z-index: 50;
-  backdrop-filter: blur(10px);
+}
+
+.logo-center {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
 }
 
 .logo {
-  width: 80px;
-  object-fit: contain;
+  width: 120px; /* BIGGER = premium */
 }
 
 .menu {

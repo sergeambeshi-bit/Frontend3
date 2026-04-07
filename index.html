@@ -34,13 +34,11 @@
     <div class="topbar">
       <span class="menu" id="menuBtn">☰</span>
 
-      <a href="/index.html">
+      <div class="logo-center">
         <img src="/assets/logo.png" class="logo">
-      </a>
+      </div>
 
-      <div id="authArea"></div>
-      <!-- 🔥 FIX: empty (JS controls it) -->
-      <span class="lang" id="langBtn"></span>
+      <span class="lang" id="langBtn">FR ▾</span>
     </div>
 
     <!-- TEXT -->
@@ -153,17 +151,19 @@ if(hero){
 const user = getCurrentUser();
 const authArea = document.getElementById("authArea");
 
-if(user){
-  authArea.innerHTML = `
-    <span>👋 ${user.name}</span>
-    <button id="logoutBtn">Logout</button>
-  `;
-  document.getElementById("logoutBtn").onclick = logout;
-}else{
-  authArea.innerHTML = `
-    <a href="/user/login.html" data-i18n="login"></a>
-    <a href="/user/signup.html" class="btn-primary" data-i18n="signup"></a>
-  `;
+if(authArea){
+  if(user){
+    authArea.innerHTML = `
+      <span>👋 ${user.name}</span>
+      <button id="logoutBtn">Logout</button>
+    `;
+    document.getElementById("logoutBtn").onclick = logout;
+  }else{
+    authArea.innerHTML = `
+      <a href="/user/login.html" data-i18n="login"></a>
+      <a href="/user/signup.html" class="btn-primary" data-i18n="signup"></a>
+    `;
+  }
 }
 
 /* 🔥 re-apply language after dynamic HTML */
