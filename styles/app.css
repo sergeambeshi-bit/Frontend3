@@ -145,32 +145,40 @@ small {
   cursor: pointer;
 }
 
-/* PROFILE DROPDOWN MENU */
+/* WRAPPER */
+.profile-wrapper {
+  position: relative; /* 🔥 THIS FIXES EVERYTHING */
+}
+
+/* DROPDOWN */
 .profile-menu {
   position: absolute;
-  top: 100%;
+  top: 35px;   /* just below icon */
   right: 0;
-  background: rgba(17, 19, 26, 0.95);
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 8px;
-  padding: 8px 0;
-  min-width: 140px;
+
+  background: rgba(21,24,33,0.95);
+  backdrop-filter: blur(12px);
+
+  border-radius: 14px;
+  padding: 10px;
+  width: 160px;
+
   display: none;
-  z-index: 1000;
+  flex-direction: column;
+  gap: 8px;
+
+  box-shadow: 0 15px 40px rgba(0,0,0,0.5);
+  z-index: 100;
 }
 
 .profile-menu a {
-  display: block;
-  padding: 12px 16px;
-  color: #fff;
-  text-decoration: none;
+  padding: 10px;
+  border-radius: 8px;
   font-size: 14px;
-  transition: background 0.2s ease;
 }
 
 .profile-menu a:hover {
-  background: rgba(255, 255, 255, 0.1);
+  background: rgba(255,255,255,0.05);
 }
 
 /* =========================
