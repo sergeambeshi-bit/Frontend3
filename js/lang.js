@@ -288,13 +288,42 @@ export function toggleLang(){
   attachLangButton();
 }
 
+function ensureLangButton(){
+  let btn = document.getElementById("langBtn");
+  if(btn) return btn;
+
+  if(!document.body) return null;
+
+  btn = document.createElement("button");
+  btn.id = "langBtn";
+  btn.type = "button";
+  btn.className = "lang";
+  btn.setAttribute("aria-label", "Toggle language");
+
+  btn.style.position = "fixed";
+  btn.style.top = "14px";
+  btn.style.right = "14px";
+  btn.style.zIndex = "999";
+  btn.style.padding = "7px 10px";
+  btn.style.borderRadius = "999px";
+  btn.style.border = "1px solid rgba(255,255,255,0.2)";
+  btn.style.background = "rgba(15,17,21,0.92)";
+  btn.style.color = "#ffffff";
+  btn.style.backdropFilter = "blur(10px)";
+  btn.style.cursor = "pointer";
+
+  document.body.appendChild(btn);
+  return btn;
+}
+
 /* =========================
    ATTACH BUTTON HANDLER
 ========================= */
 export function attachLangButton(){
-  const btn = document.getElementById("langBtn");
+  const btn = ensureLangButton();
   if(btn){
     btn.onclick = toggleLang;
+    btn.textContent = getLang().toUpperCase() + " ▾";
   }
 }
 
