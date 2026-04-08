@@ -101,59 +101,19 @@ small {
 
 .hero-logo {
   position: absolute;
-  top: 12%;
+  top: 12px;
   left: 50%;
-  transform: translate(-50%, -50%) scale(0.9);
+  transform: translateX(-50%);
 
-  width: 200px;
-  max-width: 65vw;
+  width: 90vw;
+  max-width: 420px;
   height: auto;
   object-fit: contain;
 
   z-index: 5;
 
-  opacity: 0;
-
   /* glow */
   filter: drop-shadow(0 6px 20px rgba(1, 212, 171, 0.35));
-
-  /* animations */
-  animation: logoFadeIn 1.2s ease forwards,
-             logoFloat 6s ease-in-out infinite;
-}
-
-/* FADE + SCALE IN */
-@keyframes logoFadeIn {
-  to {
-    opacity: 1;
-    transform: translate(-50%, -50%) scale(1);
-  }
-}
-
-/* SUBTLE FLOAT */
-@keyframes logoFloat {
-  0%, 100% {
-    transform: translate(-50%, -50%) scale(1);
-  }
-  50% {
-    transform: translate(-50%, calc(-50% - 6px)) scale(1.02);
-  }
-}
-
-/* MOBILE TWEAK */
-@media (max-width: 480px) {
-  .hero-logo {
-    width: 180px;
-    top: 14%;
-  }
-}
-
-/* LARGE SCREENS */
-@media (min-width: 768px) {
-  .hero-logo {
-    width: 240px;
-    top: 10%;
-  }
 }
 
 /* =========================
@@ -162,7 +122,7 @@ small {
 /* CENTERED LOGO HEADER */
 .topbar {
   position: absolute;
-  top: 16px;
+  top: 0;
   left: 0;
   right: 0;
 
@@ -170,7 +130,7 @@ small {
   align-items: center;
   justify-content: space-between;
 
-  padding: 0 20px;
+  padding: 14px 16px;
   z-index: 50;
 }
 
@@ -181,16 +141,24 @@ small {
 }
 
 .logo {
-  width: 150px;
-  max-width: 45vw;
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+
+  width: 95vw;
+  max-width: 420px;
+
   height: auto;
   object-fit: contain;
 
-  display: block;
-  margin: 0 auto;
+  z-index: 40;
 
-  /* premium glow */
-  filter: brightness(1.15) contrast(1.15) drop-shadow(0 4px 12px rgba(1, 212, 171, 0.25));
+  pointer-events: none;
+
+  margin-top: 10px;
+
+  filter: drop-shadow(0 6px 20px rgba(1, 212, 171, 0.35));
 }
 
 .menu {
@@ -211,6 +179,12 @@ small {
   font-size: 13px;
   opacity: 0.8;
   cursor: pointer;
+}
+
+.menu,
+.lang {
+  position: relative;
+  z-index: 60;
 }
 
 /* PROFILE */
