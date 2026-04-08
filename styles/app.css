@@ -116,7 +116,16 @@ small {
 }
 
 .logo {
-  width: 120px; /* BIGGER = premium */
+  width: 150px;
+  max-width: 45vw;
+  height: auto;
+  object-fit: contain;
+
+  display: block;
+  margin: 0 auto;
+
+  /* premium glow */
+  filter: brightness(1.15) contrast(1.15) drop-shadow(0 4px 12px rgba(1, 212, 171, 0.25));
 }
 
 .menu {
@@ -593,21 +602,6 @@ small {
 
 .genre-card:hover {
   color: #01d4ab;
-}
-
-/* =========================
-   WHATSAPP
-========================= */
-.whatsapp {
-  position: fixed;
-  bottom: 90px;
-  right: 20px;
-  background: #01d4ab;
-  color: #0f1115;
-  padding: 10px 14px;
-  border-radius: 25px;
-  font-size: 12px;
-  z-index: 300;
 }
 
 /* =========================
