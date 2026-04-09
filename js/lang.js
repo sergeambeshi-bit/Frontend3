@@ -34,6 +34,15 @@ const translations = {
     library: "Bibliothèque",
     purchases: "Achats",
     settings: "Paramètres",
+    settingsTitle: "Paramètres - JENGU",
+    profile: "Profil",
+    fullName: "Nom complet",
+    newPassword: "Nouveau mot de passe",
+    mobilePayment: "Paiement Mobile",
+    mobileNumber: "Numéro MTN / Orange",
+    paymentUseNote: "Utilisé pour recevoir vos paiements ou achats",
+    save: "Sauvegarder",
+    settingsSaved: "Paramètres sauvegardés",
 
    /* AUTH */
     login: "Connexion",
@@ -135,6 +144,15 @@ const translations = {
     library: "Library",
     purchases: "Purchases",
     settings: "Settings",
+    settingsTitle: "Settings - JENGU",
+    profile: "Profile",
+    fullName: "Full name",
+    newPassword: "New password",
+    mobilePayment: "Mobile Payment",
+    mobileNumber: "MTN / Orange number",
+    paymentUseNote: "Used to receive your payouts or purchases",
+    save: "Save",
+    settingsSaved: "Settings saved",
 
     /* AUTH */
     login: "Login",

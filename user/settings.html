@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Paramètres – JENGU</title>
+<title data-i18n="settingsTitle">Paramètres – JENGU</title>
 
 <link rel="stylesheet" href="/styles/app.css">
 </head>
@@ -37,22 +37,22 @@
 <!-- PROFILE -->
 <section class="section">
 
-  <h3>Profil</h3>
+  <h3 data-i18n="profile">Profil</h3>
 
-  <input type="text" placeholder="Nom complet">
-  <input type="email" placeholder="Email">
-  <input type="password" placeholder="Nouveau mot de passe">
+  <input type="text" data-i18n="fullName" placeholder="Nom complet">
+  <input type="email" data-i18n="email" placeholder="Email">
+  <input type="password" data-i18n="newPassword" placeholder="Nouveau mot de passe">
 
 </section>
 
 <!-- PAYMENT SETTINGS -->
 <section class="section">
 
-  <h3>Paiement Mobile</h3>
+  <h3 data-i18n="mobilePayment">Paiement Mobile</h3>
 
-  <input type="text" placeholder="Numéro MTN / Orange">
+  <input type="text" data-i18n="mobileNumber" placeholder="Numéro MTN / Orange">
 
-  <p class="sub">
+  <p class="sub" data-i18n="paymentUseNote">
     Utilisé pour recevoir vos paiements ou achats
   </p>
 
@@ -61,7 +61,7 @@
 <!-- ACTION -->
 <section class="section">
 
-  <button class="btn-primary" style="width:100%;">
+  <button class="btn-primary" style="width:100%;" data-i18n="save">
     Sauvegarder
   </button>
 
@@ -70,7 +70,7 @@
 <script type="module">
 
 /* MENU */
-import { initLang } from "/js/lang.js";
+import { initLang, translate } from "/js/lang.js";
 
 initLang();
 const menuBtn = document.getElementById("menuBtn");
@@ -88,7 +88,7 @@ document.addEventListener("click", (e) => {
 
 /* SAVE */
 document.querySelector(".btn-primary").addEventListener("click", () => {
-  alert("Paramètres sauvegardés");
+  alert(translate("settingsSaved"));
 });
 
 </script>
