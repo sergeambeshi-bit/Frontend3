@@ -127,7 +127,7 @@ small {
   top: -18px;
 
   left: 50%;
-  transform: translateX(-60%);
+  transform: translateX(-61%);
 
   width: calc(100% - 120px); /* space between icons (60px + 60px) */
   max-width: 380px;
@@ -142,8 +142,10 @@ small {
 }
 
 .menu {
-  font-size: 22px;
-  opacity: 0.85;
+  font-size: 24px;
+  font-weight: 700;
+  opacity: 1;
+  text-shadow: 0 0 8px rgba(255,255,255,0.2);
   cursor: pointer;
   z-index: 60;
 
@@ -159,20 +161,23 @@ small {
 .topbar-right {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 2px;
+  margin-right: -12px; /* 👈 pushes both icons right */
   z-index: 60;
 }
 
 /* LANGUAGE */
 .lang {
   font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.3px;
   opacity: 0.85;
-  margin-left: 2px;
+  margin-left: 4px; /* 👈 increased */
 
   padding: 6px 10px;
   border-radius: 20px;
 
-  background: rgba(255,255,255,0.05);
+  background: rgba(255,255,255,0.07);
   backdrop-filter: blur(6px);
 
   transition: 0.2s;
@@ -184,15 +189,22 @@ small {
 
 /* PROFILE ICON (CIRCLE) */
 .profile-icon {
-  width: 32px;
-  height: 32px;
+  width: 34px;
+  height: 34px;
   border-radius: 50%;
+  font-size: 17px;
+  color: #ffffff;
+  cursor: pointer;
+  line-height: 1;
+  flex-shrink: 0;
 
   background: linear-gradient(
     135deg,
-    rgba(255,255,255,0.15),
-    rgba(255,255,255,0.05)
+    rgba(255,255,255,0.25),
+    rgba(255,255,255,0.08)
   );
+
+  border: 1px solid rgba(255,255,255,0.15);
 
   backdrop-filter: blur(6px);
 
@@ -202,7 +214,9 @@ small {
 
   transition: 0.2s;
 
-  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+  box-shadow:
+    0 4px 12px rgba(0,0,0,0.4),
+    0 0 8px rgba(1,212,171,0.15);
 }
 
 .profile-icon:hover {
@@ -213,6 +227,7 @@ small {
 /* WRAPPER */
 .profile-wrapper {
   position: relative; /* 🔥 THIS FIXES EVERYTHING */
+  margin-left: 2px;
 }
 
 /* DROPDOWN */
