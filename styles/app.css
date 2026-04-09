@@ -10,6 +10,10 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
+body.has-topbar-clearance {
+  padding-top: 86px;
+}
+
 /* centered layout */
 .main-container {
   max-width: 420px;
@@ -96,27 +100,6 @@ small {
 }
 
 /* =========================
-   HERO LOGO (ANIMATED PREMIUM)
-========================= */
-
-.hero-logo {
-  position: absolute;
-  top: 12px;
-  left: 50%;
-  transform: translateX(-50%);
-
-  width: 90vw;
-  max-width: 420px;
-  height: auto;
-  object-fit: contain;
-
-  z-index: 5;
-
-  /* glow */
-  filter: drop-shadow(0 6px 20px rgba(1, 212, 171, 0.35));
-}
-
-/* =========================
    HEADER
 ========================= */
 /* CENTERED LOGO HEADER */
@@ -135,62 +118,96 @@ small {
 }
 
 .logo-center {
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
+  position: static;
+  transform: none;
 }
 
-.logo {
+.topbar .logo {
   position: absolute;
-  top: 0;
-  left: 50%;
-  transform: translateX(-50%);
+  top: -18px;
 
-  width: 95vw;
-  max-width: 420px;
+  left: 50%;
+  transform: translateX(-60%);
+
+  width: calc(100% - 120px); /* space between icons (60px + 60px) */
+  max-width: 380px;
 
   height: auto;
   object-fit: contain;
 
   z-index: 40;
-
   pointer-events: none;
-
-  margin-top: 10px;
 
   filter: drop-shadow(0 6px 20px rgba(1, 212, 171, 0.35));
 }
 
 .menu {
   font-size: 22px;
-  opacity: 0.8;
+  opacity: 0.85;
   cursor: pointer;
+  z-index: 60;
+
+  transition: 0.2s;
+}
+
+.menu:hover {
+  opacity: 1;
+  transform: scale(1.05);
 }
 
 /* RIGHT SIDE GROUP */
 .topbar-right {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 10px;
+  z-index: 60;
 }
 
 /* LANGUAGE */
 .lang {
   font-size: 13px;
-  opacity: 0.8;
-  cursor: pointer;
+  opacity: 0.85;
+  margin-left: 2px;
+
+  padding: 6px 10px;
+  border-radius: 20px;
+
+  background: rgba(255,255,255,0.05);
+  backdrop-filter: blur(6px);
+
+  transition: 0.2s;
 }
 
-.menu,
-.lang {
-  position: relative;
-  z-index: 60;
+.lang:hover {
+  background: rgba(1,212,171,0.15);
 }
 
-/* PROFILE */
+/* PROFILE ICON (CIRCLE) */
 .profile-icon {
-  font-size: 18px;
-  cursor: pointer;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+
+  background: linear-gradient(
+    135deg,
+    rgba(255,255,255,0.15),
+    rgba(255,255,255,0.05)
+  );
+
+  backdrop-filter: blur(6px);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  transition: 0.2s;
+
+  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+}
+
+.profile-icon:hover {
+  transform: scale(1.08);
+  box-shadow: 0 6px 18px rgba(1,212,171,0.25);
 }
 
 /* WRAPPER */
