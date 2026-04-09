@@ -124,10 +124,10 @@ small {
 
 .topbar .logo {
   position: absolute;
-  top: -18px;
+  top: 50%;
 
   left: 50%;
-  transform: translateX(-61%);
+  transform: translate(-61%, -48%);
 
   width: calc(100% - 120px); /* space between icons (60px + 60px) */
   max-width: 380px;
@@ -147,6 +147,7 @@ small {
   opacity: 1;
   text-shadow: 0 0 8px rgba(255,255,255,0.2);
   cursor: pointer;
+  margin-left: -3px;
   z-index: 60;
 
   transition: 0.2s;
