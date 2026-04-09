@@ -39,7 +39,7 @@ h2 {
 h3 {
   font-size: 17px;
   font-weight: 600;
-  margin-bottom: 12px;
+  margin-bottom: 6px; /* was bigger before */
   color: #ffffff;
 }
 
@@ -549,7 +549,11 @@ small {
    SECTION
 ========================= */
 .section {
-  padding: 18px 16px; /* 🔥 tighter */
+  padding: 12px 16px; /* 🔥 tighter */
+}
+
+.section + .section {
+  margin-top: 6px; /* 🔥 controls gap BETWEEN sections */
 }
 
 /* =========================
@@ -557,7 +561,7 @@ small {
 ========================= */
 .scroll-row {
   display: flex;
-  gap: 14px;
+  gap: 10px; /* slightly tighter cards */
   overflow-x: auto;
   padding-bottom: 5px;
 }
