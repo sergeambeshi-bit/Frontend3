@@ -668,14 +668,31 @@ small {
 
   .hero {
     height: 70vh;
+    min-height: 500px;
+  }
+
+  .hero-bg {
+    background-position: center center;
+    background-size: cover;
   }
 
   .hero-content {
-    padding: 40px 20px 80px;
+    padding: 140px 40px 80px;
+    justify-content: flex-end;
   }
 
   .topbar {
     padding: 0 40px;
+    height: 72px;
+    position: fixed;
+    background: rgba(24,29,40,0.75);
+    backdrop-filter: blur(10px);
+  }
+
+  .topbar .logo {
+    top: 50%;
+    max-width: 220px;
+    transform: translate(-50%, -50%);
   }
 
   .section {
@@ -728,7 +745,16 @@ small {
   }
 
   .hero {
-    height: 60vh;
+    height: 65vh;
+    min-height: 560px;
+  }
+
+  .hero-bg {
+    background-position: center 30%;
+  }
+
+  .hero-content {
+    padding: 160px 60px 100px;
   }
 
   .section {
@@ -747,6 +773,11 @@ small {
 
   .topbar {
     padding: 0 60px;
+    height: 80px;
+  }
+
+  .topbar .logo {
+    max-width: 260px;
   }
 
   /* Larger typography */
