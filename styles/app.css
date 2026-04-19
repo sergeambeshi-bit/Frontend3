@@ -165,11 +165,11 @@ small {
 }
 
 .charts-page .menu {
-  margin-top: -10px; /* move menu icon down on Top Charts page */
+  margin-top: -14px; /* move menu icon up a little on Top Charts page */
 }
 
 .new-releases-page .menu {
-  margin-top: -10px; /* move menu icon down on New Releases page */
+  margin-top: -14px; /* move menu icon up a little on New Releases page */
 }
 
 /* NEW RELEASES CARD LAYOUT */
@@ -234,7 +234,7 @@ small {
 }
 
 .genres-page .menu {
-  margin-top: -10px; /* move menu icon down on Genres only */
+  margin-top: -14px; /* move menu icon up a little on Genres only */
 }
 
 .menu {
@@ -243,7 +243,7 @@ small {
   opacity: 1;
   text-shadow: 0 0 8px rgba(255,255,255,0.2);
   cursor: pointer;
-  margin-top: -30px;
+  margin-top: -34px;
   margin-left: 0;
   z-index: 60;
 
