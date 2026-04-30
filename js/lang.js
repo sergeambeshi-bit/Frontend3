@@ -49,22 +49,48 @@ const translations = {
     loginSub: "Accédez à vos achats et téléchargements",
     signup: "S'inscrire",
     signupSub: "Créez un compte pour acheter et télécharger",
+    loginPageTitle: "Connexion - JENGU",
+    signupPageTitle: "Inscription - JENGU",
+    trackPageTitle: "Morceau - JENGU",
+    chartsPageTitle: "Classements - JENGU",
     password: "Mot de passe",
     noAccount: "Pas encore de compte ?",
     haveAccount: "Vous avez déjà un compte ?",
     name: "Nom",
     email: "E-mail",
     forgot: "Mot de passe oublié ?",
+    signupAsRole: "Je m'inscris en tant que :",
+    loginAsRole: "Je me connecte en tant que :",
+    roleFanDescSignup: "Acheter, decouvrir et telecharger",
+    roleArtistDescSignup: "Publier et vendre votre musique",
+    roleFanDescLogin: "Espace achat et bibliotheque",
+    roleArtistDescLogin: "Espace dashboard et uploads",
+    roleFanAccountCreated: "Compte fan cree ! Verifiez votre email pour confirmer.",
+    roleArtistAccountCreated: "Compte artiste cree ! Verifiez votre email pour confirmer.",
+    accountTypeFanMismatch: "Ce compte est fan. Choisissez Fan pour vous connecter.",
+    accountTypeArtistMismatch: "Ce compte est artiste. Choisissez Artiste pour vous connecter.",
+    artistLoginSuccess: "Connexion artiste reussie",
 
     trackTitlePlaceholder: "Titre du morceau",
     trackNameLabel: "Titre",
     artist: "Artiste",
+    topTracks: "Top Tracks",
     buyAlbum: "Acheter l'album",
     buy: "Acheter",
     preview: "▶ Lecture",
+    pausePreview: "Pause",
+    previewUnavailable: "Apercu indisponible",
+    trackNotFound: "Morceau introuvable",
+    trackExclusive: "Exclusif",
+    trackCoverAlt: "Pochette du morceau",
+    trackMetaHQ: "MP3 Haute Qualite",
+    trackMetaDelivery: "Livraison instantanee",
+    trackMetaSecure: "Paiement securise",
+    trackPaymentHint: "Choisissez une methode pour continuer vers le checkout.",
     payment: "Paiement",
     paymentMethod: "Méthode de paiement",
     payNow: "Payer maintenant",
+    cancel: "Annuler",
     paymentUnavailable: "Paiement bientôt disponible",
     loadingError: "Erreur de chargement",
     blog: "Blog",
@@ -108,7 +134,15 @@ const translations = {
     analytics: "Analytics",
     genreHeader: "Explorer les Genres",
     libraryHeader: "Ma Bibliothèque",
-    purchasesHeader: "Mes Achats"
+    purchasesHeader: "Mes Achats",
+    chartsTitle: "Top Charts",
+    chartsSubtitle: "Le classement premium des morceaux les plus ecoutes et les plus achetes cette semaine.",
+    chartsMetricDaily: "Mis a jour chaque jour",
+    chartsMetricEditorial: "Selection editoriale",
+    chartsMetricCheckout: "Checkout instantane",
+    chartsTagGlobal: "Global",
+    chartsTagRising: "Rising",
+    chartsNoTracks: "Aucun morceau disponible pour le moment."
   },
 
   en: {
@@ -159,22 +193,48 @@ const translations = {
     loginSub: "Access your purchases and downloads",
     signup: "Sign Up",
     signupSub: "Create an account to buy and download",
+    loginPageTitle: "Login - JENGU",
+    signupPageTitle: "Sign Up - JENGU",
+    trackPageTitle: "Track - JENGU",
+    chartsPageTitle: "Top Charts - JENGU",
     password: "Password",
     noAccount: "Don’t have an account?",
     haveAccount: "Already have an account?",
     name: "Name",
     email: "Email",
     forgot: "Forgot Password?",
+    signupAsRole: "I am signing up as:",
+    loginAsRole: "I am logging in as:",
+    roleFanDescSignup: "Buy, discover, and download music",
+    roleArtistDescSignup: "Publish and sell your music",
+    roleFanDescLogin: "Buyer and library space",
+    roleArtistDescLogin: "Dashboard and upload space",
+    roleFanAccountCreated: "Fan account created! Check your email to confirm.",
+    roleArtistAccountCreated: "Artist account created! Check your email to confirm.",
+    accountTypeFanMismatch: "This is a fan account. Choose Fan to sign in.",
+    accountTypeArtistMismatch: "This is an artist account. Choose Artist to sign in.",
+    artistLoginSuccess: "Artist login successful",
 
     trackTitlePlaceholder: "Track Title",
     trackNameLabel: "Title",
     artist: "Artist",
+    topTracks: "Top Tracks",
     buyAlbum: "Buy Album",
     buy: "Buy",
     preview: "▶ Preview",
+    pausePreview: "Pause",
+    previewUnavailable: "Preview unavailable",
+    trackNotFound: "Track not found",
+    trackExclusive: "Exclusive",
+    trackCoverAlt: "Track cover",
+    trackMetaHQ: "High Quality MP3",
+    trackMetaDelivery: "Instant Delivery",
+    trackMetaSecure: "Secure Checkout",
+    trackPaymentHint: "Choose a method to continue to checkout.",
     payment: "Payment",
     paymentMethod: "Payment method",
     payNow: "Pay now",
+    cancel: "Cancel",
     paymentUnavailable: "Payment coming soon",
     loadingError: "Loading error",
     blog: "Blog",
@@ -218,7 +278,15 @@ const translations = {
     analytics: "Analytics",
     genreHeader: "Explore Genres",
     libraryHeader: "My Library",
-    purchasesHeader: "My Purchases"
+    purchasesHeader: "My Purchases",
+    chartsTitle: "Top Charts",
+    chartsSubtitle: "The premium ranking of the most streamed and purchased tracks this week.",
+    chartsMetricDaily: "Updated Daily",
+    chartsMetricEditorial: "Editorial Picks",
+    chartsMetricCheckout: "Instant Checkout",
+    chartsTagGlobal: "Global",
+    chartsTagRising: "Rising",
+    chartsNoTracks: "No tracks available right now."
   }
 };
 
@@ -245,6 +313,12 @@ export function applyLang(){
   const lang = getLang();
   document.documentElement.lang = lang;
 
+  const pageTitleKey = document.body?.dataset?.i18nTitle;
+  if(pageTitleKey){
+    const title = translations[lang]?.[pageTitleKey];
+    if(title) document.title = title;
+  }
+
   document.querySelectorAll("[data-i18n]").forEach(el => {
     const key = el.dataset.i18n;
 
@@ -252,8 +326,10 @@ export function applyLang(){
 
     if(!text) return;
 
-    if(el.tagName === "INPUT"){
+      if(el.tagName === "INPUT"){
       el.placeholder = text;
+      } else if(el.tagName === "IMG"){
+        el.alt = text;
     } else {
       el.textContent = text;
     }

@@ -233,7 +233,7 @@
 </style>
 </head>
 
-<body class="has-topbar-clearance charts-page">
+<body class="has-topbar-clearance charts-page" data-i18n-title="chartsPageTitle">
 
 <div id="sideMenu" class="side-menu">
   <div class="menu-header">
@@ -258,12 +258,12 @@
 
 <section class="charts-hero">
   <div class="charts-inner">
-    <h1 class="charts-title">Top Charts</h1>
-    <p class="charts-sub">Le classement premium des morceaux les plus ecoutes et les plus achetes cette semaine.</p>
+    <h1 class="charts-title" data-i18n="chartsTitle">Top Charts</h1>
+    <p class="charts-sub" data-i18n="chartsSubtitle">Le classement premium des morceaux les plus ecoutes et les plus achetes cette semaine.</p>
     <div class="charts-metrics">
-      <span>Updated Daily</span>
-      <span>Editorial Picks</span>
-      <span>Instant Checkout</span>
+      <span data-i18n="chartsMetricDaily">Updated Daily</span>
+      <span data-i18n="chartsMetricEditorial">Editorial Picks</span>
+      <span data-i18n="chartsMetricCheckout">Instant Checkout</span>
     </div>
   </div>
 </section>
@@ -272,7 +272,7 @@
   <article class="charts-panel">
     <header class="panel-head">
       <h3 data-i18n="topTracks">Top Tracks</h3>
-      <span class="panel-tag">Global</span>
+      <span class="panel-tag" data-i18n="chartsTagGlobal">Global</span>
     </header>
     <div id="topTracks" class="chart-list"></div>
   </article>
@@ -280,7 +280,7 @@
   <article class="charts-panel">
     <header class="panel-head">
       <h3 data-i18n="trending">Tendance</h3>
-      <span class="panel-tag">Rising</span>
+      <span class="panel-tag" data-i18n="chartsTagRising">Rising</span>
     </header>
     <div id="trendingTracks" class="chart-list"></div>
   </article>
@@ -341,7 +341,7 @@ function stopSynthPreview() {
 function resetPreviewButton() {
   if (!activePreviewButton) return;
   activePreviewButton.classList.remove("is-playing");
-  activePreviewButton.textContent = "Preview";
+  activePreviewButton.textContent = translate("preview");
   activePreviewButton = null;
 }
 
@@ -390,7 +390,7 @@ async function handlePreview(button) {
   stopPreview();
   activePreviewButton = button;
   activePreviewButton.classList.add("is-playing");
-  activePreviewButton.textContent = "Pause";
+  activePreviewButton.textContent = translate("pausePreview");
 
   if (!previewAudio) {
     previewAudio = new Audio(PREVIEW_URL);
@@ -406,7 +406,7 @@ async function handlePreview(button) {
     } catch (fallbackErr) {
       console.error("Preview fallback failed.", fallbackErr);
       stopPreview();
-      alert("Preview unavailable");
+      alert(translate("previewUnavailable"));
     }
   }
 }
@@ -427,7 +427,7 @@ function createChartItem(item, rank) {
         <p>${artist}</p>
       </div>
       <div class="track-actions">
-        <button class="mini-btn preview-btn" type="button">Preview</button>
+        <button class="mini-btn preview-btn" type="button">${translate("preview")}</button>
         <button class="mini-btn buy-btn" type="button">${price} XAF</button>
       </div>
     </div>
@@ -436,7 +436,7 @@ function createChartItem(item, rank) {
 
 function renderSection(container, items, startRank) {
   if (!items.length) {
-    container.innerHTML = `<p class="charts-empty">No tracks available right now.</p>`;
+    container.innerHTML = `<p class="charts-empty">${translate("chartsNoTracks")}</p>`;
     return;
   }
 

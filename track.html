@@ -300,7 +300,7 @@
 </style>
 </head>
 
-<body class="track-page">
+<body class="track-page" data-i18n-title="trackPageTitle">
 
 <div id="sideMenu" class="side-menu">
   <div class="menu-header">
@@ -336,8 +336,8 @@
 <section class="track-shell">
   <div class="track-main">
     <div class="track-art">
-      <span class="track-badge">Exclusive</span>
-      <img id="trackCover" src="" alt="Track cover">
+      <span class="track-badge" data-i18n="trackExclusive">Exclusive</span>
+      <img id="trackCover" src="" alt="Track cover" data-i18n="trackCoverAlt">
     </div>
 
     <div class="track-details">
@@ -345,9 +345,9 @@
       <p id="trackArtist2" class="track-artist" data-i18n="artist">Artiste</p>
 
       <div class="track-meta">
-        <span>High Quality MP3</span>
-        <span>Instant Delivery</span>
-        <span>Secure Checkout</span>
+        <span data-i18n="trackMetaHQ">High Quality MP3</span>
+        <span data-i18n="trackMetaDelivery">Instant Delivery</span>
+        <span data-i18n="trackMetaSecure">Secure Checkout</span>
       </div>
 
       <div class="track-meter" aria-hidden="true"><span></span></div>
@@ -364,7 +364,7 @@
 <div id="paymentModal" class="modal hidden">
   <div class="modal-content">
     <h3 data-i18n="payment">Paiement</h3>
-    <p class="sub">Choisissez une methode pour continuer vers le checkout.</p>
+    <p class="sub" data-i18n="trackPaymentHint">Choisissez une methode pour continuer vers le checkout.</p>
 
     <div class="pay-grid">
       <button class="pay-btn" type="button" data-method="mtn">MTN MoMo</button>
@@ -373,7 +373,7 @@
     </div>
 
     <div class="modal-actions">
-      <button class="cancel-payment" type="button">Annuler</button>
+      <button class="cancel-payment" type="button" data-i18n="cancel">Annuler</button>
       <button class="confirm" type="button" data-i18n="confirm">Confirmer</button>
     </div>
   </div>
@@ -443,7 +443,7 @@ async function loadTrack() {
   );
 
   if (!track) {
-    alert("Track not found");
+    alert(translate("trackNotFound"));
     window.location.href = "/browse.html";
     return;
   }
@@ -453,8 +453,8 @@ async function loadTrack() {
   const cover = track.cover || getRandomCover();
   document.getElementById("trackTitle").textContent = track.name;
   document.getElementById("trackName").textContent = track.name;
-  document.getElementById("trackArtist").textContent = track.artist || "Artist";
-  document.getElementById("trackArtist2").textContent = track.artist || "Artist";
+  document.getElementById("trackArtist").textContent = track.artist || translate("artist");
+  document.getElementById("trackArtist2").textContent = track.artist || translate("artist");
   document.getElementById("trackCover").src = cover;
   document.getElementById("trackBg").style.backgroundImage = `url(${cover})`;
 
@@ -462,11 +462,13 @@ async function loadTrack() {
   document.getElementById("trackName").removeAttribute("data-i18n");
   document.getElementById("trackArtist").removeAttribute("data-i18n");
   document.getElementById("trackArtist2").removeAttribute("data-i18n");
+  document.getElementById("trackCover").removeAttribute("data-i18n");
+  document.getElementById("trackCover").alt = `${translate("trackCoverAlt")} - ${track.name}`;
 }
 
 function setPreviewState(isPlaying) {
   previewBtn.classList.toggle("is-playing", isPlaying);
-  previewBtn.textContent = isPlaying ? "Pause Preview" : translate("preview");
+  previewBtn.textContent = isPlaying ? translate("pausePreview") : translate("preview");
 }
 
 function stopSynthPreview() {
@@ -506,7 +508,7 @@ async function startSynthPreview() {
   const AudioCtx = window.AudioContext || window.webkitAudioContext;
 
   if (!AudioCtx) {
-    throw new Error("Web Audio unsupported");
+    throw new Error(translate("previewUnavailable"));
   }
 
   previewContext = new AudioCtx();
@@ -572,7 +574,7 @@ function closePaymentModal() {
 
 buyBtn.addEventListener("click", () => {
   if (!currentTrack) {
-    alert("Track introuvable");
+    alert(translate("trackNotFound"));
     return;
   }
   openPaymentModal();
@@ -593,14 +595,14 @@ confirmBtn.addEventListener("click", () => {
   }
 
   if (!currentTrack) {
-    alert("Track introuvable");
+    alert(translate("trackNotFound"));
     return;
   }
 
   cart.add({
     id: currentTrack.id || Date.now(),
     name: currentTrack.name || document.getElementById("trackName").textContent,
-    artist: currentTrack.artist || "Artist",
+    artist: currentTrack.artist || translate("artist"),
     cover: currentTrack.cover || document.getElementById("trackCover").src,
     price: 300,
     paymentMethod: selectedMethod,

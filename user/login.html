@@ -36,7 +36,7 @@
 </style>
 </head>
 
-<body>
+<body data-i18n-title="loginPageTitle">
 
 <section class="section" style="padding-top:40px;">
 
@@ -55,18 +55,18 @@
     <input type="email" id="email" data-i18n="email" placeholder="Email" required>
     <input type="password" id="password" data-i18n="password" required>
 
-      <p class="sub" style="margin:10px 0 6px;">Je me connecte en tant que :</p>
+      <p class="sub" style="margin:10px 0 6px;" data-i18n="loginAsRole">Je me connecte en tant que :</p>
       <div class="role-picker">
         <label class="role-option">
           <input type="radio" name="role" value="fan" checked>
-          Fan
-          <small>Espace achat et bibliotheque</small>
+          <span data-i18n="fan">Fan</span>
+          <small data-i18n="roleFanDescLogin">Espace achat et bibliotheque</small>
         </label>
 
         <label class="role-option">
           <input type="radio" name="role" value="artist">
-          Artist
-          <small>Espace dashboard et uploads</small>
+          <span data-i18n="artist">Artist</span>
+          <small data-i18n="roleArtistDescLogin">Espace dashboard et uploads</small>
         </label>
       </div>
 
@@ -126,22 +126,22 @@ document.getElementById("loginForm").addEventListener("submit", async (e)=>{
 
   if(selectedRole !== actualRole){
     alert(selectedRole === "artist"
-      ? "Ce compte est fan. Choisissez Fan pour vous connecter."
-      : "Ce compte est artiste. Choisissez Artist pour vous connecter.");
+        ? translate("accountTypeFanMismatch")
+        : translate("accountTypeArtistMismatch"));
     await supabase.auth.signOut();
     return;
   }
 
   const sessionUser = {
     id: data.user.id,
-    name: data.user.user_metadata?.name || (data.user.email || "").split("@")[0] || "Fan",
+      name: data.user.user_metadata?.name || (data.user.email || "").split("@")[0] || translate("fan"),
     email: data.user.email,
     role: actualRole
   };
 
   localStorage.setItem("session", JSON.stringify(sessionUser));
 
-  alert(actualRole === "artist" ? "Connexion artiste reussie" : translate("loginSuccess"));
+  alert(actualRole === "artist" ? translate("artistLoginSuccess") : translate("loginSuccess"));
 
   window.location.href = actualRole === "artist" ? "/artist/dashboard.html" : "/browse.html";
 });
