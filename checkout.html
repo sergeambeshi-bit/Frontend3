@@ -1,57 +1,103 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Paiement – JENGU</title>
+let selectedMethod = null;
 
-<link rel="stylesheet" href="/styles/app.css">
-</head>
+export function initCheckout() {
+  const buttons = document.querySelectorAll('.pay-btn');
+  const form = document.getElementById('checkout-form');
 
-<body>
+  buttons.forEach(button => {
+    button.addEventListener('click', () => {
+      selectedMethod = button.dataset.method;
 
-<section class="section">
+      buttons.forEach(btn => btn.classList.remove('active'));
+      button.classList.add('active');
+    });
+  });
 
-  <h3 data-i18n="payment">Paiement</h3>
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
 
-  <!-- ITEMS -->
-  <div id="checkoutItems"></div>
+    if (!selectedMethod) {
+      alert('Please select a payment method');
+      return;
+    }
 
-  <!-- TOTAL -->
-  <h3>Total: <span id="checkoutTotal">0 XAF</span></h3>
+    const amount = getCheckoutTotal();
+    const phone = prompt('Enter Mobile Money Number');
 
-  <!-- PAYMENT -->
-  <form id="checkout-form">
+    if (!phone) return;
 
-    <p class="sub" data-i18n="paymentMethod">Méthode de paiement</p>
+    try {
+      const response = await fetch('http://localhost:5050/api/payments/initiate', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          amount,
+          provider: selectedMethod,
+          phone
+        })
+      });
 
-    <button type="button" class="pay-btn momo" data-method="mtn">
-      MTN MoMo
-    </button>
+      const data = await response.json();
 
-    <button type="button" class="pay-btn momo" data-method="orange">
-      Orange Money
-    </button>
+      if (!data.success) {
+        alert(data.message);
+        return;
+      }
 
-    <button type="button" class="pay-btn card" data-method="card">
-      Carte bancaire
-    </button>
+      alert('Payment initiated. Awaiting confirmation...');
 
-    <button class="btn-primary" style="width:100%; margin-top:10px;" data-i18n="payNow">
-      Payer maintenant
-    </button>
+      pollPaymentStatus(data.data.reference);
 
-  </form>
+    } catch (error) {
+      console.error(error);
+      alert('Payment failed to start');
+    }
+  });
+}
 
-</section>
+/*
+|--------------------------------------------------------------------------
+| Poll Payment Status
+|--------------------------------------------------------------------------
+*/
+async function pollPaymentStatus(reference) {
+  const interval = setInterval(async () => {
+    const res = await fetch(
+      `http://localhost:5050/api/payments/${reference}`
+    );
 
-<script type="module">
-import { initLang, translate } from "/js/lang.js";
+    const data = await res.json();
 
-initLang();
-import { initCheckout } from "/js/checkout.js";
-initCheckout();
-</script>
+    if (!data.success) return;
 
-</body>
-</html>
+    if (data.data.status === 'successful') {
+      clearInterval(interval);
+
+      alert('Payment successful! Unlocking download...');
+
+      // TODO:
+      // Trigger download unlock / order fulfillment here
+    }
+
+    if (data.data.status === 'failed') {
+      clearInterval(interval);
+
+      alert('Payment failed');
+    }
+
+  }, 3000);
+}
+
+/*
+|--------------------------------------------------------------------------
+| Get Checkout Total
+|--------------------------------------------------------------------------
+*/
+function getCheckoutTotal() {
+  const totalText = document
+    .getElementById('checkoutTotal')
+    .innerText
+    .replace(' XAF', '');
+
+  return parseFloat(totalText);
+}
