@@ -93,20 +93,15 @@
 import { initLang } from "/js/lang.js";
 
 initLang();
-import { getCurrentUser } from "/js/auth.js";
+  import { requireRole } from "/js/auth.js";
+  import { translate } from "/js/lang.js";
 import { saveUpload } from "/js/store.js";
 
-const user = getCurrentUser();
-
-/* 🔐 PROTECT PAGE */
-if(!user){
-  window.location.href = "/user/login.html";
-}
-
-if(user.role !== "artist"){
-  alert("Artist account required");
-  window.location.href = "/";
-}
+  const user = requireRole("artist");
+  if(!user){
+    alert(translate("artistAccountRequired"));
+    throw new Error("Artist role required");
+  }
 
 /* 🎵 FORM */
 document.getElementById("upload-track-form").addEventListener("submit", e => {

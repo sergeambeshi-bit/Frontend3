@@ -92,12 +92,15 @@
   <a href="/user/purchases.html" class="nav-item">💰</a>
 </div>
 
-<script>
+  <script type="module">
 
 /* MENU */
 import { initLang } from "/js/lang.js";
+  import { requireRole } from "/js/auth.js";
 
 initLang();
+  const user = requireRole("artist");
+  if(!user) throw new Error("Artist role required");
 const menuBtn = document.getElementById("menuBtn");
 const sideMenu = document.getElementById("sideMenu");
 

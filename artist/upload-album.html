@@ -78,20 +78,14 @@
 import { initLang, translate } from "/js/lang.js";
 
 initLang();
-import { getCurrentUser } from "/js/auth.js";
+  import { requireRole } from "/js/auth.js";
 import { saveUpload } from "/js/store.js";
 
-const user = getCurrentUser();
-
-/* 🔐 PROTECT */
-if(!user){
-  window.location.href = "/user/login.html";
-}
-
-if(user.role !== "artist"){
-  alert(translate("artistAccountRequired"));
-  window.location.href = "/";
-}
+  const user = requireRole("artist");
+  if(!user){
+    alert(translate("artistAccountRequired"));
+    throw new Error("Artist role required");
+  }
 
 /* 💿 FORM */
 document.getElementById("upload-album-form").addEventListener("submit", e => {

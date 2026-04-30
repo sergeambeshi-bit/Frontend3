@@ -36,7 +36,7 @@
     <input 
       type="text"
       id="searchPayout"
-      placeholder="Search artist..."
+        placeholder="Search payout..."
       class="admin-search"
     >
 
@@ -45,11 +45,9 @@
       <thead>
         <tr>
           <th>ID</th>
-          <th>Artist</th>
           <th>Amount</th>
           <th>Date</th>
           <th>Status</th>
-          <th>Action</th>
         </tr>
       </thead>
 
@@ -59,10 +57,14 @@
   </main>
 
 <script type="module">
-import { initLang } from "/js/lang.js";
+  import { initLang } from "/js/lang.js";
+  import { requireRole } from "/js/auth.js";
 
 initLang();
 import { supabase } from "/js/supabase.js";
+
+  const user = requireRole("artist");
+  if(!user) throw new Error("Artist role required");
 
 /* =========================
    STATE
@@ -79,6 +81,7 @@ async function loadPayouts(){
     const { data, error } = await supabase
       .from("payouts")
       .select("*")
+        .eq("artist", user.name)
       .order("created_at", { ascending: false });
 
     if(error){
@@ -105,7 +108,7 @@ function render(data){
   if(!data.length){
     tbody.innerHTML = `
       <tr>
-        <td colspan="6" style="text-align:center;">No payouts found</td>
+          <td colspan="4" style="text-align:center;">No payouts found</td>
       </tr>
     `;
     return;
@@ -118,7 +121,6 @@ function render(data){
     html += `
       <tr>
         <td>${p.id}</td>
-        <td>${p.artist}</td>
         <td>${p.amount} XAF</td>
         <td>${new Date(p.created_at).toLocaleDateString()}</td>
 
@@ -126,16 +128,6 @@ function render(data){
           <span class="status status-${p.status}">
             ${p.status}
           </span>
-        </td>
-
-        <td>
-          ${
-            p.status === "requested"
-            ? `<button class="btn btn-neon-outline mark-paid" data-id="${p.id}">
-                Mark Paid
-               </button>`
-            : `<span style="color:#aaa;">Completed</span>`
-          }
         </td>
       </tr>
     `;
@@ -145,46 +137,6 @@ function render(data){
 }
 
 /* =========================
-   MARK AS PAID
-========================= */
-document.addEventListener("click", async (e)=>{
-
-  if(e.target.classList.contains("mark-paid")){
-
-    const id = e.target.dataset.id;
-
-    const confirmAction = confirm("Mark this payout as paid?");
-    if(!confirmAction) return;
-
-    e.target.innerText = "Processing...";
-    e.target.disabled = true;
-
-    try {
-
-      const { error } = await supabase
-        .from("payouts")
-        .update({ status: "paid" })
-        .eq("id", id);
-
-      if(error){
-        console.error(error);
-        alert("Update failed ❌");
-        return;
-      }
-
-      alert("Payout marked as paid ✅");
-
-      loadPayouts();
-
-    } catch(err){
-      console.error(err);
-      alert("Error occurred ❌");
-    }
-  }
-
-});
-
-/* =========================
    SEARCH
 ========================= */
 document.getElementById("searchPayout").addEventListener("input", e => {
@@ -192,7 +144,8 @@ document.getElementById("searchPayout").addEventListener("input", e => {
   const q = e.target.value.toLowerCase();
 
   const filtered = payouts.filter(p =>
-    p.artist.toLowerCase().includes(q)
+      String(p.id).toLowerCase().includes(q) ||
+      String(p.status || "").toLowerCase().includes(q)
   );
 
   render(filtered);
