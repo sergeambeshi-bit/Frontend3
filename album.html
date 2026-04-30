@@ -94,6 +94,7 @@
 <script type="module">
 import { initLang, applyLang, translate } from "/js/lang.js";
 import { fetchBrowseResults } from "/js/api.js";
+  import { cart } from "/js/cart.js";
 
 initLang();
 
@@ -133,6 +134,7 @@ document.addEventListener("click", (e) => {
 /* GET ALBUM FROM URL */
 const params = new URLSearchParams(window.location.search);
 const albumName = params.get("album");
+  let currentAlbum = null;
 
 /* CREATE TRACK */
 function createTrack(item, index){
@@ -169,6 +171,7 @@ async function loadAlbum(){
   }
 
   const album = tracks[0];
+  currentAlbum = album;
 
   document.getElementById("albumTitle").textContent = album.album;
   document.getElementById("albumName").textContent = album.album;
@@ -228,8 +231,23 @@ document.addEventListener("click", e => {
       return;
     }
 
+      if(!currentAlbum){
+        alert("Album introuvable");
+        return;
+      }
+
+      cart.add({
+        id: currentAlbum.id || Date.now(),
+        name: currentAlbum.album || document.getElementById("albumName").textContent,
+        artist: currentAlbum.artist || "Artist",
+        cover: currentAlbum.cover || document.getElementById("albumCover").src,
+        price: 1500,
+        paymentMethod: selectedMethod,
+        type: "album"
+      });
+
     document.getElementById("paymentModal").classList.add("hidden");
-    showDownloadModal();
+      window.location.href = "/checkout.html";
   }
 
 });

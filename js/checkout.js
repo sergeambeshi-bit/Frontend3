@@ -3,6 +3,8 @@
 import { cart } from "./cart.js";
 import { savePurchase } from "./store.js";
 
+const PAYMENT_API = "http://localhost:5050";
+
 /* =========================
    RENDER CHECKOUT
 ========================= */
@@ -37,6 +39,48 @@ function renderCheckout(){
   }
 }
 
+function completeCheckout(selectedMethod){
+  cart.items.forEach(item => {
+    savePurchase({
+      ...item,
+      paymentMethod: selectedMethod
+    });
+  });
+
+  cart.clear();
+  alert("Paiement confirme");
+  window.location.href = "/user/purchases.html";
+}
+
+async function tryOnlinePayment(amount, selectedMethod){
+  const requiresPhone = selectedMethod === "mtn" || selectedMethod === "orange";
+  const phone = requiresPhone ? prompt("Entrez votre numero Mobile Money") : "";
+
+  if(requiresPhone && !phone){
+    throw new Error("Numero requis pour Mobile Money");
+  }
+
+  const res = await fetch(`${PAYMENT_API}/api/payments/initiate`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      amount,
+      provider: selectedMethod,
+      phone
+    })
+  });
+
+  if(!res.ok){
+    throw new Error("Payment API unavailable");
+  }
+
+  const data = await res.json();
+
+  if(!data.success){
+    throw new Error(data.message || "Payment initiation failed");
+  }
+}
+
 /* =========================
    CHECKOUT
 ========================= */
@@ -65,7 +109,7 @@ export function initCheckout() {
   });
 
   /* SUBMIT */
-  form.addEventListener('submit', e => {
+    form.addEventListener("submit", async e => {
     e.preventDefault();
 
     if(cart.items.length === 0){
@@ -78,16 +122,16 @@ export function initCheckout() {
       return;
     }
 
-    /* SAVE ALL PURCHASES */
-    cart.items.forEach(item => {
-      savePurchase(item);
-    });
+      const total = cart.items.reduce((sum, item) => sum + (item.price || 0), 0);
 
-    /* CLEAR CART */
-    cart.clear();
+      try {
+        await tryOnlinePayment(total, selectedMethod);
+        alert("Paiement en ligne initialise");
+      } catch(error){
+        console.warn("Online payment unavailable, fallback to local checkout:", error);
+        alert("Passerelle indisponible. Finalisation locale de votre achat.");
+      }
 
-    alert("Paiement réussi 🎉");
-
-    window.location.href = "/user/purchases.html";
+      completeCheckout(selectedMethod);
   });
 }

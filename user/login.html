@@ -74,8 +74,18 @@ document.getElementById("loginForm").addEventListener("submit", async (e)=>{
   /* EMAIL CONFIRM CHECK */
   if(!data.user.email_confirmed_at){
     alert(translate("confirmEmail"));
+    await supabase.auth.signOut();
     return;
   }
+
+  const sessionUser = {
+    id: data.user.id,
+    name: data.user.user_metadata?.name || (data.user.email || "").split("@")[0] || "Fan",
+    email: data.user.email,
+    role: data.user.user_metadata?.role || "fan"
+  };
+
+  localStorage.setItem("session", JSON.stringify(sessionUser));
 
   alert(translate("loginSuccess"));
 

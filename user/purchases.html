@@ -41,6 +41,7 @@
 
 <script type="module">
 import { initLang, translate } from "/js/lang.js";
+import { getPurchases } from "/js/store.js";
 
 initLang();
 import { getCurrentUser } from "/js/auth.js";
@@ -73,6 +74,7 @@ const user = getCurrentUser();
 
 if(!user){
   window.location.href = "/user/login.html";
+  throw new Error("User not authenticated");
 }
 
 /* =========================
@@ -94,27 +96,42 @@ document.addEventListener("click",(e)=>{
 ========================= */
 async function loadPurchases(){
 
-  let purchases = [];
+  let purchases = getPurchases();
+  let usingLocalFallback = false;
 
   try {
     const res = await fetch(`${API}/api/purchases/${user.id}`);
-    purchases = await res.json();
+
+    if(!res.ok){
+      throw new Error("Purchases API unavailable");
+    }
+
+    const apiPurchases = await res.json();
+
+    if(Array.isArray(apiPurchases)){
+      purchases = apiPurchases;
+    }
   } catch(err){
+    usingLocalFallback = true;
     console.error("Failed to load purchases:", err);
   }
 
-  renderPurchases(purchases);
+  renderPurchases(purchases, usingLocalFallback);
 }
 
 /* =========================
    RENDER
 ========================= */
-function renderPurchases(purchases){
+function renderPurchases(purchases, usingLocalFallback = false){
 
   const container = document.getElementById("purchasesList");
+  const notice = usingLocalFallback
+    ? `<p class="sub" style="text-align:center; color:#f1c40f;">Serveur indisponible, affichage des achats locaux.</p>`
+    : "";
 
   if(!purchases.length){
     container.innerHTML = `
+      ${notice}
       <p class="sub" style="text-align:center;">
         ${translate("noPurchases")}
       </p>
@@ -125,13 +142,18 @@ function renderPurchases(purchases){
   let html = "";
 
   purchases.forEach(p => {
+    const title = p.name || (p.trackId ? `Track #${p.trackId}` : "Track");
+    const artist = p.artist ? `<p>${p.artist}</p>` : "";
+    const price = Number(p.price || 0);
+
     html += `
       <div class="chart-item">
-        <img src="${getRandomCover()}">
+          <img src="${p.cover || getRandomCover()}">
 
         <div class="info">
-          <b>Track #${p.trackId}</b>
-          <p>${p.price} XAF</p>
+            <b>${title}</b>
+            ${artist}
+            <p>${price} XAF</p>
         </div>
 
         <a href="/assets/sample.mp3" download class="download-btn">
@@ -141,7 +163,7 @@ function renderPurchases(purchases){
     `;
   });
 
-  container.innerHTML = html;
+  container.innerHTML = notice + html;
 }
 
 /* INIT */
