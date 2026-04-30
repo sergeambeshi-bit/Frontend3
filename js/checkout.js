@@ -2,8 +2,97 @@
 
 import { cart } from "./cart.js";
 import { savePurchase } from "./store.js";
+import { getLang } from "./lang.js";
 
 const PAYMENT_API = "http://localhost:5050";
+
+const messages = {
+  fr: {
+    gatewayChecking: "Verification de la passerelle de paiement...",
+    gatewayOnline: "JenguPay est en ligne. Paiement actif.",
+    gatewayOffline: "JenguPay est indisponible. Verifiez le serveur puis reessayez.",
+    cartEmpty: "Panier vide",
+    chooseMethod: "Choisissez un moyen de paiement",
+    mobilePrompt: "Entrez votre numero Mobile Money",
+    mobileRequired: "Numero requis pour Mobile Money",
+    paymentStarted: "Paiement en ligne initialise",
+    paymentConfirmed: "Paiement confirme",
+    gatewayUnavailable: "Paiement impossible: JenguPay est hors ligne.",
+    paymentFailed: "Paiement echoue. Veuillez reessayer."
+  },
+  en: {
+    gatewayChecking: "Checking payment gateway...",
+    gatewayOnline: "JenguPay is online. Payments are active.",
+    gatewayOffline: "JenguPay is unavailable. Start the server and try again.",
+    cartEmpty: "Cart is empty",
+    chooseMethod: "Choose a payment method",
+    mobilePrompt: "Enter your Mobile Money number",
+    mobileRequired: "Mobile number is required for Mobile Money",
+    paymentStarted: "Online payment initialized",
+    paymentConfirmed: "Payment confirmed",
+    gatewayUnavailable: "Payment unavailable: JenguPay is offline.",
+    paymentFailed: "Payment failed. Please try again."
+  }
+};
+
+function t(key){
+  const lang = getLang() === "en" ? "en" : "fr";
+  return messages[lang][key] || key;
+}
+
+function updateGatewayStatus(state){
+  const el = document.getElementById("paymentGatewayStatus");
+  if(!el) return;
+
+  el.dataset.state = state;
+
+  if(state === "online"){
+    el.textContent = t("gatewayOnline");
+    return;
+  }
+
+  if(state === "offline"){
+    el.textContent = t("gatewayOffline");
+    return;
+  }
+
+  el.textContent = t("gatewayChecking");
+}
+
+async function fetchWithTimeout(url, options = {}, timeoutMs = 2500){
+  const timeout = new Promise((_, reject) => {
+    setTimeout(() => reject(new Error("Gateway timeout")), timeoutMs);
+  });
+
+  return Promise.race([
+    fetch(url, options),
+    timeout
+  ]);
+}
+
+async function probeGateway(){
+  updateGatewayStatus("checking");
+
+  const endpoints = [
+    `${PAYMENT_API}/api/payments/health`,
+    `${PAYMENT_API}/`
+  ];
+
+  for(const endpoint of endpoints){
+    try {
+      const res = await fetchWithTimeout(endpoint, { method: "GET" });
+      if(res.ok){
+        updateGatewayStatus("online");
+        return true;
+      }
+    } catch(_err){
+      // Try next endpoint.
+    }
+  }
+
+  updateGatewayStatus("offline");
+  return false;
+}
 
 /* =========================
    RENDER CHECKOUT
@@ -48,16 +137,16 @@ function completeCheckout(selectedMethod){
   });
 
   cart.clear();
-  alert("Paiement confirme");
+  alert(t("paymentConfirmed"));
   window.location.href = "/user/purchases.html";
 }
 
 async function tryOnlinePayment(amount, selectedMethod){
   const requiresPhone = selectedMethod === "mtn" || selectedMethod === "orange";
-  const phone = requiresPhone ? prompt("Entrez votre numero Mobile Money") : "";
+  const phone = requiresPhone ? prompt(t("mobilePrompt")) : "";
 
   if(requiresPhone && !phone){
-    throw new Error("Numero requis pour Mobile Money");
+    throw new Error(t("mobileRequired"));
   }
 
   const res = await fetch(`${PAYMENT_API}/api/payments/initiate`, {
@@ -87,9 +176,12 @@ async function tryOnlinePayment(amount, selectedMethod){
 export function initCheckout() {
 
   renderCheckout();
+  probeGateway();
 
   const form = document.querySelector('#checkout-form');
   if (!form) return;
+
+  const submitBtn = form.querySelector("button[type='submit']");
 
   let selectedMethod = null;
 
@@ -113,25 +205,40 @@ export function initCheckout() {
     e.preventDefault();
 
     if(cart.items.length === 0){
-      alert("Panier vide");
+      alert(t("cartEmpty"));
       return;
     }
 
     if(!selectedMethod){
-      alert("Choisissez un moyen de paiement");
+      alert(t("chooseMethod"));
       return;
     }
+
+      if(submitBtn){
+        submitBtn.disabled = true;
+        submitBtn.style.opacity = "0.7";
+      }
 
       const total = cart.items.reduce((sum, item) => sum + (item.price || 0), 0);
 
       try {
-        await tryOnlinePayment(total, selectedMethod);
-        alert("Paiement en ligne initialise");
-      } catch(error){
-        console.warn("Online payment unavailable, fallback to local checkout:", error);
-        alert("Passerelle indisponible. Finalisation locale de votre achat.");
-      }
+        const gatewayUp = await probeGateway();
+        if(!gatewayUp){
+          throw new Error(t("gatewayUnavailable"));
+        }
 
-      completeCheckout(selectedMethod);
+        await tryOnlinePayment(total, selectedMethod);
+        alert(t("paymentStarted"));
+        completeCheckout(selectedMethod);
+      } catch(error){
+        console.warn("Payment failed:", error);
+        updateGatewayStatus("offline");
+        alert(error?.message || t("paymentFailed"));
+      } finally {
+        if(submitBtn){
+          submitBtn.disabled = false;
+          submitBtn.style.opacity = "1";
+        }
+      }
   });
 }

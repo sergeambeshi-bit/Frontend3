@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Paiement - JENGU</title>
 
-<link rel="stylesheet" href="/styles/app.css">
+<link rel="stylesheet" href="/styles/app.css?v=20260430">
 </head>
 
 <body>
@@ -13,6 +13,10 @@
 <section class="section">
 
   <h3 data-i18n="payment">Paiement</h3>
+
+  <p id="paymentGatewayStatus" class="gateway-status" data-state="checking" data-i18n="gatewayStatusChecking">
+    Verification de la passerelle de paiement...
+  </p>
 
   <div id="checkoutItems"></div>
 
@@ -29,11 +33,11 @@
       Orange Money
     </button>
 
-    <button type="button" class="pay-btn card" data-method="card">
+    <button type="button" class="pay-btn bank-card" data-method="card">
       Carte bancaire
     </button>
 
-    <button class="btn-primary" style="width:100%; margin-top:10px;" data-i18n="payNow">
+    <button type="submit" class="btn-primary" style="width:100%; margin-top:10px;" data-i18n="payNow">
       Payer maintenant
     </button>
   </form>
@@ -41,8 +45,8 @@
 </section>
 
 <script type="module">
-import { initLang } from "/js/lang.js";
-import { initCheckout } from "/js/checkout.js";
+import { initLang } from "/js/lang.js?v=20260430";
+import { initCheckout } from "/js/checkout.js?v=20260430";
 
 initLang();
 initCheckout();

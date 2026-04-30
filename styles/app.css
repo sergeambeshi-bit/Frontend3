@@ -451,8 +451,58 @@ small {
   font-size: 16px; /* slightly bigger text */
 
   display: inline-block;
+  position: relative;
+  overflow: hidden;
 
   transition: all 0.2s ease;
+}
+
+.btn-primary::before,
+.btn-secondary::before,
+.btn-primary::after,
+.btn-secondary::after {
+  pointer-events: none;
+}
+
+.gateway-status {
+  margin: 10px 0 14px;
+  padding: 10px 12px;
+  border-radius: 12px;
+  font-size: 13px;
+  line-height: 1.4;
+  border: 1px solid rgba(255,255,255,0.12);
+  background: rgba(255,255,255,0.04);
+}
+
+.gateway-status[data-state="online"] {
+  color: #c9fff2;
+  border-color: rgba(1,212,171,0.4);
+  background: rgba(1,212,171,0.12);
+}
+
+.gateway-status[data-state="offline"] {
+  color: #ffd6d6;
+  border-color: rgba(255,89,89,0.45);
+  background: rgba(255,89,89,0.12);
+}
+
+.gateway-status[data-state="checking"] {
+  color: #fff4d0;
+  border-color: rgba(255,194,77,0.45);
+  background: rgba(255,194,77,0.12);
+}
+
+#checkout-form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+#checkout-form .pay-btn,
+#checkout-form .btn-primary {
+  width: 100%;
+  position: relative;
+  z-index: 1;
 }
 
 .btn-outline {
