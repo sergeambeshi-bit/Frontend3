@@ -109,5 +109,8 @@ export function requireRole(role){
   if(!user || user.role !== role){
     alert("Access denied");
     window.location.href = "/";
+    return null;
   }
+
+  return user;
 }

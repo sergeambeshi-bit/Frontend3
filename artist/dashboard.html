@@ -69,12 +69,11 @@
 import { initLang, translate } from "/js/lang.js";
 
 initLang();
-import { getCurrentUser } from "/js/auth.js";
+  import { requireRole } from "/js/auth.js";
 import { supabase } from "/js/supabase.js";
 
-const user = getCurrentUser();
-
-if(!user) location.href="/user/login.html";
+  const user = requireRole("artist");
+  if(!user) throw new Error("Artist role required");
 
 async function load(){
 

@@ -6,6 +6,34 @@
 <title>Connexion – JENGU</title>
 
 <link rel="stylesheet" href="/styles/app.css">
+<style>
+  .role-picker {
+    margin: 14px 0 8px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+
+  .role-option {
+    display: block;
+    border: 1px solid rgba(255,255,255,0.18);
+    border-radius: 12px;
+    padding: 10px;
+    cursor: pointer;
+    background: rgba(255,255,255,0.04);
+  }
+
+  .role-option input {
+    margin-right: 7px;
+  }
+
+  .role-option small {
+    display: block;
+    margin-top: 4px;
+    color: #9ca3af;
+    font-size: 12px;
+  }
+</style>
 </head>
 
 <body>
@@ -26,6 +54,21 @@
 
     <input type="email" id="email" data-i18n="email" placeholder="Email" required>
     <input type="password" id="password" data-i18n="password" required>
+
+      <p class="sub" style="margin:10px 0 6px;">Je me connecte en tant que :</p>
+      <div class="role-picker">
+        <label class="role-option">
+          <input type="radio" name="role" value="fan" checked>
+          Fan
+          <small>Espace achat et bibliotheque</small>
+        </label>
+
+        <label class="role-option">
+          <input type="radio" name="role" value="artist">
+          Artist
+          <small>Espace dashboard et uploads</small>
+        </label>
+      </div>
 
     <button class="btn-primary" style="width:100%; margin-top:10px;" data-i18n="login"></button>
 
@@ -60,6 +103,7 @@ document.getElementById("loginForm").addEventListener("submit", async (e)=>{
 
   const email = document.getElementById("email").value;
   const password = document.getElementById("password").value;
+  const selectedRole = document.querySelector('input[name="role"]:checked')?.value || "fan";
 
   const { data, error } = await supabase.auth.signInWithPassword({
     email,
@@ -78,18 +122,28 @@ document.getElementById("loginForm").addEventListener("submit", async (e)=>{
     return;
   }
 
+  const actualRole = data.user.user_metadata?.role || "fan";
+
+  if(selectedRole !== actualRole){
+    alert(selectedRole === "artist"
+      ? "Ce compte est fan. Choisissez Fan pour vous connecter."
+      : "Ce compte est artiste. Choisissez Artist pour vous connecter.");
+    await supabase.auth.signOut();
+    return;
+  }
+
   const sessionUser = {
     id: data.user.id,
     name: data.user.user_metadata?.name || (data.user.email || "").split("@")[0] || "Fan",
     email: data.user.email,
-    role: data.user.user_metadata?.role || "fan"
+    role: actualRole
   };
 
   localStorage.setItem("session", JSON.stringify(sessionUser));
 
-  alert(translate("loginSuccess"));
+  alert(actualRole === "artist" ? "Connexion artiste reussie" : translate("loginSuccess"));
 
-  window.location.href = "/";
+  window.location.href = actualRole === "artist" ? "/artist/dashboard.html" : "/browse.html";
 });
 </script>
 
