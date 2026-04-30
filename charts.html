@@ -3,14 +3,238 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Top Charts – JENGU</title>
+<title>Top Charts - JENGU</title>
 
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/styles/app.css">
+
+<style>
+  body.charts-page {
+    font-family: "Outfit", sans-serif;
+    background:
+      radial-gradient(circle at 84% 8%, rgba(212, 160, 71, 0.22), transparent 35%),
+      radial-gradient(circle at 14% 80%, rgba(1, 212, 171, 0.14), transparent 32%),
+      #121722;
+    color: #edf1f9;
+  }
+
+  .charts-hero {
+    position: relative;
+    padding: 120px 20px 26px;
+    background: linear-gradient(170deg, rgba(19, 25, 36, 0.96), rgba(16, 21, 30, 0.84));
+    border-bottom: 1px solid rgba(255, 255, 255, 0.09);
+  }
+
+  .charts-hero::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+      linear-gradient(180deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+    background-size: 42px 42px;
+    pointer-events: none;
+    opacity: 0.25;
+  }
+
+  .charts-inner {
+    width: min(1020px, calc(100% - 24px));
+    margin: 0 auto;
+    position: relative;
+    z-index: 2;
+  }
+
+  .charts-title {
+    margin: 0;
+    font-family: "Space Grotesk", sans-serif;
+    font-size: clamp(2rem, 5vw, 3.1rem);
+    letter-spacing: -0.03em;
+    color: #f7f4ed;
+  }
+
+  .charts-sub {
+    margin: 10px 0 0;
+    color: #c5cedf;
+    max-width: 60ch;
+  }
+
+  .charts-metrics {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 16px;
+  }
+
+  .charts-metrics span {
+    padding: 7px 12px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    font-size: 12px;
+    color: #d7dff0;
+  }
+
+  .charts-layout {
+    width: min(1020px, calc(100% - 24px));
+    margin: 22px auto 32px;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 18px;
+  }
+
+  .charts-panel {
+    border-radius: 20px;
+    overflow: hidden;
+    border: 1px solid rgba(212, 160, 71, 0.3);
+    background: linear-gradient(160deg, rgba(17, 22, 32, 0.96), rgba(22, 29, 42, 0.86));
+    box-shadow: 0 18px 44px rgba(0, 0, 0, 0.35);
+  }
+
+  .panel-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    padding: 16px 18px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  }
+
+  .panel-head h3 {
+    margin: 0;
+    font-family: "Space Grotesk", sans-serif;
+    font-size: 1.2rem;
+    color: #f8f5ef;
+  }
+
+  .panel-tag {
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #111520;
+    background: #d4a047;
+    border-radius: 999px;
+    padding: 6px 10px;
+    font-weight: 700;
+  }
+
+  .chart-list {
+    padding: 6px 12px 12px;
+  }
+
+  .chart-row {
+    display: grid;
+    grid-template-columns: 42px 56px 1fr auto;
+    align-items: center;
+    gap: 12px;
+    padding: 10px;
+    border-radius: 14px;
+    margin-top: 6px;
+    border: 1px solid transparent;
+    background: rgba(255, 255, 255, 0.02);
+    transition: transform 0.2s ease, border-color 0.2s ease, background 0.2s ease;
+  }
+
+  .chart-row:hover {
+    transform: translateY(-1px);
+    border-color: rgba(212, 160, 71, 0.5);
+    background: rgba(255, 255, 255, 0.05);
+  }
+
+  .rank {
+    font-family: "Space Grotesk", sans-serif;
+    font-size: 1rem;
+    color: #e4b96a;
+    text-align: center;
+  }
+
+  .cover-wrap {
+    position: relative;
+    width: 56px;
+    height: 56px;
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.14);
+  }
+
+  .cover-wrap img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .track-main b {
+    display: block;
+    color: #f4f7fd;
+    font-size: 0.95rem;
+  }
+
+  .track-main p {
+    margin: 4px 0 0;
+    color: #9ba8c0;
+    font-size: 0.84rem;
+  }
+
+  .track-actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .mini-btn {
+    border: none;
+    border-radius: 10px;
+    padding: 9px 11px;
+    font-size: 12px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+  }
+
+  .mini-btn:hover {
+    transform: translateY(-1px);
+  }
+
+  .preview-btn {
+    color: #d7fff6;
+    background: rgba(1, 212, 171, 0.16);
+    border: 1px solid rgba(1, 212, 171, 0.52);
+  }
+
+  .preview-btn.is-playing {
+    background: rgba(1, 212, 171, 0.3);
+    box-shadow: 0 8px 18px rgba(1, 212, 171, 0.18);
+  }
+
+  .buy-btn {
+    color: #101420;
+    background: linear-gradient(120deg, #d4a047, #f0c879);
+  }
+
+  .charts-empty {
+    margin: 14px 4px 4px;
+    text-align: center;
+    color: #aeb8ca;
+  }
+
+  @media (max-width: 760px) {
+    .chart-row {
+      grid-template-columns: 34px 52px 1fr;
+      gap: 10px;
+    }
+
+    .track-actions {
+      grid-column: 1 / -1;
+      justify-content: flex-end;
+    }
+  }
+</style>
 </head>
 
 <body class="has-topbar-clearance charts-page">
 
-<!-- SIDE MENU -->
 <div id="sideMenu" class="side-menu">
   <div class="menu-header">
     <img src="/assets/logo.png" class="menu-logo">
@@ -20,45 +244,58 @@
   <a href="/browse.html">Parcourir</a>
   <a href="/genres.html">Genres</a>
   <a href="/charts.html">Top Charts</a>
-  <a href="/new-releases.html">Nouveautés</a>
-
-  <a href="/user/library.html">Ma Bibliothèque</a>
+  <a href="/new-releases.html">Nouveautes</a>
+  <a href="/user/library.html">Ma Bibliotheque</a>
   <a href="/user/purchases.html">Mes Achats</a>
-  <a href="/user/settings.html">Paramètres</a>
+  <a href="/user/settings.html">Parametres</a>
 </div>
 
-<!-- HEADER -->
 <div class="topbar">
   <span class="menu" id="menuBtn">☰</span>
   <a href="/index.html"><img src="/assets/logo.png" class="logo"></a>
   <span></span>
 </div>
 
-<!-- TOP TRACKS -->
-<section class="section">
-  <h3 data-i18n="topTracks">Top Tracks</h3>
-  <div id="topTracks"></div>
+<section class="charts-hero">
+  <div class="charts-inner">
+    <h1 class="charts-title">Top Charts</h1>
+    <p class="charts-sub">Le classement premium des morceaux les plus ecoutes et les plus achetes cette semaine.</p>
+    <div class="charts-metrics">
+      <span>Updated Daily</span>
+      <span>Editorial Picks</span>
+      <span>Instant Checkout</span>
+    </div>
+  </div>
 </section>
 
-<!-- TRENDING -->
-<section class="section">
-  <h3 data-i18n="trending">Tendance</h3>
-  <div id="trendingTracks"></div>
+<section class="charts-layout">
+  <article class="charts-panel">
+    <header class="panel-head">
+      <h3 data-i18n="topTracks">Top Tracks</h3>
+      <span class="panel-tag">Global</span>
+    </header>
+    <div id="topTracks" class="chart-list"></div>
+  </article>
+
+  <article class="charts-panel">
+    <header class="panel-head">
+      <h3 data-i18n="trending">Tendance</h3>
+      <span class="panel-tag">Rising</span>
+    </header>
+    <div id="trendingTracks" class="chart-list"></div>
+  </article>
 </section>
 
 <script type="module">
-import { initLang, translate } from "/js/lang.js";
+import { initLang, applyLang, translate } from "/js/lang.js";
+import { fetchBrowseResults } from "/js/api.js";
+import { cart } from "/js/cart.js";
 
 initLang();
-import { fetchBrowseResults } from "/js/api.js";
 
-/* MENU */
 const menuBtn = document.getElementById("menuBtn");
 const sideMenu = document.getElementById("sideMenu");
-
-menuBtn.addEventListener("click", () => {
-  sideMenu.classList.toggle("open");
-});
+menuBtn.addEventListener("click", () => sideMenu.classList.toggle("open"));
 
 document.addEventListener("click", (e) => {
   if (!sideMenu.contains(e.target) && !menuBtn.contains(e.target)) {
@@ -66,60 +303,186 @@ document.addEventListener("click", (e) => {
   }
 });
 
-/* CREATE ROW */
-function createChartItem(item, index){
+const PREVIEW_URL = "/assets/sample.mp3";
+let previewAudio = null;
+let previewSynth = {
+  ctx: null,
+  osc: null,
+  gain: null,
+  timer: null,
+  modulation: null
+};
+let activePreviewButton = null;
+
+function stopSynthPreview() {
+  if (previewSynth.timer) {
+    clearTimeout(previewSynth.timer);
+    previewSynth.timer = null;
+  }
+  if (previewSynth.modulation) {
+    clearInterval(previewSynth.modulation);
+    previewSynth.modulation = null;
+  }
+  if (previewSynth.osc) {
+    previewSynth.osc.stop();
+    previewSynth.osc.disconnect();
+    previewSynth.osc = null;
+  }
+  if (previewSynth.gain) {
+    previewSynth.gain.disconnect();
+    previewSynth.gain = null;
+  }
+  if (previewSynth.ctx) {
+    previewSynth.ctx.close();
+    previewSynth.ctx = null;
+  }
+}
+
+function resetPreviewButton() {
+  if (!activePreviewButton) return;
+  activePreviewButton.classList.remove("is-playing");
+  activePreviewButton.textContent = "Preview";
+  activePreviewButton = null;
+}
+
+function stopPreview() {
+  if (previewAudio) {
+    previewAudio.pause();
+    previewAudio.currentTime = 0;
+  }
+  stopSynthPreview();
+  resetPreviewButton();
+}
+
+async function startSynthFallback() {
+  const AudioCtx = window.AudioContext || window.webkitAudioContext;
+  if (!AudioCtx) throw new Error("Web Audio unsupported");
+
+  previewSynth.ctx = new AudioCtx();
+  previewSynth.osc = previewSynth.ctx.createOscillator();
+  previewSynth.gain = previewSynth.ctx.createGain();
+
+  previewSynth.osc.type = "triangle";
+  previewSynth.osc.frequency.value = 220;
+  previewSynth.gain.gain.value = 0.04;
+
+  previewSynth.osc.connect(previewSynth.gain);
+  previewSynth.gain.connect(previewSynth.ctx.destination);
+  previewSynth.osc.start();
+
+  const pattern = [220, 247, 262, 294, 262, 247];
+  let idx = 0;
+  previewSynth.modulation = setInterval(() => {
+    if (!previewSynth.osc || !previewSynth.ctx) return;
+    idx = (idx + 1) % pattern.length;
+    previewSynth.osc.frequency.setTargetAtTime(pattern[idx], previewSynth.ctx.currentTime, 0.05);
+  }, 380);
+
+  previewSynth.timer = setTimeout(() => stopPreview(), 15000);
+}
+
+async function handlePreview(button) {
+  if (activePreviewButton === button) {
+    stopPreview();
+    return;
+  }
+
+  stopPreview();
+  activePreviewButton = button;
+  activePreviewButton.classList.add("is-playing");
+  activePreviewButton.textContent = "Pause";
+
+  if (!previewAudio) {
+    previewAudio = new Audio(PREVIEW_URL);
+    previewAudio.addEventListener("ended", () => stopPreview());
+  }
+
+  try {
+    await previewAudio.play();
+  } catch (err) {
+    console.warn("Audio preview unavailable, fallback synth preview.", err);
+    try {
+      await startSynthFallback();
+    } catch (fallbackErr) {
+      console.error("Preview fallback failed.", fallbackErr);
+      stopPreview();
+      alert("Preview unavailable");
+    }
+  }
+}
+
+function createChartItem(item, rank) {
+  const artist = item.artist || translate("artist");
+  const price = item.price || 300;
+  const cover = item.cover || "/assets/covers/cover1.png";
+
   return `
-    <div class="chart-item">
-      <span>${String(index+1).padStart(2,'0')}</span>
-      <img src="${item.cover}">
-      <div class="info">
-        <b>${item.name}</b>
-        <p>${item.artist || translate("artist")}</p>
+    <div class="chart-row" data-name="${item.name}" data-artist="${artist}" data-cover="${cover}" data-price="${price}">
+      <div class="rank">${String(rank).padStart(2, "0")}</div>
+      <div class="cover-wrap">
+        <img src="${cover}" alt="${item.name}">
       </div>
-      <div class="price">${Math.floor(Math.random()*300)} XAF</div>
+      <div class="track-main">
+        <b>${item.name}</b>
+        <p>${artist}</p>
+      </div>
+      <div class="track-actions">
+        <button class="mini-btn preview-btn" type="button">Preview</button>
+        <button class="mini-btn buy-btn" type="button">${price} XAF</button>
+      </div>
     </div>
   `;
 }
 
-/* LOAD DATA */
-async function loadCharts(){
-  const data = await fetchBrowseResults();
+function renderSection(container, items, startRank) {
+  if (!items.length) {
+    container.innerHTML = `<p class="charts-empty">No tracks available right now.</p>`;
+    return;
+  }
 
-  const top = document.getElementById("topTracks");
-  const trending = document.getElementById("trendingTracks");
-
-  top.innerHTML = "";
-  trending.innerHTML = "";
-
-  /* TOP TRACKS */
-  data.slice(0,10).forEach((item,i)=>{
-    top.innerHTML += createChartItem(item, i);
-  });
-
-  /* TRENDING */
-  data.slice(10,20).forEach((item,i)=>{
-    trending.innerHTML += createChartItem(item, i);
-  });
+  container.innerHTML = items.map((item, idx) => createChartItem(item, startRank + idx)).join("");
 }
 
-/* PREVIEW */
-document.addEventListener("click", e=>{
-  if(e.target.classList.contains("play")){
-    const audio = new Audio("/assets/sample.mp3");
-    audio.play();
-    setTimeout(()=>audio.pause(),30000);
-  }
-});
+async function loadCharts() {
+  const data = await fetchBrowseResults();
+  const topTracksEl = document.getElementById("topTracks");
+  const trendingEl = document.getElementById("trendingTracks");
 
-/* BUY */
-document.addEventListener("click", e=>{
-  if(e.target.classList.contains("price")){
-    alert(translate("paymentUnavailable"));
+  const topTracks = data.slice(0, 10);
+  const trendingTracks = data.slice(10, 20).length ? data.slice(10, 20) : data.slice(0, 10);
+
+  renderSection(topTracksEl, topTracks, 1);
+  renderSection(trendingEl, trendingTracks, 11);
+}
+
+document.addEventListener("click", async (e) => {
+  const previewBtn = e.target.closest(".preview-btn");
+  if (previewBtn) {
+    await handlePreview(previewBtn);
+    return;
   }
+
+  const buyBtn = e.target.closest(".buy-btn");
+  if (!buyBtn) return;
+
+  const row = buyBtn.closest(".chart-row");
+  if (!row) return;
+
+  const item = {
+    id: Date.now(),
+    name: row.dataset.name,
+    artist: row.dataset.artist,
+    cover: row.dataset.cover,
+    price: Number(row.dataset.price || 300),
+    type: "track"
+  };
+
+  cart.add(item);
+  window.location.href = "/checkout.html";
 });
 
 loadCharts();
-
+applyLang();
 </script>
 
 </body>
