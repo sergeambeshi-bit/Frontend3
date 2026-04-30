@@ -4,7 +4,7 @@ import { cart } from "./cart.js";
 import { savePurchase } from "./store.js";
 import { getLang } from "./lang.js";
 
-const PAYMENT_API = "http://localhost:5050";
+const PAYMENT_API = "https://jengupay.vercel.app";
 
 const messages = {
   fr: {
