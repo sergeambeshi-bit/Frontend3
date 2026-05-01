@@ -12,18 +12,18 @@
 
 <style>
 body.market-home {
-  --surface: #0b0d12;
-  --surface-soft: #10131a;
+  --surface: #10141c;
+  --surface-soft: #171d28;
   --ink: #f6f7fb;
-  --ink-muted: #a5adc3;
+  --ink-muted: #bcc5da;
   --line: rgba(255, 255, 255, 0.12);
   --accent: #01d4ab;
   --accent-2: #43f1d0;
   margin: 0;
   background:
-    radial-gradient(1000px 520px at 85% -10%, rgba(102, 216, 255, 0.22), transparent 65%),
-    radial-gradient(880px 420px at 8% 12%, rgba(244, 193, 111, 0.16), transparent 65%),
-    linear-gradient(180deg, #07080c 0%, #0b0d12 42%, #0a0c11 100%);
+    radial-gradient(1000px 520px at 85% -10%, rgba(102, 216, 255, 0.28), transparent 65%),
+    radial-gradient(880px 420px at 8% 12%, rgba(244, 193, 111, 0.2), transparent 65%),
+    linear-gradient(180deg, #0d1118 0%, #111723 42%, #0f1520 100%);
   color: var(--ink);
   font-family: "Manrope", "Inter", sans-serif;
   padding-bottom: 0;
@@ -70,7 +70,7 @@ body.market-home::before {
   background-size: cover;
   transform: scale(1.05);
   transition: transform 6s ease, background-image 0.8s ease;
-  filter: saturate(1.2) contrast(1.08) brightness(0.7);
+  filter: saturate(1.2) contrast(1.06) brightness(0.82);
 }
 
 .market-home .hero::after {
@@ -78,8 +78,8 @@ body.market-home::before {
   position: absolute;
   inset: 0;
   background:
-    linear-gradient(100deg, rgba(10, 12, 18, 0.94) 20%, rgba(10, 12, 18, 0.42) 66%, rgba(10, 12, 18, 0.9) 100%),
-    linear-gradient(180deg, rgba(0, 0, 0, 0.08), rgba(0, 0, 0, 0.55));
+    linear-gradient(100deg, rgba(12, 15, 22, 0.76) 20%, rgba(12, 15, 22, 0.28) 66%, rgba(12, 15, 22, 0.7) 100%),
+    linear-gradient(180deg, rgba(0, 0, 0, 0.04), rgba(0, 0, 0, 0.4));
 }
 
 .market-home .topbar {
@@ -151,7 +151,7 @@ body.market-home::before {
 
 .market-home .hero-region-note {
   margin-top: 16px;
-  color: #d4d9e8;
+  color: #e0e6f3;
   font-size: 12px;
   max-width: 520px;
   line-height: 1.55;
@@ -278,7 +278,7 @@ body.market-home::before {
 .market-home .section-kicker {
   text-transform: uppercase;
   letter-spacing: 0.14em;
-  color: #f5d39e;
+  color: #91faeb;
   font-size: 11px;
   font-weight: 700;
 }
@@ -308,7 +308,7 @@ body.market-home::before {
   border-radius: 22px;
   overflow: hidden;
   border: 1px solid var(--line);
-  background: #121621;
+  background: #18202d;
   position: relative;
   isolation: isolate;
 }
@@ -335,7 +335,7 @@ body.market-home::before {
   content: "";
   position: absolute;
   inset: 0;
-  background: linear-gradient(to top, rgba(6, 8, 12, 0.92) 15%, rgba(6, 8, 12, 0.2) 70%);
+  background: linear-gradient(to top, rgba(8, 11, 16, 0.8) 15%, rgba(8, 11, 16, 0.16) 70%);
   z-index: 1;
 }
 
@@ -364,7 +364,7 @@ body.market-home::before {
 }
 
 .market-home .release-subline {
-  color: #c4cad9;
+  color: #d7deea;
   margin-top: 4px;
   font-size: 14px;
 }
@@ -404,7 +404,7 @@ body.market-home::before {
   border-radius: 18px;
   border: 1px solid var(--line);
   padding: 22px;
-  background: rgba(14, 18, 27, 0.86);
+  background: rgba(24, 31, 44, 0.9);
 }
 
 .market-home .pulse-card h3 {
@@ -425,7 +425,7 @@ body.market-home::before {
   border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 10px;
   padding: 10px 12px;
-  color: #d6dbea;
+  color: #e0e6f2;
   font-size: 14px;
   display: flex;
   align-items: center;
@@ -443,14 +443,14 @@ body.market-home::before {
 }
 
 .market-home .pulse-meta {
-  color: #9fa8bf;
+  color: #bac4d7;
   font-size: 12px;
   white-space: nowrap;
 }
 
 .market-home .journey {
   border: 1px solid var(--line);
-  background: linear-gradient(180deg, rgba(22, 26, 36, 0.84), rgba(14, 17, 24, 0.84));
+  background: linear-gradient(180deg, rgba(29, 36, 50, 0.9), rgba(20, 25, 36, 0.9));
   border-radius: 22px;
   padding: 26px;
 }
@@ -489,7 +489,7 @@ body.market-home::before {
   border-radius: 18px;
   border: 1px solid var(--line);
   padding: 24px;
-  background: rgba(13, 16, 22, 0.85);
+  background: rgba(23, 29, 41, 0.9);
   transition: transform 0.25s ease, border-color 0.25s ease;
 }
 
@@ -521,9 +521,9 @@ body.market-home::before {
   border-radius: 24px;
   border: 1px solid rgba(1, 212, 171, 0.38);
   background:
-    radial-gradient(680px 260px at 88% 2%, rgba(102, 216, 255, 0.2), transparent 65%),
-    radial-gradient(760px 300px at 8% 20%, rgba(245, 211, 158, 0.16), transparent 65%),
-    linear-gradient(180deg, rgba(14, 18, 26, 0.96), rgba(10, 12, 18, 0.98));
+    radial-gradient(680px 260px at 88% 2%, rgba(102, 216, 255, 0.24), transparent 65%),
+    radial-gradient(760px 300px at 8% 20%, rgba(76, 245, 214, 0.18), transparent 65%),
+    linear-gradient(180deg, rgba(23, 30, 43, 0.96), rgba(16, 21, 31, 0.98));
   padding: clamp(24px, 4vw, 42px);
 }
 
@@ -540,7 +540,7 @@ body.market-home::before {
 
 .market-home .artist-panel p {
   margin-top: 12px;
-  color: #bec4d7;
+  color: #d5dcec;
   max-width: 650px;
   line-height: 1.6;
 }
@@ -570,7 +570,7 @@ body.market-home::before {
 .market-home .cta-panel p {
   margin: 12px auto 26px;
   max-width: 660px;
-  color: #bec4d7;
+  color: #d6ddee;
   line-height: 1.6;
 }
 
@@ -578,7 +578,7 @@ body.market-home::before {
   border: 1px dashed rgba(255, 255, 255, 0.2);
   border-radius: 18px;
   padding: 36px 20px;
-  color: var(--ink-muted);
+  color: #c9d1e4;
   text-align: center;
 }
 
