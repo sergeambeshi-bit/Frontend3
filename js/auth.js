@@ -88,6 +88,43 @@ export function getCurrentUser(){
 }
 
 /* =========================
+   UPDATE CURRENT USER
+========================= */
+export function updateCurrentUser(patch){
+  const user = getCurrentUser();
+
+  if(!user) return null;
+
+  const updatedUser = {
+    ...user,
+    ...patch
+  };
+
+  localStorage.setItem(SESSION_KEY, JSON.stringify(updatedUser));
+
+  const users = getUsers().map(existingUser =>
+    existingUser.id === updatedUser.id ? updatedUser : existingUser
+  );
+
+  saveUsers(users);
+
+  return updatedUser;
+}
+
+/* =========================
+   SETTINGS ROUTE
+========================= */
+export function getSettingsRoute(user = getCurrentUser()){
+  if(!user){
+    return "/user/login.html";
+  }
+
+  return user.role === "artist"
+    ? "/artist/settings.html"
+    : "/user/settings.html";
+}
+
+/* =========================
    REQUIRE AUTH
 ========================= */
 export function requireAuth(){

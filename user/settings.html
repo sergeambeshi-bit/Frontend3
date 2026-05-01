@@ -3,76 +3,295 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title data-i18n="settingsTitle">Paramètres – JENGU</title>
+<title>Paramètres - JENGU</title>
 
 <link rel="stylesheet" href="/styles/app.css">
+<style>
+.settings-page {
+  background: linear-gradient(180deg, #131926, #0f141d 55%, #0f1218 100%);
+}
+
+.settings-wrap {
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 22px 16px 48px;
+}
+
+.settings-hero {
+  margin-bottom: 18px;
+}
+
+.settings-hero h1 {
+  margin: 0;
+  font-size: 30px;
+}
+
+.settings-hero p {
+  margin-top: 8px;
+  max-width: 680px;
+  color: #c0c8d9;
+}
+
+.settings-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.settings-card {
+  background: rgba(22, 28, 39, 0.92);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 18px;
+  padding: 20px;
+}
+
+.settings-card h3 {
+  margin: 0 0 14px;
+}
+
+.field {
+  display: grid;
+  gap: 6px;
+  margin-bottom: 14px;
+}
+
+.field label {
+  font-size: 13px;
+  color: #d7deec;
+}
+
+.field input,
+.field select,
+.field textarea {
+  width: 100%;
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 12px;
+  background: rgba(255,255,255,0.04);
+  color: #fff;
+  padding: 12px 14px;
+  outline: none;
+}
+
+.field textarea {
+  min-height: 96px;
+  resize: vertical;
+}
+
+.toggle-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  padding: 12px 0;
+  border-top: 1px solid rgba(255,255,255,0.06);
+}
+
+.toggle-row:first-of-type {
+  border-top: 0;
+  padding-top: 0;
+}
+
+.toggle-copy strong {
+  display: block;
+  font-size: 14px;
+}
+
+.toggle-copy span {
+  font-size: 12px;
+  color: #aab3c7;
+}
+
+.actions-bar {
+  margin-top: 20px;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.settings-note {
+  color: #aab3c7;
+  font-size: 13px;
+  line-height: 1.55;
+}
+
+@media (max-width: 840px) {
+  .settings-grid {
+    grid-template-columns: 1fr;
+  }
+}
+</style>
 </head>
 
-<body class="has-topbar-clearance">
+<body class="has-topbar-clearance settings-page" data-i18n-title="settingsTitle">
 
-<!-- SIDE MENU -->
 <div id="sideMenu" class="side-menu">
   <div class="menu-header">
-    <img src="/assets/logo.png" class="menu-logo">
+    <img src="/assets/logo.png" class="menu-logo" alt="JENGU logo">
   </div>
 
-  <a href="/index.html">Accueil</a>
-  <a href="/browse.html">Parcourir</a>
-  <a href="/genres.html">Genres</a>
-  <a href="/charts.html">Top Charts</a>
-  <a href="/new-releases.html">Nouveautés</a>
-
-  <a href="/user/library.html">Ma Bibliothèque</a>
-  <a href="/user/purchases.html">Mes Achats</a>
-  <a href="/user/settings.html">Paramètres</a>
+  <a href="/index.html" data-i18n="home">Accueil</a>
+  <a href="/browse.html" data-i18n="browse">Parcourir</a>
+  <a href="/genres.html" data-i18n="genres">Genres</a>
+  <a href="/charts.html" data-i18n="charts">Top Charts</a>
+  <a href="/new-releases.html" data-i18n="new">Nouveautés</a>
+  <a href="/user/library.html" data-i18n="library">Ma Bibliothèque</a>
+  <a href="/user/purchases.html" data-i18n="purchases">Mes Achats</a>
+  <a href="/settings.html" data-i18n="settings">Paramètres</a>
 </div>
 
-<!-- HEADER -->
 <div class="topbar">
   <span class="menu" id="menuBtn">☰</span>
   <h3 data-i18n="settings">Paramètres</h3>
   <span></span>
 </div>
 
-<!-- PROFILE -->
-<section class="section">
+<main class="settings-wrap">
+  <section class="settings-hero">
+    <h1 data-i18n="settings">Paramètres</h1>
+    <p data-i18n="fanSettingsIntro">Manage your account, payments, downloads, and notifications from one place.</p>
+  </section>
 
-  <h3 data-i18n="profile">Profil</h3>
+  <section class="settings-grid">
+    <article class="settings-card">
+      <h3 data-i18n="accountSettings">Compte</h3>
 
-  <input type="text" data-i18n="fullName" placeholder="Nom complet">
-  <input type="email" data-i18n="email" placeholder="Email">
-  <input type="password" data-i18n="newPassword" placeholder="Nouveau mot de passe">
+      <div class="field">
+        <label for="fanName" data-i18n="fullName">Nom complet</label>
+        <input id="fanName" type="text">
+      </div>
 
-</section>
+      <div class="field">
+        <label for="fanEmail" data-i18n="email">E-mail</label>
+        <input id="fanEmail" type="email">
+      </div>
 
-<!-- PAYMENT SETTINGS -->
-<section class="section">
+      <div class="field">
+        <label for="fanPassword" data-i18n="newPassword">Nouveau mot de passe</label>
+        <input id="fanPassword" type="password">
+      </div>
 
-  <h3 data-i18n="mobilePayment">Paiement Mobile</h3>
+      <div class="field">
+        <label for="fanLang" data-i18n="languageRegion">Langue et région</label>
+        <select id="fanLang">
+          <option value="fr">Francais</option>
+          <option value="en">English</option>
+        </select>
+      </div>
 
-  <input type="text" data-i18n="mobileNumber" placeholder="Numéro MTN / Orange">
+      <div class="field">
+        <label for="fanRegion" data-i18n="regionPreference">Marché préféré</label>
+        <select id="fanRegion">
+          <option value="cameroon">Cameroon</option>
+          <option value="francophone-africa">Francophone Africa</option>
+          <option value="global-africa">Global Africa</option>
+        </select>
+      </div>
+    </article>
 
-  <p class="sub" data-i18n="paymentUseNote">
-    Utilisé pour recevoir vos paiements ou achats
-  </p>
+    <article class="settings-card">
+      <h3 data-i18n="paymentSettings">Paiements</h3>
 
-</section>
+      <div class="field">
+        <label for="mobileNumber" data-i18n="mobileNumber">Numéro MTN / Orange</label>
+        <input id="mobileNumber" type="text">
+      </div>
 
-<!-- ACTION -->
-<section class="section">
+      <div class="field">
+        <label for="paymentMethod" data-i18n="payoutMethodLabel">Méthode de paiement</label>
+        <select id="paymentMethod">
+          <option value="mobile-money">Mobile Money</option>
+          <option value="card">Card</option>
+        </select>
+      </div>
 
-  <button class="btn-primary" style="width:100%;" data-i18n="save">
-    Sauvegarder
-  </button>
+      <p class="settings-note" data-i18n="paymentUseNote">Utilisé pour recevoir vos paiements ou achats</p>
+    </article>
 
-</section>
+    <article class="settings-card">
+      <h3 data-i18n="downloadSettings">Téléchargements</h3>
+
+      <div class="field">
+        <label for="downloadFormat" data-i18n="downloadFormat">Format de téléchargement</label>
+        <select id="downloadFormat">
+          <option value="mp3">MP3</option>
+          <option value="wav">WAV</option>
+        </select>
+      </div>
+
+      <div class="field">
+        <label for="downloadQuality" data-i18n="downloadQuality">Qualité préférée</label>
+        <select id="downloadQuality">
+          <option value="hq">High Quality</option>
+          <option value="standard">Standard</option>
+        </select>
+      </div>
+
+      <div class="toggle-row">
+        <div class="toggle-copy">
+          <strong data-i18n="autoSavePurchases">Ajouter automatiquement les achats à la bibliothèque</strong>
+          <span data-i18n="autoSaveNote">Keep every purchase in your permanent collection automatically.</span>
+        </div>
+        <input id="autoSavePurchases" type="checkbox">
+      </div>
+    </article>
+
+    <article class="settings-card">
+      <h3 data-i18n="notificationSettings">Notifications</h3>
+
+      <div class="toggle-row">
+        <div class="toggle-copy">
+          <strong data-i18n="emailReceipts">Recevoir les reçus d'achat par e-mail</strong>
+          <span data-i18n="receiptsNote">Purchase confirmations and receipt records.</span>
+        </div>
+        <input id="emailReceipts" type="checkbox">
+      </div>
+
+      <div class="toggle-row">
+        <div class="toggle-copy">
+          <strong data-i18n="releaseAlerts">Recevoir les alertes de nouvelles sorties</strong>
+          <span data-i18n="releaseAlertsNote">Stay close to artists and new marketplace drops.</span>
+        </div>
+        <input id="releaseAlerts" type="checkbox">
+      </div>
+
+      <div class="toggle-row">
+        <div class="toggle-copy">
+          <strong data-i18n="exclusiveAlerts">Recevoir les alertes de sorties exclusives</strong>
+          <span data-i18n="exclusiveAlertsNote">Be first when limited digital releases arrive.</span>
+        </div>
+        <input id="exclusiveAlerts" type="checkbox">
+      </div>
+    </article>
+
+    <article class="settings-card" style="grid-column: 1 / -1;">
+      <h3 data-i18n="securitySettings">Sécurité</h3>
+      <p class="settings-note" data-i18n="recentActivityNote">Gardez votre mot de passe sécurisé et surveillez les connexions à votre compte.</p>
+      <div class="toggle-copy" style="margin-top:14px;">
+        <strong data-i18n="recentActivity">Activité récente et appareils</strong>
+        <span>Signed in with your current device session.</span>
+      </div>
+    </article>
+  </section>
+
+  <div class="actions-bar">
+    <button id="saveSettingsBtn" class="btn-primary" data-i18n="saveSettings">Enregistrer les paramètres</button>
+  </div>
+</main>
 
 <script type="module">
-
-/* MENU */
-import { initLang, translate } from "/js/lang.js";
+import { initLang, translate, getLang, setLang, applyLang } from "/js/lang.js";
+import { getCurrentUser, updateCurrentUser } from "/js/auth.js";
 
 initLang();
+
+const user = getCurrentUser();
+if(!user){
+  window.location.href = "/user/login.html";
+}
+
+if(user?.role === "artist"){
+  window.location.href = "/artist/settings.html";
+}
+
 const menuBtn = document.getElementById("menuBtn");
 const sideMenu = document.getElementById("sideMenu");
 
@@ -80,17 +299,75 @@ menuBtn.addEventListener("click", () => {
   sideMenu.classList.toggle("open");
 });
 
-document.addEventListener("click", (e) => {
-  if (!sideMenu.contains(e.target) && !menuBtn.contains(e.target)) {
+document.addEventListener("click", (event) => {
+  if (!sideMenu.contains(event.target) && !menuBtn.contains(event.target)) {
     sideMenu.classList.remove("open");
   }
 });
 
-/* SAVE */
-document.querySelector(".btn-primary").addEventListener("click", () => {
+const storageKey = `fanSettings:${user?.id || user?.email || "guest"}`;
+const defaults = {
+  mobileNumber: "",
+  paymentMethod: "mobile-money",
+  language: getLang(),
+  region: "cameroon",
+  downloadFormat: "mp3",
+  downloadQuality: "hq",
+  autoSavePurchases: true,
+  emailReceipts: true,
+  releaseAlerts: true,
+  exclusiveAlerts: false
+};
+
+const savedSettings = JSON.parse(localStorage.getItem(storageKey) || "null") || {};
+const settings = {
+  ...defaults,
+  ...savedSettings
+};
+
+document.getElementById("fanName").value = user?.name || "";
+document.getElementById("fanEmail").value = user?.email || "";
+document.getElementById("fanLang").value = settings.language;
+document.getElementById("fanRegion").value = settings.region;
+document.getElementById("mobileNumber").value = settings.mobileNumber;
+document.getElementById("paymentMethod").value = settings.paymentMethod;
+document.getElementById("downloadFormat").value = settings.downloadFormat;
+document.getElementById("downloadQuality").value = settings.downloadQuality;
+document.getElementById("autoSavePurchases").checked = settings.autoSavePurchases;
+document.getElementById("emailReceipts").checked = settings.emailReceipts;
+document.getElementById("releaseAlerts").checked = settings.releaseAlerts;
+document.getElementById("exclusiveAlerts").checked = settings.exclusiveAlerts;
+
+document.getElementById("saveSettingsBtn").addEventListener("click", () => {
+  const nextLanguage = document.getElementById("fanLang").value;
+  const password = document.getElementById("fanPassword").value.trim();
+
+  localStorage.setItem(storageKey, JSON.stringify({
+    mobileNumber: document.getElementById("mobileNumber").value.trim(),
+    paymentMethod: document.getElementById("paymentMethod").value,
+    language: nextLanguage,
+    region: document.getElementById("fanRegion").value,
+    downloadFormat: document.getElementById("downloadFormat").value,
+    downloadQuality: document.getElementById("downloadQuality").value,
+    autoSavePurchases: document.getElementById("autoSavePurchases").checked,
+    emailReceipts: document.getElementById("emailReceipts").checked,
+    releaseAlerts: document.getElementById("releaseAlerts").checked,
+    exclusiveAlerts: document.getElementById("exclusiveAlerts").checked
+  }));
+
+  updateCurrentUser({
+    name: document.getElementById("fanName").value.trim(),
+    email: document.getElementById("fanEmail").value.trim(),
+    ...(password ? { password } : {})
+  });
+
+  if(nextLanguage !== getLang()){
+    setLang(nextLanguage);
+    applyLang();
+  }
+
   alert(translate("settingsSaved"));
 });
-
 </script>
 
 </body>

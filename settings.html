@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Settings - JENGU</title>
+<link rel="stylesheet" href="/styles/app.css">
+</head>
+<body style="min-height:100vh;display:grid;place-items:center;background:#10141b;color:#fff;">
+  <p id="redirectMessage" style="font-size:15px;opacity:0.85;">Redirecting to your settings...</p>
+
+  <script type="module">
+    import { initLang, translate } from "/js/lang.js";
+    import { getSettingsRoute } from "/js/auth.js";
+
+    initLang();
+    document.getElementById("redirectMessage").textContent = translate("settingsRedirecting");
+    window.location.replace(getSettingsRoute());
+  </script>
+</body>
+</html>

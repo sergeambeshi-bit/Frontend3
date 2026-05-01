@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Paramètres artiste - JENGU</title>
+
+<link rel="stylesheet" href="/styles/app.css">
+<style>
+.artist-settings-page {
+  background: linear-gradient(180deg, #121925, #0e141d 60%, #0d1117 100%);
+}
+
+.artist-settings-wrap {
+  max-width: 1160px;
+  margin: 0 auto;
+  padding: 22px 16px 48px;
+}
+
+.artist-settings-hero h1 {
+  margin: 0;
+  font-size: 30px;
+}
+
+.artist-settings-hero p {
+  margin-top: 8px;
+  max-width: 760px;
+  color: #c5cede;
+}
+
+.artist-settings-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+  margin-top: 18px;
+}
+
+.artist-settings-card {
+  background: rgba(22, 28, 39, 0.94);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 18px;
+  padding: 20px;
+}
+
+.artist-settings-card h3 {
+  margin: 0 0 14px;
+}
+
+.field {
+  display: grid;
+  gap: 6px;
+  margin-bottom: 14px;
+}
+
+.field label {
+  font-size: 13px;
+  color: #d7deec;
+}
+
+.field input,
+.field select,
+.field textarea {
+  width: 100%;
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 12px;
+  background: rgba(255,255,255,0.04);
+  color: #fff;
+  padding: 12px 14px;
+  outline: none;
+}
+
+.field textarea {
+  min-height: 100px;
+  resize: vertical;
+}
+
+.toggle-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  padding: 12px 0;
+  border-top: 1px solid rgba(255,255,255,0.06);
+}
+
+.toggle-row:first-of-type {
+  border-top: 0;
+  padding-top: 0;
+}
+
+.toggle-copy strong {
+  display: block;
+  font-size: 14px;
+}
+
+.toggle-copy span,
+.settings-note {
+  color: #aab3c7;
+  font-size: 12px;
+  line-height: 1.55;
+}
+
+.actions-bar {
+  margin-top: 20px;
+  display: flex;
+  justify-content: flex-end;
+}
+
+@media (max-width: 860px) {
+  .artist-settings-grid {
+    grid-template-columns: 1fr;
+  }
+}
+</style>
+</head>
+
+<body class="has-topbar-clearance artist-settings-page" data-i18n-title="artistSettingsTitle">
+
+<div id="sideMenu" class="side-menu">
+  <div class="menu-header">
+    <img src="/assets/logo.png" class="menu-logo" alt="JENGU logo">
+  </div>
+
+  <a href="/index.html" data-i18n="home">Accueil</a>
+  <a href="/browse.html" data-i18n="browse">Parcourir</a>
+  <a href="/genres.html" data-i18n="genres">Genres</a>
+  <a href="/charts.html" data-i18n="charts">Charts</a>
+  <a href="/artist/dashboard.html" data-i18n="dashboard">Dashboard</a>
+  <a href="/artist/catalog.html" data-i18n="catalog">Catalogue</a>
+  <a href="/artist/upload-track.html" data-i18n="uploadTrack">Upload Track</a>
+  <a href="/artist/upload-album.html" data-i18n="uploadAlbum">Upload Album</a>
+  <a href="/artist/payouts.html" data-i18n="payouts">Paiements</a>
+  <a href="/artist/analytics.html" data-i18n="analytics">Analytics</a>
+  <a href="/settings.html" data-i18n="settings">Paramètres</a>
+</div>
+
+<div class="topbar">
+  <span class="menu" id="menuBtn">☰</span>
+  <h3 data-i18n="artistSettings">Paramètres artiste</h3>
+  <span></span>
+</div>
+
+<main class="artist-settings-wrap">
+  <section class="artist-settings-hero">
+    <h1 data-i18n="artistSettings">Paramètres artiste</h1>
+    <p data-i18n="artistSettingsIntro">Manage your artist identity, storefront, selling defaults, payouts, and business alerts from one control center.</p>
+  </section>
+
+  <section class="artist-settings-grid">
+    <article class="artist-settings-card">
+      <h3 data-i18n="artistProfileSettings">Profil artiste</h3>
+
+      <div class="field">
+        <label for="artistName" data-i18n="artistName">Nom de l'artiste</label>
+        <input id="artistName" type="text">
+      </div>
+
+      <div class="field">
+        <label for="artistEmail" data-i18n="email">E-mail</label>
+        <input id="artistEmail" type="email">
+      </div>
+
+      <div class="field">
+        <label for="artistPassword" data-i18n="newPassword">Nouveau mot de passe</label>
+        <input id="artistPassword" type="password">
+      </div>
+
+      <div class="field">
+        <label for="artistBio" data-i18n="artistBioLabel">Biographie artiste</label>
+        <textarea id="artistBio"></textarea>
+      </div>
+
+      <div class="field">
+        <label for="socialLinks" data-i18n="socialLinks">Liens sociaux</label>
+        <input id="socialLinks" type="text" placeholder="Instagram, TikTok, YouTube">
+      </div>
+    </article>
+
+    <article class="artist-settings-card">
+      <h3 data-i18n="storefrontSettings">Vitrine</h3>
+
+      <div class="field">
+        <label for="storefrontHeadline" data-i18n="storefrontHeadline">Titre de vitrine</label>
+        <input id="storefrontHeadline" type="text">
+      </div>
+
+      <div class="field">
+        <label for="featuredGenre" data-i18n="featuredGenre">Genre mis en avant</label>
+        <input id="featuredGenre" type="text">
+      </div>
+
+      <div class="field">
+        <label for="artistRegion" data-i18n="regionPreference">Marché préféré</label>
+        <select id="artistRegion">
+          <option value="cameroon">Cameroon</option>
+          <option value="francophone-africa">Francophone Africa</option>
+          <option value="global-africa">Global Africa</option>
+        </select>
+      </div>
+    </article>
+
+    <article class="artist-settings-card">
+      <h3 data-i18n="sellingSettings">Vente</h3>
+
+      <div class="field">
+        <label for="defaultTrackPrice" data-i18n="defaultTrackPrice">Prix par défaut du titre</label>
+        <input id="defaultTrackPrice" type="number" min="500" step="100">
+      </div>
+
+      <div class="field">
+        <label for="defaultAlbumPrice" data-i18n="defaultAlbumPrice">Prix par défaut de l'album</label>
+        <input id="defaultAlbumPrice" type="number" min="1000" step="100">
+      </div>
+
+      <div class="field">
+        <label for="previewLength" data-i18n="previewLength">Durée d'extrait</label>
+        <select id="previewLength">
+          <option value="30">30 sec</option>
+          <option value="45">45 sec</option>
+          <option value="60">60 sec</option>
+        </select>
+      </div>
+
+      <div class="toggle-row">
+        <div class="toggle-copy">
+          <strong data-i18n="exclusiveByDefault">Marquer les nouvelles sorties comme exclusives par défaut</strong>
+          <span data-i18n="exclusiveByDefaultNote">Use exclusivity for direct-to-fan drops and premium releases.</span>
+        </div>
+        <input id="exclusiveByDefault" type="checkbox">
+      </div>
+    </article>
+
+    <article class="artist-settings-card">
+      <h3 data-i18n="payoutSettings">Détails de paiement</h3>
+
+      <div class="field">
+        <label for="payoutMethod" data-i18n="payoutMethodLabel">Méthode de paiement</label>
+        <select id="payoutMethod">
+          <option value="mobile-money">Mobile Money</option>
+          <option value="bank">Bank</option>
+        </select>
+      </div>
+
+      <div class="field">
+        <label for="payoutNumber" data-i18n="mobileNumber">Numéro MTN / Orange</label>
+        <input id="payoutNumber" type="text">
+      </div>
+
+      <div class="field">
+        <label for="legalName" data-i18n="legalName">Nom légal</label>
+        <input id="legalName" type="text">
+      </div>
+
+      <div class="field">
+        <label for="businessName" data-i18n="businessName">Nom d'activité</label>
+        <input id="businessName" type="text">
+      </div>
+    </article>
+
+    <article class="artist-settings-card">
+      <h3 data-i18n="notificationSettings">Notifications</h3>
+
+      <div class="toggle-row">
+        <div class="toggle-copy">
+          <strong data-i18n="salesAlerts">Alertes de ventes en temps réel</strong>
+          <span data-i18n="salesAlertsNote">Know when fans purchase your releases.</span>
+        </div>
+        <input id="salesAlerts" type="checkbox">
+      </div>
+
+      <div class="toggle-row">
+        <div class="toggle-copy">
+          <strong data-i18n="payoutAlerts">Alertes de paiements et retraits</strong>
+          <span data-i18n="payoutAlertsNote">Stay updated on payout status and settlement progress.</span>
+        </div>
+        <input id="payoutAlerts" type="checkbox">
+      </div>
+
+      <div class="toggle-row">
+        <div class="toggle-copy">
+          <strong data-i18n="releaseAlertsArtist">Alertes pour publications et approbations</strong>
+          <span data-i18n="releaseAlertsArtistNote">Get notified about live releases and catalog changes.</span>
+        </div>
+        <input id="releaseAlertsArtist" type="checkbox">
+      </div>
+    </article>
+
+    <article class="artist-settings-card">
+      <h3 data-i18n="securitySettings">Sécurité</h3>
+      <p class="settings-note" data-i18n="securityNoteArtist">Utilisez une adresse e-mail professionnelle et mettez régulièrement à jour votre mot de passe.</p>
+    </article>
+  </section>
+
+  <div class="actions-bar">
+    <button id="saveArtistSettingsBtn" class="btn-primary" data-i18n="saveSettings">Enregistrer les paramètres</button>
+  </div>
+</main>
+
+<script type="module">
+import { initLang, translate } from "/js/lang.js";
+import { getCurrentUser, updateCurrentUser } from "/js/auth.js";
+
+initLang();
+
+const user = getCurrentUser();
+if(!user){
+  window.location.href = "/user/login.html";
+}
+
+if(user?.role !== "artist"){
+  window.location.href = "/settings.html";
+}
+
+const menuBtn = document.getElementById("menuBtn");
+const sideMenu = document.getElementById("sideMenu");
+
+menuBtn.addEventListener("click", () => {
+  sideMenu.classList.toggle("open");
+});
+
+document.addEventListener("click", (event) => {
+  if (!sideMenu.contains(event.target) && !menuBtn.contains(event.target)) {
+    sideMenu.classList.remove("open");
+  }
+});
+
+const storageKey = `artistSettings:${user?.id || user?.email || "artist"}`;
+const defaults = {
+  artistBio: "",
+  socialLinks: "",
+  storefrontHeadline: "",
+  featuredGenre: "",
+  artistRegion: "cameroon",
+  defaultTrackPrice: 1000,
+  defaultAlbumPrice: 3000,
+  previewLength: "45",
+  exclusiveByDefault: false,
+  payoutMethod: "mobile-money",
+  payoutNumber: "",
+  legalName: "",
+  businessName: "",
+  salesAlerts: true,
+  payoutAlerts: true,
+  releaseAlertsArtist: true
+};
+
+const savedSettings = JSON.parse(localStorage.getItem(storageKey) || "null") || {};
+const settings = {
+  ...defaults,
+  ...savedSettings
+};
+
+document.getElementById("artistName").value = user?.name || "";
+document.getElementById("artistEmail").value = user?.email || "";
+document.getElementById("artistBio").value = settings.artistBio;
+document.getElementById("socialLinks").value = settings.socialLinks;
+document.getElementById("storefrontHeadline").value = settings.storefrontHeadline;
+document.getElementById("featuredGenre").value = settings.featuredGenre;
+document.getElementById("artistRegion").value = settings.artistRegion;
+document.getElementById("defaultTrackPrice").value = settings.defaultTrackPrice;
+document.getElementById("defaultAlbumPrice").value = settings.defaultAlbumPrice;
+document.getElementById("previewLength").value = settings.previewLength;
+document.getElementById("exclusiveByDefault").checked = settings.exclusiveByDefault;
+document.getElementById("payoutMethod").value = settings.payoutMethod;
+document.getElementById("payoutNumber").value = settings.payoutNumber;
+document.getElementById("legalName").value = settings.legalName;
+document.getElementById("businessName").value = settings.businessName;
+document.getElementById("salesAlerts").checked = settings.salesAlerts;
+document.getElementById("payoutAlerts").checked = settings.payoutAlerts;
+document.getElementById("releaseAlertsArtist").checked = settings.releaseAlertsArtist;
+
+document.getElementById("saveArtistSettingsBtn").addEventListener("click", () => {
+  const password = document.getElementById("artistPassword").value.trim();
+
+  localStorage.setItem(storageKey, JSON.stringify({
+    artistBio: document.getElementById("artistBio").value.trim(),
+    socialLinks: document.getElementById("socialLinks").value.trim(),
+    storefrontHeadline: document.getElementById("storefrontHeadline").value.trim(),
+    featuredGenre: document.getElementById("featuredGenre").value.trim(),
+    artistRegion: document.getElementById("artistRegion").value,
+    defaultTrackPrice: document.getElementById("defaultTrackPrice").value,
+    defaultAlbumPrice: document.getElementById("defaultAlbumPrice").value,
+    previewLength: document.getElementById("previewLength").value,
+    exclusiveByDefault: document.getElementById("exclusiveByDefault").checked,
+    payoutMethod: document.getElementById("payoutMethod").value,
+    payoutNumber: document.getElementById("payoutNumber").value.trim(),
+    legalName: document.getElementById("legalName").value.trim(),
+    businessName: document.getElementById("businessName").value.trim(),
+    salesAlerts: document.getElementById("salesAlerts").checked,
+    payoutAlerts: document.getElementById("payoutAlerts").checked,
+    releaseAlertsArtist: document.getElementById("releaseAlertsArtist").checked
+  }));
+
+  updateCurrentUser({
+    name: document.getElementById("artistName").value.trim(),
+    email: document.getElementById("artistEmail").value.trim(),
+    ...(password ? { password } : {})
+  });
+
+  alert(translate("settingsSaved"));
+});
+</script>
+
+</body>
+</html>
