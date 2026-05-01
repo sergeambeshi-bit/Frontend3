@@ -27,11 +27,29 @@ body.market-home {
   color: var(--ink);
   font-family: "Manrope", "Inter", sans-serif;
   padding-bottom: 0;
+  position: relative;
+}
+
+body.market-home::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.06;
+  background-image:
+    url("/assets/patterns/kuba.svg"),
+    url("/assets/patterns/toghu.svg");
+  background-size: 680px, 620px;
+  background-position: -120px 20%, calc(100% + 140px) 70%;
+  background-repeat: no-repeat;
+  z-index: 0;
 }
 
 .market-home .site-shell {
   width: min(1200px, calc(100% - 40px));
   margin: 0 auto;
+  position: relative;
+  z-index: 1;
 }
 
 .market-home .hero {
@@ -129,6 +147,13 @@ body.market-home {
   border-radius: 999px;
   padding: 7px 14px;
   margin-bottom: 18px;
+}
+
+.market-home .hero-region-note {
+  margin-top: 16px;
+  color: #d4d9e8;
+  font-size: 13px;
+  max-width: 560px;
 }
 
 .market-home h1 {
@@ -366,6 +391,60 @@ body.market-home {
   grid-template-columns: repeat(2, minmax(0, 1fr));
 }
 
+.market-home .regional-pulse-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.market-home .pulse-card {
+  border-radius: 18px;
+  border: 1px solid var(--line);
+  padding: 22px;
+  background: rgba(14, 18, 27, 0.86);
+}
+
+.market-home .pulse-card h3 {
+  margin: 0;
+  font-family: "Playfair Display", serif;
+  font-size: 23px;
+}
+
+.market-home .pulse-list {
+  margin: 16px 0 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 10px;
+}
+
+.market-home .pulse-list li {
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  padding: 10px 12px;
+  color: #d6dbea;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.market-home .pulse-list a {
+  color: inherit;
+  text-decoration: none;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.market-home .pulse-meta {
+  color: #9fa8bf;
+  font-size: 12px;
+  white-space: nowrap;
+}
+
 .market-home .journey {
   border: 1px solid var(--line);
   background: linear-gradient(180deg, rgba(22, 26, 36, 0.84), rgba(14, 17, 24, 0.84));
@@ -551,7 +630,8 @@ body.market-home {
   }
 
   .market-home .how-grid,
-  .market-home .benefit-grid {
+  .market-home .benefit-grid,
+  .market-home .regional-pulse-grid {
     grid-template-columns: 1fr;
   }
 
@@ -662,7 +742,8 @@ body.market-home {
     <div class="hero-copy">
       <div class="eyebrow">Download-Only Music Marketplace</div>
       <h1 id="heroTitle">Own Music, Don&apos;t Rent It</h1>
-      <p class="hero-sub" id="heroSubtitle">Buy downloadable music directly from artists. Preview tracks, purchase instantly, and keep your music forever.</p>
+      <p class="hero-sub" id="heroSubtitle">The premium music marketplace for Cameroon and Francophone Africa. Preview tracks, buy instantly, and own your downloads forever.</p>
+      <p class="hero-region-note" id="heroRegionNote">Built for artists across Cameroon and French-speaking Africa, connecting independent talent to fans who buy music direct.</p>
 
       <div class="cta">
         <a href="/browse.html" class="btn-primary" id="heroPrimaryCta" aria-label="Explore music releases">Explore Music</a>
@@ -691,14 +772,54 @@ body.market-home {
   <section class="market-section site-shell reveal-on-scroll" aria-labelledby="featured-heading">
     <div class="section-head">
       <div>
-        <div class="section-kicker">Featured Artists And Releases</div>
-        <h2 id="featured-heading">Editorial Picks For Download</h2>
+        <div class="section-kicker" id="featuredKicker">Featured African Artists</div>
+        <h2 id="featured-heading">Discover And Own Music From Africa&apos;s Leading Artists</h2>
       </div>
-      <p class="section-desc">Preview before you buy. Every release links to instant purchase and permanent download ownership from the artist marketplace.</p>
+      <p class="section-desc" id="featuredDesc">Curated selections from Cameroon and Francophone Africa. Every release supports artists directly through premium download ownership.</p>
     </div>
 
     <div class="featured-grid" id="featuredReleases" aria-live="polite">
       <div class="placeholder-msg">Loading featured releases...</div>
+    </div>
+  </section>
+
+  <section class="market-section site-shell reveal-on-scroll" aria-labelledby="regional-pulse-heading">
+    <div class="section-head">
+      <div>
+        <div class="section-kicker" id="regionalPulseKicker">Marketplace Trust And Community</div>
+        <h2 id="regional-pulse-heading">Support African Artists. Buy Music Direct.</h2>
+      </div>
+      <p class="section-desc" id="regionalPulseDesc">Explore what is moving across the region with highlights tailored for Cameroon and the wider French-speaking African music scene.</p>
+    </div>
+
+    <div class="regional-pulse-grid">
+      <article class="pulse-card" aria-labelledby="pulse-artists-heading">
+        <h3 id="pulse-artists-heading">Featured African Artists</h3>
+        <ul class="pulse-list" id="regionalFeaturedArtists">
+          <li>Loading artists...</li>
+        </ul>
+      </article>
+
+      <article class="pulse-card" aria-labelledby="pulse-trending-heading">
+        <h3 id="pulse-trending-heading">Trending In Cameroon</h3>
+        <ul class="pulse-list" id="regionalTrending">
+          <li>Loading tracks...</li>
+        </ul>
+      </article>
+
+      <article class="pulse-card" aria-labelledby="pulse-new-heading">
+        <h3 id="pulse-new-heading">New Releases From Francophone Africa</h3>
+        <ul class="pulse-list" id="regionalNewReleases">
+          <li>Loading releases...</li>
+        </ul>
+      </article>
+
+      <article class="pulse-card" aria-labelledby="pulse-genres-heading">
+        <h3 id="pulse-genres-heading">Regional Genres And Collections</h3>
+        <ul class="pulse-list" id="regionalGenres">
+          <li>Loading genres...</li>
+        </ul>
+      </article>
     </div>
   </section>
 
@@ -821,24 +942,76 @@ initLang();
 
 const copyVariants = {
   A: {
-    heroTitle: "Own Music, Don't Rent It",
-    heroSubtitle: "Buy downloadable music directly from artists. Preview tracks, purchase instantly, and keep your music forever.",
-    heroPrimaryCta: "Explore Music",
-    heroSecondaryCta: "Sell Your Music",
-    artistStripTitle: "Launch Your Download Storefront In Minutes",
-    artistStripBody: "Upload tracks, set your own prices, and publish exclusive digital releases fans can preview, buy instantly, and own permanently.",
-    artistPrimaryCta: "Upload A Track",
-    artistSecondaryCta: "Artist Dashboard"
+    en: {
+      heroTitle: "The Premium Music Marketplace For Cameroon And Francophone Africa",
+      heroSubtitle: "Discover and own music from Africa's leading artists. Preview tracks, buy instantly, and keep every download forever.",
+      heroRegionNote: "Built for artists across Cameroon and French-speaking Africa, connecting independent talent to fans who buy music direct.",
+      heroPrimaryCta: "Explore Music",
+      heroSecondaryCta: "Sell Your Music",
+      featuredKicker: "Featured African Artists",
+      featuredTitle: "Discover And Own Music From Africa's Leading Artists",
+      featuredDesc: "Curated selections from Cameroon and Francophone Africa. Every release supports artists directly through premium download ownership.",
+      regionalPulseKicker: "Marketplace Trust And Community",
+      regionalPulseTitle: "Support African Artists. Buy Music Direct.",
+      regionalPulseDesc: "Explore what is moving across the region with highlights tailored for Cameroon and the wider French-speaking African music scene.",
+      artistStripTitle: "Built For Artists Across Cameroon And French-Speaking Africa",
+      artistStripBody: "Upload tracks, set your prices, and sell direct to fans across the region with a premium download-first storefront.",
+      artistPrimaryCta: "Upload A Track",
+      artistSecondaryCta: "Artist Dashboard"
+    },
+    fr: {
+      heroTitle: "La Marketplace Premium De Musique Pour Le Cameroun Et L'Afrique Francophone",
+      heroSubtitle: "Decouvrez et possedez la musique des artistes majeurs d'Afrique. Ecoutez des extraits, achetez instantanement et gardez vos telechargements a vie.",
+      heroRegionNote: "Concue pour les artistes du Cameroun et de l'Afrique francophone, reliee aux fans qui achetent la musique en direct.",
+      heroPrimaryCta: "Explorer La Musique",
+      heroSecondaryCta: "Vendre Votre Musique",
+      featuredKicker: "Artistes Africains A La Une",
+      featuredTitle: "Decouvrez Et Possedez La Musique Des Plus Grands Artistes Africains",
+      featuredDesc: "Une selection premium du Cameroun et de l'Afrique francophone. Chaque achat soutient directement les artistes.",
+      regionalPulseKicker: "Confiance Et Communaute Marketplace",
+      regionalPulseTitle: "Soutenez Les Artistes Africains. Achetez En Direct.",
+      regionalPulseDesc: "Suivez les temps forts regionaux avec des selections pensees pour le Cameroun et la scene musicale francophone.",
+      artistStripTitle: "Concue Pour Les Artistes Du Cameroun Et De L'Afrique Francophone",
+      artistStripBody: "Publiez vos titres, fixez vos prix et vendez en direct a vos fans grace a une vitrine premium orientee telechargement.",
+      artistPrimaryCta: "Publier Un Titre",
+      artistSecondaryCta: "Tableau Artiste"
+    }
   },
   B: {
-    heroTitle: "Buy Once. Keep The Music Forever.",
-    heroSubtitle: "Preview songs, purchase directly from artists, and build a permanent download collection you truly own.",
-    heroPrimaryCta: "Shop Downloads",
-    heroSecondaryCta: "Start Selling",
-    artistStripTitle: "Turn Every Release Into Direct Artist Revenue",
-    artistStripBody: "Publish your catalog, control pricing, and sell exclusive digital drops directly to fans who value ownership.",
-    artistPrimaryCta: "Publish A Release",
-    artistSecondaryCta: "Open Creator Hub"
+    en: {
+      heroTitle: "Own The Sound Of Cameroon And Francophone Africa",
+      heroSubtitle: "Preview songs, purchase directly from artists, and build a permanent collection from the region's most exciting voices.",
+      heroRegionNote: "A premium download-only home for African music culture, created for fans and artists across French-speaking Africa.",
+      heroPrimaryCta: "Shop Downloads",
+      heroSecondaryCta: "Start Selling",
+      featuredKicker: "Regional Editorial Selection",
+      featuredTitle: "Cameroon To Francophone Africa: Premium Releases To Own",
+      featuredDesc: "From rising independent names to established stars, buy music direct and support the culture that shapes the continent.",
+      regionalPulseKicker: "Regional Marketplace Signals",
+      regionalPulseTitle: "Trending In Cameroon. Rising Across Francophone Africa.",
+      regionalPulseDesc: "Track artist momentum, discover new releases, and browse regional genres in one premium marketplace view.",
+      artistStripTitle: "Turn Every Release Into Direct Artist Revenue",
+      artistStripBody: "Publish your catalog, control pricing, and sell exclusive digital drops directly to fans who value ownership.",
+      artistPrimaryCta: "Publish A Release",
+      artistSecondaryCta: "Open Creator Hub"
+    },
+    fr: {
+      heroTitle: "Possedez Le Son Du Cameroun Et De L'Afrique Francophone",
+      heroSubtitle: "Ecoutez des extraits, achetez directement aux artistes et construisez une collection permanente des voix majeures de la region.",
+      heroRegionNote: "Une plateforme premium 100% telechargement pour la culture musicale africaine, pensee pour les artistes et fans francophones.",
+      heroPrimaryCta: "Acheter Les Telechargements",
+      heroSecondaryCta: "Commencer A Vendre",
+      featuredKicker: "Selection Editoriale Regionale",
+      featuredTitle: "Du Cameroun A L'Afrique Francophone: Des Sorties Premium A Posseder",
+      featuredDesc: "Des talents independants aux artistes reconnus, achetez en direct et soutenez une culture musicale d'exception.",
+      regionalPulseKicker: "Signaux Marketplace Regionaux",
+      regionalPulseTitle: "Tendance Au Cameroun. En Essor En Afrique Francophone.",
+      regionalPulseDesc: "Suivez la dynamique des artistes, decouvrez les nouvelles sorties et explorez les genres regionaux dans une experience premium.",
+      artistStripTitle: "Transformez Chaque Sortie En Revenus Directs",
+      artistStripBody: "Publiez votre catalogue, gardez le controle des prix et vendez des sorties exclusives aux fans qui valorisent la possession.",
+      artistPrimaryCta: "Publier Une Sortie",
+      artistSecondaryCta: "Ouvrir Le Hub Artiste"
+    }
   }
 };
 
@@ -862,20 +1035,35 @@ function setText(id, value) {
   }
 }
 
+function getUiLang() {
+  const lang = document.documentElement.lang || "en";
+  return lang.toLowerCase().startsWith("fr") ? "fr" : "en";
+}
+
 function applyCopyVariant() {
   const variantName = getCopyVariant();
   const variant = copyVariants[variantName] || copyVariants.A;
+  const lang = getUiLang();
+  const text = variant[lang] || variant.en;
 
   document.body.dataset.copyVariant = variantName;
+  document.body.dataset.copyLang = lang;
 
-  setText("heroTitle", variant.heroTitle);
-  setText("heroSubtitle", variant.heroSubtitle);
-  setText("heroPrimaryCta", variant.heroPrimaryCta);
-  setText("heroSecondaryCta", variant.heroSecondaryCta);
-  setText("artist-strip-heading", variant.artistStripTitle);
-  setText("artistStripBody", variant.artistStripBody);
-  setText("artistPrimaryCta", variant.artistPrimaryCta);
-  setText("artistSecondaryCta", variant.artistSecondaryCta);
+  setText("heroTitle", text.heroTitle);
+  setText("heroSubtitle", text.heroSubtitle);
+  setText("heroRegionNote", text.heroRegionNote);
+  setText("heroPrimaryCta", text.heroPrimaryCta);
+  setText("heroSecondaryCta", text.heroSecondaryCta);
+  setText("featuredKicker", text.featuredKicker);
+  setText("featured-heading", text.featuredTitle);
+  setText("featuredDesc", text.featuredDesc);
+  setText("regionalPulseKicker", text.regionalPulseKicker);
+  setText("regional-pulse-heading", text.regionalPulseTitle);
+  setText("regionalPulseDesc", text.regionalPulseDesc);
+  setText("artist-strip-heading", text.artistStripTitle);
+  setText("artistStripBody", text.artistStripBody);
+  setText("artistPrimaryCta", text.artistPrimaryCta);
+  setText("artistSecondaryCta", text.artistSecondaryCta);
 }
 
 function getAbMetrics() {
@@ -1075,6 +1263,68 @@ function createFeaturedCard(item, index = 0) {
   `;
 }
 
+function createPulseItem(label, href = "", meta = "") {
+  const safeLabel = label || "Untitled";
+  const anchor = href
+    ? `<a href="${href}">${safeLabel}</a>`
+    : `<span>${safeLabel}</span>`;
+
+  return `
+    <li>
+      ${anchor}
+      ${meta ? `<span class="pulse-meta">${meta}</span>` : ""}
+    </li>
+  `;
+}
+
+function renderRegionalPulse(data) {
+  const artistsEl = document.getElementById("regionalFeaturedArtists");
+  const trendingEl = document.getElementById("regionalTrending");
+  const releasesEl = document.getElementById("regionalNewReleases");
+  const genresEl = document.getElementById("regionalGenres");
+
+  if (!artistsEl || !trendingEl || !releasesEl || !genresEl) return;
+
+  const releasesByDate = [...data].sort((a, b) => getReleaseDate(b) - getReleaseDate(a));
+  const tracks = data.filter((item) => item.type === "track");
+  const artistMap = new Map();
+
+  data.forEach((item) => {
+    const artist = (item.artist || "").trim();
+    if (!artist || artistMap.has(artist)) return;
+    artistMap.set(artist, item);
+  });
+
+  const featuredArtists = Array.from(artistMap.entries()).slice(0, 5);
+  const trendingTracks = rankFeaturedItems(tracks).slice(0, 5);
+  const newRegional = releasesByDate.slice(0, 5);
+  const regionalGenres = [...new Set(data.map((item) => (item.genre || "").trim()).filter(Boolean))].slice(0, 6);
+
+  artistsEl.innerHTML = featuredArtists.length
+    ? featuredArtists
+        .map(([artist, item]) => createPulseItem(artist, getItemLink(item), "Artist"))
+        .join("")
+    : createPulseItem("Artists coming soon");
+
+  trendingEl.innerHTML = trendingTracks.length
+    ? trendingTracks
+        .map((item) => createPulseItem(item.name, getItemLink(item), item.artist || "Cameroon"))
+        .join("")
+    : createPulseItem("Trending tracks coming soon");
+
+  releasesEl.innerHTML = newRegional.length
+    ? newRegional
+        .map((item) => createPulseItem(item.name, getItemLink(item), item.artist || item.genre || "Francophone Africa"))
+        .join("")
+    : createPulseItem("New releases coming soon");
+
+  genresEl.innerHTML = regionalGenres.length
+    ? regionalGenres
+        .map((genre) => createPulseItem(genre, `/browse.html?genre=${encodeURIComponent(genre)}`, "Collection"))
+        .join("")
+    : createPulseItem("Genre collections coming soon");
+}
+
 function setupScrollReveal() {
   const revealElements = document.querySelectorAll(".reveal-on-scroll");
   const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -1157,6 +1407,7 @@ async function initPage() {
   const featured = rankFeaturedItems(data).slice(0, 8);
 
   featuredEl.innerHTML = featured.map((item, index) => createFeaturedCard(item, index)).join("");
+  renderRegionalPulse(data);
 
   setupScrollReveal();
 
@@ -1174,6 +1425,15 @@ window.addEventListener("DOMContentLoaded", () => {
   setupScrollReveal();
   initPage();
 });
+
+const langBtn = document.getElementById("langBtn");
+if (langBtn) {
+  langBtn.addEventListener("click", () => {
+    window.setTimeout(() => {
+      applyCopyVariant();
+    }, 0);
+  });
+}
 
 const menuBtn = document.getElementById("menuBtn");
 const sideMenu = document.getElementById("sideMenu");
