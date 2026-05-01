@@ -7,9 +7,10 @@
 
 <link rel="stylesheet" href="/styles/app.css">
 <script src="/js/artist-dashboard.js" defer></script>
+<script src="/js/premium-experience.js" defer></script>
 </head>
 
-<body class="has-topbar-clearance">
+<body class="has-topbar-clearance artist-premium-page">
 
 <!-- SIDE MENU -->
 <div id="sideMenu" class="side-menu">
@@ -55,6 +56,20 @@
 
     <label>Image de couverture</label>
     <input type="file" name="cover">
+
+    <label>Genre</label>
+    <select name="genre" required>
+      <option value="">Choisir un genre</option>
+      <option value="mboko">Mboko</option>
+      <option value="makossa">Makossa</option>
+      <option value="bikutsi">Bikutsi</option>
+      <option value="afropop">Afropop</option>
+      <option value="afrobeat">Afrobeat</option>
+      <option value="ndombolo">Ndombolo</option>
+      <option value="rnb">RnB Afro</option>
+      <option value="drill">Drill</option>
+      <option value="gospel">Gospel Camer</option>
+    </select>
 
     <label>Price (XAF)</label>
 <input type="number" name="price" min="1000" max="2000" value="1500">
