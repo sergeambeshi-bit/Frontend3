@@ -152,24 +152,27 @@ body.market-home::before {
 .market-home .hero-region-note {
   margin-top: 16px;
   color: #d4d9e8;
-  font-size: 13px;
-  max-width: 560px;
+  font-size: 12px;
+  max-width: 520px;
+  line-height: 1.55;
 }
 
 .market-home h1 {
   font-family: "Playfair Display", serif;
-  font-size: clamp(42px, 6.8vw, 82px);
+  font-size: clamp(36px, 6.1vw, 72px);
   line-height: 0.95;
   margin: 0;
   letter-spacing: -0.02em;
+  text-wrap: balance;
 }
 
 .market-home .hero-sub {
   margin-top: 20px;
   color: var(--ink-muted);
-  font-size: clamp(16px, 2vw, 21px);
+  font-size: clamp(15px, 1.7vw, 19px);
   max-width: 620px;
   line-height: 1.5;
+  text-wrap: pretty;
 }
 
 .market-home .cta {
@@ -669,6 +672,14 @@ body.market-home::before {
     gap: 18px;
   }
 
+  .market-home .hero-sub {
+    max-width: 100%;
+  }
+
+  .market-home .hero-region-note {
+    max-width: 100%;
+  }
+
   .market-home .hero-stats {
     grid-template-columns: 1fr;
   }
@@ -682,6 +693,58 @@ body.market-home::before {
   .market-home .release-card:nth-child(2) {
     grid-column: span 12;
     min-height: 330px;
+  }
+}
+
+@media (max-width: 380px) {
+  .market-home .hero {
+    min-height: 700px;
+  }
+
+  .market-home .hero-content {
+    padding: 18px 14px 22px;
+    gap: 14px;
+  }
+
+  .market-home h1 {
+    font-size: clamp(31px, 10.2vw, 40px);
+    line-height: 0.98;
+  }
+
+  .market-home .hero-sub {
+    font-size: 14px;
+    line-height: 1.45;
+    margin-top: 14px;
+  }
+
+  .market-home .hero-region-note {
+    font-size: 11px;
+    margin-top: 12px;
+    line-height: 1.45;
+  }
+
+  .market-home .cta {
+    margin-top: 20px;
+    gap: 10px;
+  }
+
+  .market-home .btn-primary,
+  .market-home .btn-ghost {
+    min-height: 44px;
+    padding: 0 16px;
+    font-size: 13px;
+  }
+
+  .market-home .hero-stats {
+    gap: 8px;
+  }
+
+  .market-home .stat-pill {
+    padding: 11px 12px;
+  }
+
+  .market-home .stat-value {
+    font-size: 22px;
   }
 }
 
@@ -741,9 +804,9 @@ body.market-home::before {
   <div class="hero-content">
     <div class="hero-copy">
       <div class="eyebrow">Download-Only Music Marketplace</div>
-      <h1 id="heroTitle">Own Music, Don&apos;t Rent It</h1>
-      <p class="hero-sub" id="heroSubtitle">The premium music marketplace for Cameroon and Francophone Africa. Preview tracks, buy instantly, and own your downloads forever.</p>
-      <p class="hero-region-note" id="heroRegionNote">Built for artists across Cameroon and French-speaking Africa, connecting independent talent to fans who buy music direct.</p>
+      <h1 id="heroTitle">Premium Music Ownership For Cameroon And Francophone Africa</h1>
+      <p class="hero-sub" id="heroSubtitle">Preview, purchase, and own exceptional music from African artists forever.</p>
+      <p class="hero-region-note" id="heroRegionNote">Built for artists across Cameroon and French-speaking Africa, connecting exceptional talent to fans who buy direct.</p>
 
       <div class="cta">
         <a href="/browse.html" class="btn-primary" id="heroPrimaryCta" aria-label="Explore music releases">Explore Music</a>
@@ -943,9 +1006,9 @@ initLang();
 const copyVariants = {
   A: {
     en: {
-      heroTitle: "The Premium Music Marketplace For Cameroon And Francophone Africa",
-      heroSubtitle: "Discover and own music from Africa's leading artists. Preview tracks, buy instantly, and keep every download forever.",
-      heroRegionNote: "Built for artists across Cameroon and French-speaking Africa, connecting independent talent to fans who buy music direct.",
+      heroTitle: "Premium Music Ownership For Cameroon And Francophone Africa",
+      heroSubtitle: "Discover and own music from Africa's leading artists. Preview instantly and buy with confidence.",
+      heroRegionNote: "Built for artists across Cameroon and French-speaking Africa, connecting exceptional talent to fans who buy direct.",
       heroPrimaryCta: "Explore Music",
       heroSecondaryCta: "Sell Your Music",
       featuredKicker: "Featured African Artists",
@@ -960,9 +1023,9 @@ const copyVariants = {
       artistSecondaryCta: "Artist Dashboard"
     },
     fr: {
-      heroTitle: "La Marketplace Premium De Musique Pour Le Cameroun Et L'Afrique Francophone",
-      heroSubtitle: "Decouvrez et possedez la musique des artistes majeurs d'Afrique. Ecoutez des extraits, achetez instantanement et gardez vos telechargements a vie.",
-      heroRegionNote: "Concue pour les artistes du Cameroun et de l'Afrique francophone, reliee aux fans qui achetent la musique en direct.",
+      heroTitle: "La Marketplace Premium Pour Posseder La Musique Du Cameroun Et De L'Afrique Francophone",
+      heroSubtitle: "Decouvrez et possedez la musique des meilleurs artistes d'Afrique. Extraits instantanes et achat en toute confiance.",
+      heroRegionNote: "Concue pour les artistes du Cameroun et de l'Afrique francophone, elle relie les talents d'exception aux fans qui achetent en direct.",
       heroPrimaryCta: "Explorer La Musique",
       heroSecondaryCta: "Vendre Votre Musique",
       featuredKicker: "Artistes Africains A La Une",
@@ -980,8 +1043,8 @@ const copyVariants = {
   B: {
     en: {
       heroTitle: "Own The Sound Of Cameroon And Francophone Africa",
-      heroSubtitle: "Preview songs, purchase directly from artists, and build a permanent collection from the region's most exciting voices.",
-      heroRegionNote: "A premium download-only home for African music culture, created for fans and artists across French-speaking Africa.",
+      heroSubtitle: "Preview songs, buy direct from artists, and build a permanent collection from the region's defining voices.",
+      heroRegionNote: "A premium download-only home for African music culture, crafted for fans and artists across French-speaking Africa.",
       heroPrimaryCta: "Shop Downloads",
       heroSecondaryCta: "Start Selling",
       featuredKicker: "Regional Editorial Selection",
@@ -997,8 +1060,8 @@ const copyVariants = {
     },
     fr: {
       heroTitle: "Possedez Le Son Du Cameroun Et De L'Afrique Francophone",
-      heroSubtitle: "Ecoutez des extraits, achetez directement aux artistes et construisez une collection permanente des voix majeures de la region.",
-      heroRegionNote: "Une plateforme premium 100% telechargement pour la culture musicale africaine, pensee pour les artistes et fans francophones.",
+      heroSubtitle: "Ecoutez des extraits, achetez en direct aux artistes et construisez une collection permanente des grandes voix de la region.",
+      heroRegionNote: "Une plateforme premium 100% telechargement pour la culture musicale africaine, pensee pour les artistes et les fans francophones.",
       heroPrimaryCta: "Acheter Les Telechargements",
       heroSecondaryCta: "Commencer A Vendre",
       featuredKicker: "Selection Editoriale Regionale",
