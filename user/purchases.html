@@ -37,6 +37,11 @@
 
 <!-- PURCHASES -->
 <section class="section">
+  <form id="purchasesFilterForm" class="list-filter-form">
+    <input type="search" id="purchasesSearchInput" class="list-search-input" placeholder="Rechercher dans mes achats">
+    <button type="submit" class="list-filter-btn">Rechercher</button>
+  </form>
+
   <div id="purchasesList"></div>
 </section>
 
@@ -125,6 +130,14 @@ async function loadPurchases(){
 ========================= */
 function renderPurchases(purchases, usingLocalFallback = false){
 
+  window.__purchasesItems = purchases;
+  window.__purchasesFallback = usingLocalFallback;
+
+  renderPurchasesItems(purchases, usingLocalFallback);
+}
+
+function renderPurchasesItems(purchases, usingLocalFallback = false){
+
   const container = document.getElementById("purchasesList");
   const notice = usingLocalFallback
     ? `<p class="sub" style="text-align:center; color:#f1c40f;">Serveur indisponible, affichage des achats locaux.</p>`
@@ -169,6 +182,34 @@ function renderPurchases(purchases, usingLocalFallback = false){
 
 /* INIT */
 loadPurchases();
+
+function applyPurchasesFilter(){
+  const q = (document.getElementById("purchasesSearchInput").value || "").trim().toLowerCase();
+  const allItems = window.__purchasesItems || [];
+  const fallback = Boolean(window.__purchasesFallback);
+
+  if(!q){
+    renderPurchasesItems(allItems, fallback);
+    return;
+  }
+
+  const filtered = allItems.filter(item => {
+    return String(item.name || item.trackId || "").toLowerCase().includes(q)
+      || String(item.artist || "").toLowerCase().includes(q)
+      || String(item.price || "").toLowerCase().includes(q);
+  });
+
+  renderPurchasesItems(filtered, fallback);
+}
+
+document.getElementById("purchasesFilterForm").addEventListener("submit", (event) => {
+  event.preventDefault();
+  applyPurchasesFilter();
+});
+
+document.getElementById("purchasesSearchInput").addEventListener("input", () => {
+  applyPurchasesFilter();
+});
 
 </script>
 

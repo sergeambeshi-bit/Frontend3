@@ -45,8 +45,19 @@
 <script type="module">
 import { fetchNewReleases } from "/js/api.js";
 import { initLang, translate } from "/js/lang.js";
+import { getCurrentUser } from "/js/auth.js";
+import { cart } from "/js/cart.js";
 
 initLang();
+
+let releasesData = [];
+
+function safeCover(path){
+  if(!path || typeof path !== "string") return "/assets/covers/cover1.png";
+  if(path.startsWith("http") || path.startsWith("/assets/")) return path;
+  if(path.startsWith("assets/")) return `/${path}`;
+  return `/assets/covers/${path}`;
+}
 
 /* MENU */
 const menuBtn = document.getElementById("menuBtn");
@@ -64,18 +75,21 @@ document.addEventListener("click", (e) => {
 
 /* CARD */
 function createCard(item){
+  const price = Number(item.price || item.amount || 300);
+  const itemId = String(item.id || item.name || Math.random());
+
   return `
-    <div class="card">
+    <div class="card" data-id="${itemId}">
       <div class="cover">
-        <img src="${item.cover}">
+        <img src="${safeCover(item.cover)}" alt="${item.title || item.name || "release"}">
         <button class="play">▶</button>
       </div>
 
       <div class="title">${item.title || item.name}</div>
 
       <div class="card-bottom">
-        <span class="price">${Math.floor(Math.random()*1500)} XAF</span>
-        <button class="buy">${translate("buy")}</button>
+        <span class="price">${price} XAF</span>
+        <button class="buy" data-id="${itemId}">${translate("buy")}</button>
       </div>
     </div>
   `;
@@ -84,13 +98,25 @@ function createCard(item){
 /* LOAD */
 async function loadReleases(){
   const container = document.getElementById("releases");
+  container.innerHTML = `<p class="sub">${translate("loading") || "Loading..."}</p>`;
 
   try {
     const data = await fetchNewReleases();
 
+    if(!Array.isArray(data) || data.length === 0){
+      container.innerHTML = `<p class="sub">${translate("noData") || "No releases available for now."}</p>`;
+      return;
+    }
+
+    releasesData = [...data].sort((a, b) => {
+      const aDate = Date.parse(a.createdAt || a.releaseDate || "") || 0;
+      const bDate = Date.parse(b.createdAt || b.releaseDate || "") || 0;
+      return bDate - aDate;
+    });
+
     container.innerHTML = "";
 
-    data.forEach(item => {
+    releasesData.forEach(item => {
       container.innerHTML += createCard(item);
     });
 
@@ -111,7 +137,30 @@ document.addEventListener("click", e=>{
 /* BUY */
 document.addEventListener("click", e=>{
   if(e.target.classList.contains("buy")){
-    alert(translate("paymentUnavailable"));
+    const user = getCurrentUser();
+
+    if(!user){
+      window.location.href = "/user/login.html";
+      return;
+    }
+
+    const itemId = String(e.target.dataset.id || "");
+    const item = releasesData.find(r => String(r.id || r.name) === itemId);
+
+    if(!item){
+      alert(translate("loadingError"));
+      return;
+    }
+
+    cart.add({
+      id: item.id || Date.now(),
+      name: item.name || item.title || "Release",
+      artist: item.artist || "Unknown Artist",
+      cover: safeCover(item.cover),
+      price: Number(item.price || item.amount || 300)
+    });
+
+    window.location.href = "/checkout.html";
   }
 });
 

@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Artist Signup - JENGU</title>
+
+<link rel="stylesheet" href="/styles/app.css">
+<script src="/js/premium-experience.js" defer></script>
+<style>
+  .artist-signup-wrap {
+    max-width: 540px;
+    margin: 0 auto;
+    padding: 28px 16px 52px;
+  }
+
+  .artist-signup-card {
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 18px;
+    background: rgba(11, 16, 24, 0.72);
+    padding: 22px;
+  }
+
+  .artist-signup-note {
+    margin: 0 0 16px;
+    color: #b8c5dd;
+    font-size: 14px;
+    line-height: 1.55;
+  }
+
+  .artist-role-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    border: 1px solid rgba(1, 212, 171, 0.42);
+    border-radius: 999px;
+    padding: 6px 12px;
+    color: #90ffeb;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    margin-bottom: 14px;
+    text-transform: uppercase;
+  }
+</style>
+</head>
+
+<body class="has-topbar-clearance artist-premium-page" data-i18n-title="signupPageTitle">
+
+<div id="sideMenu" class="side-menu">
+  <div class="menu-header">
+    <img src="/assets/logo.png" class="menu-logo" alt="JENGU logo">
+  </div>
+  <a href="/index.html">Accueil</a>
+  <a href="/browse.html">Parcourir</a>
+  <a href="/genres.html">Genres</a>
+  <a href="/charts.html">Charts</a>
+  <a href="/artist/signup.html">Artist Signup</a>
+  <a href="/user/login.html">Connexion</a>
+</div>
+
+<div class="topbar">
+  <span class="menu" id="menuBtn">☰</span>
+  <h3>Artist Signup</h3>
+  <span></span>
+</div>
+
+<main class="artist-signup-wrap">
+  <section class="artist-signup-card">
+    <div class="artist-role-chip">Artist Account Only</div>
+    <h2 style="margin:0 0 8px;">Create your artist account</h2>
+    <p class="artist-signup-note">
+      This signup is strictly for artists who want to publish and sell releases on JENGU.
+    </p>
+
+    <form id="artistSignupForm">
+      <input type="text" id="name" placeholder="Artist name" required>
+      <input type="email" id="email" placeholder="Email" required>
+      <input type="password" id="password" placeholder="Password" required>
+      <button class="btn-primary" style="width:100%; margin-top:8px;" type="submit">Create Artist Account</button>
+    </form>
+
+    <p style="text-align:center; margin-top:14px;">
+      Already have an account?
+      <a href="/user/login.html" style="color:#01d4ab;">Login</a>
+    </p>
+  </section>
+</main>
+
+<script type="module">
+import { supabase } from "/js/supabase.js";
+import { initLang, applyLang, translate } from "/js/lang.js";
+
+initLang();
+applyLang();
+
+const menuBtn = document.getElementById("menuBtn");
+const sideMenu = document.getElementById("sideMenu");
+
+if (menuBtn && sideMenu) {
+  menuBtn.addEventListener("click", () => {
+    sideMenu.classList.toggle("open");
+  });
+
+  document.addEventListener("click", (event) => {
+    if (!sideMenu.contains(event.target) && !menuBtn.contains(event.target)) {
+      sideMenu.classList.remove("open");
+    }
+  });
+}
+
+document.getElementById("artistSignupForm").addEventListener("submit", async (event) => {
+  event.preventDefault();
+
+  const name = document.getElementById("name").value.trim();
+  const email = document.getElementById("email").value.trim();
+  const password = document.getElementById("password").value;
+
+  const { error } = await supabase.auth.signUp({
+    email,
+    password,
+    options: {
+      data: {
+        name,
+        role: "artist"
+      }
+    }
+  });
+
+  if (error) {
+    alert(error.message);
+    return;
+  }
+
+  alert(translate("roleArtistAccountCreated") || "Artist account created successfully.");
+  window.location.href = "/user/login.html";
+});
+</script>
+
+</body>
+</html>

@@ -8,6 +8,42 @@
 <link rel="stylesheet" href="/styles/app.css">
 <script src="/js/premium-experience.js" defer></script>
 <style>
+  .auth-section {
+    max-width: 560px;
+    margin: 18px auto 0;
+    padding-top: 26px;
+  }
+
+  .auth-logo-wrap {
+    text-align: center;
+    margin-bottom: 24px;
+  }
+
+  .auth-logo-wrap .logo {
+    width: 120px;
+  }
+
+  .auth-title {
+    text-align: center;
+  }
+
+  .auth-sub {
+    text-align: center;
+  }
+
+  .auth-form {
+    margin-top: 20px;
+  }
+
+  .auth-links {
+    text-align: center;
+    margin-top: 14px;
+  }
+
+  .auth-links a {
+    color: #01d4ab;
+  }
+
   .role-picker {
     margin: 14px 0 8px;
     display: grid;
@@ -39,19 +75,19 @@
 
 <body class="fan-premium-page" data-i18n-title="loginPageTitle">
 
-<section class="section" style="padding-top:40px;">
+<section class="section auth-section">
 
   <!-- LOGO -->
-  <div style="text-align:center; margin-bottom:30px;">
-    <a href="/index.html"><img src="/assets/logo.png" class="logo" style="width:120px;"></a>
+  <div class="auth-logo-wrap">
+    <a href="/index.html"><img src="/assets/logo.png" class="logo"></a>
   </div>
 
   <!-- TITLE -->
-  <h2 style="text-align:center;" data-i18n="login"></h2>
-  <p class="sub" style="text-align:center;" data-i18n="loginSub"></p>
+  <h2 class="auth-title" data-i18n="login"></h2>
+  <p class="sub auth-sub" data-i18n="loginSub"></p>
 
   <!-- FORM -->
-  <form id="loginForm" style="margin-top:20px;">
+  <form id="loginForm" class="auth-form">
 
     <input type="email" id="email" data-i18n="email" placeholder="Email" required>
     <input type="password" id="password" data-i18n="password" required>
@@ -76,14 +112,14 @@
   </form>
 
   <!-- FORGOT PASSWORD -->
-  <p style="text-align:center; margin-top:10px;">
-    <a href="/user/forgot.html" style="color:#01d4ab;" data-i18n="forgot"></a>
+  <p class="auth-links" style="margin-top:10px;">
+    <a href="/user/forgot.html" data-i18n="forgot"></a>
   </p>
 
   <!-- SIGNUP -->
-  <p style="text-align:center; margin-top:15px;">
+  <p class="auth-links" style="margin-top:15px;">
     <span data-i18n="noAccount"></span>
-    <a href="/user/signup.html" style="color:#01d4ab;" data-i18n="signup"></a>
+    <a href="/user/signup.html" data-i18n="signup"></a>
   </p>
 
 </section>

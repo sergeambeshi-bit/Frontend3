@@ -38,6 +38,11 @@
 <!-- LIBRARY -->
 <section class="section">
 
+  <form id="libraryFilterForm" class="list-filter-form">
+    <input type="search" id="librarySearchInput" class="list-search-input" placeholder="Rechercher dans ma bibliothèque">
+    <button type="submit" class="list-filter-btn">Rechercher</button>
+  </form>
+
   <div id="libraryList">
     <p class="sub">Chargement...</p>
   </div>
@@ -87,9 +92,16 @@ function renderLibrary(){
   const container = document.getElementById("libraryList");
 
   const purchases = JSON.parse(localStorage.getItem("purchases")) || [];
+  window.__libraryItems = purchases;
+
+  renderLibraryItems(purchases);
+}
+
+function renderLibraryItems(items){
+  const container = document.getElementById("libraryList");
 
   /* EMPTY STATE */
-  if(purchases.length === 0){
+  if(items.length === 0){
     container.innerHTML = `
       <p class="sub" style="text-align:center;">
         ${translate("libraryEmpty")}
@@ -98,7 +110,7 @@ function renderLibrary(){
     return;
   }
 
-  container.innerHTML = purchases.map(item => `
+  container.innerHTML = items.map(item => `
     <div class="chart-item">
       <img src="${item.cover}" loading="lazy">
 
@@ -117,6 +129,32 @@ function renderLibrary(){
 }
 
 renderLibrary();
+
+function applyLibraryFilter(){
+  const q = (document.getElementById("librarySearchInput").value || "").trim().toLowerCase();
+  const allItems = window.__libraryItems || [];
+
+  if(!q){
+    renderLibraryItems(allItems);
+    return;
+  }
+
+  const filtered = allItems.filter(item => {
+    return String(item.name || "").toLowerCase().includes(q)
+      || String(item.artist || "").toLowerCase().includes(q);
+  });
+
+  renderLibraryItems(filtered);
+}
+
+document.getElementById("libraryFilterForm").addEventListener("submit", (event) => {
+  event.preventDefault();
+  applyLibraryFilter();
+});
+
+document.getElementById("librarySearchInput").addEventListener("input", () => {
+  applyLibraryFilter();
+});
 
 /* =========================
    PREVIEW

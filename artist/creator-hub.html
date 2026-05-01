@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Creator Hub - JENGU</title>
+
+<link rel="stylesheet" href="/styles/app.css">
+<script src="/js/premium-experience.js" defer></script>
+<style>
+  .creator-hub-wrap {
+    max-width: 1080px;
+    margin: 0 auto;
+    padding: 22px 16px 48px;
+  }
+
+  .hub-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
+    margin-top: 16px;
+  }
+
+  .hub-card {
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 18px;
+    background: rgba(12, 18, 28, 0.82);
+    padding: 18px;
+  }
+
+  .hub-card h3 {
+    margin: 0 0 8px;
+  }
+
+  .hub-card p {
+    margin: 0 0 14px;
+    color: #b9c7de;
+    line-height: 1.55;
+  }
+
+  .hub-actions {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+
+  @media (max-width: 840px) {
+    .hub-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+</head>
+
+<body class="has-topbar-clearance artist-premium-page">
+
+<div id="sideMenu" class="side-menu">
+  <div class="menu-header">
+    <img src="/assets/logo.png" class="menu-logo" alt="JENGU logo">
+  </div>
+
+  <a href="/index.html">Accueil</a>
+  <a href="/artist/creator-hub.html">Creator Hub</a>
+  <a href="/artist/publish-new-release.html">Publish New Release</a>
+  <a href="/artist/dashboard.html">Dashboard</a>
+  <a href="/artist/catalog.html">Catalogue</a>
+  <a href="/artist/upload-track.html">Upload Track</a>
+  <a href="/artist/upload-album.html">Upload Album</a>
+  <a href="/artist/payouts.html">Payouts</a>
+</div>
+
+<div class="topbar">
+  <span class="menu" id="menuBtn">☰</span>
+  <h3>Creator Hub</h3>
+  <span></span>
+</div>
+
+<main class="creator-hub-wrap">
+  <section class="section">
+    <h2 style="margin:0;">Creator Hub</h2>
+    <p class="sub" style="margin-top:8px; max-width:760px;">
+      Your central space for publishing releases, tracking performance, and managing your artist business.
+    </p>
+  </section>
+
+  <section class="hub-grid">
+    <article class="hub-card">
+      <h3>Publish New Release</h3>
+      <p>Create your next track or album with artist-first publishing flow.</p>
+      <div class="hub-actions">
+        <a href="/artist/publish-new-release.html" class="btn-primary">Open Publisher</a>
+      </div>
+    </article>
+
+    <article class="hub-card">
+      <h3>Performance & Revenue</h3>
+      <p>Check streams, sales, and payout status from your dashboard.</p>
+      <div class="hub-actions">
+        <a href="/artist/dashboard.html" class="btn-primary">Open Dashboard</a>
+        <a href="/artist/analytics.html" class="btn-ghost">View Analytics</a>
+      </div>
+    </article>
+
+    <article class="hub-card">
+      <h3>Catalog Management</h3>
+      <p>Edit release metadata and keep your storefront fresh.</p>
+      <div class="hub-actions">
+        <a href="/artist/catalog.html" class="btn-primary">Manage Catalog</a>
+      </div>
+    </article>
+
+    <article class="hub-card">
+      <h3>Artist Settings</h3>
+      <p>Control branding, payouts, and sales defaults.</p>
+      <div class="hub-actions">
+        <a href="/artist/settings.html" class="btn-primary">Open Settings</a>
+      </div>
+    </article>
+  </section>
+</main>
+
+<script type="module">
+import { requireRole } from "/js/auth.js";
+
+const user = requireRole("artist");
+if (!user) {
+  throw new Error("Artist role required");
+}
+
+const menuBtn = document.getElementById("menuBtn");
+const sideMenu = document.getElementById("sideMenu");
+
+if (menuBtn && sideMenu) {
+  menuBtn.addEventListener("click", () => {
+    sideMenu.classList.toggle("open");
+  });
+
+  document.addEventListener("click", (event) => {
+    if (!sideMenu.contains(event.target) && !menuBtn.contains(event.target)) {
+      sideMenu.classList.remove("open");
+    }
+  });
+}
+</script>
+
+</body>
+</html>

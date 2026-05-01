@@ -980,8 +980,8 @@ body.market-home::before {
           <p id="artistStripBody">Upload tracks, set your own prices, and publish exclusive digital releases fans can preview, buy instantly, and own permanently.</p>
         </div>
         <div class="artist-actions">
-          <a href="/artist/upload-track.html" class="btn-primary" id="artistPrimaryCta" aria-label="Upload a new track">Upload A Track</a>
-          <a href="/artist/dashboard.html" class="btn-ghost" id="artistSecondaryCta" aria-label="Open artist dashboard">Artist Dashboard</a>
+          <a href="/artist/publish-new-release.html" class="btn-primary" id="artistPrimaryCta" aria-label="Publish a new release">Publish New Release</a>
+          <a href="/artist/creator-hub.html" class="btn-ghost" id="artistSecondaryCta" aria-label="Open creator hub">Open Creator Hub</a>
         </div>
       </div>
     </div>
@@ -991,7 +991,7 @@ body.market-home::before {
     <div class="cta-panel">
       <h2 id="final-cta-heading">Start Selling Your Music Today</h2>
       <p>Join a premium digital music marketplace where fans preview, purchase, and permanently own your releases.</p>
-      <a href="/user/signup.html" class="btn-primary" aria-label="Create artist account">Artist Signup</a>
+      <a href="/artist/signup.html" class="btn-primary" aria-label="Create artist account">Artist Signup</a>
     </div>
   </section>
 </main>
@@ -1019,8 +1019,8 @@ const copyVariants = {
       regionalPulseDesc: "Explore what is moving across the region with highlights tailored for Cameroon and the wider French-speaking African music scene.",
       artistStripTitle: "Built For Artists Across Cameroon And French-Speaking Africa",
       artistStripBody: "Upload tracks, set your prices, and sell direct to fans across the region with a premium download-first storefront.",
-      artistPrimaryCta: "Upload A Track",
-      artistSecondaryCta: "Artist Dashboard"
+      artistPrimaryCta: "Publish New Release",
+      artistSecondaryCta: "Open Creator Hub"
     },
     fr: {
       heroTitle: "La Marketplace Premium Pour Posseder La Musique Du Cameroun Et De L'Afrique Francophone",
@@ -1036,8 +1036,8 @@ const copyVariants = {
       regionalPulseDesc: "Suivez les temps forts regionaux avec des selections pensees pour le Cameroun et la scene musicale francophone.",
       artistStripTitle: "Concue Pour Les Artistes Du Cameroun Et De L'Afrique Francophone",
       artistStripBody: "Publiez vos titres, fixez vos prix et vendez en direct a vos fans grace a une vitrine premium orientee telechargement.",
-      artistPrimaryCta: "Publier Un Titre",
-      artistSecondaryCta: "Tableau Artiste"
+      artistPrimaryCta: "Publier Une Nouvelle Sortie",
+      artistSecondaryCta: "Ouvrir Le Hub Createur"
     }
   },
   B: {
@@ -1365,7 +1365,7 @@ function renderRegionalPulse(data) {
 
   artistsEl.innerHTML = featuredArtists.length
     ? featuredArtists
-        .map(([artist, item]) => createPulseItem(artist, getItemLink(item), "Artist"))
+        .map(([artist]) => createPulseItem(artist, `/artist.html?artist=${encodeURIComponent(artist)}`, "Artist"))
         .join("")
     : createPulseItem("Artists coming soon");
 
@@ -1383,7 +1383,7 @@ function renderRegionalPulse(data) {
 
   genresEl.innerHTML = regionalGenres.length
     ? regionalGenres
-        .map((genre) => createPulseItem(genre, `/browse.html?genre=${encodeURIComponent(genre)}`, "Collection"))
+      .map((genre) => createPulseItem(genre, `/genre.html?genre=${encodeURIComponent(genre)}`, "Collection"))
         .join("")
     : createPulseItem("Genre collections coming soon");
 }
