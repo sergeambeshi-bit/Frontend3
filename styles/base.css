@@ -35,8 +35,8 @@ html, body {
   --gray: #BEBEBE;
   --gray-light: #D5D5D5;
 
-  --accent-gold: #E3B56B;      /* Subtle premium gold tone */
-  --accent-orange: #F9A45A;    /* Warm afro-inspired highlight */
+  --accent-gold: #01D4AB;      /* Brand primary accent */
+  --accent-orange: #43F1D0;    /* Secondary premium accent */
 
   --card-bg: #141414;
   --border-light: rgba(255,255,255,0.08);
@@ -119,7 +119,7 @@ ul {
 }
 
 .card:hover {
-  border-color: rgba(227, 181, 107, 0.6);
+  border-color: rgba(1, 212, 171, 0.55);
 }
 
 

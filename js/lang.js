@@ -146,7 +146,22 @@ const translations = {
     chartsMetricCheckout: "Checkout instantane",
     chartsTagGlobal: "Global",
     chartsTagRising: "Rising",
-    chartsNoTracks: "Aucun morceau disponible pour le moment."
+    chartsNoTracks: "Aucun morceau disponible pour le moment.",
+
+    /* COMMON UI + ADMIN */
+    search: "Rechercher",
+    users: "Utilisateurs",
+    artists: "Artistes",
+    transactions: "Transactions",
+    promotions: "Promotions",
+    fraud: "Fraude",
+    manageUsers: "Gerer les utilisateurs",
+    searchUsers: "Rechercher un utilisateur",
+    username: "Nom d'utilisateur",
+    joined: "Inscrit le",
+    status: "Statut",
+    actions: "Actions",
+    albumNamePlaceholder: "Nom de l'album"
   },
 
   en: {
@@ -294,7 +309,22 @@ const translations = {
     chartsMetricCheckout: "Instant Checkout",
     chartsTagGlobal: "Global",
     chartsTagRising: "Rising",
-    chartsNoTracks: "No tracks available right now."
+    chartsNoTracks: "No tracks available right now.",
+
+    /* COMMON UI + ADMIN */
+    search: "Search",
+    users: "Users",
+    artists: "Artists",
+    transactions: "Transactions",
+    promotions: "Promotions",
+    fraud: "Fraud",
+    manageUsers: "Manage Users",
+    searchUsers: "Search users",
+    username: "Username",
+    joined: "Joined",
+    status: "Status",
+    actions: "Actions",
+    albumNamePlaceholder: "Album Name"
   }
 };
 
