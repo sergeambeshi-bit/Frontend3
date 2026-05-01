@@ -433,6 +433,20 @@ body.market-home::before {
   gap: 10px;
 }
 
+.market-home .pulse-list li.pulse-clickable {
+  cursor: pointer;
+}
+
+.market-home .pulse-list li.pulse-clickable:hover {
+  border-color: rgba(1, 212, 171, 0.48);
+  background: rgba(1, 212, 171, 0.08);
+}
+
+.market-home .pulse-list li.pulse-clickable:focus-visible {
+  outline: 2px solid rgba(1, 212, 171, 0.7);
+  outline-offset: 2px;
+}
+
 .market-home .pulse-list a {
   color: inherit;
   text-decoration: none;
@@ -1328,16 +1342,51 @@ function createFeaturedCard(item, index = 0) {
 
 function createPulseItem(label, href = "", meta = "") {
   const safeLabel = label || "Untitled";
+  const liAttrs = href
+    ? `class="pulse-clickable" data-href="${href}" role="link" tabindex="0"`
+    : "";
   const anchor = href
     ? `<a href="${href}">${safeLabel}</a>`
     : `<span>${safeLabel}</span>`;
 
   return `
-    <li>
+    <li ${liAttrs}>
       ${anchor}
       ${meta ? `<span class="pulse-meta">${meta}</span>` : ""}
     </li>
   `;
+}
+
+function bindPulseListInteractions() {
+  document.querySelectorAll(".pulse-list").forEach((list) => {
+    list.addEventListener("click", (event) => {
+      const row = event.target.closest("li[data-href]");
+      if (!row) return;
+
+      // Let native anchors work when user clicks directly on the link text.
+      if (event.target.closest("a")) {
+        return;
+      }
+
+      const href = row.dataset.href;
+      if (href) {
+        window.location.href = href;
+      }
+    });
+
+    list.addEventListener("keydown", (event) => {
+      if (event.key !== "Enter" && event.key !== " ") return;
+
+      const row = event.target.closest("li[data-href]");
+      if (!row) return;
+
+      event.preventDefault();
+      const href = row.dataset.href;
+      if (href) {
+        window.location.href = href;
+      }
+    });
+  });
 }
 
 function renderRegionalPulse(data) {
@@ -1471,6 +1520,7 @@ async function initPage() {
 
   featuredEl.innerHTML = featured.map((item, index) => createFeaturedCard(item, index)).join("");
   renderRegionalPulse(data);
+  bindPulseListInteractions();
 
   setupScrollReveal();
 
