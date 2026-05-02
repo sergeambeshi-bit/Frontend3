@@ -1281,6 +1281,24 @@ function bindAbTracking() {
   };
 }
 
+function bindArtistEntryCtas() {
+  const user = getCurrentUser();
+  const isArtist = user?.role === "artist";
+
+  const ctaTargets = {
+    heroSecondaryCta: "/artist/upload-track.html",
+    artistPrimaryCta: "/artist/publish-new-release.html",
+    artistSecondaryCta: "/artist/creator-hub.html"
+  };
+
+  Object.entries(ctaTargets).forEach(([id, artistTarget]) => {
+    const element = document.getElementById(id);
+    if (!element) return;
+
+    element.setAttribute("href", isArtist ? artistTarget : "/artist/signup.html");
+  });
+}
+
 const heroImages = [
   "/assets/hero/hero1.png",
   "/assets/hero/hero2.png",
@@ -1592,6 +1610,7 @@ async function initPage() {
 
 window.addEventListener("DOMContentLoaded", () => {
   applyCopyVariant();
+  bindArtistEntryCtas();
   bindAbTracking();
   trackAbEvent("view", {
     page: "homepage"

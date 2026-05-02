@@ -42,6 +42,27 @@
     margin-bottom: 14px;
     text-transform: uppercase;
   }
+
+  .artist-input-group {
+    display: grid;
+    gap: 12px;
+    margin: 4px 0 12px;
+    padding: 0 2px;
+  }
+
+  .artist-input {
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+
+  @media (max-width: 520px) {
+    .artist-input-group {
+      gap: 10px;
+      margin: 2px 0 10px;
+      padding: 0;
+    }
+  }
 </style>
 </head>
 
@@ -74,9 +95,11 @@
     </p>
 
     <form id="artistSignupForm">
-      <input type="text" id="name" placeholder="Artist name" required>
-      <input type="email" id="email" placeholder="Email" required>
-      <input type="password" id="password" placeholder="Password" required>
+      <div class="artist-input-group">
+        <input type="text" id="name" class="artist-input" placeholder="Artist name" required>
+        <input type="email" id="email" class="artist-input" placeholder="Email" required>
+        <input type="password" id="password" class="artist-input" placeholder="Password" required>
+      </div>
       <button class="btn-primary" style="width:100%; margin-top:8px;" type="submit">Create Artist Account</button>
     </form>
 
