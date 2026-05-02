@@ -9,35 +9,77 @@
 <script src="/js/premium-experience.js" defer></script>
 <style>
   .auth-section {
-    max-width: 560px;
-    margin: 18px auto 0;
-    padding-top: 26px;
+    width: min(640px, calc(100% - 28px));
+    margin: 24px auto 0;
+    padding-top: 18px;
+    border: none !important;
+    background: transparent !important;
+    box-shadow: none !important;
   }
 
   .auth-logo-wrap {
     text-align: center;
-    margin-bottom: 24px;
+    margin-bottom: 18px;
   }
 
   .auth-logo-wrap .logo {
-    width: 120px;
+    width: 126px;
+    filter: drop-shadow(0 8px 24px rgba(1, 212, 171, 0.28));
+  }
+
+  .auth-card {
+    border: 1px solid rgba(122, 220, 202, 0.24);
+    border-radius: 20px;
+    background: linear-gradient(160deg, rgba(11, 17, 27, 0.88), rgba(14, 21, 32, 0.82));
+    box-shadow: 0 20px 48px rgba(0, 0, 0, 0.35);
+    padding: clamp(18px, 3.4vw, 30px);
   }
 
   .auth-title {
     text-align: center;
+    margin: 0;
+    line-height: 1.08;
   }
 
   .auth-sub {
     text-align: center;
+    margin: 10px auto 0;
+    max-width: 48ch;
+    line-height: 1.5;
   }
 
   .auth-form {
-    margin-top: 20px;
+    margin-top: 18px;
+    display: grid;
+    gap: 12px;
+    padding: 0 !important;
+    border: none !important;
+    background: transparent !important;
+    box-shadow: none !important;
+  }
+
+  .auth-input {
+    height: 48px;
+  }
+
+  .role-caption {
+    margin: 4px 0 2px;
+    font-size: 12px;
+    font-weight: 600;
+    color: #c4cee0;
   }
 
   .auth-links {
     text-align: center;
-    margin-top: 14px;
+    margin-top: 12px;
+  }
+
+  .auth-links-forgot {
+    margin-top: 11px;
+  }
+
+  .auth-links-signup {
+    margin-top: 13px;
   }
 
   .auth-links a {
@@ -45,30 +87,146 @@
   }
 
   .role-picker {
-    margin: 14px 0 8px;
+    margin: 2px 0 4px;
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 10px;
+    gap: 12px;
   }
 
   .role-option {
-    display: block;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
     border: 1px solid rgba(255,255,255,0.18);
-    border-radius: 12px;
-    padding: 10px;
+    border-radius: 14px;
+    padding: 12px 12px 11px;
     cursor: pointer;
-    background: rgba(255,255,255,0.04);
+    background: rgba(255,255,255,0.05);
+    min-height: 96px;
+    transition: border-color 0.2s ease, background 0.2s ease, transform 0.2s ease;
+  }
+
+  .role-option:hover {
+    border-color: rgba(1, 212, 171, 0.44);
+    background: rgba(1, 212, 171, 0.12);
+    transform: translateY(-1px);
+  }
+
+  .role-option:has(input:checked) {
+    border-color: rgba(1, 212, 171, 0.7);
+    background: rgba(1, 212, 171, 0.14);
+    box-shadow: inset 0 0 0 1px rgba(1, 212, 171, 0.28);
+  }
+
+  .role-head {
+    display: flex;
+    align-items: center;
+    gap: 8px;
   }
 
   .role-option input {
-    margin-right: 7px;
+    margin: 0;
+    accent-color: #01d4ab;
+  }
+
+  .role-title {
+    font-size: 14px;
+    font-weight: 700;
+    color: #f3f8ff;
   }
 
   .role-option small {
     display: block;
-    margin-top: 4px;
-    color: #9ca3af;
+    margin-top: 8px;
+    color: #adbbd2;
     font-size: 12px;
+    line-height: 1.4;
+  }
+
+  .auth-submit {
+    width: 100%;
+    min-height: 46px;
+    margin-top: 6px;
+    padding: 0 16px;
+    font-size: 14px;
+  }
+
+  @media (min-width: 900px) {
+    .auth-section {
+      width: min(700px, calc(100% - 36px));
+      margin-top: 28px;
+    }
+
+    .auth-card {
+      border-radius: 24px;
+      padding: 32px;
+    }
+
+    .auth-form {
+      margin-top: 20px;
+      gap: 14px;
+    }
+
+    .auth-input {
+      height: 50px;
+    }
+
+    .role-picker {
+      gap: 14px;
+    }
+
+    .role-option {
+      min-height: 102px;
+      padding: 13px;
+    }
+
+    .auth-submit {
+      min-height: 48px;
+    }
+  }
+
+  @media (max-width: 520px) {
+    .auth-section {
+      width: calc(100% - 20px);
+      margin-top: 10px;
+    }
+
+    .auth-card {
+      border-radius: 16px;
+      padding: 16px 14px;
+    }
+
+    .auth-form {
+      margin-top: 14px;
+      gap: 10px;
+    }
+
+    .auth-input {
+      height: 46px;
+    }
+
+    .role-picker {
+      gap: 9px;
+    }
+
+    .role-option {
+      min-height: 92px;
+      padding: 10px;
+    }
+
+    .role-title {
+      font-size: 13px;
+    }
+
+    .role-option small {
+      font-size: 11px;
+      margin-top: 6px;
+    }
+
+    .auth-submit {
+      min-height: 44px;
+      font-size: 13px;
+    }
   }
 </style>
 </head>
@@ -82,6 +240,8 @@
     <a href="/index.html"><img src="/assets/logo.png" class="logo"></a>
   </div>
 
+  <div class="auth-card">
+
   <!-- TITLE -->
   <h2 class="auth-title" data-i18n="login"></h2>
   <p class="sub auth-sub" data-i18n="loginSub"></p>
@@ -89,38 +249,44 @@
   <!-- FORM -->
   <form id="loginForm" class="auth-form">
 
-    <input type="email" id="email" data-i18n="email" placeholder="Email" required>
-    <input type="password" id="password" data-i18n="password" required>
+    <input type="email" id="email" class="auth-input" data-i18n="email" placeholder="Email" required>
+    <input type="password" id="password" class="auth-input" data-i18n="password" required>
 
-      <p class="sub" style="margin:10px 0 6px;" data-i18n="loginAsRole">Je me connecte en tant que :</p>
+      <p class="sub role-caption" data-i18n="loginAsRole">Je me connecte en tant que :</p>
       <div class="role-picker">
         <label class="role-option">
-          <input type="radio" name="role" value="fan" checked>
-          <span data-i18n="fan">Fan</span>
+          <span class="role-head">
+            <input type="radio" name="role" value="fan" checked>
+            <span class="role-title" data-i18n="fan">Fan</span>
+          </span>
           <small data-i18n="roleFanDescLogin">Espace achat et bibliotheque</small>
         </label>
 
         <label class="role-option">
-          <input type="radio" name="role" value="artist">
-          <span data-i18n="artist">Artist</span>
+          <span class="role-head">
+            <input type="radio" name="role" value="artist">
+            <span class="role-title" data-i18n="artist">Artist</span>
+          </span>
           <small data-i18n="roleArtistDescLogin">Espace dashboard et uploads</small>
         </label>
       </div>
 
-    <button class="btn-primary" style="width:100%; margin-top:10px;" data-i18n="login"></button>
+    <button class="btn-primary auth-submit" data-i18n="login"></button>
 
   </form>
 
   <!-- FORGOT PASSWORD -->
-  <p class="auth-links" style="margin-top:10px;">
+  <p class="auth-links auth-links-forgot">
     <a href="/user/forgot.html" data-i18n="forgot"></a>
   </p>
 
   <!-- SIGNUP -->
-  <p class="auth-links" style="margin-top:15px;">
+  <p class="auth-links auth-links-signup">
     <span data-i18n="noAccount"></span>
     <a href="/user/signup.html" data-i18n="signup"></a>
   </p>
+
+  </div>
 
 </section>
 
