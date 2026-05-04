@@ -297,7 +297,8 @@ const translations = {
     plansProArtist: "Artiste Pro ⭐",
     plansFreeCommission: "15% de commission par vente",
     plansProCommission: "8–10% de commission / an",
-    plansViewPlans: "Voir les Plans Artiste"
+    plansViewPlans: "Voir les Plans Artiste",
+    sellYourMusic: "Vendre Votre Musique"
   },
 
   en: {
@@ -596,7 +597,8 @@ const translations = {
     plansProArtist: "Pro Artist ⭐",
     plansFreeCommission: "15% commission per sale",
     plansProCommission: "8–10% commission / year",
-    plansViewPlans: "View Artist Plans"
+    plansViewPlans: "View Artist Plans",
+    sellYourMusic: "Sell Your Music"
   }
 };
 
@@ -662,7 +664,9 @@ export function applyLang(){
     "/artist/upload-album.html": "uploadAlbum",
     "/artist/payouts.html": "payouts",
     "/artist/analytics.html": "analytics",
-    "/artist/settings.html": "settings"
+    "/artist/settings.html": "settings",
+    "/artist-pricing.html": "pricingNavPlans",
+    "/artist/signup.html": "sellYourMusic"
   };
 
   document.querySelectorAll(".side-menu a[href]").forEach(el => {
