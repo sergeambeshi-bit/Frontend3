@@ -4,7 +4,7 @@
 body {
   margin: 0;
   font-family: Inter, sans-serif;
-  background: #181d28;
+  background: #222c3b;
   color: #e5e7eb;
   padding-bottom: 80px;
   -webkit-font-smoothing: antialiased;
@@ -78,7 +78,7 @@ small {
   position: absolute;
   inset: 0;
   background: center/cover no-repeat;
-  filter: brightness(0.72);
+  filter: brightness(0.84);
 }
 
 .hero::after {
@@ -87,8 +87,8 @@ small {
   inset: 0;
   background: linear-gradient(
     to bottom,
-    rgba(24,29,40,0.12),
-    rgba(24,29,40,0.72)
+    rgba(24,29,40,0.06),
+    rgba(24,29,40,0.5)
   );
   pointer-events: none;
 }
@@ -321,7 +321,7 @@ small {
   top: 35px;   /* just below icon */
   right: 0;
 
-  background: rgba(21,24,33,0.95);
+  background: rgba(34,40,54,0.94);
   backdrop-filter: blur(12px);
 
   border-radius: 14px;
@@ -355,7 +355,7 @@ small {
   left: 0;
   width: 75%;
   height: 100%;
-  background: #1b2230;
+  background: #2a3447;
   padding: 20px;
   display: flex;
   flex-direction: column;
@@ -1035,7 +1035,7 @@ a:hover {
    PREMIUM EXPERIENCES
 ========================= */
 :root {
-  --premium-surface: rgba(20, 26, 38, 0.88);
+  --premium-surface: rgba(34, 42, 57, 0.86);
   --premium-border: rgba(122, 220, 202, 0.24);
   --premium-shadow: 0 18px 42px rgba(0, 0, 0, 0.34);
 }
@@ -1044,9 +1044,9 @@ body.artist-premium-page,
 body.fan-premium-page {
   min-height: 100vh;
   background:
-    radial-gradient(1200px 560px at -8% -10%, rgba(67, 241, 208, 0.16), transparent 58%),
-    radial-gradient(980px 460px at 110% 8%, rgba(1, 212, 171, 0.15), transparent 62%),
-    linear-gradient(180deg, #101722 0%, #0d131d 54%, #0b1118 100%);
+    radial-gradient(1200px 560px at -8% -10%, rgba(67, 241, 208, 0.2), transparent 58%),
+    radial-gradient(980px 460px at 110% 8%, rgba(1, 212, 171, 0.2), transparent 62%),
+    linear-gradient(180deg, #1a2332 0%, #16202f 54%, #131c29 100%);
 }
 
 body.artist-premium-page::before,
@@ -1074,13 +1074,13 @@ body.artist-premium-page .topbar,
 body.fan-premium-page .topbar {
   position: fixed;
   backdrop-filter: blur(14px);
-  background: rgba(11, 17, 27, 0.62);
+  background: rgba(28, 37, 52, 0.66);
   border-bottom: 1px solid rgba(255,255,255,0.09);
 }
 
 body.artist-premium-page .side-menu,
 body.fan-premium-page .side-menu {
-  background: rgba(14, 20, 31, 0.95);
+  background: rgba(32, 42, 58, 0.94);
   border-right: 1px solid rgba(255,255,255,0.09);
   box-shadow: 14px 0 40px rgba(0,0,0,0.35);
 }
@@ -1091,7 +1091,7 @@ body.fan-premium-page .section {
   padding: 18px 16px;
   border-radius: 22px;
   border: 1px solid var(--premium-border);
-  background: linear-gradient(155deg, rgba(255,255,255,0.04), rgba(255,255,255,0.01));
+  background: linear-gradient(155deg, rgba(255,255,255,0.09), rgba(255,255,255,0.03));
   box-shadow: var(--premium-shadow);
 }
 
@@ -1119,7 +1119,7 @@ body.artist-premium-page .upload-form {
   padding: 18px;
   border-radius: 18px;
   border: 1px solid rgba(255,255,255,0.1);
-  background: rgba(9, 14, 22, 0.66);
+  background: rgba(27, 35, 49, 0.72);
   box-shadow: inset 0 0 0 1px rgba(255,255,255,0.03);
 }
 

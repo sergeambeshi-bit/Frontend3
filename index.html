@@ -12,8 +12,8 @@
 
 <style>
 body.market-home {
-  --surface: #10141c;
-  --surface-soft: #171d28;
+  --surface: #1d2736;
+  --surface-soft: #273244;
   --ink: #f6f7fb;
   --ink-muted: #bcc5da;
   --line: rgba(255, 255, 255, 0.12);
@@ -21,9 +21,9 @@ body.market-home {
   --accent-2: #43f1d0;
   margin: 0;
   background:
-    radial-gradient(1000px 520px at 85% -10%, rgba(102, 216, 255, 0.28), transparent 65%),
-    radial-gradient(880px 420px at 8% 12%, rgba(244, 193, 111, 0.2), transparent 65%),
-    linear-gradient(180deg, #0d1118 0%, #111723 42%, #0f1520 100%);
+    radial-gradient(1000px 520px at 85% -10%, rgba(102, 216, 255, 0.34), transparent 65%),
+    radial-gradient(880px 420px at 8% 12%, rgba(244, 193, 111, 0.24), transparent 65%),
+    linear-gradient(180deg, #1a2331 0%, #1d2736 42%, #1a2433 100%);
   color: var(--ink);
   font-family: "Manrope", "Inter", sans-serif;
   padding-bottom: 0;
@@ -60,7 +60,7 @@ body.market-home::before {
   overflow: hidden;
   position: relative;
   border: 1px solid rgba(255, 255, 255, 0.08);
-  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 24px 60px rgba(8, 14, 22, 0.35);
 }
 
 .market-home .hero-bg {
@@ -70,7 +70,7 @@ body.market-home::before {
   background-size: cover;
   transform: scale(1.05);
   transition: transform 6s ease, background-image 0.8s ease;
-  filter: saturate(1.2) contrast(1.06) brightness(0.82);
+  filter: saturate(1.15) contrast(1.03) brightness(0.92);
 }
 
 .market-home .hero::after {
@@ -78,8 +78,8 @@ body.market-home::before {
   position: absolute;
   inset: 0;
   background:
-    linear-gradient(100deg, rgba(12, 15, 22, 0.76) 20%, rgba(12, 15, 22, 0.28) 66%, rgba(12, 15, 22, 0.7) 100%),
-    linear-gradient(180deg, rgba(0, 0, 0, 0.04), rgba(0, 0, 0, 0.4));
+    linear-gradient(100deg, rgba(26, 34, 48, 0.56) 20%, rgba(26, 34, 48, 0.18) 66%, rgba(26, 34, 48, 0.52) 100%),
+    linear-gradient(180deg, rgba(0, 0, 0, 0.02), rgba(0, 0, 0, 0.24));
 }
 
 .market-home .topbar {
@@ -210,7 +210,7 @@ body.market-home::before {
 
 .market-home .btn-ghost {
   border: 1px solid rgba(255, 255, 255, 0.32);
-  background: rgba(12, 14, 21, 0.5);
+  background: rgba(39, 49, 66, 0.62);
   color: #fff;
 }
 
@@ -233,7 +233,7 @@ body.market-home::before {
   border: 1px solid var(--line);
   border-radius: 16px;
   padding: 14px;
-  background: rgba(10, 13, 20, 0.75);
+  background: rgba(35, 45, 62, 0.72);
   backdrop-filter: blur(9px);
 }
 
