@@ -3,12 +3,70 @@
 /* =========================
    STORAGE
 ========================= */
-function loadCart(){
-  return JSON.parse(localStorage.getItem("cart")) || [];
+function loadCart() {
+  try {
+    return JSON.parse(localStorage.getItem("cart")) || [];
+  } catch (_) {
+    return [];
+  }
 }
 
-function saveCart(items){
+function saveCart(items) {
   localStorage.setItem("cart", JSON.stringify(items));
+}
+
+/* =========================
+   MINI TOAST (non-blocking)
+   Shows a brief status pill at
+   the bottom of the screen.
+========================= */
+function showCartToast(message, isWarning) {
+  let toast = document.getElementById("__jengu_cart_toast");
+  if (!toast) {
+    toast = document.createElement("div");
+    toast.id = "__jengu_cart_toast";
+    toast.style.cssText = [
+      "position:fixed",
+      "bottom:90px",
+      "left:50%",
+      "transform:translateX(-50%) translateY(8px)",
+      "padding:10px 20px",
+      "border-radius:999px",
+      "font-size:13px",
+      "font-weight:700",
+      "letter-spacing:0.02em",
+      "z-index:9999",
+      "pointer-events:none",
+      "opacity:0",
+      "transition:opacity .25s ease, transform .25s ease",
+      "white-space:nowrap",
+    ].join(";");
+    document.body.appendChild(toast);
+  }
+
+  const accent = isWarning
+    ? "rgba(255,200,80,0.22)"
+    : "rgba(1,212,171,0.18)";
+  const border = isWarning
+    ? "rgba(255,200,80,0.52)"
+    : "rgba(1,212,171,0.52)";
+  const color  = isWarning ? "#ffe89e" : "#6dfae0";
+
+  toast.style.background = accent;
+  toast.style.border      = `1px solid ${border}`;
+  toast.style.color       = color;
+  toast.textContent       = message;
+
+  // Force reflow so the transition plays even on rapid calls
+  void toast.offsetWidth;
+  toast.style.opacity   = "1";
+  toast.style.transform = "translateX(-50%) translateY(0)";
+
+  clearTimeout(toast._timer);
+  toast._timer = setTimeout(() => {
+    toast.style.opacity   = "0";
+    toast.style.transform = "translateX(-50%) translateY(8px)";
+  }, 2400);
 }
 
 /* =========================
@@ -18,38 +76,49 @@ export const cart = {
 
   items: loadCart(),
 
-  add(item){
+  /* Returns true if item was added, false if already in cart */
+  add(item) {
+    // Normalise id to string for reliable comparison
+    const id = String(item.id || item.name || "");
+    const exists = this.items.find(i => String(i.id || i.name || "") === id);
 
-    // prevent duplicates
-    const exists = this.items.find(i => i.id === item.id);
-
-    if(exists){
-      alert("Déjà dans le panier");
-      return;
+    if (exists) {
+      showCartToast("Already in cart", true);
+      return false;
     }
 
-    this.items.push(item);
+    this.items.push({ ...item, id });
     saveCart(this.items);
     this.updateUI();
-
-    alert("Ajouté au panier");
+    showCartToast("Added to cart ✓");
+    return true;
   },
 
-  remove(itemId){
-    this.items = this.items.filter(i => i.id !== itemId);
+  remove(itemId) {
+    const id = String(itemId);
+    this.items = this.items.filter(i => String(i.id || i.name || "") !== id);
     saveCart(this.items);
     this.updateUI();
   },
 
-  clear(){
+  clear() {
     this.items = [];
     saveCart(this.items);
     this.updateUI();
   },
 
-  updateUI(){
-    const countEl = document.querySelector('.cart-count');
-    if (countEl) countEl.innerText = this.items.length;
+  getCount() {
+    return this.items.length;
+  },
+
+  /* Update every .cart-count element on the page */
+  updateUI() {
+    const count = this.items.length;
+    document.querySelectorAll(".cart-count").forEach(el => {
+      el.textContent = count;
+      // Show/hide the badge bubble based on count
+      el.style.display = count > 0 ? "" : "";
+    });
   }
 
 };
@@ -59,26 +128,4 @@ export const cart = {
 ========================= */
 document.addEventListener("DOMContentLoaded", () => {
   cart.updateUI();
-});
-
-/* =========================
-   BUTTON HANDLER
-========================= */
-document.addEventListener("click", (e)=>{
-
-  if(e.target.classList.contains("add-to-cart")){
-
-    const card = e.target.closest(".card");
-
-    const item = {
-      id: Date.now(),
-      name: card.querySelector(".title")?.innerText,
-      artist: "Artist",
-      cover: card.querySelector("img")?.src,
-      price: 300
-    };
-
-    cart.add(item);
-  }
-
 });

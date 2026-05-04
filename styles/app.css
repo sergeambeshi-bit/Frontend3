@@ -1436,3 +1436,30 @@ body.fan-premium-page .premium-busy::after {
     right: 8px;
   }
 }
+/* ── Cart topbar button ─────────────────────────────── */
+.cart-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 13px;
+  border-radius: 999px;
+  border: 1px solid rgba(255,255,255,0.15);
+  background: rgba(255,255,255,0.06);
+  color: #fff;
+  font-size: 13px;
+  font-weight: 700;
+  text-decoration: none;
+  transition: border-color 0.2s, color 0.2s;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.cart-btn:hover {
+  border-color: rgba(1,212,171,0.5);
+  color: #6dfae0;
+}
+
+.cart-count {
+  min-width: 14px;
+  text-align: center;
+}
