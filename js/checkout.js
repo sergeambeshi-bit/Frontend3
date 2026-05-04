@@ -112,13 +112,14 @@ function renderCheckout(){
     total += item.price;
 
     container.innerHTML += `
-      <div class="chart-item">
+      <div class="chart-item" data-item-id="${item.id}">
         <img src="${item.cover}">
         <div class="info">
           <b>${item.name}</b>
           <p>${item.artist}</p>
         </div>
         <div class="price">${item.price} XAF</div>
+        <button class="remove-item" aria-label="Remove from cart">✕</button>
       </div>
     `;
   });
@@ -184,6 +185,20 @@ export function initCheckout() {
   const submitBtn = form.querySelector("button[type='submit']");
 
   let selectedMethod = null;
+
+  /* REMOVE ITEM FROM CART */
+  document.addEventListener("click", e => {
+    if (!e.target.classList.contains("remove-item")) return;
+    
+    const itemContainer = e.target.closest(".chart-item");
+    if (!itemContainer) return;
+    
+    const itemId = itemContainer.dataset.itemId;
+    if (!itemId) return;
+    
+    cart.remove(itemId);
+    renderCheckout();
+  });
 
   /* SELECT PAYMENT */
   document.querySelectorAll(".pay-btn").forEach(btn=>{

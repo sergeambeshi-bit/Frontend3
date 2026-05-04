@@ -701,6 +701,23 @@ small {
   text-overflow: ellipsis;
 }
 
+.remove-item {
+  background: none;
+  border: none;
+  color: #a1a1aa;
+  font-size: 18px;
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+}
+
+.remove-item:hover {
+  background: rgba(255, 100, 100, 0.1);
+  color: #ff6464;
+}
+
 .list-filter-form {
   display: flex;
   align-items: center;
@@ -1355,6 +1372,28 @@ body.fan-premium-page .premium-busy::after {
   backdrop-filter: blur(8px);
   position: relative;
   flex-wrap: wrap;
+}
+
+.checkout-cart-btn {
+  position: fixed;
+  top: 14px;
+  right: 98px;
+  z-index: 998;
+  background: rgba(15, 17, 21, 0.92);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(10px);
+}
+
+@media (max-width: 560px) {
+  .checkout-cart-btn {
+    right: 86px;
+  }
+}
+
+@media (max-width: 390px) {
+  .checkout-cart-btn {
+    right: 80px;
+  }
 }
 
 .upgrade-banner-icon {
