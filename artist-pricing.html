@@ -712,7 +712,7 @@ body.pricing-page > * {
 </style>
 </head>
 
-<body class="pricing-page">
+<body class="pricing-page" data-i18n-title="pricingPageTitle">
 
 <!-- ============================================================
      TOP NAVIGATION
@@ -723,13 +723,13 @@ body.pricing-page > * {
   </a>
 
   <ul class="pricing-nav-links">
-    <li><a href="/browse.html">Browse Music</a></li>
-    <li><a href="/genres.html">Genres</a></li>
-    <li><a href="/charts.html">Charts</a></li>
-    <li><a href="/artist-pricing.html" aria-current="page">Artist Plans</a></li>
+    <li><a href="/browse.html" data-i18n="pricingNavBrowse">Browse Music</a></li>
+    <li><a href="/genres.html" data-i18n="genres">Genres</a></li>
+    <li><a href="/charts.html" data-i18n="charts">Charts</a></li>
+    <li><a href="/artist-pricing.html" aria-current="page" data-i18n="pricingNavPlans">Artist Plans</a></li>
   </ul>
 
-  <a href="/artist/signup.html" class="btn-nav-cta">Start for Free</a>
+  <a href="/artist/signup.html" class="btn-nav-cta" data-i18n="pricingNavSignupFree">Start for Free</a>
 </nav>
 
 <!-- ============================================================
@@ -738,9 +738,9 @@ body.pricing-page > * {
 <div class="pricing-shell">
 
   <section class="pricing-hero" aria-labelledby="pricing-hero-heading">
-    <div class="pricing-kicker">Artist Plans &amp; Pricing</div>
-    <h1 id="pricing-hero-heading">Simple, Fair Pricing<br>for African Artists</h1>
-    <p class="pricing-sub">Start free. Upgrade when you&rsquo;re ready to grow.</p>
+    <div class="pricing-kicker" data-i18n="pricingKicker">Artist Plans &amp; Pricing</div>
+    <h1 id="pricing-hero-heading" data-i18n="pricingHeroTitle">Simple, Fair Pricing for African Artists</h1>
+    <p class="pricing-sub" data-i18n="pricingHeroSub">Start free. Upgrade when you&rsquo;re ready to grow.</p>
   </section>
 
   <!-- ============================================================
@@ -751,16 +751,16 @@ body.pricing-page > * {
 
       <!-- FREE PLAN -->
       <article class="plan-card free" aria-labelledby="plan-free-name">
-        <p class="plan-name" id="plan-free-name">Free Artist</p>
+        <p class="plan-name" id="plan-free-name" data-i18n="planFreeName">Free Artist</p>
 
         <div class="plan-price">
           <span class="amount">0 XAF</span>
-          <span class="period">forever</span>
+          <span class="period" data-i18n="planFreeForever">forever</span>
         </div>
 
         <div class="plan-fee">
           <span class="fee-badge fee-high">15% per sale</span>
-          platform commission
+          <span data-i18n="planFreeCommission">platform commission</span>
         </div>
 
         <div class="plan-divider"></div>
@@ -768,44 +768,44 @@ body.pricing-page > * {
         <ul class="plan-features">
           <li class="feat-highlight">
             <span class="feat-icon">✓</span>
-            Upload and sell music immediately
+            <span data-i18n="planFreeF1">Upload and sell music immediately</span>
           </li>
           <li>
             <span class="feat-icon">✓</span>
-            Artist storefront &amp; public profile
+            <span data-i18n="planFreeF2">Artist storefront &amp; public profile</span>
           </li>
           <li>
             <span class="feat-icon">✓</span>
-            Basic sales analytics
+            <span data-i18n="planFreeF3">Basic sales analytics</span>
           </li>
           <li>
             <span class="feat-icon">✓</span>
-            Secure direct fan payments (XAF)
+            <span data-i18n="planFreeF4">Secure direct fan payments (XAF)</span>
           </li>
           <li>
             <span class="feat-icon">✓</span>
-            Standard platform support
+            <span data-i18n="planFreeF5">Standard platform support</span>
           </li>
         </ul>
 
         <div class="plan-cta">
-          <a href="/artist/signup.html" class="cta-free">Start Selling for Free</a>
+          <a href="/artist/signup.html" class="cta-free" data-i18n="planFreeCta">Start Selling for Free</a>
         </div>
       </article>
 
       <!-- PRO PLAN -->
       <article class="plan-card pro" aria-labelledby="plan-pro-name">
-        <div class="plan-badge">⭐ Recommended</div>
-        <p class="plan-name" id="plan-pro-name">Pro Artist</p>
+        <div class="plan-badge" data-i18n="planProBadge">⭐ Recommended</div>
+        <p class="plan-name" id="plan-pro-name" data-i18n="planProName">Pro Artist</p>
 
         <div class="plan-price">
           <span class="amount">10 000</span>
-          <span class="period">XAF / year</span>
+          <span class="period" data-i18n="planProPeriod">XAF / year</span>
         </div>
 
         <div class="plan-fee">
           <span class="fee-badge fee-low">8–10% per sale</span>
-          lower commission rate
+          <span data-i18n="planProCommission">lower commission rate</span>
         </div>
 
         <div class="plan-divider"></div>
@@ -813,40 +813,40 @@ body.pricing-page > * {
         <ul class="plan-features">
           <li class="feat-highlight">
             <span class="feat-icon">✓</span>
-            Everything in Free, plus:
+            <span data-i18n="planProF1">Everything in Free, plus:</span>
           </li>
           <li class="feat-highlight">
             <span class="feat-icon">✓</span>
-            Lower platform commission (8–10%)
+            <span data-i18n="planProF2">Lower platform commission (8–10%)</span>
           </li>
           <li class="feat-highlight">
             <span class="feat-icon">✓</span>
-            Advanced analytics &amp; sales dashboard
+            <span data-i18n="planProF3">Advanced analytics &amp; sales dashboard</span>
           </li>
           <li class="feat-highlight">
             <span class="feat-icon">✓</span>
-            Featured artist consideration
+            <span data-i18n="planProF4">Featured artist consideration</span>
           </li>
           <li class="feat-highlight">
             <span class="feat-icon">✓</span>
-            Priority support
+            <span data-i18n="planProF5">Priority support</span>
           </li>
           <li class="feat-highlight">
             <span class="feat-icon">✓</span>
-            Enhanced storefront customization
+            <span data-i18n="planProF6">Enhanced storefront customization</span>
           </li>
           <li class="feat-highlight">
             <span class="feat-icon">✓</span>
-            Promotional campaign tools
+            <span data-i18n="planProF7">Promotional campaign tools</span>
           </li>
           <li class="feat-highlight">
             <span class="feat-icon">✓</span>
-            Early access to new features
+            <span data-i18n="planProF8">Early access to new features</span>
           </li>
         </ul>
 
         <div class="plan-cta">
-          <a href="/artist/signup.html?plan=pro" class="cta-pro">Upgrade to Pro →</a>
+          <a href="/artist/signup.html?plan=pro" class="cta-pro" data-i18n="planProCta">Upgrade to Pro →</a>
         </div>
       </article>
 
@@ -857,76 +857,76 @@ body.pricing-page > * {
        FEATURE COMPARISON TABLE
   ============================================================ -->
   <section class="comparison-section" aria-labelledby="comparison-heading">
-    <div class="section-label">Feature Breakdown</div>
-    <h2 id="comparison-heading">Compare Plans</h2>
+    <div class="section-label" data-i18n="comparisonLabel">Feature Breakdown</div>
+    <h2 id="comparison-heading" data-i18n="comparisonHeading">Compare Plans</h2>
 
     <div class="comparison-wrap" role="region" aria-label="Plan feature comparison" tabindex="0">
       <table class="comparison-table">
         <thead>
           <tr>
-            <th scope="col">Feature</th>
-            <th scope="col">Free Artist</th>
-            <th scope="col" class="col-pro">Pro Artist ⭐</th>
+            <th scope="col" data-i18n="compColFeature">Feature</th>
+            <th scope="col" data-i18n="compColFree">Free Artist</th>
+            <th scope="col" class="col-pro" data-i18n="compColPro">Pro Artist ⭐</th>
           </tr>
         </thead>
         <tbody>
           <tr>
-            <td>Platform commission per sale</td>
+            <td data-i18n="compR1">Platform commission per sale</td>
             <td>15%</td>
             <td class="col-pro col-pro-val">8–10%</td>
           </tr>
           <tr>
-            <td>Upload &amp; sell tracks</td>
+            <td data-i18n="compR2">Upload &amp; sell tracks</td>
             <td><span class="check-icon" aria-label="Included">✓</span></td>
             <td class="col-pro"><span class="check-icon" aria-label="Included">✓</span></td>
           </tr>
           <tr>
-            <td>Upload &amp; sell albums</td>
+            <td data-i18n="compR3">Upload &amp; sell albums</td>
             <td><span class="check-icon" aria-label="Included">✓</span></td>
             <td class="col-pro"><span class="check-icon" aria-label="Included">✓</span></td>
           </tr>
           <tr>
-            <td>Artist storefront &amp; profile</td>
+            <td data-i18n="compR4">Artist storefront &amp; profile</td>
             <td><span class="check-icon" aria-label="Included">✓</span></td>
             <td class="col-pro"><span class="check-icon" aria-label="Included">✓</span></td>
           </tr>
           <tr>
-            <td>Direct fan payments (XAF)</td>
+            <td data-i18n="compR5">Direct fan payments (XAF)</td>
             <td><span class="check-icon" aria-label="Included">✓</span></td>
             <td class="col-pro"><span class="check-icon" aria-label="Included">✓</span></td>
           </tr>
           <tr>
-            <td>Basic sales analytics</td>
+            <td data-i18n="compR6">Basic sales analytics</td>
             <td><span class="check-icon" aria-label="Included">✓</span></td>
             <td class="col-pro"><span class="check-icon" aria-label="Included">✓</span></td>
           </tr>
           <tr>
-            <td>Advanced analytics dashboard</td>
+            <td data-i18n="compR7">Advanced analytics dashboard</td>
             <td><span class="cross-icon" aria-label="Not included">—</span></td>
             <td class="col-pro"><span class="check-icon" aria-label="Included">✓</span></td>
           </tr>
           <tr>
-            <td>Featured artist placement consideration</td>
+            <td data-i18n="compR8">Featured artist placement consideration</td>
             <td><span class="cross-icon" aria-label="Not included">—</span></td>
             <td class="col-pro"><span class="check-icon" aria-label="Included">✓</span></td>
           </tr>
           <tr>
-            <td>Promotional campaign tools</td>
+            <td data-i18n="compR9">Promotional campaign tools</td>
             <td><span class="cross-icon" aria-label="Not included">—</span></td>
             <td class="col-pro"><span class="check-icon" aria-label="Included">✓</span></td>
           </tr>
           <tr>
-            <td>Enhanced storefront customization</td>
+            <td data-i18n="compR10">Enhanced storefront customization</td>
             <td><span class="cross-icon" aria-label="Not included">—</span></td>
             <td class="col-pro"><span class="check-icon" aria-label="Included">✓</span></td>
           </tr>
           <tr>
-            <td>Support tier</td>
-            <td>Standard</td>
-            <td class="col-pro col-pro-val">Priority</td>
+            <td data-i18n="compR11">Support tier</td>
+            <td data-i18n="compValStandard">Standard</td>
+            <td class="col-pro col-pro-val" data-i18n="compValPriority">Priority</td>
           </tr>
           <tr>
-            <td>Early access to new features</td>
+            <td data-i18n="compR12">Early access to new features</td>
             <td><span class="cross-icon" aria-label="Not included">—</span></td>
             <td class="col-pro"><span class="check-icon" aria-label="Included">✓</span></td>
           </tr>
@@ -939,67 +939,67 @@ body.pricing-page > * {
        FAQ
   ============================================================ -->
   <section class="faq-section" aria-labelledby="faq-heading">
-    <div class="section-label">Common Questions</div>
-    <h2 id="faq-heading">FAQ</h2>
+    <div class="section-label" data-i18n="faqLabel">Common Questions</div>
+    <h2 id="faq-heading" data-i18n="faqHeading">FAQ</h2>
 
     <div class="faq-list">
 
       <div class="faq-item">
         <button class="faq-q" aria-expanded="false">
-          Can I start selling without paying anything?
+          <span data-i18n="faqQ1">Can I start selling without paying anything?</span>
           <span class="faq-chevron" aria-hidden="true">▾</span>
         </button>
-        <div class="faq-a" aria-hidden="true">
+        <div class="faq-a" aria-hidden="true" data-i18n="faqA1">
           Yes. The Free Artist plan costs nothing and lets you upload and sell music immediately. JENGU only takes 15% when a fan purchases your track or album — you keep the rest with no upfront cost ever.
         </div>
       </div>
 
       <div class="faq-item">
         <button class="faq-q" aria-expanded="false">
-          What exactly does 8–10% mean for the Pro plan?
+          <span data-i18n="faqQ2">What exactly does 8–10% mean for the Pro plan?</span>
           <span class="faq-chevron" aria-hidden="true">▾</span>
         </button>
-        <div class="faq-a" aria-hidden="true">
+        <div class="faq-a" aria-hidden="true" data-i18n="faqA2">
           Pro plan commission varies between 8% and 10% depending on release type and price tier. Compared to the standard 15%, a Pro artist earning 100 000 XAF in a year keeps 5 000–7 000 XAF more — well above the 10 000 XAF annual plan cost.
         </div>
       </div>
 
       <div class="faq-item">
         <button class="faq-q" aria-expanded="false">
-          When will I be considered for Featured Artist placement?
+          <span data-i18n="faqQ3">When will I be considered for Featured Artist placement?</span>
           <span class="faq-chevron" aria-hidden="true">▾</span>
         </button>
-        <div class="faq-a" aria-hidden="true">
+        <div class="faq-a" aria-hidden="true" data-i18n="faqA3">
           Pro artists are added to the editorial review pool and considered for homepage and browse featured slots based on catalog quality, release activity, and fan engagement. There is no guarantee, but Pro status significantly increases your visibility on the platform.
         </div>
       </div>
 
       <div class="faq-item">
         <button class="faq-q" aria-expanded="false">
-          How do payouts work?
+          <span data-i18n="faqQ4">How do payouts work?</span>
           <span class="faq-chevron" aria-hidden="true">▾</span>
         </button>
-        <div class="faq-a" aria-hidden="true">
+        <div class="faq-a" aria-hidden="true" data-i18n="faqA4">
           Earnings from fan purchases accumulate in your artist dashboard. You can request a payout at any time. Payouts are processed in XAF via mobile money. Both Free and Pro artists share the same payout process.
         </div>
       </div>
 
       <div class="faq-item">
         <button class="faq-q" aria-expanded="false">
-          Can I upgrade from Free to Pro anytime?
+          <span data-i18n="faqQ5">Can I upgrade from Free to Pro anytime?</span>
           <span class="faq-chevron" aria-hidden="true">▾</span>
         </button>
-        <div class="faq-a" aria-hidden="true">
+        <div class="faq-a" aria-hidden="true" data-i18n="faqA5">
           Yes. You can upgrade to Pro at any time from your artist dashboard. Your existing catalog, sales history, and fan followers all carry over automatically. The Pro fee is 10&nbsp;000 XAF per year, billed annually.
         </div>
       </div>
 
       <div class="faq-item">
         <button class="faq-q" aria-expanded="false">
-          Is the platform available across all of Francophone Africa?
+          <span data-i18n="faqQ6">Is the platform available across all of Francophone Africa?</span>
           <span class="faq-chevron" aria-hidden="true">▾</span>
         </button>
-        <div class="faq-a" aria-hidden="true">
+        <div class="faq-a" aria-hidden="true" data-i18n="faqA6">
           JENGU is built for artists and fans across Cameroon and Francophone Africa. Artists from any country can create an account, upload music, and start selling. Payment and payout coverage may vary by region — check your account settings for country-specific details.
         </div>
       </div>
@@ -1012,16 +1012,21 @@ body.pricing-page > * {
   ============================================================ -->
   <section class="pricing-final-cta" aria-labelledby="pricing-final-heading">
     <div class="cta-panel">
-      <h2 id="pricing-final-heading">Start Selling for Free</h2>
-      <p>Create your artist account in minutes. No upfront cost. Upgrade when you&rsquo;re ready to grow beyond the basics.</p>
+      <h2 id="pricing-final-heading" data-i18n="pricingFinalHeading">Start Selling for Free</h2>
+      <p data-i18n="pricingFinalSub">Create your artist account in minutes. No upfront cost. Upgrade when you&rsquo;re ready to grow beyond the basics.</p>
       <div class="cta-pair">
-        <a href="/artist/signup.html" class="btn-fill">Create Free Account →</a>
-        <a href="/browse.html" class="btn-outline-w">Explore the Marketplace</a>
+        <a href="/artist/signup.html" class="btn-fill" data-i18n="pricingFinalBtn1">Create Free Account →</a>
+        <a href="/browse.html" class="btn-outline-w" data-i18n="pricingFinalBtn2">Explore the Marketplace</a>
       </div>
     </div>
   </section>
 
 </div><!-- /pricing-shell -->
+
+<script type="module">
+import { initLang } from "/js/lang.js";
+initLang();
+</script>
 
 <script>
 // FAQ accordion — single-open pattern
