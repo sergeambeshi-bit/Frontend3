@@ -835,6 +835,88 @@ body.market-home::before {
     transform: none !important;
   }
 }
+
+/* ---- ARTIST PRICING PROMO SECTION ---- */
+.market-home .plans-strip {
+  margin-top: 0;
+}
+
+.market-home .plans-panel {
+  border-radius: 24px;
+  border: 1px solid rgba(1, 212, 171, 0.32);
+  background:
+    radial-gradient(700px 280px at 88% 4%, rgba(67, 241, 208, 0.18), transparent 62%),
+    radial-gradient(600px 240px at 6% 84%, rgba(1, 212, 171, 0.14), transparent 60%),
+    linear-gradient(180deg, rgba(19, 26, 40, 0.97), rgba(13, 18, 28, 0.98));
+  padding: clamp(28px, 4vw, 48px);
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 28px;
+  align-items: center;
+}
+
+.market-home .mini-plans {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-top: 20px;
+}
+
+.market-home .mini-plan {
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+  padding: 14px 16px;
+  min-width: 148px;
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.market-home .mini-plan.mini-pro {
+  border-color: rgba(1, 212, 171, 0.42);
+  background: rgba(1, 212, 171, 0.06);
+}
+
+.market-home .mini-plan-name {
+  font-family: "Playfair Display", serif;
+  font-size: 15px;
+  font-weight: 700;
+  color: #f0f4fb;
+  margin: 0 0 5px;
+}
+
+.market-home .mini-plan.mini-pro .mini-plan-name {
+  color: #6dfae0;
+}
+
+.market-home .mini-plan-price {
+  font-size: 20px;
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: -0.02em;
+  color: #f6f7fb;
+  margin: 0 0 4px;
+}
+
+.market-home .mini-plan-fee {
+  font-size: 12px;
+  color: #9dafc8;
+}
+
+.market-home .mini-plan.mini-pro .mini-plan-fee {
+  color: #7be8d0;
+}
+
+@media (max-width: 860px) {
+  .market-home .plans-panel {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 700px) {
+  .market-home .mini-plan {
+    min-width: 130px;
+    padding: 12px 14px;
+  }
+}
 </style>
 </head>
 
@@ -849,6 +931,9 @@ body.market-home::before {
   <a href="/user/library.html">Ma Bibliotheque</a>
   <a href="/user/purchases.html">Mes Achats</a>
   <a href="/settings.html">Parametres</a>
+  <hr style="border-color:rgba(255,255,255,0.08);margin:4px 0;">
+  <a href="/artist-pricing.html" style="color:#6dfae0;">Artist Plans &amp; Pricing</a>
+  <a href="/artist/signup.html">Sell Your Music</a>
 </div>
 
 <header class="hero" role="banner">
@@ -1058,6 +1143,31 @@ body.market-home::before {
           <a href="/artist/publish-new-release.html" class="btn-primary" id="artistPrimaryCta" aria-label="Publish a new release">Publish New Release</a>
           <a href="/artist/creator-hub.html" class="btn-ghost" id="artistSecondaryCta" aria-label="Open creator hub">Open Creator Hub</a>
         </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="market-section plans-strip site-shell reveal-on-scroll" aria-labelledby="plans-strip-heading">
+    <div class="plans-panel">
+      <div>
+        <div class="section-kicker">Artist Plans</div>
+        <h2 id="plans-strip-heading">Built for Artists at Every Stage</h2>
+        <p style="margin-top:12px;color:#d5dcec;max-width:600px;line-height:1.6;">Start free with no upfront cost &mdash; we only earn when you do. Scale up to Pro when you&rsquo;re ready for lower fees, advanced analytics, and featured placement.</p>
+        <div class="mini-plans">
+          <div class="mini-plan">
+            <p class="mini-plan-name">Free Artist</p>
+            <div class="mini-plan-price">0 XAF</div>
+            <div class="mini-plan-fee">15% commission per sale</div>
+          </div>
+          <div class="mini-plan mini-pro">
+            <p class="mini-plan-name">Pro Artist ⭐</p>
+            <div class="mini-plan-price">10 000 XAF</div>
+            <div class="mini-plan-fee">8&ndash;10% commission / year</div>
+          </div>
+        </div>
+      </div>
+      <div>
+        <a href="/artist-pricing.html" class="btn-primary" aria-label="View artist plans and pricing">View Artist Plans</a>
       </div>
     </div>
   </section>

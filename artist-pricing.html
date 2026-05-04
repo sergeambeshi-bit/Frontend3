@@ -1,0 +1,1051 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Artist Plans &amp; Pricing – JENGU</title>
+
+<link rel="stylesheet" href="/styles/app.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Playfair+Display:wght@600;700;800&display=swap" rel="stylesheet">
+
+<style>
+/* ============================================================
+   JENGU — ARTIST PRICING PAGE
+   Premium dark luxury, consistent with market-home aesthetic
+============================================================ */
+
+body.pricing-page {
+  --surface: #10141c;
+  --surface-soft: #171d28;
+  --ink: #f6f7fb;
+  --ink-muted: #bcc5da;
+  --line: rgba(255, 255, 255, 0.10);
+  --accent: #01d4ab;
+  --accent-2: #43f1d0;
+  --accent-glow: rgba(1, 212, 171, 0.28);
+
+  margin: 0;
+  background:
+    radial-gradient(1000px 520px at 82% -10%, rgba(102, 216, 255, 0.22), transparent 65%),
+    radial-gradient(880px 420px at 8% 14%, rgba(244, 193, 111, 0.14), transparent 65%),
+    linear-gradient(180deg, #0d1118 0%, #111723 44%, #0f1520 100%);
+  color: var(--ink);
+  font-family: "Manrope", "Inter", sans-serif;
+  padding-bottom: 0;
+  -webkit-font-smoothing: antialiased;
+  position: relative;
+  overflow-x: hidden;
+}
+
+body.pricing-page::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.05;
+  background-image:
+    url("/assets/patterns/kuba.svg"),
+    url("/assets/patterns/toghu.svg");
+  background-size: 680px, 620px;
+  background-position: -100px 20%, calc(100% + 140px) 72%;
+  background-repeat: no-repeat;
+  z-index: 0;
+}
+
+body.pricing-page > * {
+  position: relative;
+  z-index: 1;
+}
+
+/* ---- TOP NAV ---- */
+.pricing-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 22px 28px;
+  max-width: min(1200px, calc(100% - 40px));
+  margin: 0 auto;
+}
+
+.pricing-nav .nav-logo {
+  width: 140px;
+  height: auto;
+  filter: drop-shadow(0 6px 18px rgba(1, 212, 171, 0.28));
+}
+
+.pricing-nav-links {
+  display: flex;
+  align-items: center;
+  gap: 26px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.pricing-nav-links a {
+  color: var(--ink-muted);
+  font-size: 14px;
+  font-weight: 500;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.pricing-nav-links a:hover,
+.pricing-nav-links a[aria-current="page"] {
+  color: #6dfae0;
+}
+
+.btn-nav-cta {
+  padding: 10px 20px;
+  border-radius: 999px;
+  background: linear-gradient(120deg, #01d4ab, #4cf5d6 55%, #84ffea);
+  color: #041211 !important;
+  font-weight: 700;
+  font-size: 14px;
+  text-decoration: none;
+  transition: transform 0.22s ease, box-shadow 0.22s ease;
+  box-shadow: 0 8px 20px rgba(1, 212, 171, 0.24);
+  white-space: nowrap;
+}
+
+.btn-nav-cta:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 12px 28px rgba(1, 212, 171, 0.36);
+  color: #041211 !important;
+}
+
+/* ---- LAYOUT SHELL ---- */
+.pricing-shell {
+  width: min(1100px, calc(100% - 40px));
+  margin: 0 auto;
+}
+
+/* ---- PAGE HERO ---- */
+.pricing-hero {
+  padding: 84px 0 76px;
+  text-align: center;
+}
+
+.pricing-kicker {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  font-weight: 700;
+  font-size: 11px;
+  color: #7ef7e1;
+  border: 1px solid rgba(1, 212, 171, 0.4);
+  border-radius: 999px;
+  padding: 7px 14px;
+  margin-bottom: 22px;
+}
+
+.pricing-hero h1 {
+  font-family: "Playfair Display", serif;
+  font-size: clamp(34px, 5.8vw, 66px);
+  line-height: 1.01;
+  letter-spacing: -0.022em;
+  margin: 0 auto;
+  max-width: 880px;
+  text-wrap: balance;
+  color: var(--ink);
+}
+
+.pricing-hero .pricing-sub {
+  margin: 20px auto 0;
+  font-size: clamp(15px, 1.7vw, 18px);
+  color: var(--ink-muted);
+  max-width: 560px;
+  line-height: 1.56;
+}
+
+/* ---- PRICING CARDS ---- */
+.pricing-cards {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 22px;
+  margin: 0 0 100px;
+  align-items: start;
+}
+
+.plan-card {
+  border-radius: 26px;
+  border: 1px solid var(--line);
+  background: rgba(18, 24, 36, 0.82);
+  backdrop-filter: blur(12px);
+  padding: 38px 34px;
+  position: relative;
+  transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.plan-card:hover {
+  transform: translateY(-4px);
+}
+
+.plan-card.free:hover {
+  border-color: rgba(255, 255, 255, 0.2);
+  box-shadow: 0 24px 56px rgba(0, 0, 0, 0.4);
+}
+
+/* PRO — glowing premium card */
+.plan-card.pro {
+  border-color: rgba(1, 212, 171, 0.52);
+  background:
+    radial-gradient(600px 250px at 82% 0%, rgba(1, 212, 171, 0.16), transparent 65%),
+    radial-gradient(500px 200px at 10% 88%, rgba(67, 241, 208, 0.11), transparent 60%),
+    rgba(13, 18, 30, 0.92);
+  box-shadow:
+    0 0 0 1px rgba(1, 212, 171, 0.18),
+    0 32px 72px rgba(0, 0, 0, 0.52),
+    0 0 60px rgba(1, 212, 171, 0.12);
+}
+
+.plan-card.pro:hover {
+  border-color: rgba(1, 212, 171, 0.72);
+  box-shadow:
+    0 0 0 1px rgba(1, 212, 171, 0.32),
+    0 40px 86px rgba(0, 0, 0, 0.58),
+    0 0 80px rgba(1, 212, 171, 0.18);
+}
+
+.plan-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: linear-gradient(120deg, #01d4ab, #4cf5d6);
+  color: #041211;
+  font-weight: 800;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  padding: 5px 12px;
+  border-radius: 999px;
+  margin-bottom: 18px;
+}
+
+.plan-name {
+  font-family: "Playfair Display", serif;
+  font-size: 30px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+  margin: 0 0 4px;
+}
+
+.plan-price {
+  margin: 18px 0 6px;
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+}
+
+.plan-price .amount {
+  font-size: 50px;
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: -0.03em;
+  color: var(--ink);
+}
+
+.plan-price .period {
+  font-size: 15px;
+  color: var(--ink-muted);
+  font-weight: 500;
+}
+
+.plan-fee {
+  margin: 10px 0 26px;
+  font-size: 14px;
+  color: var(--ink-muted);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.fee-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 3px 10px;
+  border-radius: 999px;
+  font-weight: 700;
+  font-size: 13px;
+}
+
+.fee-badge.fee-high {
+  background: rgba(255, 255, 255, 0.07);
+  color: #d0d9ec;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.fee-badge.fee-low {
+  background: rgba(1, 212, 171, 0.14);
+  color: #6dfae0;
+  border: 1px solid rgba(1, 212, 171, 0.36);
+}
+
+.plan-divider {
+  height: 1px;
+  background: var(--line);
+  margin: 0 0 26px;
+}
+
+.plan-features {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 14px;
+}
+
+.plan-features li {
+  display: flex;
+  align-items: flex-start;
+  gap: 11px;
+  font-size: 14px;
+  color: var(--ink-muted);
+  line-height: 1.42;
+}
+
+.feat-icon {
+  flex-shrink: 0;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+  font-weight: 800;
+  margin-top: 2px;
+  background: rgba(1, 212, 171, 0.14);
+  color: #01d4ab;
+  border: 1px solid rgba(1, 212, 171, 0.32);
+}
+
+.plan-features li.feat-highlight {
+  color: #dce8f4;
+  font-weight: 500;
+}
+
+.plan-cta {
+  margin-top: 32px;
+}
+
+.plan-cta a {
+  display: block;
+  text-align: center;
+  padding: 14px 22px;
+  border-radius: 999px;
+  font-weight: 700;
+  font-size: 15px;
+  text-decoration: none;
+  transition: transform 0.24s ease, box-shadow 0.24s ease, border-color 0.24s ease, background 0.24s ease;
+}
+
+.plan-cta a.cta-free {
+  border: 1px solid rgba(255, 255, 255, 0.26);
+  background: rgba(255, 255, 255, 0.04);
+  color: #fff;
+}
+
+.plan-cta a.cta-free:hover {
+  border-color: rgba(255, 255, 255, 0.5);
+  background: rgba(255, 255, 255, 0.08);
+  transform: translateY(-2px);
+}
+
+.plan-cta a.cta-pro {
+  background: linear-gradient(120deg, #01d4ab, #4cf5d6 55%, #84ffea);
+  color: #041211;
+  box-shadow: 0 10px 28px rgba(1, 212, 171, 0.32);
+}
+
+.plan-cta a.cta-pro:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 16px 40px rgba(1, 212, 171, 0.46);
+}
+
+/* ---- COMPARISON TABLE ---- */
+.comparison-section {
+  padding: 20px 0 90px;
+}
+
+.section-label {
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: #91faeb;
+  font-size: 11px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+
+.comparison-section h2,
+.faq-section h2 {
+  font-family: "Playfair Display", serif;
+  font-size: clamp(27px, 4.1vw, 46px);
+  line-height: 1.06;
+  letter-spacing: -0.01em;
+  margin: 0 0 44px;
+  color: var(--ink);
+}
+
+.comparison-wrap {
+  overflow-x: auto;
+  border-radius: 20px;
+  border: 1px solid var(--line);
+}
+
+.comparison-table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 520px;
+}
+
+.comparison-table thead th {
+  padding: 20px 24px;
+  text-align: left;
+  background: rgba(18, 24, 36, 0.95);
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--ink);
+  border-bottom: 1px solid var(--line);
+}
+
+.comparison-table thead th:first-child {
+  border-right: 1px solid var(--line);
+  color: var(--ink-muted);
+  font-size: 13px;
+  font-weight: 600;
+  width: 50%;
+}
+
+.comparison-table thead th.col-pro {
+  background: rgba(1, 212, 171, 0.07);
+  border-left: 1px solid rgba(1, 212, 171, 0.28);
+  color: #6dfae0;
+}
+
+.comparison-table tbody tr {
+  border-top: 1px solid var(--line);
+}
+
+.comparison-table tbody tr:nth-child(even) td {
+  background: rgba(255, 255, 255, 0.014);
+}
+
+.comparison-table tbody td {
+  padding: 15px 24px;
+  font-size: 14px;
+  color: var(--ink-muted);
+  vertical-align: middle;
+}
+
+.comparison-table tbody td:first-child {
+  color: var(--ink);
+  font-weight: 500;
+  border-right: 1px solid var(--line);
+}
+
+.comparison-table tbody td.col-pro {
+  background: rgba(1, 212, 171, 0.035);
+  border-left: 1px solid rgba(1, 212, 171, 0.12);
+}
+
+.check-icon {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: rgba(1, 212, 171, 0.14);
+  border: 1px solid rgba(1, 212, 171, 0.36);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: #01d4ab;
+  font-size: 11px;
+  font-weight: 800;
+}
+
+.cross-icon {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: rgba(255, 255, 255, 0.26);
+  font-size: 12px;
+}
+
+.col-pro-val {
+  color: #6dfae0;
+  font-weight: 700;
+}
+
+/* ---- FAQ ---- */
+.faq-section {
+  padding: 20px 0 90px;
+}
+
+.faq-list {
+  display: grid;
+  gap: 10px;
+  max-width: 780px;
+}
+
+.faq-item {
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  overflow: hidden;
+  transition: border-color 0.22s;
+}
+
+.faq-item.open {
+  border-color: rgba(1, 212, 171, 0.4);
+}
+
+.faq-q {
+  width: 100%;
+  background: transparent;
+  border: none;
+  padding: 18px 20px;
+  text-align: left;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--ink);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  font-family: "Manrope", "Inter", sans-serif;
+  line-height: 1.4;
+}
+
+.faq-q:hover {
+  color: #e8eef8;
+}
+
+.faq-chevron {
+  flex-shrink: 0;
+  width: 23px;
+  height: 23px;
+  border-radius: 50%;
+  border: 1px solid var(--line);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  color: var(--ink-muted);
+  transition: transform 0.24s ease, border-color 0.2s, color 0.2s;
+}
+
+.faq-item.open .faq-chevron {
+  transform: rotate(180deg);
+  border-color: rgba(1, 212, 171, 0.52);
+  color: #01d4ab;
+}
+
+.faq-a {
+  display: none;
+  padding: 0 20px 18px;
+  font-size: 14px;
+  color: var(--ink-muted);
+  line-height: 1.66;
+}
+
+.faq-item.open .faq-a {
+  display: block;
+}
+
+/* ---- FINAL CTA ---- */
+.pricing-final-cta {
+  padding: 0 0 110px;
+}
+
+.pricing-final-cta .cta-panel {
+  border-radius: 28px;
+  border: 1px solid rgba(1, 212, 171, 0.36);
+  padding: clamp(38px, 5vw, 62px) clamp(28px, 5vw, 56px);
+  background:
+    radial-gradient(900px 280px at 74% 12%, rgba(1, 212, 171, 0.18), transparent 66%),
+    radial-gradient(750px 300px at 12% 22%, rgba(76, 245, 214, 0.13), transparent 60%),
+    linear-gradient(180deg, rgba(16, 22, 32, 0.98), rgba(8, 10, 16, 0.98));
+  text-align: center;
+}
+
+.pricing-final-cta h2 {
+  font-family: "Playfair Display", serif;
+  font-size: clamp(28px, 4.5vw, 52px);
+  line-height: 1.05;
+  letter-spacing: -0.015em;
+  margin: 0;
+  color: var(--ink);
+}
+
+.pricing-final-cta p {
+  margin: 14px auto 30px;
+  max-width: 560px;
+  color: var(--ink-muted);
+  line-height: 1.6;
+  font-size: 16px;
+}
+
+.cta-pair {
+  display: flex;
+  gap: 14px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.cta-pair .btn-fill {
+  padding: 15px 28px;
+  border-radius: 999px;
+  background: linear-gradient(120deg, #01d4ab, #4cf5d6 55%, #84ffea);
+  color: #041211;
+  font-weight: 700;
+  font-size: 15px;
+  text-decoration: none;
+  box-shadow: 0 10px 28px rgba(1, 212, 171, 0.3);
+  transition: transform 0.24s ease, box-shadow 0.24s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.cta-pair .btn-fill:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 16px 40px rgba(1, 212, 171, 0.46);
+}
+
+.cta-pair .btn-outline-w {
+  padding: 15px 28px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  background: rgba(12, 14, 21, 0.5);
+  color: #fff;
+  font-weight: 700;
+  font-size: 15px;
+  text-decoration: none;
+  transition: transform 0.24s ease, border-color 0.24s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.cta-pair .btn-outline-w:hover {
+  transform: translateY(-2px);
+  border-color: rgba(255, 255, 255, 0.54);
+}
+
+/* ---- PAGE REVEAL ANIMATION ---- */
+@keyframes priceRise {
+  from { opacity: 0; transform: translateY(22px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.pricing-hero {
+  animation: priceRise 0.82s ease both;
+}
+
+.plan-card {
+  animation: priceRise 0.82s ease both;
+}
+
+.plan-card.pro {
+  animation-delay: 0.1s;
+}
+
+/* ---- RESPONSIVE ---- */
+@media (max-width: 780px) {
+  .pricing-cards {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .plan-card {
+    padding: 28px 22px;
+  }
+
+  .plan-price .amount {
+    font-size: 42px;
+  }
+
+  .pricing-nav-links {
+    display: none;
+  }
+
+  .pricing-nav {
+    padding: 16px 18px;
+  }
+
+  .pricing-hero {
+    padding: 52px 0 60px;
+  }
+}
+
+@media (max-width: 560px) {
+  .comparison-table thead th,
+  .comparison-table tbody td {
+    padding: 12px 14px;
+    font-size: 13px;
+  }
+
+  .pricing-final-cta p {
+    font-size: 14px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pricing-hero,
+  .plan-card {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+</style>
+</head>
+
+<body class="pricing-page">
+
+<!-- ============================================================
+     TOP NAVIGATION
+============================================================ -->
+<nav class="pricing-nav" aria-label="Site navigation">
+  <a href="/index.html" aria-label="Go to homepage">
+    <img src="/assets/logo.png" class="nav-logo" alt="JENGU">
+  </a>
+
+  <ul class="pricing-nav-links">
+    <li><a href="/browse.html">Browse Music</a></li>
+    <li><a href="/genres.html">Genres</a></li>
+    <li><a href="/charts.html">Charts</a></li>
+    <li><a href="/artist-pricing.html" aria-current="page">Artist Plans</a></li>
+  </ul>
+
+  <a href="/artist/signup.html" class="btn-nav-cta">Start for Free</a>
+</nav>
+
+<!-- ============================================================
+     HERO SECTION
+============================================================ -->
+<div class="pricing-shell">
+
+  <section class="pricing-hero" aria-labelledby="pricing-hero-heading">
+    <div class="pricing-kicker">Artist Plans &amp; Pricing</div>
+    <h1 id="pricing-hero-heading">Simple, Fair Pricing<br>for African Artists</h1>
+    <p class="pricing-sub">Start free. Upgrade when you&rsquo;re ready to grow.</p>
+  </section>
+
+  <!-- ============================================================
+       PRICING CARDS
+  ============================================================ -->
+  <section aria-label="Pricing plans">
+    <div class="pricing-cards">
+
+      <!-- FREE PLAN -->
+      <article class="plan-card free" aria-labelledby="plan-free-name">
+        <p class="plan-name" id="plan-free-name">Free Artist</p>
+
+        <div class="plan-price">
+          <span class="amount">0 XAF</span>
+          <span class="period">forever</span>
+        </div>
+
+        <div class="plan-fee">
+          <span class="fee-badge fee-high">15% per sale</span>
+          platform commission
+        </div>
+
+        <div class="plan-divider"></div>
+
+        <ul class="plan-features">
+          <li class="feat-highlight">
+            <span class="feat-icon">✓</span>
+            Upload and sell music immediately
+          </li>
+          <li>
+            <span class="feat-icon">✓</span>
+            Artist storefront &amp; public profile
+          </li>
+          <li>
+            <span class="feat-icon">✓</span>
+            Basic sales analytics
+          </li>
+          <li>
+            <span class="feat-icon">✓</span>
+            Secure direct fan payments (XAF)
+          </li>
+          <li>
+            <span class="feat-icon">✓</span>
+            Standard platform support
+          </li>
+        </ul>
+
+        <div class="plan-cta">
+          <a href="/artist/signup.html" class="cta-free">Start Selling for Free</a>
+        </div>
+      </article>
+
+      <!-- PRO PLAN -->
+      <article class="plan-card pro" aria-labelledby="plan-pro-name">
+        <div class="plan-badge">⭐ Recommended</div>
+        <p class="plan-name" id="plan-pro-name">Pro Artist</p>
+
+        <div class="plan-price">
+          <span class="amount">10 000</span>
+          <span class="period">XAF / year</span>
+        </div>
+
+        <div class="plan-fee">
+          <span class="fee-badge fee-low">8–10% per sale</span>
+          lower commission rate
+        </div>
+
+        <div class="plan-divider"></div>
+
+        <ul class="plan-features">
+          <li class="feat-highlight">
+            <span class="feat-icon">✓</span>
+            Everything in Free, plus:
+          </li>
+          <li class="feat-highlight">
+            <span class="feat-icon">✓</span>
+            Lower platform commission (8–10%)
+          </li>
+          <li class="feat-highlight">
+            <span class="feat-icon">✓</span>
+            Advanced analytics &amp; sales dashboard
+          </li>
+          <li class="feat-highlight">
+            <span class="feat-icon">✓</span>
+            Featured artist consideration
+          </li>
+          <li class="feat-highlight">
+            <span class="feat-icon">✓</span>
+            Priority support
+          </li>
+          <li class="feat-highlight">
+            <span class="feat-icon">✓</span>
+            Enhanced storefront customization
+          </li>
+          <li class="feat-highlight">
+            <span class="feat-icon">✓</span>
+            Promotional campaign tools
+          </li>
+          <li class="feat-highlight">
+            <span class="feat-icon">✓</span>
+            Early access to new features
+          </li>
+        </ul>
+
+        <div class="plan-cta">
+          <a href="/artist/signup.html?plan=pro" class="cta-pro">Upgrade to Pro →</a>
+        </div>
+      </article>
+
+    </div>
+  </section>
+
+  <!-- ============================================================
+       FEATURE COMPARISON TABLE
+  ============================================================ -->
+  <section class="comparison-section" aria-labelledby="comparison-heading">
+    <div class="section-label">Feature Breakdown</div>
+    <h2 id="comparison-heading">Compare Plans</h2>
+
+    <div class="comparison-wrap" role="region" aria-label="Plan feature comparison" tabindex="0">
+      <table class="comparison-table">
+        <thead>
+          <tr>
+            <th scope="col">Feature</th>
+            <th scope="col">Free Artist</th>
+            <th scope="col" class="col-pro">Pro Artist ⭐</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Platform commission per sale</td>
+            <td>15%</td>
+            <td class="col-pro col-pro-val">8–10%</td>
+          </tr>
+          <tr>
+            <td>Upload &amp; sell tracks</td>
+            <td><span class="check-icon" aria-label="Included">✓</span></td>
+            <td class="col-pro"><span class="check-icon" aria-label="Included">✓</span></td>
+          </tr>
+          <tr>
+            <td>Upload &amp; sell albums</td>
+            <td><span class="check-icon" aria-label="Included">✓</span></td>
+            <td class="col-pro"><span class="check-icon" aria-label="Included">✓</span></td>
+          </tr>
+          <tr>
+            <td>Artist storefront &amp; profile</td>
+            <td><span class="check-icon" aria-label="Included">✓</span></td>
+            <td class="col-pro"><span class="check-icon" aria-label="Included">✓</span></td>
+          </tr>
+          <tr>
+            <td>Direct fan payments (XAF)</td>
+            <td><span class="check-icon" aria-label="Included">✓</span></td>
+            <td class="col-pro"><span class="check-icon" aria-label="Included">✓</span></td>
+          </tr>
+          <tr>
+            <td>Basic sales analytics</td>
+            <td><span class="check-icon" aria-label="Included">✓</span></td>
+            <td class="col-pro"><span class="check-icon" aria-label="Included">✓</span></td>
+          </tr>
+          <tr>
+            <td>Advanced analytics dashboard</td>
+            <td><span class="cross-icon" aria-label="Not included">—</span></td>
+            <td class="col-pro"><span class="check-icon" aria-label="Included">✓</span></td>
+          </tr>
+          <tr>
+            <td>Featured artist placement consideration</td>
+            <td><span class="cross-icon" aria-label="Not included">—</span></td>
+            <td class="col-pro"><span class="check-icon" aria-label="Included">✓</span></td>
+          </tr>
+          <tr>
+            <td>Promotional campaign tools</td>
+            <td><span class="cross-icon" aria-label="Not included">—</span></td>
+            <td class="col-pro"><span class="check-icon" aria-label="Included">✓</span></td>
+          </tr>
+          <tr>
+            <td>Enhanced storefront customization</td>
+            <td><span class="cross-icon" aria-label="Not included">—</span></td>
+            <td class="col-pro"><span class="check-icon" aria-label="Included">✓</span></td>
+          </tr>
+          <tr>
+            <td>Support tier</td>
+            <td>Standard</td>
+            <td class="col-pro col-pro-val">Priority</td>
+          </tr>
+          <tr>
+            <td>Early access to new features</td>
+            <td><span class="cross-icon" aria-label="Not included">—</span></td>
+            <td class="col-pro"><span class="check-icon" aria-label="Included">✓</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       FAQ
+  ============================================================ -->
+  <section class="faq-section" aria-labelledby="faq-heading">
+    <div class="section-label">Common Questions</div>
+    <h2 id="faq-heading">FAQ</h2>
+
+    <div class="faq-list">
+
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false">
+          Can I start selling without paying anything?
+          <span class="faq-chevron" aria-hidden="true">▾</span>
+        </button>
+        <div class="faq-a" aria-hidden="true">
+          Yes. The Free Artist plan costs nothing and lets you upload and sell music immediately. JENGU only takes 15% when a fan purchases your track or album — you keep the rest with no upfront cost ever.
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false">
+          What exactly does 8–10% mean for the Pro plan?
+          <span class="faq-chevron" aria-hidden="true">▾</span>
+        </button>
+        <div class="faq-a" aria-hidden="true">
+          Pro plan commission varies between 8% and 10% depending on release type and price tier. Compared to the standard 15%, a Pro artist earning 100 000 XAF in a year keeps 5 000–7 000 XAF more — well above the 10 000 XAF annual plan cost.
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false">
+          When will I be considered for Featured Artist placement?
+          <span class="faq-chevron" aria-hidden="true">▾</span>
+        </button>
+        <div class="faq-a" aria-hidden="true">
+          Pro artists are added to the editorial review pool and considered for homepage and browse featured slots based on catalog quality, release activity, and fan engagement. There is no guarantee, but Pro status significantly increases your visibility on the platform.
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false">
+          How do payouts work?
+          <span class="faq-chevron" aria-hidden="true">▾</span>
+        </button>
+        <div class="faq-a" aria-hidden="true">
+          Earnings from fan purchases accumulate in your artist dashboard. You can request a payout at any time. Payouts are processed in XAF via mobile money. Both Free and Pro artists share the same payout process.
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false">
+          Can I upgrade from Free to Pro anytime?
+          <span class="faq-chevron" aria-hidden="true">▾</span>
+        </button>
+        <div class="faq-a" aria-hidden="true">
+          Yes. You can upgrade to Pro at any time from your artist dashboard. Your existing catalog, sales history, and fan followers all carry over automatically. The Pro fee is 10&nbsp;000 XAF per year, billed annually.
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false">
+          Is the platform available across all of Francophone Africa?
+          <span class="faq-chevron" aria-hidden="true">▾</span>
+        </button>
+        <div class="faq-a" aria-hidden="true">
+          JENGU is built for artists and fans across Cameroon and Francophone Africa. Artists from any country can create an account, upload music, and start selling. Payment and payout coverage may vary by region — check your account settings for country-specific details.
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ============================================================
+       FINAL CTA
+  ============================================================ -->
+  <section class="pricing-final-cta" aria-labelledby="pricing-final-heading">
+    <div class="cta-panel">
+      <h2 id="pricing-final-heading">Start Selling for Free</h2>
+      <p>Create your artist account in minutes. No upfront cost. Upgrade when you&rsquo;re ready to grow beyond the basics.</p>
+      <div class="cta-pair">
+        <a href="/artist/signup.html" class="btn-fill">Create Free Account →</a>
+        <a href="/browse.html" class="btn-outline-w">Explore the Marketplace</a>
+      </div>
+    </div>
+  </section>
+
+</div><!-- /pricing-shell -->
+
+<script>
+// FAQ accordion — single-open pattern
+document.querySelectorAll('.faq-q').forEach(function(btn) {
+  btn.addEventListener('click', function() {
+    var item = btn.closest('.faq-item');
+    var isOpen = item.classList.contains('open');
+
+    // Close all open items
+    document.querySelectorAll('.faq-item.open').forEach(function(openItem) {
+      openItem.classList.remove('open');
+      openItem.querySelector('.faq-q').setAttribute('aria-expanded', 'false');
+      openItem.querySelector('.faq-a').setAttribute('aria-hidden', 'true');
+    });
+
+    // Open this item if it wasn't open
+    if (!isOpen) {
+      item.classList.add('open');
+      btn.setAttribute('aria-expanded', 'true');
+      item.querySelector('.faq-a').setAttribute('aria-hidden', 'false');
+    }
+  });
+});
+</script>
+
+</body>
+</html>

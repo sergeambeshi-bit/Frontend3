@@ -41,6 +41,17 @@
   <span></span>
 </div>
 
+<!-- UPGRADE BANNER -->
+<div class="upgrade-banner" id="upgradeBanner" role="note" aria-label="Upgrade to Pro">
+  <span class="upgrade-banner-icon">⭐</span>
+  <div class="upgrade-banner-body">
+    <p class="upgrade-banner-title">Unlock advanced analytics with Pro</p>
+    <p class="upgrade-banner-sub">Pro artists get a full sales dashboard, audience insights, and lower 8&ndash;10% commission.</p>
+  </div>
+  <a href="/artist-pricing.html" class="upgrade-banner-cta">View Pro Plan →</a>
+  <button class="upgrade-banner-dismiss" id="upgradeBannerDismiss" aria-label="Dismiss upgrade banner">✕</button>
+</div>
+
 <!-- OVERVIEW -->
 <section class="section">
 
@@ -143,6 +154,20 @@ document.querySelectorAll(".nav-item").forEach(link => {
     link.classList.add("active");
   }
 });
+
+// Upgrade banner dismiss
+(function() {
+  var banner = document.getElementById('upgradeBanner');
+  var dismiss = document.getElementById('upgradeBannerDismiss');
+  if (!banner || !dismiss) return;
+  if (localStorage.getItem('upgradeBannerDismissed') === '1') {
+    banner.style.display = 'none';
+  }
+  dismiss.addEventListener('click', function() {
+    banner.style.display = 'none';
+    localStorage.setItem('upgradeBannerDismissed', '1');
+  });
+}());
 
 </script>
 

@@ -41,6 +41,17 @@
   <span></span>
 </div>
 
+<!-- UPGRADE BANNER -->
+<div class="upgrade-banner" id="upgradeBanner" role="note" aria-label="Upgrade to Pro">
+  <span class="upgrade-banner-icon">⭐</span>
+  <div class="upgrade-banner-body">
+    <p class="upgrade-banner-title">On Free plan? You keep 85% of each sale</p>
+    <p class="upgrade-banner-sub">Upgrade to Pro and keep up to 92% &mdash; plus featured placement and promo tools.</p>
+  </div>
+  <a href="/artist-pricing.html" class="upgrade-banner-cta">View Pro Plan →</a>
+  <button class="upgrade-banner-dismiss" id="upgradeBannerDismiss" aria-label="Dismiss upgrade banner">✕</button>
+</div>
+
 <!-- FORM -->
 <section class="section">
 
@@ -134,6 +145,20 @@ document.getElementById("upload-track-form").addEventListener("submit", e => {
 
   form.reset();
 });
+
+// Upgrade banner dismiss
+(function() {
+  var banner = document.getElementById('upgradeBanner');
+  var dismiss = document.getElementById('upgradeBannerDismiss');
+  if (!banner || !dismiss) return;
+  if (localStorage.getItem('upgradeBannerDismissed') === '1') {
+    banner.style.display = 'none';
+  }
+  dismiss.addEventListener('click', function() {
+    banner.style.display = 'none';
+    localStorage.setItem('upgradeBannerDismissed', '1');
+  });
+}());
 </script>
 
 </body>
