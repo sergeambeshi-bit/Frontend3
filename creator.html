@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Creator - JENGU</title>
+<title>Createur - JENGU</title>
 <link rel="stylesheet" href="/styles/app.css">
 </head>
 <body class="has-topbar-clearance fan-premium-page" data-i18n-title="creatorPageTitle">
@@ -13,24 +13,24 @@
 </div>
 
 <div id="sideMenu" class="side-menu">
-  <a href="/discover.html">Discover</a>
-  <a href="/browse.html">Music</a>
-  <a href="/movies.html">Movies</a>
-  <a href="/events.html">Events</a>
-  <a href="/creators.html">Creators</a>
-  <a href="/artist-pricing.html">Artist Pricing</a>
-  <a href="/artist/signup.html">Sell on Jengu</a>
+  <a href="/discover.html" data-i18n="discoverNav">Decouvrir</a>
+  <a href="/browse.html" data-i18n="musicNav">Musique</a>
+  <a href="/movies.html" data-i18n="moviesNav">Films</a>
+  <a href="/events.html" data-i18n="eventsNav">Evenements</a>
+  <a href="/creators.html" data-i18n="creatorsNav">Createurs</a>
+  <a href="/artist-pricing.html" data-i18n="artistPricingNav">Tarifs Artiste</a>
+  <a href="/artist/signup.html" data-i18n="sellOnJenguNav">Vendre sur JENGU</a>
 </div>
 
 <section class="section">
   <div id="creatorHeader"></div>
-  <h3 style="margin-top:18px;" data-i18n="creatorOfferings">Marketplace Offerings</h3>
+  <h3 style="margin-top:18px;" data-i18n="creatorOfferings">Offres Marketplace</h3>
   <div id="creatorListings" class="regional-pulse-grid"></div>
 </section>
 
 <script type="module">
-import { initLang, translate } from "/js/lang.js";
-import { creatorProfiles, marketplaceItems } from "/js/marketplace-catalog.js";
+import { initLang, getLang, translate } from "/js/lang.js";
+import { creatorProfiles, marketplaceItems, getLocalizedValue } from "/js/marketplace-catalog.js";
 
 initLang();
 
@@ -44,11 +44,26 @@ const categoryLabelMap = {
   events: "discoverTabEvents"
 };
 
-document.getElementById("creatorHeader").innerHTML = `
-  <h2>${creator.name}</h2>
-  <p class="sub">${creator.city}</p>
-  <p>${creator.bio}</p>
-`;
+const kindLabelMap = {
+  track: "kindTrack",
+  album: "kindAlbum",
+  film: "kindFilm",
+  documentary: "kindDocumentary",
+  live: "kindLive",
+  screening: "kindScreening"
+};
+
+const creatorHeader = document.getElementById("creatorHeader");
+
+function renderCreatorHeader() {
+  creatorHeader.innerHTML = `
+    <h2>${creator.name}</h2>
+    <p class="sub">${creator.city}</p>
+    <p>${getLocalizedValue(creator.bio, getLang())}</p>
+  `;
+}
+
+renderCreatorHeader();
 
 const listings = marketplaceItems.filter((item) => item.creator === creator.name || creator.categories.includes(item.category));
 const creatorListings = document.getElementById("creatorListings");
@@ -56,8 +71,8 @@ const creatorListings = document.getElementById("creatorListings");
 function renderListings() {
   creatorListings.innerHTML = listings.map((item) => `
     <article class="pulse-card">
-      <h3>${item.title}</h3>
-      <p>${translate(categoryLabelMap[item.category] || "discoverTabAll")} • ${item.kind}</p>
+      <h3>${getLocalizedValue(item.title, getLang())}</h3>
+      <p>${translate(categoryLabelMap[item.category] || "discoverTabAll")} • ${translate(kindLabelMap[item.kind] || "kindTrack")}</p>
       <p>${item.price} XAF</p>
     </article>
   `).join("");
@@ -68,7 +83,10 @@ renderListings();
 const langBtn = document.getElementById("langBtn");
 if (langBtn) {
   langBtn.addEventListener("click", () => {
-    window.setTimeout(renderListings, 0);
+    window.setTimeout(() => {
+      renderCreatorHeader();
+      renderListings();
+    }, 0);
   });
 }
 

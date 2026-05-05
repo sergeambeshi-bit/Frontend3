@@ -10,7 +10,7 @@
 
 <body>
 
-<a href="/checkout.html" class="cart-btn checkout-cart-btn" aria-label="View cart">
+<a href="/checkout.html" class="cart-btn checkout-cart-btn" aria-label="Voir le panier" data-i18n-aria="viewCartAria">
   <span class="cart-icon">🛒</span><span class="cart-count">0</span>
 </a>
 
@@ -40,6 +40,20 @@
     <button type="button" class="pay-btn bank-card" data-method="card">
       Carte bancaire
     </button>
+
+    <div id="mobile-phone-field" style="display:none; margin-top:12px;">
+      <label for="mobilePhone" style="display:block; font-size:0.9rem; color:#aaa; margin-bottom:6px;" data-i18n="mobilePrompt">
+        Entrez votre numero Mobile Money
+      </label>
+      <input
+        type="tel"
+        id="mobilePhone"
+        name="mobilePhone"
+        placeholder="Ex: 6XXXXXXXX"
+        autocomplete="tel"
+        style="width:100%; padding:10px 12px; background:#111; color:#fff; border:1px solid #333; border-radius:8px; font-size:1rem; box-sizing:border-box;"
+      >
+    </div>
 
     <button type="submit" class="btn-primary" style="width:100%; margin-top:10px;" data-i18n="payNow">
       Payer maintenant

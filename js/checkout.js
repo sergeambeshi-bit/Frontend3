@@ -144,10 +144,15 @@ function completeCheckout(selectedMethod){
 
 async function tryOnlinePayment(amount, selectedMethod){
   const requiresPhone = selectedMethod === "mtn" || selectedMethod === "orange";
-  const phone = requiresPhone ? prompt(t("mobilePrompt")) : "";
+  let phone = "";
 
-  if(requiresPhone && !phone){
-    throw new Error(t("mobileRequired"));
+  if(requiresPhone){
+    const input = document.getElementById("mobilePhone");
+    phone = input ? input.value.trim() : "";
+    if(!phone){
+      if(input) input.focus();
+      throw new Error(t("mobileRequired"));
+    }
   }
 
   const res = await fetch(`${PAYMENT_API}/api/payments/initiate`, {
@@ -161,7 +166,7 @@ async function tryOnlinePayment(amount, selectedMethod){
   });
 
   if(!res.ok){
-    throw new Error("Payment API unavailable");
+    throw new Error(t("paymentFailed"));
   }
 
   const data = await res.json();
@@ -201,6 +206,8 @@ export function initCheckout() {
   });
 
   /* SELECT PAYMENT */
+  const phoneField = document.getElementById("mobile-phone-field");
+
   document.querySelectorAll(".pay-btn").forEach(btn=>{
     btn.addEventListener("click", ()=>{
       selectedMethod = btn.dataset.method;
@@ -212,6 +219,15 @@ export function initCheckout() {
 
       btn.style.background = "#01d4ab";
       btn.style.color = "black";
+
+      const isMobile = selectedMethod === "mtn" || selectedMethod === "orange";
+      if(phoneField){
+        phoneField.style.display = isMobile ? "block" : "none";
+        if(!isMobile){
+          const input = document.getElementById("mobilePhone");
+          if(input) input.value = "";
+        }
+      }
     });
   });
 

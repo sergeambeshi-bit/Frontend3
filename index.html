@@ -21,9 +21,8 @@ body.market-home {
   --accent-2: #43f1d0;
   margin: 0;
   background:
-    radial-gradient(1000px 520px at 85% -10%, rgba(102, 216, 255, 0.34), transparent 65%),
-    radial-gradient(880px 420px at 8% 12%, rgba(244, 193, 111, 0.24), transparent 65%),
-    linear-gradient(180deg, #1a2331 0%, #1d2736 42%, #1a2433 100%);
+    radial-gradient(820px 280px at 50% -8%, rgba(102, 216, 255, 0.1), transparent 68%),
+    linear-gradient(180deg, #18212d 0%, #1a2330 38%, #17202c 100%);
   color: var(--ink);
   font-family: "Manrope", "Inter", sans-serif;
   padding-bottom: 0;
@@ -35,12 +34,12 @@ body.market-home::before {
   position: fixed;
   inset: 0;
   pointer-events: none;
-  opacity: 0.06;
+  opacity: 0;
   background-image:
     url("/assets/patterns/kuba.svg"),
     url("/assets/patterns/toghu.svg");
-  background-size: 680px, 620px;
-  background-position: -120px 20%, calc(100% + 140px) 70%;
+  background-size: 760px, 720px;
+  background-position: -220px 28%, calc(100% + 240px) 78%;
   background-repeat: no-repeat;
   z-index: 0;
 }
@@ -1117,17 +1116,17 @@ body.market-home::before {
 <body class="market-home">
 
 <div id="sideMenu" class="side-menu" aria-label="Site menu">
-  <a href="/discover.html" data-i18n="discoverNav">Discover</a>
-  <a href="/browse.html" data-i18n="musicNav">Music</a>
-  <a href="/movies.html" data-i18n="moviesNav">Movies</a>
-  <a href="/events.html" data-i18n="eventsNav">Events</a>
-  <a href="/creators.html" data-i18n="creatorsNav">Creators</a>
+  <a href="/discover.html" data-i18n="discoverNav">Decouvrir</a>
+  <a href="/browse.html" data-i18n="musicNav">Musique</a>
+  <a href="/movies.html" data-i18n="moviesNav">Films</a>
+  <a href="/events.html" data-i18n="eventsNav">Evenements</a>
+  <a href="/creators.html" data-i18n="creatorsNav">Createurs</a>
   <a href="/user/library.html">Ma Bibliotheque</a>
   <a href="/user/purchases.html">Mes Achats</a>
   <a href="/settings.html">Parametres</a>
   <hr style="border-color:rgba(255,255,255,0.08);margin:4px 0;">
-  <a href="/artist-pricing.html" style="color:#6dfae0;" data-i18n="artistPricingNav">Artist Pricing</a>
-  <a href="/artist/signup.html" data-i18n="sellOnJenguNav">Sell on Jengu</a>
+  <a href="/artist-pricing.html" style="color:#6dfae0;" data-i18n="artistPricingNav">Tarifs Artiste</a>
+  <a href="/artist/signup.html" data-i18n="sellOnJenguNav">Vendre sur JENGU</a>
 </div>
 
 <header class="hero" role="banner">
@@ -1156,25 +1155,25 @@ body.market-home::before {
   </div>
 
   <nav class="market-main-nav" aria-label="Main marketplace categories">
-    <a href="/discover.html" data-i18n="discoverNav">Discover</a>
-    <a href="/browse.html" data-i18n="musicNav">Music</a>
-    <a href="/movies.html" data-i18n="moviesNav">Movies</a>
-    <a href="/events.html" data-i18n="eventsNav">Events</a>
-    <a href="/creators.html" data-i18n="creatorsNav">Creators</a>
-    <a href="/artist-pricing.html" data-i18n="artistPricingNav">Artist Pricing</a>
-    <a href="/artist/signup.html" data-i18n="sellOnJenguNav">Sell on Jengu</a>
+    <a href="/discover.html" data-i18n="discoverNav">Decouvrir</a>
+    <a href="/browse.html" data-i18n="musicNav">Musique</a>
+    <a href="/movies.html" data-i18n="moviesNav">Films</a>
+    <a href="/events.html" data-i18n="eventsNav">Evenements</a>
+    <a href="/creators.html" data-i18n="creatorsNav">Createurs</a>
+    <a href="/artist-pricing.html" data-i18n="artistPricingNav">Tarifs Artiste</a>
+    <a href="/artist/signup.html" data-i18n="sellOnJenguNav">Vendre sur JENGU</a>
   </nav>
 
   <div class="hero-content">
     <div class="hero-copy">
-      <div class="eyebrow">Premium Digital Culture Marketplace</div>
-      <h1 id="heroTitle">Premium African Digital Culture Marketplace</h1>
-      <p class="hero-sub" id="heroSubtitle">Music, movies, and events. Discover and buy direct.</p>
-      <p class="hero-region-note" id="heroRegionNote">Curated for Cameroon and Francophone Africa.</p>
+      <div class="eyebrow" data-i18n="homeEyebrow">Marketplace Premium De Culture Numerique</div>
+      <h1 id="heroTitle">Marketplace Premium de Culture Numerique Africaine</h1>
+      <p class="hero-sub" id="heroSubtitle">Musique, films et evenements. Decouvrez et achetez en direct.</p>
+      <p class="hero-region-note" id="heroRegionNote">Selection pour le Cameroun et l'Afrique francophone.</p>
 
       <div class="cta">
-        <a href="/discover.html" class="btn-primary" id="heroPrimaryCta" aria-label="Explore the marketplace">Discover Marketplace</a>
-        <a href="/artist/signup.html" class="btn-ghost" id="heroSecondaryCta" aria-label="Sell on JENGU as a creator">Sell On Jengu</a>
+        <a href="/discover.html" class="btn-primary" id="heroPrimaryCta" aria-label="Explore the marketplace">Decouvrir la Marketplace</a>
+        <a href="/artist/signup.html" class="btn-ghost" id="heroSecondaryCta" aria-label="Sell on JENGU as a creator">Vendre sur JENGU</a>
       </div>
     </div>
 
@@ -1185,27 +1184,27 @@ body.market-home::before {
   <section class="market-section site-shell reveal-on-scroll" aria-labelledby="gateway-heading">
     <div class="section-head">
       <div>
-        <div class="section-kicker">Category Gateways</div>
-        <h2 id="gateway-heading">Start With A Culture Category</h2>
+        <div class="section-kicker" data-i18n="homeGatewayKicker">Portes d'Entree</div>
+        <h2 id="gateway-heading" data-i18n="homeGatewayHeading">Commencez par une Categorie</h2>
       </div>
-      <p class="section-desc">Enter each marketplace vertical through curated gateways built for discovery and direct creator support.</p>
+      <p class="section-desc" data-i18n="homeGatewaySub">Des points d'entree choisis pour acheter, regarder et sortir.</p>
     </div>
 
     <div class="gateway-grid">
       <a class="gateway-card" href="/browse.html" aria-label="Go to Music category">
-        <span class="gateway-tag">Music</span>
-        <h3>Featured Music</h3>
-        <p>Albums and tracks worth owning now.</p>
+        <span class="gateway-tag" data-i18n="musicNav">Musique</span>
+        <h3 data-i18n="homeGatewayMusicTitle">Musique en Vedette</h3>
+        <p data-i18n="homeGatewayMusicSub">Albums et morceaux a posseder maintenant.</p>
       </a>
       <a class="gateway-card" href="/movies.html" aria-label="Go to Movies category">
-        <span class="gateway-tag">Movies</span>
-        <h3>Featured Movies</h3>
-        <p>New films, docs, and standout shorts.</p>
+        <span class="gateway-tag" data-i18n="moviesNav">Films</span>
+        <h3 data-i18n="homeGatewayMoviesTitle">Films en Vedette</h3>
+        <p data-i18n="homeGatewayMoviesSub">Nouveaux films, docs et courts formats.</p>
       </a>
       <a class="gateway-card" href="/events.html" aria-label="Go to Events category">
-        <span class="gateway-tag">Events</span>
-        <h3>Upcoming Events</h3>
-        <p>Live screenings, sets, and creator nights.</p>
+        <span class="gateway-tag" data-i18n="eventsNav">Evenements</span>
+        <h3 data-i18n="homeGatewayEventsTitle">Evenements a Venir</h3>
+        <p data-i18n="homeGatewayEventsSub">Projections, sets et nuits creatrices.</p>
       </a>
     </div>
   </section>
@@ -1213,37 +1212,37 @@ body.market-home::before {
   <section class="market-section site-shell reveal-on-scroll" aria-labelledby="featured-heading">
     <div class="section-head">
       <div>
-        <div class="section-kicker" id="featuredKicker">Featured African Artists</div>
-        <h2 id="featured-heading">Featured Marketplace</h2>
+        <div class="section-kicker" id="featuredKicker">Selection Principale</div>
+        <h2 id="featured-heading">Marketplace en Vedette</h2>
       </div>
-      <p class="section-desc" id="featuredDesc">New releases curated for fast premium discovery.</p>
+      <p class="section-desc" id="featuredDesc">Nouvelles sorties choisies pour une decouverte rapide.</p>
     </div>
 
     <div class="featured-grid" id="featuredReleases" aria-live="polite">
-      <div class="placeholder-msg">Loading featured releases...</div>
+      <div class="placeholder-msg">Chargement des sorties en vedette...</div>
     </div>
 
     <div class="category-feature-grid">
       <article class="category-feature-card">
         <div class="category-feature-head">
-          <h3>Featured Movies</h3>
-          <a href="/movies.html">View All</a>
+          <h3 data-i18n="homeFeaturedMoviesTitle">Films en Vedette</h3>
+          <a href="/movies.html" data-i18n="homeViewAll">Voir tout</a>
         </div>
         <ul>
-          <li><img src="/assets/covers/cover3.png" alt="Midnight In Douala"><div><strong>Midnight In Douala</strong><span>Drama</span></div></li>
-          <li><img src="/assets/covers/cover5.png" alt="Voices Of The Market"><div><strong>Voices Of The Market</strong><span>Documentary</span></div></li>
-          <li><img src="/assets/covers/cover6.png" alt="Sahel Sunrise"><div><strong>Sahel Sunrise</strong><span>Short Film</span></div></li>
+          <li><img src="/assets/covers/cover3.png" alt="Minuit a Douala"><div><strong data-i18n="homeMovieSpot1Title">Minuit a Douala</strong><span data-i18n="homeMovieSpot1Meta">Drame</span></div></li>
+          <li><img src="/assets/covers/cover5.png" alt="Les Voix du Marche"><div><strong data-i18n="homeMovieSpot2Title">Les Voix du Marche</strong><span data-i18n="homeMovieSpot2Meta">Documentaire</span></div></li>
+          <li><img src="/assets/covers/cover6.png" alt="Lever du Sahel"><div><strong data-i18n="homeMovieSpot3Title">Lever du Sahel</strong><span data-i18n="homeMovieSpot3Meta">Court metrage</span></div></li>
         </ul>
       </article>
       <article class="category-feature-card">
         <div class="category-feature-head">
-          <h3>Featured Events</h3>
-          <a href="/events.html">View All</a>
+          <h3 data-i18n="homeFeaturedEventsTitle">Evenements en Vedette</h3>
+          <a href="/events.html" data-i18n="homeViewAll">Voir tout</a>
         </div>
         <ul>
-          <li><img src="/assets/covers/cover7.png" alt="Yaounde Creator Night"><div><strong>Yaounde Creator Night</strong><span>14 May</span></div></li>
-          <li><img src="/assets/covers/cover2.png" alt="Afro-Film Weekend"><div><strong>Afro-Film Weekend</strong><span>22 May</span></div></li>
-          <li><img src="/assets/covers/cover1.png" alt="JENGU Listening Room"><div><strong>JENGU Listening Room</strong><span>31 May</span></div></li>
+          <li><img src="/assets/covers/cover7.png" alt="Nuit des Createurs de Yaounde"><div><strong data-i18n="homeEventSpot1Title">Nuit des Createurs de Yaounde</strong><span data-i18n="homeEventSpot1Meta">14 Mai</span></div></li>
+          <li><img src="/assets/covers/cover2.png" alt="Week-end Afro-Cinema"><div><strong data-i18n="homeEventSpot2Title">Week-end Afro-Cinema</strong><span data-i18n="homeEventSpot2Meta">22 Mai</span></div></li>
+          <li><img src="/assets/covers/cover1.png" alt="Salon d'Ecoute JENGU"><div><strong data-i18n="homeEventSpot3Title">Salon d'Ecoute JENGU</strong><span data-i18n="homeEventSpot3Meta">31 Mai</span></div></li>
         </ul>
       </article>
     </div>
@@ -1252,27 +1251,27 @@ body.market-home::before {
   <section class="market-section site-shell reveal-on-scroll" aria-labelledby="curated-heading">
     <div class="section-head">
       <div>
-        <div class="section-kicker">Curated Editorial</div>
-        <h2 id="curated-heading">Collections To Guide Discovery</h2>
+        <div class="section-kicker" data-i18n="homeCuratedKicker">Selection Editoriale</div>
+        <h2 id="curated-heading" data-i18n="homeCuratedHeading">Collections Curatees</h2>
       </div>
-      <p class="section-desc">Curated Collections by our editorial desk.</p>
+      <p class="section-desc" data-i18n="homeCuratedSub">Une selection breve signee par notre desk editorial.</p>
     </div>
 
     <div class="curated-grid">
       <article class="curated-card">
-        <p class="curated-label">Collection</p>
-        <h3>New Francophone Voices</h3>
-        <p>New artists and filmmakers worth collecting.</p>
+        <p class="curated-label" data-i18n="homeCollectionLabel">Collection</p>
+        <h3 data-i18n="homeCurated1Title">Nouvelles Voix Francophones</h3>
+        <p data-i18n="homeCurated1Sub">Nouveaux artistes et cineastes a collectionner.</p>
       </article>
       <article class="curated-card">
-        <p class="curated-label">Staff Picks</p>
-        <h3>Weekend Watch + Listen</h3>
-        <p>Quick cross-category picks for this weekend.</p>
+        <p class="curated-label" data-i18n="homeStaffPicksLabel">Choix du Desk</p>
+        <h3 data-i18n="homeCurated2Title">Week-end Voir + Ecouter</h3>
+        <p data-i18n="homeCurated2Sub">Une selection rapide pour ce week-end.</p>
       </article>
       <article class="curated-card">
-        <p class="curated-label">City Edit</p>
-        <h3>Douala Underground</h3>
-        <p>A local cut of releases and live moments.</p>
+        <p class="curated-label" data-i18n="homeCityEditLabel">Edit Ville</p>
+        <h3 data-i18n="homeCurated3Title">Douala Underground</h3>
+        <p data-i18n="homeCurated3Sub">Une coupe locale de sorties et de moments live.</p>
       </article>
     </div>
   </section>
@@ -1280,38 +1279,38 @@ body.market-home::before {
   <section class="market-section site-shell reveal-on-scroll" aria-labelledby="regional-pulse-heading">
     <div class="section-head">
       <div>
-        <div class="section-kicker" id="regionalPulseKicker">Marketplace Trust And Community</div>
-        <h2 id="regional-pulse-heading">Trending Now Across The Marketplace</h2>
+        <div class="section-kicker" id="regionalPulseKicker">En Ce Moment</div>
+        <h2 id="regional-pulse-heading">Tendances Marketplace</h2>
       </div>
-      <p class="section-desc" id="regionalPulseDesc">Fast lists for featured music, trending drops, and upcoming events.</p>
+      <p class="section-desc" id="regionalPulseDesc">Musique, films et evenements a suivre maintenant.</p>
     </div>
 
     <div class="regional-pulse-grid">
       <article class="pulse-card" aria-labelledby="pulse-artists-heading">
-        <h3 id="pulse-artists-heading">Featured Music</h3>
+        <h3 id="pulse-artists-heading" data-i18n="homePulseFeaturedMusic">Musique en Vedette</h3>
         <ul class="pulse-list" id="regionalFeaturedArtists">
-          <li>Loading artists...</li>
+          <li data-i18n="homeLoadingFeaturedMusic">Chargement de la musique...</li>
         </ul>
       </article>
 
       <article class="pulse-card" aria-labelledby="pulse-trending-heading">
-        <h3 id="pulse-trending-heading">Trending Releases</h3>
+        <h3 id="pulse-trending-heading" data-i18n="homePulseTrendingReleases">Sorties Tendance</h3>
         <ul class="pulse-list" id="regionalTrending">
-          <li>Loading tracks...</li>
+          <li data-i18n="homeLoadingTrending">Chargement des tendances...</li>
         </ul>
       </article>
 
       <article class="pulse-card" aria-labelledby="pulse-new-heading">
-        <h3 id="pulse-new-heading">Featured Movies</h3>
+        <h3 id="pulse-new-heading" data-i18n="homePulseFeaturedMovies">Films en Vedette</h3>
         <ul class="pulse-list" id="regionalNewReleases">
-          <li>Loading releases...</li>
+          <li data-i18n="homeLoadingMovies">Chargement des films...</li>
         </ul>
       </article>
 
       <article class="pulse-card" aria-labelledby="pulse-events-heading">
-        <h3 id="pulse-events-heading">Upcoming Events</h3>
+        <h3 id="pulse-events-heading" data-i18n="homePulseUpcomingEvents">Evenements a Venir</h3>
         <ul class="pulse-list" id="regionalEvents">
-          <li>Loading events...</li>
+          <li data-i18n="homeLoadingEvents">Chargement des evenements...</li>
         </ul>
       </article>
     </div>
@@ -1321,13 +1320,13 @@ body.market-home::before {
     <div class="artist-panel">
       <div class="artist-panel-grid">
         <div>
-          <div class="section-kicker">For Artists Ready To Sell</div>
-          <h2 id="artist-strip-heading">Sell On JENGU</h2>
-          <p id="artistStripBody">Launch your storefront and publish in minutes.</p>
+          <div class="section-kicker" data-i18n="homeArtistStripKicker">Pour les artistes prets a vendre</div>
+          <h2 id="artist-strip-heading">Vendre sur JENGU</h2>
+          <p id="artistStripBody">Lancez votre storefront et publiez en quelques minutes.</p>
         </div>
         <div class="artist-actions">
-          <a href="/artist/publish-new-release.html" class="btn-primary" id="artistPrimaryCta" aria-label="Publish a new release">Publish New Release</a>
-          <a href="/artist/creator-hub.html" class="btn-ghost" id="artistSecondaryCta" aria-label="Open creator hub">Open Creator Hub</a>
+          <a href="/artist/publish-new-release.html" class="btn-primary" id="artistPrimaryCta" aria-label="Publier une nouvelle sortie">Publier une Nouvelle Sortie</a>
+          <a href="/artist/creator-hub.html" class="btn-ghost" id="artistSecondaryCta" aria-label="Ouvrir le hub createur">Ouvrir le Hub Createur</a>
         </div>
       </div>
     </div>
@@ -1335,15 +1334,15 @@ body.market-home::before {
 
   <section class="market-section final-cta site-shell reveal-on-scroll" aria-labelledby="final-cta-heading">
     <div class="cta-panel">
-      <h2 id="final-cta-heading">Build Your Creator Storefront On JENGU</h2>
-      <p>Create your account. Publish. Start selling.</p>
-      <a href="/artist/signup.html" class="btn-primary" aria-label="Create artist account">Artist Signup</a>
+      <h2 id="final-cta-heading" data-i18n="homeFinalHeading">Construisez Votre Storefront sur JENGU</h2>
+      <p data-i18n="homeFinalSub">Creez votre compte. Publiez. Commencez a vendre.</p>
+      <a href="/artist/signup.html" class="btn-primary" aria-label="Create artist account" data-i18n="homeArtistSignup">Inscription Artiste</a>
     </div>
   </section>
 </main>
 
 <script type="module">
-import { initLang, applyLang } from "/js/lang.js";
+import { initLang, applyLang, translate } from "/js/lang.js";
 import { fetchBrowseResults } from "/js/api.js";
 import { getCurrentUser, logout } from "/js/auth.js";
 
@@ -1447,6 +1446,10 @@ function setText(id, value) {
 function getUiLang() {
   const lang = document.documentElement.lang || "en";
   return lang.toLowerCase().startsWith("fr") ? "fr" : "en";
+}
+
+function t(key) {
+  return translate(key);
 }
 
 function applyCopyVariant() {
@@ -1658,19 +1661,25 @@ function getCoverUrl(item) {
     return cover;
   }
 
+  if (cover.startsWith("assets/")) {
+    return `/${cover}`;
+  }
+
   return `/assets/covers/${cover}`;
 }
 
 function getItemLink(item) {
+  const itemName = item.name || t("homeUntitled");
+
   return item.type === "album"
-    ? `/album.html?album=${encodeURIComponent(item.album || item.name)}`
+    ? `/album.html?album=${encodeURIComponent(item.album || itemName)}`
     : `/track.html?id=${item.id}`;
 }
 
 function getItemPrice(item) {
   if (item.price) return `${item.price} XAF`;
   if (item.amount) return `${item.amount} XAF`;
-  return item.type === "album" ? "Album Download" : "Track Download";
+  return item.type === "album" ? t("homeAlbumDownload") : t("homeTrackDownload");
 }
 
 function toAmount(value) {
@@ -1707,25 +1716,26 @@ function rankFeaturedItems(items) {
 
 function createFeaturedCard(item, index = 0) {
   const isAlbum = item.type === "album";
-  const label = isAlbum ? "Album" : "Track";
-  const subtitle = item.artist || item.genre || "Independent Artist";
+  const label = isAlbum ? t("homeTypeAlbum") : t("homeTypeTrack");
+  const title = item.name || t("homeUntitled");
+  const subtitle = item.artist || item.genre || t("homeIndependentCreator");
   const delay = Math.min(index * 70, 420);
 
   return `
-    <a href="${getItemLink(item)}" class="release-card reveal-on-scroll" style="--reveal-delay:${delay}ms;" aria-label="${item.name} ${label} by ${subtitle}">
-      <img src="${getCoverUrl(item)}" class="release-art" alt="${item.name} artwork" onerror="this.onerror=null; this.src='/assets/logo.png';">
+    <a href="${getItemLink(item)}" class="release-card reveal-on-scroll" style="--reveal-delay:${delay}ms;" aria-label="${title} ${label} by ${subtitle}">
+      <img src="${getCoverUrl(item)}" class="release-art" alt="${title} artwork" onerror="this.onerror=null; this.src='/assets/logo.png';">
       <div class="release-meta">
         <span class="release-type">${label}</span>
-        <h3 class="release-title">${item.name}</h3>
+        <h3 class="release-title">${title}</h3>
         <p class="release-subline">${subtitle} • ${getItemPrice(item)}</p>
-        <span class="release-cta">Preview • Buy • Download</span>
+        <span class="release-cta">${t("homeReleaseCta")}</span>
       </div>
     </a>
   `;
 }
 
 function createPulseItem(label, href = "", meta = "") {
-  const safeLabel = label || "Untitled";
+  const safeLabel = label || t("homeUntitled");
   const liAttrs = href
     ? `class="pulse-clickable" data-href="${href}" role="link" tabindex="0"`
     : "";
@@ -1793,39 +1803,39 @@ function renderRegionalPulse(data) {
   const featuredArtists = Array.from(artistMap.entries()).slice(0, 5);
   const trendingTracks = rankFeaturedItems(tracks).slice(0, 5);
   const featuredMovies = [
-    { name: "Midnight In Douala", meta: "Drama", href: "/movies.html" },
-    { name: "Voices Of The Market", meta: "Documentary", href: "/movies.html" },
-    { name: "Sahel Sunrise", meta: "Short Film", href: "/movies.html" }
+    { name: t("homeMovieSpot1Title"), meta: t("homeMovieSpot1Meta"), href: "/movies.html" },
+    { name: t("homeMovieSpot2Title"), meta: t("homeMovieSpot2Meta"), href: "/movies.html" },
+    { name: t("homeMovieSpot3Title"), meta: t("homeMovieSpot3Meta"), href: "/movies.html" }
   ];
   const upcomingEvents = [
-    { name: "Yaounde Creator Night", meta: "14 May", href: "/events.html" },
-    { name: "Afro-Film Weekend", meta: "22 May", href: "/events.html" },
-    { name: "JENGU Listening Room", meta: "31 May", href: "/events.html" }
+    { name: t("homeEventSpot1Title"), meta: t("homeEventSpot1Meta"), href: "/events.html" },
+    { name: t("homeEventSpot2Title"), meta: t("homeEventSpot2Meta"), href: "/events.html" },
+    { name: t("homeEventSpot3Title"), meta: t("homeEventSpot3Meta"), href: "/events.html" }
   ];
 
   artistsEl.innerHTML = featuredArtists.length
     ? featuredArtists
         .map(([artist, item]) => createPulseItem(item.name || artist, getItemLink(item), artist))
         .join("")
-    : createPulseItem("Featured music coming soon");
+    : createPulseItem(t("homeFeaturedMusicSoon"));
 
   trendingEl.innerHTML = trendingTracks.length
     ? trendingTracks
         .map((item) => createPulseItem(item.name, getItemLink(item), item.artist || "Cameroon"))
         .join("")
-    : createPulseItem("Trending releases coming soon");
+    : createPulseItem(t("homeTrendingSoon"));
 
   moviesEl.innerHTML = featuredMovies.length
     ? featuredMovies
         .map((item) => createPulseItem(item.name, item.href, item.meta))
         .join("")
-    : createPulseItem("Featured movies coming soon");
+    : createPulseItem(t("homeMoviesSoon"));
 
   eventsEl.innerHTML = upcomingEvents.length
     ? upcomingEvents
       .map((item) => createPulseItem(item.name, item.href, item.meta))
         .join("")
-    : createPulseItem("Events coming soon");
+    : createPulseItem(t("homeEventsSoon"));
 }
 
 function setupScrollReveal() {
@@ -1896,7 +1906,7 @@ async function initPage() {
   }
 
   if (!Array.isArray(data) || data.length === 0) {
-    featuredEl.innerHTML = "<div class='placeholder-msg'>No releases available yet. New downloads are coming soon.</div>";
+    featuredEl.innerHTML = `<div class='placeholder-msg'>${t("homeMoviesSoon")}</div>`;
     return;
   }
 

@@ -112,8 +112,7 @@ import { saveUpload } from "/js/store.js";
 
   const user = requireRole("artist");
   if(!user){
-    alert(translate("artistAccountRequired"));
-    throw new Error("Artist role required");
+    throw new Error(translate("artistAccountRequired"));
   }
 
 /* 🎵 FORM */
@@ -126,7 +125,7 @@ document.getElementById("upload-track-form").addEventListener("submit", e => {
   let price = Number(form.price.value);
 
   if(price < 100 || price > 300){
-    alert("Track price must be between 100–300 XAF");
+    alert(translate("trackPriceRange"));
     return;
   }
 
@@ -141,7 +140,7 @@ document.getElementById("upload-track-form").addEventListener("submit", e => {
 
   saveUpload(track);
 
-  alert("Track uploaded successfully ✅");
+  alert(translate("trackUploadedSuccess"));
 
   form.reset();
 });

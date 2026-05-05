@@ -5,7 +5,10 @@ export const marketplaceItems = [
     id: "m-track-1",
     category: "music",
     kind: "track",
-    title: "Night Drums",
+    title: {
+      fr: "Tambours de Nuit",
+      en: "Night Drums"
+    },
     creator: "Nora K",
     price: 1200,
     releaseDate: "2026-04-12",
@@ -17,7 +20,10 @@ export const marketplaceItems = [
     id: "m-album-1",
     category: "music",
     kind: "album",
-    title: "Palm Echoes",
+    title: {
+      fr: "Echos des Palmiers",
+      en: "Palm Echoes"
+    },
     creator: "Lys Mboa",
     price: 4200,
     releaseDate: "2026-03-29",
@@ -29,7 +35,10 @@ export const marketplaceItems = [
     id: "movie-1",
     category: "movies",
     kind: "film",
-    title: "Midnight In Douala",
+    title: {
+      fr: "Minuit a Douala",
+      en: "Midnight In Douala"
+    },
     creator: "Studio Ebano",
     price: 3000,
     releaseDate: "2026-04-21",
@@ -41,7 +50,10 @@ export const marketplaceItems = [
     id: "movie-2",
     category: "movies",
     kind: "documentary",
-    title: "Voices Of The Market",
+    title: {
+      fr: "Les Voix du Marche",
+      en: "Voices Of The Market"
+    },
     creator: "Muna Visuals",
     price: 2500,
     releaseDate: "2026-02-15",
@@ -53,7 +65,10 @@ export const marketplaceItems = [
     id: "event-1",
     category: "events",
     kind: "live",
-    title: "Yaounde Creator Night",
+    title: {
+      fr: "Nuit des Createurs de Yaounde",
+      en: "Yaounde Creator Night"
+    },
     creator: "JENGU Live",
     price: 5000,
     releaseDate: "2026-05-14",
@@ -65,7 +80,10 @@ export const marketplaceItems = [
     id: "event-2",
     category: "events",
     kind: "screening",
-    title: "Afro-Film Weekend",
+    title: {
+      fr: "Week-end Afro-Cinema",
+      en: "Afro-Film Weekend"
+    },
     creator: "Cine Collective",
     price: 4500,
     releaseDate: "2026-05-22",
@@ -77,7 +95,10 @@ export const marketplaceItems = [
     id: "m-track-2",
     category: "music",
     kind: "track",
-    title: "Sable Noir",
+    title: {
+      fr: "Sable Noir",
+      en: "Black Sand"
+    },
     creator: "Tino R",
     price: 1000,
     releaseDate: "2026-01-19",
@@ -92,7 +113,10 @@ export const creatorProfiles = [
     id: "creator-1",
     name: "Nora K",
     city: "Douala",
-    bio: "Singer-songwriter exploring afrofusion and cinematic textures.",
+    bio: {
+      fr: "Autrice-compositrice explorant l'afrofusion et des textures cinematographiques.",
+      en: "Singer-songwriter exploring afrofusion and cinematic textures."
+    },
     categories: ["music", "events"],
     avatar: "/assets/covers/album1.png"
   },
@@ -100,7 +124,10 @@ export const creatorProfiles = [
     id: "creator-2",
     name: "Studio Ebano",
     city: "Yaounde",
-    bio: "Independent film collective producing shorts and documentaries.",
+    bio: {
+      fr: "Collectif de cinema independant produisant des courts metrages et documentaires.",
+      en: "Independent film collective producing shorts and documentaries."
+    },
     categories: ["movies", "events"],
     avatar: "/assets/covers/cover3.png"
   },
@@ -108,7 +135,10 @@ export const creatorProfiles = [
     id: "creator-3",
     name: "Lys Mboa",
     city: "Buea",
-    bio: "Producer and curator building immersive culture drops.",
+    bio: {
+      fr: "Productrice et curatrice construisant des sorties culturelles immersives.",
+      en: "Producer and curator building immersive culture drops."
+    },
     categories: ["music", "movies", "events"],
     avatar: "/assets/covers/album2.png"
   }
@@ -117,6 +147,18 @@ export const creatorProfiles = [
 export function filterItems(items, tab) {
   if (!tab || tab === "all") return [...items];
   return items.filter((item) => item.category === tab);
+}
+
+export function getLocalizedValue(value, lang) {
+  if (!value || typeof value !== "object") {
+    return value;
+  }
+
+  if (lang === "fr") {
+    return value.fr || value.en || "";
+  }
+
+  return value.en || value.fr || "";
 }
 
 export function sortItems(items, sortBy) {

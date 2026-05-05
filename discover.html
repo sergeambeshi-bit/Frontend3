@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Discover - JENGU</title>
+<title>Decouvrir - JENGU</title>
 <link rel="stylesheet" href="/styles/app.css">
 <style>
 .discover-page {
@@ -166,22 +166,22 @@
 <header class="discover-topbar">
   <a href="/index.html"><img src="/assets/logo.png" class="logo" alt="JENGU" style="width:140px;position:static;transform:none;"></a>
   <nav>
-    <a href="/discover.html" data-i18n="discoverNav">Discover</a>
-    <a href="/browse.html" data-i18n="musicNav">Music</a>
-    <a href="/movies.html" data-i18n="moviesNav">Movies</a>
-    <a href="/events.html" data-i18n="eventsNav">Events</a>
-    <a href="/creators.html" data-i18n="creatorsNav">Creators</a>
-    <a href="/artist-pricing.html" data-i18n="artistPricingNav">Artist Pricing</a>
-    <a href="/artist/signup.html" data-i18n="sellOnJenguNav">Sell on Jengu</a>
+    <a href="/discover.html" data-i18n="discoverNav">Decouvrir</a>
+    <a href="/browse.html" data-i18n="musicNav">Musique</a>
+    <a href="/movies.html" data-i18n="moviesNav">Films</a>
+    <a href="/events.html" data-i18n="eventsNav">Evenements</a>
+    <a href="/creators.html" data-i18n="creatorsNav">Createurs</a>
+    <a href="/artist-pricing.html" data-i18n="artistPricingNav">Tarifs Artiste</a>
+    <a href="/artist/signup.html" data-i18n="sellOnJenguNav">Vendre sur JENGU</a>
   </nav>
 </header>
 
 <main class="discover-shell">
   <section class="discover-head">
     <div>
-      <p style="margin:0;color:#82f8e4;text-transform:uppercase;letter-spacing:.1em;font-size:12px;" data-i18n="discoverKicker">Unified Discovery</p>
-      <h1 data-i18n="discoverHeading">Discover Across Music, Movies, And Events</h1>
-      <p style="max-width:650px;color:#b9c6de;" data-i18n="discoverSub">Browse every category in one premium feed, then filter and sort based on what you want to collect next.</p>
+      <p style="margin:0;color:#82f8e4;text-transform:uppercase;letter-spacing:.1em;font-size:12px;" data-i18n="discoverKicker">Discovery Unifiee</p>
+      <h1 data-i18n="discoverHeading">Decouvrez La Musique, Les Films Et Les Evenements</h1>
+      <p style="max-width:650px;color:#b9c6de;" data-i18n="discoverSub">Parcourez chaque categorie dans un flux premium, puis filtrez et triez selon ce que vous voulez collectionner.</p>
     </div>
   </section>
 
@@ -194,14 +194,14 @@
     </div>
 
     <div class="discover-controls">
-      <p id="resultsMeta" style="margin:0;color:#9fb0cc;">0 listings</p>
+      <p id="resultsMeta" style="margin:0;color:#9fb0cc;">0 resultats</p>
       <label>
         <span style="font-size:12px;color:#9fb0cc;margin-right:8px;" data-i18n="discoverSortLabel">Sort</span>
         <select id="sortSelect">
-          <option value="popular" data-i18n="discoverSortPopular">Most Popular</option>
-          <option value="newest" data-i18n="discoverSortNewest">Newest</option>
-          <option value="price-asc" data-i18n="discoverSortPriceAsc">Price: Low to High</option>
-          <option value="price-desc" data-i18n="discoverSortPriceDesc">Price: High to Low</option>
+          <option value="popular" data-i18n="discoverSortPopular">Les Plus Populaires</option>
+          <option value="newest" data-i18n="discoverSortNewest">Les Plus Recents</option>
+          <option value="price-asc" data-i18n="discoverSortPriceAsc">Prix: Croissant</option>
+          <option value="price-desc" data-i18n="discoverSortPriceDesc">Prix: Decroissant</option>
         </select>
       </label>
     </div>
@@ -211,8 +211,8 @@
 </main>
 
 <script type="module">
-import { initLang, translate } from "/js/lang.js";
-import { marketplaceItems, filterItems, sortItems } from "/js/marketplace-catalog.js";
+import { initLang, getLang, translate } from "/js/lang.js";
+import { marketplaceItems, filterItems, sortItems, getLocalizedValue } from "/js/marketplace-catalog.js";
 
 initLang();
 
@@ -241,15 +241,16 @@ function refreshResultsMeta(count) {
 
 function itemCard(item) {
   const categoryKey = categoryLabelMap[item.category] || "discoverTabAll";
+  const title = getLocalizedValue(item.title, getLang());
   return `
     <article class="market-card">
-      <img src="${item.cover}" alt="${item.title}">
+      <img src="${item.cover}" alt="${title}">
       <div class="market-card-body">
         <div class="market-meta">
           <span class="market-tag">${t(categoryKey)}</span>
           <span>${item.city}</span>
         </div>
-        <h3 style="margin:0 0 6px;font-size:18px;">${item.title}</h3>
+        <h3 style="margin:0 0 6px;font-size:18px;">${title}</h3>
         <p style="margin:0;color:#b7c4dc;">${item.creator}</p>
         <p style="margin:8px 0 0;color:#d7e2f8;font-weight:700;">${item.price} XAF</p>
       </div>

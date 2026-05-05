@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Creators - JENGU</title>
+<title>Createurs - JENGU</title>
 <link rel="stylesheet" href="/styles/app.css">
 <style>
 .creator-grid {
@@ -61,24 +61,24 @@
 </div>
 
 <div id="sideMenu" class="side-menu">
-  <a href="/discover.html">Discover</a>
-  <a href="/browse.html">Music</a>
-  <a href="/movies.html">Movies</a>
-  <a href="/events.html">Events</a>
-  <a href="/creators.html">Creators</a>
-  <a href="/artist-pricing.html">Artist Pricing</a>
-  <a href="/artist/signup.html">Sell on Jengu</a>
+  <a href="/discover.html" data-i18n="discoverNav">Decouvrir</a>
+  <a href="/browse.html" data-i18n="musicNav">Musique</a>
+  <a href="/movies.html" data-i18n="moviesNav">Films</a>
+  <a href="/events.html" data-i18n="eventsNav">Evenements</a>
+  <a href="/creators.html" data-i18n="creatorsNav">Createurs</a>
+  <a href="/artist-pricing.html" data-i18n="artistPricingNav">Tarifs Artiste</a>
+  <a href="/artist/signup.html" data-i18n="sellOnJenguNav">Vendre sur JENGU</a>
 </div>
 
 <section class="section">
-  <h2 data-i18n="creatorsHeading">Creator Profiles</h2>
-  <p class="sub" data-i18n="creatorsSub">Multi-category creator listings across music, movies, and events.</p>
+  <h2 data-i18n="creatorsHeading">Profils Createurs</h2>
+  <p class="sub" data-i18n="creatorsSub">Liste multi-categorie de createurs actifs en musique, films et evenements.</p>
   <div class="creator-grid" id="creatorGrid"></div>
 </section>
 
 <script type="module">
-import { initLang, translate } from "/js/lang.js";
-import { creatorProfiles } from "/js/marketplace-catalog.js";
+import { initLang, getLang, translate } from "/js/lang.js";
+import { creatorProfiles, getLocalizedValue } from "/js/marketplace-catalog.js";
 
 initLang();
 
@@ -96,7 +96,7 @@ function renderCreators() {
       <img src="${creator.avatar}" alt="${creator.name}">
       <h3>${creator.name}</h3>
       <p class="sub">${creator.city}</p>
-      <p>${creator.bio}</p>
+      <p>${getLocalizedValue(creator.bio, getLang())}</p>
       <div class="creator-tags">
         ${creator.categories.map((category) => `<span>${translate(categoryLabelMap[category] || "discoverTabAll")}</span>`).join("")}
       </div>

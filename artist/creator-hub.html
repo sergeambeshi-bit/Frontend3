@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Creator Hub - JENGU</title>
+<title>Hub Createur - JENGU</title>
 
 <link rel="stylesheet" href="/styles/app.css">
 <script src="/js/premium-experience.js" defer></script>
@@ -52,7 +52,7 @@
 </style>
 </head>
 
-<body class="has-topbar-clearance artist-premium-page">
+<body class="has-topbar-clearance artist-premium-page" data-i18n-title="creatorHubPageTitle">
 
 <div id="sideMenu" class="side-menu">
   <div class="menu-header">
@@ -60,71 +60,74 @@
   </div>
 
   <a href="/index.html">Accueil</a>
-  <a href="/artist/creator-hub.html">Creator Hub</a>
-  <a href="/artist/publish-new-release.html">Publish New Release</a>
-  <a href="/artist/dashboard.html">Dashboard</a>
-  <a href="/artist/catalog.html">Catalogue</a>
-  <a href="/artist/upload-track.html">Upload Track</a>
-  <a href="/artist/upload-album.html">Upload Album</a>
-  <a href="/artist/payouts.html">Payouts</a>
+  <a href="/artist/creator-hub.html" data-i18n="creatorHubNav">Hub Createur</a>
+  <a href="/artist/publish-new-release.html" data-i18n="publishNewReleaseNav">Publier une nouvelle sortie</a>
+  <a href="/artist/dashboard.html" data-i18n="dashboard">Dashboard</a>
+  <a href="/artist/catalog.html" data-i18n="catalog">Catalogue</a>
+  <a href="/artist/upload-track.html" data-i18n="uploadTrack">Upload Track</a>
+  <a href="/artist/upload-album.html" data-i18n="uploadAlbum">Upload Album</a>
+  <a href="/artist/payouts.html" data-i18n="payouts">Payouts</a>
 </div>
 
 <div class="topbar">
   <span class="menu" id="menuBtn">☰</span>
-  <h3>Creator Hub</h3>
+  <h3 data-i18n="creatorHubHeading">Hub Createur</h3>
   <span></span>
 </div>
 
 <main class="creator-hub-wrap">
   <section class="section">
-    <h2 style="margin:0;">Creator Hub</h2>
-    <p class="sub" style="margin-top:8px; max-width:760px;">
+    <h2 style="margin:0;" data-i18n="creatorHubHeading">Hub Createur</h2>
+    <p class="sub" style="margin-top:8px; max-width:760px;" data-i18n="creatorHubSub">
       Your central space for publishing releases, tracking performance, and managing your artist business.
     </p>
   </section>
 
   <section class="hub-grid">
     <article class="hub-card">
-      <h3>Publish New Release</h3>
-      <p>Create your next track or album with artist-first publishing flow.</p>
+      <h3 data-i18n="creatorHubCardPublishTitle">Publier une nouvelle sortie</h3>
+      <p data-i18n="creatorHubCardPublishBody">Creez votre prochain morceau ou album avec un flux de publication pense pour les artistes.</p>
       <div class="hub-actions">
-        <a href="/artist/publish-new-release.html" class="btn-primary">Open Publisher</a>
+        <a href="/artist/publish-new-release.html" class="btn-primary" data-i18n="creatorHubOpenPublisher">Ouvrir le studio</a>
       </div>
     </article>
 
     <article class="hub-card">
-      <h3>Performance & Revenue</h3>
-      <p>Check streams, sales, and payout status from your dashboard.</p>
+      <h3 data-i18n="creatorHubPerformanceTitle">Performance et revenus</h3>
+      <p data-i18n="creatorHubPerformanceBody">Consultez les streams, ventes et paiements depuis votre dashboard.</p>
       <div class="hub-actions">
-        <a href="/artist/dashboard.html" class="btn-primary">Open Dashboard</a>
-        <a href="/artist/analytics.html" class="btn-ghost">View Analytics</a>
+        <a href="/artist/dashboard.html" class="btn-primary" data-i18n="creatorHubOpenDashboard">Ouvrir le dashboard</a>
+        <a href="/artist/analytics.html" class="btn-ghost" data-i18n="creatorHubOpenAnalytics">Voir les analytics</a>
       </div>
     </article>
 
     <article class="hub-card">
-      <h3>Catalog Management</h3>
-      <p>Edit release metadata and keep your storefront fresh.</p>
+      <h3 data-i18n="creatorHubCatalogTitle">Gestion du catalogue</h3>
+      <p data-i18n="creatorHubCatalogBody">Modifiez les metadonnees de vos sorties et gardez votre vitrine fraiche.</p>
       <div class="hub-actions">
-        <a href="/artist/catalog.html" class="btn-primary">Manage Catalog</a>
+        <a href="/artist/catalog.html" class="btn-primary" data-i18n="creatorHubManageCatalog">Gerer le catalogue</a>
       </div>
     </article>
 
     <article class="hub-card">
-      <h3>Artist Settings</h3>
-      <p>Control branding, payouts, and sales defaults.</p>
+      <h3 data-i18n="creatorHubSettingsTitle">Parametres artiste</h3>
+      <p data-i18n="creatorHubSettingsBody">Controlez votre branding, vos paiements et vos reglages de vente.</p>
       <div class="hub-actions">
-        <a href="/artist/settings.html" class="btn-primary">Open Settings</a>
+        <a href="/artist/settings.html" class="btn-primary" data-i18n="creatorHubOpenSettings">Ouvrir les parametres</a>
       </div>
     </article>
   </section>
 </main>
 
 <script type="module">
+import { initLang, translate } from "/js/lang.js";
 import { requireRole } from "/js/auth.js";
+
+initLang();
 
 const user = requireRole("artist");
 if (!user) {
-  throw new Error("Artist role required");
+  throw new Error(translate("artistAccountRequired"));
 }
 
 const menuBtn = document.getElementById("menuBtn");

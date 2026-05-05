@@ -38,8 +38,8 @@
 <!-- PURCHASES -->
 <section class="section">
   <form id="purchasesFilterForm" class="list-filter-form">
-    <input type="search" id="purchasesSearchInput" class="list-search-input" placeholder="Rechercher dans mes achats">
-    <button type="submit" class="list-filter-btn">Rechercher</button>
+    <input type="search" id="purchasesSearchInput" class="list-search-input" data-i18n="purchasesSearchPlaceholder" placeholder="Rechercher dans mes achats">
+    <button type="submit" class="list-filter-btn" data-i18n="purchasesSearchButton">Rechercher</button>
   </form>
 
   <div id="purchasesList"></div>
@@ -80,7 +80,7 @@ const user = getCurrentUser();
 
 if(!user){
   window.location.href = "/user/login.html";
-  throw new Error("User not authenticated");
+  throw new Error(translate("userNotAuthenticated"));
 }
 
 /* =========================
@@ -109,7 +109,7 @@ async function loadPurchases(){
     const res = await fetch(`${API}/api/purchases/${user.id}`);
 
     if(!res.ok){
-      throw new Error("Purchases API unavailable");
+      throw new Error(translate("purchasesApiUnavailable"));
     }
 
     const apiPurchases = await res.json();
@@ -140,7 +140,7 @@ function renderPurchasesItems(purchases, usingLocalFallback = false){
 
   const container = document.getElementById("purchasesList");
   const notice = usingLocalFallback
-    ? `<p class="sub" style="text-align:center; color:#f1c40f;">Serveur indisponible, affichage des achats locaux.</p>`
+    ? `<p class="sub" style="text-align:center; color:#f1c40f;">${translate("purchasesFallbackNotice")}</p>`
     : "";
 
   if(!purchases.length){

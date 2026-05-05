@@ -86,7 +86,7 @@ initLang();
 import { supabase } from "/js/supabase.js";
 
   const user = requireRole("artist");
-  if(!user) throw new Error("Artist role required");
+  if(!user) throw new Error(translate("artistAccountRequired"));
 
 async function load(){
 

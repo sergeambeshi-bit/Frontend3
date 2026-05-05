@@ -128,12 +128,12 @@
   <script type="module">
 
 /* MENU */
-import { initLang } from "/js/lang.js";
+import { initLang, translate } from "/js/lang.js";
   import { requireRole } from "/js/auth.js";
 
 initLang();
   const user = requireRole("artist");
-  if(!user) throw new Error("Artist role required");
+  if(!user) throw new Error(translate("artistAccountRequired"));
 const menuBtn = document.getElementById("menuBtn");
 const sideMenu = document.getElementById("sideMenu");
 

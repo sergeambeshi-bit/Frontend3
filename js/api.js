@@ -102,6 +102,28 @@ const BLOG_POSTS = [
   }
 ];
 
+function normalizeCoverPath(cover) {
+  if (!cover || typeof cover !== "string") {
+    return getRandomCover();
+  }
+
+  const value = cover.trim();
+
+  if (!value) {
+    return getRandomCover();
+  }
+
+  if (value.startsWith("http") || value.startsWith("/")) {
+    return value;
+  }
+
+  if (value.startsWith("assets/")) {
+    return `/${value}`;
+  }
+
+  return `/assets/covers/${value}`;
+}
+
 /* =========================================
    NORMALIZER
 ========================================= */
@@ -115,7 +137,7 @@ function normalizeData(data) {
     album: item.album || "",
     genre: (item.genre || "").toLowerCase(),
     price: item.price || 300,
-    cover: item.cover || getRandomCover(),
+    cover: normalizeCoverPath(item.cover),
     type: item.type || "track",
     createdAt: item.createdAt || new Date().toISOString()
   }));

@@ -1,5 +1,7 @@
 // js/auth.js
 
+import { translate } from "./lang.js";
+
 /* =========================
    STORAGE KEYS
 ========================= */
@@ -30,7 +32,7 @@ export function signup({name, email, password, role}){
   const exists = users.find(u => u.email === email);
 
   if(exists){
-    alert("User already exists");
+    alert(translate("userAlreadyExists"));
     return false;
   }
 
@@ -63,7 +65,7 @@ export function login({email, password}){
   );
 
   if(!user){
-    alert("Invalid credentials");
+    alert(translate("invalidCredentials"));
     return false;
   }
 
@@ -144,7 +146,7 @@ export function requireRole(role){
   const user = getCurrentUser();
 
   if(!user || user.role !== role){
-    alert("Access denied");
+    alert(translate("accessDenied"));
     window.location.href = "/";
     return null;
   }

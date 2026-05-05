@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Publish New Release - JENGU</title>
+<title>Publier une nouvelle sortie - JENGU</title>
 
 <link rel="stylesheet" href="/styles/app.css">
 <script src="/js/premium-experience.js" defer></script>
@@ -50,7 +50,7 @@
 </style>
 </head>
 
-<body class="has-topbar-clearance artist-premium-page">
+<body class="has-topbar-clearance artist-premium-page" data-i18n-title="publishNewReleasePageTitle">
 
 <div id="sideMenu" class="side-menu">
   <div class="menu-header">
@@ -58,48 +58,51 @@
   </div>
 
   <a href="/index.html">Accueil</a>
-  <a href="/artist/creator-hub.html">Creator Hub</a>
-  <a href="/artist/publish-new-release.html">Publish New Release</a>
-  <a href="/artist/upload-track.html">Upload Track</a>
-  <a href="/artist/upload-album.html">Upload Album</a>
-  <a href="/artist/dashboard.html">Dashboard</a>
+  <a href="/artist/creator-hub.html" data-i18n="creatorHubNav">Hub Createur</a>
+  <a href="/artist/publish-new-release.html" data-i18n="publishNewReleaseNav">Publier une nouvelle sortie</a>
+  <a href="/artist/upload-track.html" data-i18n="uploadTrack">Upload Track</a>
+  <a href="/artist/upload-album.html" data-i18n="uploadAlbum">Upload Album</a>
+  <a href="/artist/dashboard.html" data-i18n="dashboard">Dashboard</a>
 </div>
 
 <div class="topbar">
   <span class="menu" id="menuBtn">☰</span>
-  <h3>Publish New Release</h3>
+  <h3 data-i18n="publishNewReleaseHeading">Publier une nouvelle sortie</h3>
   <span></span>
 </div>
 
 <main class="publish-wrap">
   <section class="section">
-    <h2 style="margin:0;">Publish New Release</h2>
-    <p class="sub" style="margin-top:8px; max-width:740px;">
+    <h2 style="margin:0;" data-i18n="publishNewReleaseHeading">Publier une nouvelle sortie</h2>
+    <p class="sub" style="margin-top:8px; max-width:740px;" data-i18n="publishNewReleaseSub">
       Choose the release type you want to publish. You can upload a single track or a full album.
     </p>
   </section>
 
   <section class="publish-grid">
     <article class="publish-option">
-      <h3>Single Track</h3>
-      <p>Fast release flow for singles, freestyles, or focused track drops.</p>
-      <a href="/artist/upload-track.html" class="btn-primary">Upload Track</a>
+      <h3 data-i18n="publishSingleTrackTitle">Morceau solo</h3>
+      <p data-i18n="publishSingleTrackBody">Flux rapide pour singles, freestyles ou sorties piste par piste.</p>
+      <a href="/artist/upload-track.html" class="btn-primary" data-i18n="uploadTrack">Upload Track</a>
     </article>
 
     <article class="publish-option">
-      <h3>Album / EP</h3>
-      <p>Launch a complete project and set album-level pricing for your fans.</p>
-      <a href="/artist/upload-album.html" class="btn-primary">Upload Album</a>
+      <h3 data-i18n="publishAlbumEpTitle">Album / EP</h3>
+      <p data-i18n="publishAlbumEpBody">Lancez un projet complet et fixez un prix album pour vos fans.</p>
+      <a href="/artist/upload-album.html" class="btn-primary" data-i18n="uploadAlbum">Upload Album</a>
     </article>
   </section>
 </main>
 
 <script type="module">
+import { initLang, translate } from "/js/lang.js";
 import { requireRole } from "/js/auth.js";
+
+initLang();
 
 const user = requireRole("artist");
 if (!user) {
-  throw new Error("Artist role required");
+  throw new Error(translate("artistAccountRequired"));
 }
 
 const menuBtn = document.getElementById("menuBtn");

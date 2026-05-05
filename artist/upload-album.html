@@ -99,8 +99,7 @@ import { saveUpload } from "/js/store.js";
 
   const user = requireRole("artist");
   if(!user){
-    alert(translate("artistAccountRequired"));
-    throw new Error("Artist role required");
+    throw new Error(translate("artistAccountRequired"));
   }
 
 /* 💿 FORM */
@@ -136,7 +135,7 @@ document.getElementById("upload-album-form").addEventListener("submit", e => {
 
   saveUpload(album);
 
-  alert("Album uploaded successfully ✅");
+  alert(translate("albumUploadedSuccess"));
 
   form.reset();
 });
