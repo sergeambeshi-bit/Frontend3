@@ -170,6 +170,7 @@
     <a href="/browse.html" data-i18n="musicNav">Musique</a>
     <a href="/movies.html" data-i18n="moviesNav">Films</a>
     <a href="/events.html" data-i18n="eventsNav">Evenements</a>
+    <a href="/merch.html" data-i18n="merchNav">Merch</a>
     <a href="/creators.html" data-i18n="creatorsNav">Createurs</a>
     <a href="/artist-pricing.html" data-i18n="artistPricingNav">Tarifs Artiste</a>
     <a href="/artist/signup.html" data-i18n="sellOnJenguNav">Vendre sur JENGU</a>
@@ -180,7 +181,7 @@
   <section class="discover-head">
     <div>
       <p style="margin:0;color:#82f8e4;text-transform:uppercase;letter-spacing:.1em;font-size:12px;" data-i18n="discoverKicker">Discovery Unifiee</p>
-      <h1 data-i18n="discoverHeading">Decouvrez La Musique, Les Films Et Les Evenements</h1>
+      <h1 data-i18n="discoverHeading">Decouvrez La Musique, Les Films, Les Evenements Et Le Merch</h1>
       <p style="max-width:650px;color:#b9c6de;" data-i18n="discoverSub">Parcourez chaque categorie dans un flux premium, puis filtrez et triez selon ce que vous voulez collectionner.</p>
     </div>
   </section>
@@ -191,6 +192,7 @@
       <button class="filter-tab" type="button" data-tab="music" data-i18n="discoverTabMusic">Music</button>
       <button class="filter-tab" type="button" data-tab="movies" data-i18n="discoverTabMovies">Movies</button>
       <button class="filter-tab" type="button" data-tab="events" data-i18n="discoverTabEvents">Events</button>
+      <button class="filter-tab" type="button" data-tab="merch" data-i18n="discoverTabMerch">Merch</button>
     </div>
 
     <div class="discover-controls">
@@ -227,7 +229,8 @@ let activeSort = "popular";
 const categoryLabelMap = {
   music: "discoverTabMusic",
   movies: "discoverTabMovies",
-  events: "discoverTabEvents"
+  events: "discoverTabEvents",
+  merch: "discoverTabMerch"
 };
 
 function t(key) {
@@ -242,6 +245,10 @@ function refreshResultsMeta(count) {
 function itemCard(item) {
   const categoryKey = categoryLabelMap[item.category] || "discoverTabAll";
   const title = getLocalizedValue(item.title, getLang());
+  const action = item.category === "merch"
+    ? `<a href="/merch-product.html?id=${item.id}" class="btn-ghost" style="display:inline-block;margin-top:10px;padding:8px 12px;">${t("viewMerchDetails")}</a>`
+    : "";
+
   return `
     <article class="market-card">
       <img src="${item.cover}" alt="${title}">
@@ -253,6 +260,7 @@ function itemCard(item) {
         <h3 style="margin:0 0 6px;font-size:18px;">${title}</h3>
         <p style="margin:0;color:#b7c4dc;">${item.creator}</p>
         <p style="margin:8px 0 0;color:#d7e2f8;font-weight:700;">${item.price} XAF</p>
+        ${action}
       </div>
     </article>
   `;

@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Upload Merch - JENGU</title>
+
+<link rel="stylesheet" href="/styles/app.css">
+<script src="/js/premium-experience.js" defer></script>
+</head>
+
+<body class="has-topbar-clearance artist-premium-page" data-i18n-title="uploadMerchPageTitle">
+
+<div id="sideMenu" class="side-menu">
+  <div class="menu-header">
+    <img src="/assets/logo.png" class="menu-logo" alt="JENGU logo">
+  </div>
+
+  <a href="/index.html" data-i18n="home">Accueil</a>
+  <a href="/artist/creator-hub.html" data-i18n="creatorHubNav">Hub Createur</a>
+  <a href="/artist/dashboard.html" data-i18n="dashboard">Dashboard</a>
+  <a href="/artist/catalog.html" data-i18n="catalog">Catalogue</a>
+  <a href="/artist/upload-track.html" data-i18n="uploadTrack">Upload Track</a>
+  <a href="/artist/upload-album.html" data-i18n="uploadAlbum">Upload Album</a>
+  <a href="/artist/upload-merch.html" data-i18n="uploadMerch">Upload Merch</a>
+  <a href="/artist/payouts.html" data-i18n="payouts">Payouts</a>
+</div>
+
+<div class="topbar">
+  <span class="menu" id="menuBtn">☰</span>
+  <h3 data-i18n="uploadMerch">Upload Merch</h3>
+  <span></span>
+</div>
+
+<section class="section">
+  <form id="upload-merch-form" class="upload-form">
+    <label for="merchTitle" data-i18n="merchFormTitle">Titre du produit</label>
+    <input type="text" id="merchTitle" name="title" placeholder="Ex: T-shirt Creator Night" required>
+
+    <label for="merchDescription" data-i18n="merchFormDescription">Description</label>
+    <textarea id="merchDescription" name="description" rows="4" placeholder="Materiaux, coupe, edition, histoire du produit" required></textarea>
+
+    <label for="merchImages" data-i18n="merchFormImages">Images produit</label>
+    <input type="file" id="merchImages" name="images" accept="image/*" multiple>
+
+    <label for="merchVariants" data-i18n="merchFormVariants">Variantes (taille/couleur)</label>
+    <input type="text" id="merchVariants" name="variants" placeholder="Ex: S/Noir:8, M/Noir:12, L/Noir:6" required>
+
+    <label for="merchStock" data-i18n="merchFormStock">Stock total</label>
+    <input type="number" id="merchStock" name="stock" min="0" value="10" required>
+
+    <label for="merchPrice" data-i18n="merchFormPrice">Prix (XAF)</label>
+    <input type="number" id="merchPrice" name="price" min="1000" value="12000" required>
+
+    <label for="merchShipping" data-i18n="merchFormShipping">Zones de livraison</label>
+    <input type="text" id="merchShipping" name="shipping" placeholder="Ex: Cameroun, Afrique Centrale" required>
+
+    <button type="submit" class="btn-primary" data-i18n="merchFormSubmit">Publier le merch</button>
+  </form>
+</section>
+
+<script type="module">
+import { initLang, translate } from "/js/lang.js";
+import { requireRole } from "/js/auth.js";
+import { saveUpload } from "/js/store.js";
+
+initLang();
+
+const user = requireRole("artist");
+if (!user) {
+  throw new Error(translate("artistAccountRequired"));
+}
+
+function parseVariants(raw) {
+  return raw
+    .split(",")
+    .map((entry) => entry.trim())
+    .filter(Boolean)
+    .map((entry) => {
+      const [variantPart, stockPart] = entry.split(":").map((part) => (part || "").trim());
+      const [size, color] = (variantPart || "").split("/").map((part) => (part || "").trim());
+
+      return {
+        size: size || "Standard",
+        color: color || "Default",
+        stock: Number(stockPart || 0)
+      };
+    });
+}
+
+document.getElementById("upload-merch-form")?.addEventListener("submit", (event) => {
+  event.preventDefault();
+
+  const form = event.target;
+  const variants = parseVariants(form.variants.value || "");
+
+  const merch = {
+    name: form.title.value,
+    title: { fr: form.title.value, en: form.title.value },
+    description: { fr: form.description.value, en: form.description.value },
+    artist: user.name,
+    creator: user.name,
+    category: "merch",
+    kind: "apparel",
+    variants,
+    stock: Number(form.stock.value || 0),
+    shipping: form.shipping.value,
+    price: Number(form.price.value || 0),
+    cover: "/assets/covers/cover6.png",
+    type: "merch"
+  };
+
+  saveUpload(merch);
+  alert(translate("merchPublishedSuccess"));
+  form.reset();
+});
+
+const menuBtn = document.getElementById("menuBtn");
+const sideMenu = document.getElementById("sideMenu");
+if (menuBtn && sideMenu) {
+  menuBtn.addEventListener("click", () => {
+    sideMenu.classList.toggle("open");
+  });
+
+  document.addEventListener("click", (e) => {
+    if (!sideMenu.contains(e.target) && !menuBtn.contains(e.target)) {
+      sideMenu.classList.remove("open");
+    }
+  });
+}
+</script>
+
+</body>
+</html>

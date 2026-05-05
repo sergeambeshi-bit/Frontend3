@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Produit merch - JENGU</title>
+<link rel="stylesheet" href="/styles/app.css">
+<style>
+.merch-layout {
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 24px 16px 42px;
+  display: grid;
+  grid-template-columns: 1.1fr 1fr;
+  gap: 18px;
+}
+
+.merch-gallery,
+.merch-panel,
+.related-panel {
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 16px;
+  background: rgba(18, 25, 38, 0.84);
+  padding: 14px;
+}
+
+.merch-main-image {
+  width: 100%;
+  aspect-ratio: 1/1;
+  object-fit: cover;
+  border-radius: 12px;
+  margin-bottom: 10px;
+}
+
+.merch-thumbs {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.merch-thumbs button {
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 10px;
+  background: transparent;
+  padding: 0;
+  cursor: pointer;
+}
+
+.merch-thumbs img {
+  width: 100%;
+  aspect-ratio: 1/1;
+  object-fit: cover;
+  border-radius: 10px;
+}
+
+.merch-panel label {
+  display: block;
+  margin: 0 0 6px;
+  color: #9bb0d2;
+  font-size: 13px;
+}
+
+.merch-panel select {
+  width: 100%;
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  background: rgba(8, 14, 24, 0.8);
+  color: #f0f4ff;
+  padding: 10px;
+  margin-bottom: 12px;
+}
+
+.related-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.related-card {
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 12px;
+  padding: 10px;
+  text-decoration: none;
+  color: #eaf1ff;
+  background: rgba(12, 20, 32, 0.74);
+}
+
+.related-card img {
+  width: 100%;
+  aspect-ratio: 16/10;
+  border-radius: 10px;
+  object-fit: cover;
+  margin-bottom: 6px;
+}
+
+@media (max-width: 920px) {
+  .merch-layout {
+    grid-template-columns: 1fr;
+  }
+}
+</style>
+</head>
+<body class="has-topbar-clearance fan-premium-page" data-i18n-title="merchProductPageTitle">
+<a href="/checkout.html" class="cart-btn" aria-label="Voir le panier" data-i18n-aria="viewCartAria"><span class="cart-icon">🛒</span><span class="cart-count">0</span></a>
+
+<div class="topbar">
+  <span class="menu" id="menuBtn">☰</span>
+  <a href="/index.html"><img src="/assets/logo.png" class="logo" alt="JENGU"></a>
+</div>
+
+<div id="sideMenu" class="side-menu">
+  <a href="/discover.html" data-i18n="discoverNav">Decouvrir</a>
+  <a href="/browse.html" data-i18n="musicNav">Musique</a>
+  <a href="/movies.html" data-i18n="moviesNav">Films</a>
+  <a href="/events.html" data-i18n="eventsNav">Evenements</a>
+  <a href="/merch.html" data-i18n="merchNav">Merch</a>
+  <a href="/creators.html" data-i18n="creatorsNav">Createurs</a>
+  <a href="/artist-pricing.html" data-i18n="artistPricingNav">Tarifs Artiste</a>
+  <a href="/artist/signup.html" data-i18n="sellOnJenguNav">Vendre sur JENGU</a>
+</div>
+
+<section class="merch-layout" id="merchRoot"></section>
+
+<script type="module">
+import { initLang, getLang, translate } from "/js/lang.js";
+import { marketplaceItems, getLocalizedValue } from "/js/marketplace-catalog.js";
+import { cart } from "/js/cart.js";
+import { getCurrentUser } from "/js/auth.js";
+
+initLang();
+
+const params = new URLSearchParams(window.location.search);
+const merchId = params.get("id");
+const merchItems = marketplaceItems.filter((item) => item.category === "merch");
+const product = merchItems.find((item) => item.id === merchId) || merchItems[0];
+const root = document.getElementById("merchRoot");
+
+function variantLabel(variant) {
+  const parts = [variant.size, variant.color].filter(Boolean);
+  return `${parts.join(" / ")} (${variant.stock})`;
+}
+
+function stockForVariant(item, index) {
+  if (!Array.isArray(item.variants)) return 0;
+  return Number(item.variants[index]?.stock || 0);
+}
+
+function totalStock(item) {
+  if (!Array.isArray(item.variants)) return 0;
+  return item.variants.reduce((sum, variant) => sum + Number(variant.stock || 0), 0);
+}
+
+function renderProduct() {
+  if (!root) return;
+
+  if (!product) {
+    root.innerHTML = `<article class="merch-panel"><h2>${translate("discoverNoItems")}</h2></article>`;
+    return;
+  }
+
+  const title = getLocalizedValue(product.title, getLang());
+  const description = getLocalizedValue(product.description, getLang()) || "";
+  const gallery = Array.isArray(product.gallery) && product.gallery.length ? product.gallery : [product.cover];
+  const related = merchItems.filter((item) => item.id !== product.id).slice(0, 3);
+
+  root.innerHTML = `
+    <article class="merch-gallery">
+      <img id="mainMerchImage" class="merch-main-image" src="${gallery[0]}" alt="${title}">
+      <div class="merch-thumbs">
+        ${gallery.map((image) => `<button type="button" class="thumb-btn" data-image="${image}"><img src="${image}" alt="${title}"></button>`).join("")}
+      </div>
+    </article>
+
+    <article class="merch-panel">
+      <h2 style="margin-top:0;">${title}</h2>
+      <p style="color:#c3d0e8;">${description}</p>
+      <p><strong>${product.price} XAF</strong></p>
+      <p><strong>${translate("creatorLabel")}:</strong> ${product.creator}</p>
+      <p><strong>${translate("shippingLabel")}:</strong> ${(product.shipping?.regions || []).join(", ")} • ${product.shipping?.eta || "-"}</p>
+
+      <label for="variantSelect">${translate("chooseVariant")}</label>
+      <select id="variantSelect">
+        ${(product.variants || []).map((variant, index) => `<option value="${index}">${variantLabel(variant)}</option>`).join("")}
+      </select>
+
+      <p id="stockText"><strong>${translate("stockLabel")}:</strong> ${stockForVariant(product, 0)}</p>
+      <button id="merchAddBtn" class="btn-primary" style="width:100%;">${translate("merchAddToCart")}</button>
+      <a href="/checkout.html" class="btn-ghost" style="display:block;text-align:center;margin-top:10px;" data-i18n="viewCartCta">${translate("viewCartCta")}</a>
+    </article>
+
+    <article class="related-panel" style="grid-column:1 / -1;">
+      <h3 style="margin-top:0;" data-i18n="relatedMerch">${translate("relatedMerch")}</h3>
+      <div class="related-grid">
+        ${related.map((item) => `
+          <a class="related-card" href="/merch-product.html?id=${item.id}">
+            <img src="${item.cover}" alt="${getLocalizedValue(item.title, getLang())}">
+            <strong>${getLocalizedValue(item.title, getLang())}</strong>
+            <p style="margin:6px 0 0;">${item.price} XAF</p>
+          </a>
+        `).join("")}
+      </div>
+    </article>
+  `;
+
+  root.querySelectorAll(".thumb-btn").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const main = document.getElementById("mainMerchImage");
+      if (main) main.src = btn.dataset.image || product.cover;
+    });
+  });
+
+  const variantSelect = document.getElementById("variantSelect");
+  const stockText = document.getElementById("stockText");
+  const addBtn = document.getElementById("merchAddBtn");
+
+  function refreshStock() {
+    const variantIndex = Number(variantSelect?.value || 0);
+    const stock = stockForVariant(product, variantIndex);
+    if (stockText) {
+      stockText.innerHTML = `<strong>${translate("stockLabel")}:</strong> ${stock}`;
+    }
+
+    if (addBtn) {
+      addBtn.disabled = stock <= 0;
+      addBtn.textContent = stock <= 0 ? translate("merchOutOfStock") : translate("merchAddToCart");
+    }
+  }
+
+  refreshStock();
+  variantSelect?.addEventListener("change", refreshStock);
+
+  addBtn?.addEventListener("click", () => {
+    const currentUser = getCurrentUser();
+    if (!currentUser) {
+      window.location.href = "/user/login.html";
+      return;
+    }
+
+    const variantIndex = Number(variantSelect?.value || 0);
+    const variant = product.variants?.[variantIndex];
+    if (!variant || Number(variant.stock || 0) <= 0) return;
+
+    const added = cart.add({
+      id: `${product.id}-${variantIndex}`,
+      name: `${title} (${variant.size || "Standard"} / ${variant.color || "Default"})`,
+      artist: product.creator,
+      cover: product.cover,
+      price: Number(product.price || 0),
+      type: "merch"
+    });
+
+    if (added) {
+      alert(translate("merchAdded"));
+    }
+  });
+}
+
+renderProduct();
+
+const langBtn = document.getElementById("langBtn");
+if (langBtn) {
+  langBtn.addEventListener("click", () => {
+    window.setTimeout(renderProduct, 0);
+  });
+}
+
+const menuBtn = document.getElementById("menuBtn");
+const sideMenu = document.getElementById("sideMenu");
+menuBtn.onclick = () => sideMenu.classList.toggle("open");
+document.addEventListener("click", (e) => {
+  if (!sideMenu.contains(e.target) && !menuBtn.contains(e.target)) {
+    sideMenu.classList.remove("open");
+  }
+});
+</script>
+</body>
+</html>

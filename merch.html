@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Merch - JENGU</title>
+<link rel="stylesheet" href="/styles/app.css">
+</head>
+<body class="has-topbar-clearance fan-premium-page" data-i18n-title="merchPageTitle">
+<a href="/checkout.html" class="cart-btn" aria-label="Voir le panier" data-i18n-aria="viewCartAria"><span class="cart-icon">🛒</span><span class="cart-count">0</span></a>
+
+<div class="topbar">
+  <span class="menu" id="menuBtn">☰</span>
+  <a href="/index.html"><img src="/assets/logo.png" class="logo" alt="JENGU"></a>
+</div>
+
+<div id="sideMenu" class="side-menu">
+  <a href="/discover.html" data-i18n="discoverNav">Decouvrir</a>
+  <a href="/browse.html" data-i18n="musicNav">Musique</a>
+  <a href="/movies.html" data-i18n="moviesNav">Films</a>
+  <a href="/events.html" data-i18n="eventsNav">Evenements</a>
+  <a href="/merch.html" data-i18n="merchNav">Merch</a>
+  <a href="/creators.html" data-i18n="creatorsNav">Createurs</a>
+  <a href="/artist-pricing.html" data-i18n="artistPricingNav">Tarifs Artiste</a>
+  <a href="/artist/signup.html" data-i18n="sellOnJenguNav">Vendre sur JENGU</a>
+</div>
+
+<section class="section">
+  <h2 data-i18n="merchHeading">Marketplace Merch</h2>
+  <p class="sub" data-i18n="merchSub">Vetements, collector packs et objets physiques vendus directement par les createurs.</p>
+  <div class="regional-pulse-grid" style="margin-bottom:16px;">
+    <article class="pulse-card"><h3 data-i18n="merchFeaturedTitle">Merch en vedette</h3><p data-i18n="merchFeaturedBody">Drops limites et editions signatures.</p></article>
+    <article class="pulse-card"><h3 data-i18n="merchCreatorDropsTitle">Drops createurs</h3><p data-i18n="merchCreatorDropsBody">Pieces exclusives liees a vos artistes favoris.</p></article>
+    <article class="pulse-card"><h3 data-i18n="merchDeliveryTitle">Livraison premium</h3><p data-i18n="merchDeliveryBody">Expedition suivie et disponibilites en temps reel.</p></article>
+  </div>
+
+  <div id="merchGrid" class="regional-pulse-grid"></div>
+</section>
+
+<script type="module">
+import { initLang, getLang, translate } from "/js/lang.js";
+import { marketplaceItems, getLocalizedValue } from "/js/marketplace-catalog.js";
+
+initLang();
+
+const merchGrid = document.getElementById("merchGrid");
+const merchItems = marketplaceItems.filter((item) => item.category === "merch");
+
+function getStock(item) {
+  if (!Array.isArray(item.variants)) return 0;
+  return item.variants.reduce((sum, variant) => sum + Number(variant.stock || 0), 0);
+}
+
+function renderMerch() {
+  if (!merchGrid) return;
+
+  if (!merchItems.length) {
+    merchGrid.innerHTML = `<article class="pulse-card"><p>${translate("discoverNoItems")}</p></article>`;
+    return;
+  }
+
+  merchGrid.innerHTML = merchItems.map((item) => {
+    const title = getLocalizedValue(item.title, getLang());
+    return `
+      <article class="pulse-card">
+        <img src="${item.cover}" alt="${title}" style="width:100%;aspect-ratio:16/10;object-fit:cover;border-radius:12px;margin-bottom:10px;">
+        <h3>${title}</h3>
+        <p>${item.creator} • ${item.city}</p>
+        <p>${item.price} XAF • ${translate("stockLabel")}: ${getStock(item)}</p>
+        <a class="btn-primary" style="display:block;text-align:center;margin-top:10px;" href="/merch-product.html?id=${item.id}" data-i18n="viewMerchDetails">${translate("viewMerchDetails")}</a>
+      </article>
+    `;
+  }).join("");
+}
+
+renderMerch();
+
+const langBtn = document.getElementById("langBtn");
+if (langBtn) {
+  langBtn.addEventListener("click", () => {
+    window.setTimeout(renderMerch, 0);
+  });
+}
+
+const menuBtn = document.getElementById("menuBtn");
+const sideMenu = document.getElementById("sideMenu");
+menuBtn.onclick = () => sideMenu.classList.toggle("open");
+document.addEventListener("click", (e) => {
+  if (!sideMenu.contains(e.target) && !menuBtn.contains(e.target)) {
+    sideMenu.classList.remove("open");
+  }
+});
+</script>
+</body>
+</html>

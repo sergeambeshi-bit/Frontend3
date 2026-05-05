@@ -7,6 +7,8 @@
 <link rel="stylesheet" href="/styles/app.css">
 </head>
 <body class="has-topbar-clearance fan-premium-page" data-i18n-title="eventsPageTitle">
+<a href="/checkout.html" class="cart-btn" aria-label="Voir le panier" data-i18n-aria="viewCartAria"><span class="cart-icon">🛒</span><span class="cart-count">0</span></a>
+
 <div class="topbar">
   <span class="menu" id="menuBtn">☰</span>
   <a href="/index.html"><img src="/assets/logo.png" class="logo" alt="JENGU"></a>
@@ -17,6 +19,7 @@
   <a href="/browse.html" data-i18n="musicNav">Musique</a>
   <a href="/movies.html" data-i18n="moviesNav">Films</a>
   <a href="/events.html" data-i18n="eventsNav">Evenements</a>
+  <a href="/merch.html" data-i18n="merchNav">Merch</a>
   <a href="/creators.html" data-i18n="creatorsNav">Createurs</a>
   <a href="/artist-pricing.html" data-i18n="artistPricingNav">Tarifs Artiste</a>
   <a href="/artist/signup.html" data-i18n="sellOnJenguNav">Vendre sur JENGU</a>
@@ -32,9 +35,81 @@
   </div>
 </section>
 
+<section class="section">
+  <h3 data-i18n="eventsTicketsHeading">Billets disponibles</h3>
+  <div id="eventsTicketGrid" class="regional-pulse-grid"></div>
+</section>
+
 <script type="module">
-import { initLang } from "/js/lang.js";
+import { initLang, getLang, translate } from "/js/lang.js";
+import { marketplaceItems, getLocalizedValue } from "/js/marketplace-catalog.js";
+import { cart } from "/js/cart.js";
+import { getCurrentUser } from "/js/auth.js";
+
 initLang();
+
+const ticketGrid = document.getElementById("eventsTicketGrid");
+const tickets = marketplaceItems.filter((item) => item.category === "events");
+const kindLabelMap = {
+  live: "kindLive",
+  screening: "kindScreening"
+};
+
+function renderTickets() {
+  if (!ticketGrid) return;
+
+  if (!tickets.length) {
+    ticketGrid.innerHTML = `<article class="pulse-card"><p>${translate("discoverNoItems")}</p></article>`;
+    return;
+  }
+
+  ticketGrid.innerHTML = tickets.map((item) => `
+    <article class="pulse-card" data-id="${item.id}">
+      <img src="${item.cover}" alt="${getLocalizedValue(item.title, getLang())}" style="width:100%;aspect-ratio:16/10;object-fit:cover;border-radius:12px;margin-bottom:10px;">
+      <h3>${getLocalizedValue(item.title, getLang())}</h3>
+      <p>${item.creator} • ${item.city}</p>
+      <p>${translate(kindLabelMap[item.kind] || "kindLive")} • ${item.releaseDate}</p>
+      <p><strong>${item.price} XAF</strong></p>
+      <button type="button" class="btn-primary event-buy" data-id="${item.id}" style="width:100%;margin-top:10px;" data-i18n="buyTicket">${translate("buyTicket")}</button>
+    </article>
+  `).join("");
+}
+
+renderTickets();
+
+document.addEventListener("click", (e) => {
+  const buyBtn = e.target.closest(".event-buy");
+  if (!buyBtn) return;
+
+  const currentUser = getCurrentUser();
+  if (!currentUser) {
+    window.location.href = "/user/login.html";
+    return;
+  }
+
+  const item = tickets.find((entry) => String(entry.id) === String(buyBtn.dataset.id));
+  if (!item) return;
+
+  const added = cart.add({
+    id: String(item.id),
+    name: getLocalizedValue(item.title, getLang()),
+    artist: item.creator,
+    cover: item.cover,
+    price: Number(item.price || 0),
+    type: "event-ticket"
+  });
+
+  if (added) {
+    window.location.href = "/checkout.html";
+  }
+});
+
+const langBtn = document.getElementById("langBtn");
+if (langBtn) {
+  langBtn.addEventListener("click", () => {
+    window.setTimeout(renderTickets, 0);
+  });
+}
 
 const menuBtn = document.getElementById("menuBtn");
 const sideMenu = document.getElementById("sideMenu");

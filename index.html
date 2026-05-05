@@ -1120,6 +1120,7 @@ body.market-home::before {
   <a href="/browse.html" data-i18n="musicNav">Musique</a>
   <a href="/movies.html" data-i18n="moviesNav">Films</a>
   <a href="/events.html" data-i18n="eventsNav">Evenements</a>
+  <a href="/merch.html" data-i18n="merchNav">Merch</a>
   <a href="/creators.html" data-i18n="creatorsNav">Createurs</a>
   <a href="/user/library.html">Ma Bibliotheque</a>
   <a href="/user/purchases.html">Mes Achats</a>
@@ -1159,6 +1160,7 @@ body.market-home::before {
     <a href="/browse.html" data-i18n="musicNav">Musique</a>
     <a href="/movies.html" data-i18n="moviesNav">Films</a>
     <a href="/events.html" data-i18n="eventsNav">Evenements</a>
+    <a href="/merch.html" data-i18n="merchNav">Merch</a>
     <a href="/creators.html" data-i18n="creatorsNav">Createurs</a>
     <a href="/artist-pricing.html" data-i18n="artistPricingNav">Tarifs Artiste</a>
     <a href="/artist/signup.html" data-i18n="sellOnJenguNav">Vendre sur JENGU</a>
@@ -1206,6 +1208,11 @@ body.market-home::before {
         <h3 data-i18n="homeGatewayEventsTitle">Evenements a Venir</h3>
         <p data-i18n="homeGatewayEventsSub">Projections, sets et nuits creatrices.</p>
       </a>
+      <a class="gateway-card" href="/merch.html" aria-label="Go to Merch category">
+        <span class="gateway-tag" data-i18n="merchNav">Merch</span>
+        <h3 data-i18n="homeGatewayMerchTitle">Merch en Vedette</h3>
+        <p data-i18n="homeGatewayMerchSub">Apparel, objets collector et drops physiques.</p>
+      </a>
     </div>
   </section>
 
@@ -1245,6 +1252,17 @@ body.market-home::before {
           <li><img src="/assets/covers/cover1.png" alt="Salon d'Ecoute JENGU"><div><strong data-i18n="homeEventSpot3Title">Salon d'Ecoute JENGU</strong><span data-i18n="homeEventSpot3Meta">31 Mai</span></div></li>
         </ul>
       </article>
+      <article class="category-feature-card">
+        <div class="category-feature-head">
+          <h3 data-i18n="homeFeaturedMerchTitle">Merch en Vedette</h3>
+          <a href="/merch.html" data-i18n="homeViewAll">Voir tout</a>
+        </div>
+        <ul>
+          <li><img src="/assets/covers/cover6.png" alt="T-shirt Signature JENGU Live"><div><strong data-i18n="homeMerchSpot1Title">T-shirt Signature JENGU Live</strong><span data-i18n="homeMerchSpot1Meta">Edition limitee</span></div></li>
+          <li><img src="/assets/covers/cover5.png" alt="Pack Collector Afro-Cinema"><div><strong data-i18n="homeMerchSpot2Title">Pack Collector Afro-Cinema</strong><span data-i18n="homeMerchSpot2Meta">Bundle physique</span></div></li>
+          <li><img src="/assets/covers/cover6.png" alt="Capsule Creator Night"><div><strong data-i18n="homeMerchSpot3Title">Capsule Creator Night</strong><span data-i18n="homeMerchSpot3Meta">Stock reduit</span></div></li>
+        </ul>
+      </article>
     </div>
   </section>
 
@@ -1272,6 +1290,11 @@ body.market-home::before {
         <p class="curated-label" data-i18n="homeCityEditLabel">Edit Ville</p>
         <h3 data-i18n="homeCurated3Title">Douala Underground</h3>
         <p data-i18n="homeCurated3Sub">Une coupe locale de sorties et de moments live.</p>
+      </article>
+      <article class="curated-card">
+        <p class="curated-label" data-i18n="homeCollectionLabel">Collection</p>
+        <h3 data-i18n="homeCuratedMerchTitle">Collector Shelf</h3>
+        <p data-i18n="homeCuratedMerchSub">Les drops merch a prendre avant rupture.</p>
       </article>
     </div>
   </section>
@@ -1311,6 +1334,15 @@ body.market-home::before {
         <h3 id="pulse-events-heading" data-i18n="homePulseUpcomingEvents">Evenements a Venir</h3>
         <ul class="pulse-list" id="regionalEvents">
           <li data-i18n="homeLoadingEvents">Chargement des evenements...</li>
+        </ul>
+      </article>
+
+      <article class="pulse-card" aria-labelledby="pulse-merch-heading">
+        <h3 id="pulse-merch-heading" data-i18n="homePulseFeaturedMerch">Merch en Vedette</h3>
+        <ul class="pulse-list">
+          <li>T-shirt Signature JENGU Live</li>
+          <li>Pack Collector Afro-Cinema</li>
+          <li>Capsule Creator Night</li>
         </ul>
       </article>
     </div>
@@ -1459,7 +1491,7 @@ function applyCopyVariant() {
   const text = lang === "fr"
     ? {
         heroTitle: "Marketplace Premium De Culture Numerique Africaine",
-        heroSubtitle: "Musique, films, evenements. Decouvrez et achetez en direct.",
+        heroSubtitle: "Musique, films, evenements et merch. Decouvrez et achetez en direct.",
         heroRegionNote: "Cameroun et Afrique francophone, edition premium.",
         heroPrimaryCta: "Decouvrir La Marketplace",
         heroSecondaryCta: "Vendre Sur Jengu",
@@ -1468,7 +1500,7 @@ function applyCopyVariant() {
         featuredDesc: "Nouvelles sorties pour decouverte rapide.",
         regionalPulseKicker: "En Ce Moment",
         regionalPulseTitle: "Tendances Marketplace",
-        regionalPulseDesc: "Musique, films et evenements en progression.",
+        regionalPulseDesc: "Musique, films, evenements et merch en progression.",
         artistStripTitle: "Concue Pour Les Createurs Multi-Categories",
         artistStripBody: "Lancez votre storefront et publiez en quelques minutes.",
         artistPrimaryCta: "Publier Une Nouvelle Sortie",
@@ -1476,7 +1508,7 @@ function applyCopyVariant() {
       }
     : {
         heroTitle: "Premium African Digital Culture Marketplace",
-        heroSubtitle: "Music, movies, and events. Discover and buy direct.",
+        heroSubtitle: "Music, movies, events, and merch. Discover and buy direct.",
         heroRegionNote: "Curated for Cameroon and Francophone Africa.",
         heroPrimaryCta: "Discover Marketplace",
         heroSecondaryCta: "Sell On Jengu",
@@ -1485,7 +1517,7 @@ function applyCopyVariant() {
         featuredDesc: "New drops curated for fast discovery.",
         regionalPulseKicker: "Now Trending",
         regionalPulseTitle: "Marketplace Signals",
-        regionalPulseDesc: "Top music, movies, and upcoming events.",
+        regionalPulseDesc: "Top music, movies, events, and merch drops.",
         artistStripTitle: "Built For Multi-Category Creators",
         artistStripBody: "Launch your storefront and publish in minutes.",
         artistPrimaryCta: "Publish New Release",

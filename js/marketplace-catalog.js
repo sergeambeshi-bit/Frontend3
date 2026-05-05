@@ -92,6 +92,71 @@ export const marketplaceItems = [
     city: "Douala"
   },
   {
+    id: "merch-tee-1",
+    category: "merch",
+    kind: "apparel",
+    title: {
+      fr: "T-shirt Signature JENGU Live",
+      en: "JENGU Live Signature Tee"
+    },
+    description: {
+      fr: "T-shirt premium coupe boxy, impression recto-verso, edition limitee pour la scene createurs.",
+      en: "Premium boxy-fit t-shirt with front and back print, limited release for creator culture."
+    },
+    creator: "JENGU Live",
+    price: 12000,
+    releaseDate: "2026-04-30",
+    popularity: 90,
+    cover: "/assets/covers/cover6.png",
+    gallery: [
+      "/assets/covers/cover6.png",
+      "/assets/covers/cover7.png",
+      "/assets/covers/cover1.png"
+    ],
+    variants: [
+      { size: "S", color: "Noir", stock: 8 },
+      { size: "M", color: "Noir", stock: 14 },
+      { size: "L", color: "Noir", stock: 10 },
+      { size: "XL", color: "Noir", stock: 5 }
+    ],
+    shipping: {
+      regions: ["Cameroun", "Afrique Centrale"],
+      eta: "3-7 jours"
+    },
+    city: "Yaounde"
+  },
+  {
+    id: "merch-kit-1",
+    category: "merch",
+    kind: "collectible",
+    title: {
+      fr: "Pack Collector Afro-Cinema",
+      en: "Afro-Film Collector Pack"
+    },
+    description: {
+      fr: "Pack collector incluant tote bag, badge metal et poster numerote du week-end Afro-Cinema.",
+      en: "Collector bundle including tote bag, metal pin, and numbered Afro-Film Weekend poster."
+    },
+    creator: "Cine Collective",
+    price: 18000,
+    releaseDate: "2026-05-01",
+    popularity: 87,
+    cover: "/assets/covers/cover5.png",
+    gallery: [
+      "/assets/covers/cover5.png",
+      "/assets/covers/cover2.png",
+      "/assets/covers/cover3.png"
+    ],
+    variants: [
+      { size: "Standard", color: "Multicolor", stock: 12 }
+    ],
+    shipping: {
+      regions: ["Cameroun", "Afrique de l'Ouest"],
+      eta: "4-10 jours"
+    },
+    city: "Douala"
+  },
+  {
     id: "m-track-2",
     category: "music",
     kind: "track",
@@ -117,7 +182,7 @@ export const creatorProfiles = [
       fr: "Autrice-compositrice explorant l'afrofusion et des textures cinematographiques.",
       en: "Singer-songwriter exploring afrofusion and cinematic textures."
     },
-    categories: ["music", "events"],
+    categories: ["music", "events", "merch"],
     avatar: "/assets/covers/album1.png"
   },
   {
@@ -128,7 +193,7 @@ export const creatorProfiles = [
       fr: "Collectif de cinema independant produisant des courts metrages et documentaires.",
       en: "Independent film collective producing shorts and documentaries."
     },
-    categories: ["movies", "events"],
+    categories: ["movies", "events", "merch"],
     avatar: "/assets/covers/cover3.png"
   },
   {
@@ -139,7 +204,7 @@ export const creatorProfiles = [
       fr: "Productrice et curatrice construisant des sorties culturelles immersives.",
       en: "Producer and curator building immersive culture drops."
     },
-    categories: ["music", "movies", "events"],
+    categories: ["music", "movies", "events", "merch"],
     avatar: "/assets/covers/album2.png"
   }
 ];
