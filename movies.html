@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Movies - JENGU</title>
+<link rel="stylesheet" href="/styles/app.css">
+</head>
+<body class="has-topbar-clearance fan-premium-page" data-i18n-title="moviesPageTitle">
+<div class="topbar">
+  <span class="menu" id="menuBtn">☰</span>
+  <a href="/index.html"><img src="/assets/logo.png" class="logo" alt="JENGU"></a>
+</div>
+
+<div id="sideMenu" class="side-menu">
+  <a href="/discover.html">Discover</a>
+  <a href="/browse.html">Music</a>
+  <a href="/movies.html">Movies</a>
+  <a href="/events.html">Events</a>
+  <a href="/creators.html">Creators</a>
+  <a href="/artist-pricing.html">Artist Pricing</a>
+  <a href="/artist/signup.html">Sell on Jengu</a>
+</div>
+
+<section class="section">
+  <h2 data-i18n="moviesHeading">Movies Marketplace</h2>
+  <p class="sub" data-i18n="moviesSub">Premium independent films, documentaries, and short-format culture cinema.</p>
+  <div class="regional-pulse-grid">
+    <article class="pulse-card"><h3 data-i18n="moviesCard1Title">Featured Film</h3><p data-i18n="moviesCard1Body">Midnight In Douala</p></article>
+    <article class="pulse-card"><h3 data-i18n="moviesCard2Title">Documentary Pick</h3><p data-i18n="moviesCard2Body">Voices Of The Market</p></article>
+    <article class="pulse-card"><h3 data-i18n="moviesCard3Title">Curated List</h3><p data-i18n="moviesCard3Body">Stories From Francophone Africa</p></article>
+  </div>
+</section>
+
+<script type="module">
+import { initLang } from "/js/lang.js";
+initLang();
+
+const menuBtn = document.getElementById("menuBtn");
+const sideMenu = document.getElementById("sideMenu");
+menuBtn.onclick = () => sideMenu.classList.toggle("open");
+document.addEventListener("click", (e) => {
+  if (!sideMenu.contains(e.target) && !menuBtn.contains(e.target)) {
+    sideMenu.classList.remove("open");
+  }
+});
+</script>
+</body>
+</html>

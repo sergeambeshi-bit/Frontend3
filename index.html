@@ -119,6 +119,34 @@ body.market-home::before {
   gap: 12px;
 }
 
+.market-home .market-main-nav {
+  position: relative;
+  z-index: 20;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 0 26px 12px;
+}
+
+.market-home .market-main-nav a {
+  color: #d8e0f0;
+  text-decoration: none;
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 999px;
+  padding: 7px 12px;
+  background: rgba(20, 28, 39, 0.5);
+  transition: border-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
+}
+
+.market-home .market-main-nav a:hover {
+  color: #ffffff;
+  border-color: rgba(1, 212, 171, 0.55);
+  transform: translateY(-1px);
+}
+
 .market-home .hero-content {
   position: relative;
   z-index: 3;
@@ -252,6 +280,127 @@ body.market-home::before {
 
 .market-home .market-section {
   padding: 86px 0;
+}
+
+.market-home .gateway-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.market-home .gateway-card {
+  text-decoration: none;
+  color: #eff4ff;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: linear-gradient(160deg, rgba(25, 35, 49, 0.92), rgba(32, 43, 60, 0.86));
+  border-radius: 22px;
+  padding: 20px;
+  min-height: 180px;
+  box-shadow: 0 14px 34px rgba(8, 12, 22, 0.28);
+  transition: transform 0.2s ease, border-color 0.2s ease;
+}
+
+.market-home .gateway-card:hover {
+  transform: translateY(-3px);
+  border-color: rgba(1, 212, 171, 0.48);
+}
+
+.market-home .gateway-tag {
+  display: inline-flex;
+  margin-bottom: 10px;
+  border-radius: 999px;
+  padding: 4px 10px;
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #6ff6df;
+  background: rgba(1, 212, 171, 0.14);
+}
+
+.market-home .gateway-card h3 {
+  font-size: 20px;
+  margin: 0;
+}
+
+.market-home .gateway-card p {
+  margin-top: 12px;
+  color: #b8c5da;
+}
+
+.market-home .category-feature-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+  margin-top: 18px;
+}
+
+.market-home .category-feature-card {
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 18px;
+  background: rgba(22, 31, 44, 0.78);
+  padding: 16px;
+}
+
+.market-home .category-feature-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 12px;
+}
+
+.market-home .category-feature-card ul {
+  margin: 12px 0 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 8px;
+}
+
+.market-home .category-feature-card li {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  color: #dbe3f2;
+  font-size: 14px;
+}
+
+.market-home .category-feature-card span {
+  color: #8fa4c3;
+  font-size: 12px;
+}
+
+.market-home .curated-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.market-home .curated-card {
+  border-radius: 18px;
+  padding: 18px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background:
+    radial-gradient(480px 140px at 80% 0%, rgba(1, 212, 171, 0.13), transparent 60%),
+    rgba(24, 33, 48, 0.9);
+}
+
+.market-home .curated-label {
+  margin: 0 0 10px;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: #83f7e3;
+}
+
+@media (max-width: 980px) {
+  .market-home .gateway-grid,
+  .market-home .curated-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .market-home .category-feature-grid {
+    grid-template-columns: 1fr;
+  }
 }
 
 .market-home .reveal-on-scroll {
@@ -923,17 +1072,17 @@ body.market-home::before {
 <body class="market-home">
 
 <div id="sideMenu" class="side-menu" aria-label="Site menu">
-  <a href="/">Accueil</a>
-  <a href="/browse.html">Browse</a>
-  <a href="/genres.html">Genres</a>
-  <a href="/charts.html">Charts</a>
-  <a href="/new-releases.html">New</a>
+  <a href="/discover.html" data-i18n="discoverNav">Discover</a>
+  <a href="/browse.html" data-i18n="musicNav">Music</a>
+  <a href="/movies.html" data-i18n="moviesNav">Movies</a>
+  <a href="/events.html" data-i18n="eventsNav">Events</a>
+  <a href="/creators.html" data-i18n="creatorsNav">Creators</a>
   <a href="/user/library.html">Ma Bibliotheque</a>
   <a href="/user/purchases.html">Mes Achats</a>
   <a href="/settings.html">Parametres</a>
   <hr style="border-color:rgba(255,255,255,0.08);margin:4px 0;">
-  <a href="/artist-pricing.html" style="color:#6dfae0;" data-i18n="pricingNavPlans">Artist Plans &amp; Pricing</a>
-  <a href="/artist/signup.html" data-i18n="sellYourMusic">Sell Your Music</a>
+  <a href="/artist-pricing.html" style="color:#6dfae0;" data-i18n="artistPricingNav">Artist Pricing</a>
+  <a href="/artist/signup.html" data-i18n="sellOnJenguNav">Sell on Jengu</a>
 </div>
 
 <header class="hero" role="banner">
@@ -961,16 +1110,26 @@ body.market-home::before {
     </div>
   </div>
 
+  <nav class="market-main-nav" aria-label="Main marketplace categories">
+    <a href="/discover.html" data-i18n="discoverNav">Discover</a>
+    <a href="/browse.html" data-i18n="musicNav">Music</a>
+    <a href="/movies.html" data-i18n="moviesNav">Movies</a>
+    <a href="/events.html" data-i18n="eventsNav">Events</a>
+    <a href="/creators.html" data-i18n="creatorsNav">Creators</a>
+    <a href="/artist-pricing.html" data-i18n="artistPricingNav">Artist Pricing</a>
+    <a href="/artist/signup.html" data-i18n="sellOnJenguNav">Sell on Jengu</a>
+  </nav>
+
   <div class="hero-content">
     <div class="hero-copy">
-      <div class="eyebrow">Download-Only Music Marketplace</div>
-      <h1 id="heroTitle">Premium Music Ownership For Cameroon And Francophone Africa</h1>
-      <p class="hero-sub" id="heroSubtitle">Preview, purchase, and own exceptional music from African artists forever.</p>
-      <p class="hero-region-note" id="heroRegionNote">Built for artists across Cameroon and French-speaking Africa, connecting exceptional talent to fans who buy direct.</p>
+      <div class="eyebrow">Premium Digital Culture Marketplace</div>
+      <h1 id="heroTitle">Discover, Collect, And Support African Digital Culture</h1>
+      <p class="hero-sub" id="heroSubtitle">From music and films to live events, JENGU is building a premium marketplace where fans discover and buy directly from creators.</p>
+      <p class="hero-region-note" id="heroRegionNote">Designed for Cameroon and Francophone Africa today, with scalable category architecture for tomorrow.</p>
 
       <div class="cta">
-        <a href="/browse.html" class="btn-primary" id="heroPrimaryCta" aria-label="Explore music releases">Explore Music</a>
-        <a href="/artist/upload-track.html" class="btn-ghost" id="heroSecondaryCta" aria-label="Sell your music as an artist">Sell Your Music</a>
+        <a href="/discover.html" class="btn-primary" id="heroPrimaryCta" aria-label="Explore the marketplace">Discover Marketplace</a>
+        <a href="/artist/signup.html" class="btn-ghost" id="heroSecondaryCta" aria-label="Sell on JENGU as a creator">Sell On Jengu</a>
       </div>
     </div>
 
@@ -992,6 +1151,34 @@ body.market-home::before {
 </header>
 
 <main>
+  <section class="market-section site-shell reveal-on-scroll" aria-labelledby="gateway-heading">
+    <div class="section-head">
+      <div>
+        <div class="section-kicker">Category Gateways</div>
+        <h2 id="gateway-heading">Start With A Culture Category</h2>
+      </div>
+      <p class="section-desc">Enter each marketplace vertical through curated gateways built for discovery and direct creator support.</p>
+    </div>
+
+    <div class="gateway-grid">
+      <a class="gateway-card" href="/browse.html" aria-label="Go to Music category">
+        <span class="gateway-tag">Music</span>
+        <h3>Tracks, albums, and premium digital releases</h3>
+        <p>Own songs from rising and established African artists.</p>
+      </a>
+      <a class="gateway-card" href="/movies.html" aria-label="Go to Movies category">
+        <span class="gateway-tag">Movies</span>
+        <h3>Independent films, documentaries, and shorts</h3>
+        <p>Discover cinematic stories and support film creators directly.</p>
+      </a>
+      <a class="gateway-card" href="/events.html" aria-label="Go to Events category">
+        <span class="gateway-tag">Events</span>
+        <h3>Live culture events, screenings, and performances</h3>
+        <p>Explore upcoming experiences curated for local culture scenes.</p>
+      </a>
+    </div>
+  </section>
+
   <section class="market-section site-shell reveal-on-scroll" aria-labelledby="featured-heading">
     <div class="section-head">
       <div>
@@ -1003,6 +1190,59 @@ body.market-home::before {
 
     <div class="featured-grid" id="featuredReleases" aria-live="polite">
       <div class="placeholder-msg">Loading featured releases...</div>
+    </div>
+
+    <div class="category-feature-grid">
+      <article class="category-feature-card">
+        <div class="category-feature-head">
+          <h3>Featured Movies</h3>
+          <a href="/movies.html">View All</a>
+        </div>
+        <ul>
+          <li>Midnight In Douala <span>Drama</span></li>
+          <li>Voices Of The Market <span>Documentary</span></li>
+          <li>Sahel Sunrise <span>Short Film</span></li>
+        </ul>
+      </article>
+      <article class="category-feature-card">
+        <div class="category-feature-head">
+          <h3>Featured Events</h3>
+          <a href="/events.html">View All</a>
+        </div>
+        <ul>
+          <li>Yaounde Creator Night <span>14 May</span></li>
+          <li>Afro-Film Weekend <span>22 May</span></li>
+          <li>JENGU Listening Room <span>31 May</span></li>
+        </ul>
+      </article>
+    </div>
+  </section>
+
+  <section class="market-section site-shell reveal-on-scroll" aria-labelledby="curated-heading">
+    <div class="section-head">
+      <div>
+        <div class="section-kicker">Curated Editorial</div>
+        <h2 id="curated-heading">Collections To Guide Discovery</h2>
+      </div>
+      <p class="section-desc">Bandcamp-inspired editorial curation across categories to help fans discover high-context releases and events.</p>
+    </div>
+
+    <div class="curated-grid">
+      <article class="curated-card">
+        <p class="curated-label">Collection</p>
+        <h3>New Francophone Voices</h3>
+        <p>Artists and directors shaping the next generation of culture.</p>
+      </article>
+      <article class="curated-card">
+        <p class="curated-label">Staff Picks</p>
+        <h3>Weekend Watch + Listen</h3>
+        <p>Cross-category picks pairing films, records, and live moments.</p>
+      </article>
+      <article class="curated-card">
+        <p class="curated-label">City Edit</p>
+        <h3>Douala Underground</h3>
+        <p>A local deep cut spanning music drops and intimate event series.</p>
+      </article>
     </div>
   </section>
 
@@ -1174,8 +1414,8 @@ body.market-home::before {
 
   <section class="market-section final-cta site-shell reveal-on-scroll" aria-labelledby="final-cta-heading">
     <div class="cta-panel">
-      <h2 id="final-cta-heading">Start Selling Your Music Today</h2>
-      <p>Join a premium digital music marketplace where fans preview, purchase, and permanently own your releases.</p>
+      <h2 id="final-cta-heading">Build Your Creator Storefront On JENGU</h2>
+      <p>Launch in music now, then expand into film and event experiences as our premium multi-category marketplace grows.</p>
       <a href="/artist/signup.html" class="btn-primary" aria-label="Create artist account">Artist Signup</a>
     </div>
   </section>
@@ -1290,9 +1530,43 @@ function getUiLang() {
 
 function applyCopyVariant() {
   const variantName = getCopyVariant();
-  const variant = copyVariants[variantName] || copyVariants.A;
   const lang = getUiLang();
-  const text = variant[lang] || variant.en;
+
+  const text = lang === "fr"
+    ? {
+        heroTitle: "Decouvrez, Collectionnez Et Soutenez La Culture Numerique Africaine",
+        heroSubtitle: "De la musique aux films et evenements, JENGU construit une marketplace premium ou les fans achetent en direct.",
+        heroRegionNote: "Concue pour le Cameroun et l'Afrique francophone aujourd'hui, avec une architecture evolutive pour de nouvelles categories.",
+        heroPrimaryCta: "Decouvrir La Marketplace",
+        heroSecondaryCta: "Vendre Sur Jengu",
+        featuredKicker: "Marketplace En Vedette",
+        featuredTitle: "Musique, Films Et Evenements: Les Incontournables",
+        featuredDesc: "Un flux premium multi-categorie inspire des meilleures experiences de discovery editoriale.",
+        regionalPulseKicker: "Confiance Et Communaute",
+        regionalPulseTitle: "Signaux Culturels Regionaux",
+        regionalPulseDesc: "Suivez les tendances et recommandations organisees pour un parcours de decouverte coherent.",
+        artistStripTitle: "Concue Pour Les Createurs Multi-Categories",
+        artistStripBody: "Lancez vos sorties musique, films et experiences evenementielles depuis un meme ecosysteme premium.",
+        artistPrimaryCta: "Publier Une Nouvelle Sortie",
+        artistSecondaryCta: "Ouvrir Le Hub Createur"
+      }
+    : {
+        heroTitle: "Discover, Collect, And Support African Digital Culture",
+        heroSubtitle: "From music and films to live events, JENGU is building a premium marketplace where fans buy directly from creators.",
+        heroRegionNote: "Designed for Cameroon and Francophone Africa today, with scalable architecture for future categories.",
+        heroPrimaryCta: "Discover Marketplace",
+        heroSecondaryCta: "Sell On Jengu",
+        featuredKicker: "Featured Marketplace",
+        featuredTitle: "Music, Movies, And Events In One Premium Discovery Flow",
+        featuredDesc: "A cohesive multi-category marketplace inspired by editorial-first discovery systems.",
+        regionalPulseKicker: "Trust And Community",
+        regionalPulseTitle: "Regional Culture Signals",
+        regionalPulseDesc: "Track trends and curated picks across categories in one unified experience.",
+        artistStripTitle: "Built For Multi-Category Creators",
+        artistStripBody: "Launch music releases, films, and event experiences from one premium creator ecosystem.",
+        artistPrimaryCta: "Publish New Release",
+        artistSecondaryCta: "Open Creator Hub"
+      };
 
   document.body.dataset.copyVariant = variantName;
   document.body.dataset.copyLang = lang;

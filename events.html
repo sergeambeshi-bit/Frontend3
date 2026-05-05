@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Events - JENGU</title>
+<link rel="stylesheet" href="/styles/app.css">
+</head>
+<body class="has-topbar-clearance fan-premium-page" data-i18n-title="eventsPageTitle">
+<div class="topbar">
+  <span class="menu" id="menuBtn">☰</span>
+  <a href="/index.html"><img src="/assets/logo.png" class="logo" alt="JENGU"></a>
+</div>
+
+<div id="sideMenu" class="side-menu">
+  <a href="/discover.html">Discover</a>
+  <a href="/browse.html">Music</a>
+  <a href="/movies.html">Movies</a>
+  <a href="/events.html">Events</a>
+  <a href="/creators.html">Creators</a>
+  <a href="/artist-pricing.html">Artist Pricing</a>
+  <a href="/artist/signup.html">Sell on Jengu</a>
+</div>
+
+<section class="section">
+  <h2 data-i18n="eventsHeading">Events Marketplace</h2>
+  <p class="sub" data-i18n="eventsSub">Discover upcoming creator-led nights, screenings, and live cultural experiences.</p>
+  <div class="regional-pulse-grid">
+    <article class="pulse-card"><h3 data-i18n="eventsCard1Title">Upcoming</h3><p data-i18n="eventsCard1Body">Yaounde Creator Night • 14 May</p></article>
+    <article class="pulse-card"><h3 data-i18n="eventsCard2Title">Film Event</h3><p data-i18n="eventsCard2Body">Afro-Film Weekend • 22 May</p></article>
+    <article class="pulse-card"><h3 data-i18n="eventsCard3Title">Music Session</h3><p data-i18n="eventsCard3Body">JENGU Listening Room • 31 May</p></article>
+  </div>
+</section>
+
+<script type="module">
+import { initLang } from "/js/lang.js";
+initLang();
+
+const menuBtn = document.getElementById("menuBtn");
+const sideMenu = document.getElementById("sideMenu");
+menuBtn.onclick = () => sideMenu.classList.toggle("open");
+document.addEventListener("click", (e) => {
+  if (!sideMenu.contains(e.target) && !menuBtn.contains(e.target)) {
+    sideMenu.classList.remove("open");
+  }
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Creators - JENGU</title>
+<link rel="stylesheet" href="/styles/app.css">
+<style>
+.creator-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.creator-card {
+  display: block;
+  text-decoration: none;
+  color: #f1f5ff;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 16px;
+  padding: 14px;
+  background: rgba(26, 35, 50, 0.88);
+}
+
+.creator-card img {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-bottom: 10px;
+}
+
+.creator-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 10px;
+}
+
+.creator-tags span {
+  border-radius: 999px;
+  padding: 4px 9px;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  background: rgba(1, 212, 171, 0.12);
+  color: #7ff9e6;
+}
+
+@media (max-width: 900px) {
+  .creator-grid {
+    grid-template-columns: 1fr;
+  }
+}
+</style>
+</head>
+<body class="has-topbar-clearance fan-premium-page" data-i18n-title="creatorsPageTitle">
+<div class="topbar">
+  <span class="menu" id="menuBtn">☰</span>
+  <a href="/index.html"><img src="/assets/logo.png" class="logo" alt="JENGU"></a>
+</div>
+
+<div id="sideMenu" class="side-menu">
+  <a href="/discover.html">Discover</a>
+  <a href="/browse.html">Music</a>
+  <a href="/movies.html">Movies</a>
+  <a href="/events.html">Events</a>
+  <a href="/creators.html">Creators</a>
+  <a href="/artist-pricing.html">Artist Pricing</a>
+  <a href="/artist/signup.html">Sell on Jengu</a>
+</div>
+
+<section class="section">
+  <h2 data-i18n="creatorsHeading">Creator Profiles</h2>
+  <p class="sub" data-i18n="creatorsSub">Multi-category creator listings across music, movies, and events.</p>
+  <div class="creator-grid" id="creatorGrid"></div>
+</section>
+
+<script type="module">
+import { initLang, translate } from "/js/lang.js";
+import { creatorProfiles } from "/js/marketplace-catalog.js";
+
+initLang();
+
+const creatorGrid = document.getElementById("creatorGrid");
+
+const categoryLabelMap = {
+  music: "discoverTabMusic",
+  movies: "discoverTabMovies",
+  events: "discoverTabEvents"
+};
+
+function renderCreators() {
+  creatorGrid.innerHTML = creatorProfiles.map((creator) => `
+    <a class="creator-card" href="/creator.html?id=${creator.id}">
+      <img src="${creator.avatar}" alt="${creator.name}">
+      <h3>${creator.name}</h3>
+      <p class="sub">${creator.city}</p>
+      <p>${creator.bio}</p>
+      <div class="creator-tags">
+        ${creator.categories.map((category) => `<span>${translate(categoryLabelMap[category] || "discoverTabAll")}</span>`).join("")}
+      </div>
+    </a>
+  `).join("");
+}
+
+renderCreators();
+
+const langBtn = document.getElementById("langBtn");
+if (langBtn) {
+  langBtn.addEventListener("click", () => {
+    window.setTimeout(renderCreators, 0);
+  });
+}
+
+const menuBtn = document.getElementById("menuBtn");
+const sideMenu = document.getElementById("sideMenu");
+menuBtn.onclick = () => sideMenu.classList.toggle("open");
+document.addEventListener("click", (e) => {
+  if (!sideMenu.contains(e.target) && !menuBtn.contains(e.target)) {
+    sideMenu.classList.remove("open");
+  }
+});
+</script>
+</body>
+</html>
