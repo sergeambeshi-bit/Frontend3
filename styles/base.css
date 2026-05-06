@@ -13,10 +13,13 @@
 
 html, body {
   height: 100%;
-  font-family: 'Inter', 'Montserrat', sans-serif;
+  font-family: "SF Pro Text", "SF Pro Display", -apple-system, BlinkMacSystemFont, "Helvetica Neue", "Inter", sans-serif;
   background-color: #0E0E0E;
   color: #FFFFFF;
   scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
 }
 
 
@@ -152,9 +155,10 @@ body.no-patterns {
    HEADINGS (Clean + Bold)
 ----------------------------------------------------------- */
 h1, h2, h3, h4 {
-  font-family: "Montserrat", sans-serif;
-  font-weight: 600;
-  letter-spacing: -0.5px;
+  font-family: "SF Pro Display", "SF Pro Text", -apple-system, BlinkMacSystemFont, "Helvetica Neue", "Inter", sans-serif;
+  font-weight: 650;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
 }
 
 h1 {

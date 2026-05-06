@@ -3,11 +3,13 @@
 ========================= */
 body {
   margin: 0;
-  font-family: Inter, sans-serif;
+  font-family: "SF Pro Text", "SF Pro Display", -apple-system, BlinkMacSystemFont, "Helvetica Neue", "Inter", sans-serif;
   background: #222c3b;
   color: #e5e7eb;
   padding-bottom: 80px;
   -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
 }
 
 body.has-topbar-clearance {
@@ -25,27 +27,37 @@ body.has-topbar-clearance {
 ========================= */
 h1 {
   font-size: 32px;
-  font-weight: 600;
-  letter-spacing: -0.3px;
+  font-family: "SF Pro Display", "SF Pro Text", -apple-system, BlinkMacSystemFont, "Helvetica Neue", "Inter", sans-serif;
+  font-weight: 700;
+  letter-spacing: -0.022em;
+  line-height: 1.12;
   color: #ffffff;
 }
 
 h2 {
   font-size: 22px;
-  font-weight: 600;
+  font-family: "SF Pro Display", "SF Pro Text", -apple-system, BlinkMacSystemFont, "Helvetica Neue", "Inter", sans-serif;
+  font-weight: 650;
+  letter-spacing: -0.018em;
+  line-height: 1.2;
   color: #ffffff;
 }
 
 h3 {
   font-size: 17px;
+  font-family: "SF Pro Display", "SF Pro Text", -apple-system, BlinkMacSystemFont, "Helvetica Neue", "Inter", sans-serif;
   font-weight: 600;
+  letter-spacing: -0.012em;
+  line-height: 1.28;
   margin-bottom: 6px; /* was bigger before */
   color: #ffffff;
 }
 
 p {
   font-size: 14px;
-  line-height: 1.5;
+  font-weight: 450;
+  letter-spacing: -0.003em;
+  line-height: 1.55;
 }
 
 .sub {
@@ -63,7 +75,16 @@ p {
 
 small {
   font-size: 12px;
+  letter-spacing: 0.01em;
   color: #888;
+}
+
+input,
+select,
+textarea,
+button {
+  font-family: "SF Pro Text", "SF Pro Display", -apple-system, BlinkMacSystemFont, "Helvetica Neue", "Inter", sans-serif;
+  font-feature-settings: "kern" 1;
 }
 
 /* =========================
