@@ -132,7 +132,7 @@ function renderLibrary(){
 
         <button class="play" data-index="${index}">▶</button>
 
-        <a href="/assets/sample.mp3" download class="download-btn">
+        <a href="/assets/sample.wav" download class="download-btn">
           ↓
         </a>
 
@@ -153,7 +153,7 @@ document.addEventListener("click", e=>{
 
   /* PLAY */
   if(e.target.classList.contains("play")){
-    const audio = new Audio("/assets/sample.mp3");
+    const audio = new Audio("/assets/sample.wav");
     audio.play();
     setTimeout(()=>audio.pause(),30000);
   }

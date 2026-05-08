@@ -246,7 +246,7 @@ function itemCard(item) {
   const categoryKey = categoryLabelMap[item.category] || "discoverTabAll";
   const title = getLocalizedValue(item.title, getLang());
   const action = item.category === "merch"
-    ? `<a href="/merch-product.html?id=${item.id}" class="btn-ghost" style="display:inline-block;margin-top:10px;padding:8px 12px;">${t("viewMerchDetails")}</a>`
+    ? `<a href="/merch-product.html?id=${item.id}" class="btn-ghost" style="display:inline-block;margin-top:10px;padding:8px 12px;">${t("view")}</a>`
     : "";
 
   return `
@@ -294,6 +294,17 @@ sortSelect.addEventListener("change", () => {
   render();
 });
 
+function applyInitialTabFromUrl() {
+  const queryTab = new URLSearchParams(window.location.search).get("tab");
+  const allowed = new Set(["all", "music", "movies", "events", "merch"]);
+  if (!queryTab || !allowed.has(queryTab)) return;
+
+  activeTab = queryTab;
+  tabs.forEach((btn) => {
+    btn.classList.toggle("active", btn.dataset.tab === queryTab);
+  });
+}
+
 window.addEventListener("DOMContentLoaded", () => {
   const langBtn = document.getElementById("langBtn");
   if (langBtn) {
@@ -306,6 +317,7 @@ window.addEventListener("DOMContentLoaded", () => {
   }
 });
 
+applyInitialTabFromUrl();
 render();
 </script>
 </body>

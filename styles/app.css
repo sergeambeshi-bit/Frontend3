@@ -1242,6 +1242,48 @@ body.artist-premium-page .action-btn {
   font-weight: 600;
 }
 
+.discovery-access {
+  display: grid;
+  gap: 14px;
+}
+
+.discovery-access-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.discovery-access-head p {
+  margin: 0;
+  color: #b7c9e4;
+}
+
+.explore-strip {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.explore-chip {
+  border-radius: 12px;
+  border: 1px solid rgba(255,255,255,0.15);
+  background: rgba(255,255,255,0.04);
+  padding: 10px 12px;
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  font-size: 11px;
+  color: #d7e8ff;
+}
+
+.explore-chip.active {
+  border-color: rgba(1, 212, 171, 0.6);
+  background: rgba(1, 212, 171, 0.16);
+  color: #7bf7df;
+}
+
 body.artist-premium-page .premium-tap,
 body.fan-premium-page .premium-tap {
   animation: premium-tap 0.28s ease;
@@ -1361,6 +1403,10 @@ body.fan-premium-page .premium-busy::after {
   body.fan-premium-page .section {
     margin: 8px 10px;
     padding: 16px 14px;
+  }
+
+  .explore-strip {
+    grid-template-columns: 1fr 1fr;
   }
 
   .premium-toast-host {

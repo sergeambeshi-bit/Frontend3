@@ -40,6 +40,22 @@
   <div id="eventsTicketGrid" class="regional-pulse-grid"></div>
 </section>
 
+<section class="section discovery-access">
+  <div class="discovery-access-head">
+    <div>
+      <h3 style="margin:0 0 4px;" data-i18n="exploreMoreHeading">Explore More</h3>
+      <p data-i18n="exploreMoreEventsBody">Browse events here, then open the full marketplace stream when you want more.</p>
+    </div>
+    <a href="/discover.html" class="btn-ghost" data-i18n="discoverNav">Discover</a>
+  </div>
+  <div class="explore-strip">
+    <a href="/browse.html" class="explore-chip">Music</a>
+    <a href="/movies.html" class="explore-chip">Movies</a>
+    <a href="/events.html" class="explore-chip active">Events</a>
+    <a href="/merch.html" class="explore-chip">Merch</a>
+  </div>
+</section>
+
 <script type="module">
 import { initLang, getLang, translate } from "/js/lang.js";
 import { marketplaceItems, getLocalizedValue } from "/js/marketplace-catalog.js";
@@ -70,7 +86,7 @@ function renderTickets() {
       <p>${item.creator} • ${item.city}</p>
       <p>${translate(kindLabelMap[item.kind] || "kindLive")} • ${item.releaseDate}</p>
       <p><strong>${item.price} XAF</strong></p>
-      <button type="button" class="btn-primary event-buy" data-id="${item.id}" style="width:100%;margin-top:10px;" data-i18n="buyTicket">${translate("buyTicket")}</button>
+      <button type="button" class="btn-primary event-buy" data-id="${item.id}" style="width:100%;margin-top:10px;" data-i18n="buy">${translate("buy")}</button>
     </article>
   `).join("");
 }

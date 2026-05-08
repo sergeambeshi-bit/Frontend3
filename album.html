@@ -59,7 +59,7 @@
   </p>
 
   <div class="cta" style="justify-content:center;">
-    <button class="btn-primary buy-album" data-i18n="buyAlbum">Acheter l'album</button>
+    <button class="btn-primary buy-album" data-i18n="buyAlbum">Acheter</button>
   </div>
 
 </section>
@@ -77,13 +77,13 @@
 
     <div class="pay-section">
       <p class="label">🇨🇲 Mobile Money</p>
-      <button class="pay-btn momo" data-method="mtn">MTN MoMo</button>
-      <button class="pay-btn momo" data-method="orange">Orange Money</button>
+      <button class="pay-btn momo" data-method="mtn">MTN</button>
+      <button class="pay-btn momo" data-method="orange">Orange</button>
     </div>
 
     <div class="pay-section">
       <p class="label">💳 Carte</p>
-      <button class="pay-btn card" data-method="card">Visa / Mastercard</button>
+      <button class="pay-btn card" data-method="card">Card</button>
     </div>
 
     <input type="text" id="phone" placeholder="6XXXXXXXX">
@@ -198,7 +198,7 @@ async function loadAlbum(){
 /* PREVIEW */
 document.addEventListener("click", e=>{
   if(e.target.classList.contains("play")){
-    const audio = new Audio("/assets/sample.mp3");
+    const audio = new Audio("/assets/sample.wav");
     audio.play();
     setTimeout(()=>audio.pause(),30000);
   }
@@ -263,7 +263,7 @@ function showDownloadModal(){
       <h3 data-i18n="readyDownload">Album prêt</h3>
       <p data-i18n="purchaseConfirmed">Téléchargement disponible.</p>
 
-      <a href="/assets/sample.mp3" download class="download-btn" data-i18n="downloadZip">
+      <a href="/assets/sample.wav" download class="download-btn" data-i18n="downloadZip">
         Télécharger ZIP
       </a>
 

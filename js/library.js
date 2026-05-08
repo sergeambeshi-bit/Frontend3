@@ -42,7 +42,7 @@ export function loadLibrary() {
 
         <button class="play">▶</button>
 
-        <a href="/assets/sample.mp3" download class="download-btn">
+        <a href="/assets/sample.wav" download class="download-btn">
           ↓
         </a>
       </div>
@@ -59,7 +59,7 @@ function attachLibraryEvents(){
 
   document.querySelectorAll(".play").forEach(btn => {
     btn.addEventListener("click", () => {
-      const audio = new Audio("/assets/sample.mp3");
+      const audio = new Audio("/assets/sample.wav");
       audio.play();
 
       setTimeout(()=>audio.pause(), 30000);

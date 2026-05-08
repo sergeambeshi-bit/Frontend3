@@ -37,6 +37,22 @@
   <div id="merchGrid" class="regional-pulse-grid"></div>
 </section>
 
+<section class="section discovery-access">
+  <div class="discovery-access-head">
+    <div>
+      <h3 style="margin:0 0 4px;" data-i18n="exploreMoreHeading">Explore More</h3>
+      <p data-i18n="exploreMoreMerchBody">Merch stays focused here, with a direct path to cross-category discovery.</p>
+    </div>
+    <a href="/discover.html" class="btn-ghost" data-i18n="discoverNav">Discover</a>
+  </div>
+  <div class="explore-strip">
+    <a href="/browse.html" class="explore-chip">Music</a>
+    <a href="/movies.html" class="explore-chip">Movies</a>
+    <a href="/events.html" class="explore-chip">Events</a>
+    <a href="/merch.html" class="explore-chip active">Merch</a>
+  </div>
+</section>
+
 <script type="module">
 import { initLang, getLang, translate } from "/js/lang.js";
 import { marketplaceItems, getLocalizedValue } from "/js/marketplace-catalog.js";
@@ -67,7 +83,7 @@ function renderMerch() {
         <h3>${title}</h3>
         <p>${item.creator} • ${item.city}</p>
         <p>${item.price} XAF • ${translate("stockLabel")}: ${getStock(item)}</p>
-        <a class="btn-primary" style="display:block;text-align:center;margin-top:10px;" href="/merch-product.html?id=${item.id}" data-i18n="viewMerchDetails">${translate("viewMerchDetails")}</a>
+        <a class="btn-primary" style="display:block;text-align:center;margin-top:10px;" href="/merch-product.html?id=${item.id}" data-i18n="view">${translate("view")}</a>
       </article>
     `;
   }).join("");

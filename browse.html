@@ -7,7 +7,7 @@
 <link rel="stylesheet" href="/styles/app.css">
 </head>
 
-<body class="has-topbar-clearance">
+<body class="has-topbar-clearance fan-premium-page">
 
 <!-- TOPBAR -->
 <div class="topbar">
@@ -49,7 +49,25 @@
 
 <!-- RESULTS -->
 <section class="section">
+  <h2 style="margin:0 0 8px;">Marketplace Music</h2>
+  <p class="sub" style="margin:0 0 12px;">Tracks and albums only. Focused listening, direct ownership.</p>
   <div id="browseGrid"></div>
+</section>
+
+<section class="section discovery-access">
+  <div class="discovery-access-head">
+    <div>
+      <h3 style="margin:0 0 4px;" data-i18n="exploreMoreHeading">Explore More</h3>
+      <p data-i18n="exploreMoreMusicBody">Step into the full marketplace when you want to discover across categories.</p>
+    </div>
+    <a href="/discover.html" class="btn-ghost" data-i18n="discoverNav">Discover</a>
+  </div>
+  <div class="explore-strip">
+    <a href="/browse.html" class="explore-chip active">Music</a>
+    <a href="/movies.html" class="explore-chip">Movies</a>
+    <a href="/events.html" class="explore-chip">Events</a>
+    <a href="/merch.html" class="explore-chip">Merch</a>
+  </div>
 </section>
 
 <script type="module">
@@ -246,7 +264,7 @@ window.addEventListener("DOMContentLoaded", async () => {
 
     // Briefly tint the buy button so the fan knows it's in cart
     if (added) {
-      e.target.textContent = "✓ In Cart";
+      e.target.textContent = "Added";
       e.target.style.background = "rgba(1,212,171,0.22)";
       e.target.style.color = "#6dfae0";
     }

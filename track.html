@@ -368,9 +368,9 @@
     <p class="sub" data-i18n="trackPaymentHint">Choisissez une methode pour continuer vers le checkout.</p>
 
     <div class="pay-grid">
-      <button class="pay-btn" type="button" data-method="mtn">MTN MoMo</button>
-      <button class="pay-btn" type="button" data-method="orange">Orange Money</button>
-      <button class="pay-btn" type="button" data-method="card">Visa / Mastercard</button>
+      <button class="pay-btn" type="button" data-method="mtn">MTN</button>
+      <button class="pay-btn" type="button" data-method="orange">Orange</button>
+      <button class="pay-btn" type="button" data-method="card">Card</button>
     </div>
 
     <div class="modal-actions">
@@ -431,7 +431,7 @@ let previewOscillator = null;
 let previewGain = null;
 let previewTimer = null;
 
-const PREVIEW_URL = "/assets/sample.mp3";
+const PREVIEW_URL = "/assets/sample.wav";
 
 const params = new URLSearchParams(window.location.search);
 const trackId   = params.get("id");    // from browse ?id=

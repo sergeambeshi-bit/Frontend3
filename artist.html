@@ -121,7 +121,7 @@ async function loadArtist(){
 /* PREVIEW */
 document.addEventListener("click", e=>{
   if(e.target.classList.contains("play")){
-    const audio = new Audio("/assets/sample.mp3");
+    const audio = new Audio("/assets/sample.wav");
     audio.play();
     setTimeout(()=>audio.pause(),30000);
   }
