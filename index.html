@@ -4,1639 +4,495 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>JENGU</title>
-
 <link rel="stylesheet" href="/styles/app.css">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Playfair+Display:wght@600;700;800&display=swap" rel="stylesheet">
-
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;600;700;800&family=Playfair+Display:wght@700;800&display=swap" rel="stylesheet">
 <style>
-body.market-home {
-  --surface: #1d2736;
-  --surface-soft: #273244;
-  --ink: #f6f7fb;
-  --ink-muted: #bcc5da;
+body.home-v4 {
+  --bg-0: #060b14;
+  --bg-1: #0c1423;
+  --surface: #111c2f;
   --line: rgba(255, 255, 255, 0.12);
+  --ink: #f6f8fc;
+  --muted: #a9b6cd;
   --accent: #01d4ab;
-  --accent-2: #43f1d0;
+  --accent-2: #53f6d7;
   margin: 0;
-  background:
-    radial-gradient(820px 280px at 50% -8%, rgba(102, 216, 255, 0.1), transparent 68%),
-    linear-gradient(180deg, #18212d 0%, #1a2330 38%, #17202c 100%);
+  padding-bottom: 24px;
   color: var(--ink);
-  font-family: "Manrope", "Inter", sans-serif;
-  padding-bottom: 0;
-  position: relative;
-}
-
-body.market-home::before {
-  content: "";
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  opacity: 0;
-  background-image:
-    url("/assets/patterns/kuba.svg"),
-    url("/assets/patterns/toghu.svg");
-  background-size: 760px, 720px;
-  background-position: -220px 28%, calc(100% + 240px) 78%;
-  background-repeat: no-repeat;
-  z-index: 0;
-}
-
-.market-home .site-shell {
-  width: min(1200px, calc(100% - 40px));
-  margin: 0 auto;
-  position: relative;
-  z-index: 1;
-}
-
-.market-home .hero {
-  min-height: 88vh;
-  border-radius: 28px;
-  margin: 16px auto 0;
-  width: min(1320px, calc(100% - 24px));
-  overflow: hidden;
-  position: relative;
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  box-shadow: 0 24px 60px rgba(8, 14, 22, 0.35);
-}
-
-.market-home .hero-bg {
-  position: absolute;
-  inset: 0;
-  background-position: center;
-  background-size: cover;
-  transform: scale(1.05);
-  transition: transform 6s ease, background-image 0.8s ease;
-  filter: saturate(1.15) contrast(1.03) brightness(0.92);
-}
-
-.market-home .hero::after {
-  content: "";
-  position: absolute;
-  inset: 0;
+  font-family: "Manrope", sans-serif;
   background:
-    linear-gradient(100deg, rgba(26, 34, 48, 0.56) 20%, rgba(26, 34, 48, 0.18) 66%, rgba(26, 34, 48, 0.52) 100%),
-    linear-gradient(180deg, rgba(0, 0, 0, 0.02), rgba(0, 0, 0, 0.24));
+    radial-gradient(1200px 360px at 50% -12%, rgba(1, 212, 171, 0.2), transparent 56%),
+    radial-gradient(700px 300px at 88% 20%, rgba(88, 162, 255, 0.12), transparent 62%),
+    linear-gradient(180deg, var(--bg-1), var(--bg-0));
 }
 
-.market-home .topbar {
-  position: relative;
+.home-shell {
+  width: min(1200px, calc(100% - 24px));
+  margin: 0 auto;
+}
+
+.home-topbar {
+  position: sticky;
+  top: 0;
   z-index: 20;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 20px;
-  padding: 20px 26px;
-}
-
-.market-home .menu {
-  margin-top: 0;
-  font-size: 26px;
-  color: #fff;
-  border: 0;
-  background: transparent;
-  padding: 0;
-}
-
-.market-home .logo-center {
-  flex: 1;
-  text-align: center;
-}
-
-.market-home .topbar .logo {
-  position: static;
-  transform: none;
-  width: 180px;
-  max-width: 60vw;
-  pointer-events: auto;
-  filter: drop-shadow(0 8px 24px rgba(102, 216, 255, 0.25));
-}
-
-.market-home .topbar-right {
   gap: 12px;
+  padding: 10px 0;
+  background: linear-gradient(180deg, rgba(6, 11, 20, 0.86), rgba(6, 11, 20, 0.5));
+  backdrop-filter: blur(10px);
 }
 
-.market-home .market-main-nav {
-  position: relative;
-  z-index: 20;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  padding: 0 26px 12px;
+.home-logo {
+  width: 122px;
+  height: auto;
 }
 
-.market-home .market-main-nav a {
-  color: #d8e0f0;
-  text-decoration: none;
-  font-size: 12px;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  border: 1px solid rgba(255, 255, 255, 0.16);
-  border-radius: 999px;
-  padding: 7px 12px;
-  background: rgba(20, 28, 39, 0.5);
-  transition: border-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
-}
-
-.market-home .market-main-nav a:hover {
-  color: #ffffff;
-  border-color: rgba(1, 212, 171, 0.55);
-  transform: translateY(-1px);
-}
-
-.market-home .hero-content {
-  position: relative;
-  z-index: 3;
-  display: grid;
-  grid-template-columns: minmax(0, 1fr);
-  gap: 30px;
-  align-items: end;
-  padding: 80px 32px 44px;
-}
-
-.market-home .hero-copy {
-  max-width: 710px;
-  animation: rise 0.9s ease both;
-}
-
-.market-home .eyebrow {
-  display: inline-flex;
+.home-nav {
+  display: none;
   align-items: center;
   gap: 8px;
-  text-transform: uppercase;
-  letter-spacing: 0.14em;
-  font-weight: 700;
-  font-size: 11px;
-  color: #7ef7e1;
-  border: 1px solid rgba(1, 212, 171, 0.42);
+}
+
+.home-nav a {
+  text-decoration: none;
+  color: #dce4f3;
+  border: 1px solid rgba(255, 255, 255, 0.18);
   border-radius: 999px;
-  padding: 7px 14px;
-  margin-bottom: 18px;
-}
-
-.market-home .hero-region-note {
-  margin-top: 16px;
-  color: #e0e6f3;
+  padding: 6px 10px;
   font-size: 12px;
-  max-width: 520px;
-  line-height: 1.55;
 }
 
-.market-home h1 {
-  font-family: "Playfair Display", serif;
-  font-size: clamp(36px, 6.1vw, 72px);
-  line-height: 0.95;
+.lang-btn {
+  border: 1px solid var(--line);
+  background: rgba(255, 255, 255, 0.04);
+  color: #e8edf7;
+  border-radius: 999px;
+  min-height: 34px;
+  padding: 0 11px;
+  font-weight: 700;
+}
+
+.hero {
+  position: relative;
+  margin-top: 6px;
+  min-height: 68vh;
+  border-radius: 22px;
+  overflow: hidden;
+  border: 1px solid var(--line);
+}
+
+.hero-bg {
+  position: absolute;
+  inset: 0;
+  background: center/cover no-repeat;
+  transform: scale(1.04);
+  transition: transform 3.5s ease, background-image 0.6s ease;
+}
+
+.hero::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(110deg, rgba(10, 16, 28, 0.84) 8%, rgba(10, 16, 28, 0.28) 68%, rgba(10, 16, 28, 0.84) 100%),
+    linear-gradient(180deg, rgba(0, 0, 0, 0.08), rgba(0, 0, 0, 0.42));
+}
+
+.hero-content {
+  position: relative;
+  z-index: 1;
+  padding: 22px 16px 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  min-height: 68vh;
+}
+
+.hero h1 {
   margin: 0;
+  font-family: "Playfair Display", serif;
+  font-size: clamp(30px, 9.5vw, 62px);
+  line-height: 0.97;
   letter-spacing: -0.02em;
+  max-width: 13ch;
   text-wrap: balance;
 }
 
-.market-home .hero-sub {
-  margin-top: 20px;
-  color: var(--ink-muted);
-  font-size: clamp(15px, 1.7vw, 19px);
-  max-width: 560px;
-  line-height: 1.42;
-  text-wrap: pretty;
+.hero-sub {
+  margin: 12px 0 0;
+  color: #dbe3f2;
+  max-width: 33ch;
+  font-size: clamp(13px, 3.6vw, 17px);
 }
 
-.market-home .cta {
+.hero-cta {
+  margin-top: 14px;
   display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 14px;
-  margin-top: 28px;
+  gap: 8px;
 }
 
-.market-home .btn-primary,
-.market-home .btn-ghost {
-  position: relative;
-  min-height: 48px;
-  border-radius: 999px;
+.btn-main,
+.btn-ghost,
+.btn-view,
+.card-btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 0 22px;
-  font-weight: 700;
-  letter-spacing: 0.01em;
-  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
-}
-
-.market-home .btn-primary::before,
-.market-home .btn-primary::after {
-  content: none !important;
-}
-
-.market-home .btn-primary {
-  background: linear-gradient(120deg, #01d4ab, #4cf5d6 60%, #84ffea);
-  color: #041211;
-  box-shadow: 0 10px 25px rgba(1, 212, 171, 0.28);
-}
-
-.market-home .btn-ghost {
-  border: 1px solid rgba(255, 255, 255, 0.32);
-  background: rgba(39, 49, 66, 0.62);
-  color: #fff;
-}
-
-.market-home .btn-primary:hover,
-.market-home .btn-ghost:hover {
-  transform: translateY(-2px);
-}
-
-.market-home .btn-ghost:hover {
-  border-color: rgba(255, 255, 255, 0.6);
-}
-
-.market-home .market-section {
-  padding: 104px 0;
-}
-
-.market-home .gateway-grid {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 18px;
-}
-
-.market-home .gateway-card {
   text-decoration: none;
-  color: #eff4ff;
-  border: 1px solid rgba(255, 255, 255, 0.14);
-  background: linear-gradient(160deg, rgba(25, 35, 49, 0.92), rgba(32, 43, 60, 0.86));
-  border-radius: 22px;
-  padding: 20px;
-  min-height: 220px;
-  box-shadow: 0 14px 34px rgba(8, 12, 22, 0.28);
-  transition: transform 0.2s ease, border-color 0.2s ease;
-}
-
-.market-home .gateway-card:hover {
-  transform: translateY(-3px);
-  border-color: rgba(1, 212, 171, 0.48);
-}
-
-.market-home .gateway-tag {
-  display: inline-flex;
-  margin-bottom: 10px;
   border-radius: 999px;
-  padding: 4px 10px;
-  font-size: 11px;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: #6ff6df;
-  background: rgba(1, 212, 171, 0.14);
-}
-
-.market-home .gateway-card h3 {
-  font-size: 24px;
-  margin: 0;
-}
-
-.market-home .gateway-card p {
-  margin-top: 12px;
-  color: #b8c5da;
-  max-width: 30ch;
-}
-
-.market-home .category-feature-grid {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 20px;
-  margin-top: 24px;
-}
-
-.market-home .category-feature-card {
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  border-radius: 22px;
-  background: rgba(18, 27, 40, 0.82);
-  padding: 20px;
-}
-
-.market-home .category-feature-head {
-  display: flex;
-  justify-content: space-between;
-  align-items: baseline;
-  gap: 12px;
-}
-
-.market-home .category-feature-card ul {
-  margin: 16px 0 0;
-  padding: 0;
-  list-style: none;
-  display: grid;
-  gap: 12px;
-}
-
-.market-home .category-feature-card li {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  color: #dbe3f2;
-  font-size: 14px;
-}
-
-.market-home .category-feature-card li img {
-  width: 70px;
-  height: 92px;
-  border-radius: 12px;
-  object-fit: cover;
-  object-position: center top;
-  flex-shrink: 0;
-}
-
-.market-home .category-feature-card li strong {
-  display: block;
-  font-size: 16px;
-}
-
-.market-home .category-feature-card span {
-  color: #8fa4c3;
+  min-height: 40px;
+  padding: 0 14px;
   font-size: 13px;
+  font-weight: 800;
+  border: 0;
 }
 
-.market-home .curated-grid {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 20px;
+.btn-main {
+  color: #061914;
+  background: linear-gradient(120deg, var(--accent), var(--accent-2));
 }
 
-.market-home .curated-card {
-  border-radius: 20px;
-  padding: 22px;
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  background:
-    radial-gradient(480px 140px at 80% 0%, rgba(1, 212, 171, 0.13), transparent 60%),
-    rgba(24, 33, 48, 0.9);
+.btn-ghost {
+  color: #f5f8fc;
+  border: 1px solid rgba(255, 255, 255, 0.34);
+  background: rgba(255, 255, 255, 0.06);
 }
 
-.market-home .curated-label {
-  margin: 0 0 10px;
-  font-size: 11px;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-  color: #83f7e3;
+.section {
+  margin-top: 34px;
 }
 
-@media (max-width: 980px) {
-  .market-home .gateway-grid,
-  .market-home .curated-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .market-home .category-feature-grid {
-    grid-template-columns: 1fr;
-  }
-}
-
-.market-home .reveal-on-scroll {
-  opacity: 0;
-  transform: translateY(26px);
-  transition: opacity 0.7s ease, transform 0.7s ease;
-  transition-delay: var(--reveal-delay, 0ms);
-}
-
-.market-home .reveal-on-scroll.is-revealed {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-.market-home .section-head {
+.section-head {
   display: flex;
-  flex-wrap: wrap;
   justify-content: space-between;
-  align-items: end;
-  gap: 20px;
-  margin-bottom: 26px;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 12px;
 }
 
-.market-home .section-kicker {
-  text-transform: uppercase;
-  letter-spacing: 0.14em;
-  color: #91faeb;
-  font-size: 11px;
-  font-weight: 700;
-}
-
-.market-home h2 {
+.section h2 {
+  margin: 0;
+  font-size: clamp(21px, 5.6vw, 34px);
   font-family: "Playfair Display", serif;
-  font-size: clamp(31px, 4.6vw, 52px);
-  margin: 6px 0 0;
-  line-height: 1;
+  letter-spacing: -0.02em;
 }
 
-.market-home .section-desc {
-  max-width: 420px;
-  color: var(--ink-muted);
-  line-height: 1.45;
+.btn-view {
+  color: #d9e2f2;
+  border: 1px solid var(--line);
+  background: rgba(255, 255, 255, 0.03);
+  min-height: 32px;
+  padding: 0 12px;
 }
 
-.market-home .featured-grid {
+.gateway-grid {
   display: grid;
-  gap: 20px;
-  grid-template-columns: repeat(12, minmax(0, 1fr));
+  gap: 10px;
+  grid-template-columns: 1fr;
 }
 
-.market-home .release-card {
-  grid-column: span 4;
-  min-height: 430px;
-  border-radius: 24px;
+.gateway-card {
+  min-height: 130px;
+  border-radius: 18px;
   overflow: hidden;
   border: 1px solid var(--line);
-  background: #18202d;
   position: relative;
-  isolation: isolate;
+  text-decoration: none;
 }
 
-.market-home .release-card:nth-child(1) {
-  grid-column: span 7;
-}
-
-.market-home .release-card:nth-child(2) {
-  grid-column: span 5;
-}
-
-.market-home .release-art {
+.gateway-card img {
   position: absolute;
   inset: 0;
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: transform 0.5s ease;
-  filter: saturate(1.12);
+  filter: saturate(1.1);
 }
 
-.market-home .release-card::before {
+.gateway-card::after {
   content: "";
   position: absolute;
   inset: 0;
-  background: linear-gradient(to top, rgba(8, 11, 16, 0.8) 15%, rgba(8, 11, 16, 0.16) 70%);
-  z-index: 1;
+  background: linear-gradient(180deg, rgba(7, 11, 20, 0.18), rgba(7, 11, 20, 0.78));
 }
 
-.market-home .release-meta {
+.gateway-card span {
   position: absolute;
-  inset: auto 16px 16px;
-  z-index: 2;
-}
-
-.market-home .release-type {
-  display: inline-flex;
-  align-items: center;
-  border: 1px solid rgba(255, 255, 255, 0.35);
-  border-radius: 999px;
-  padding: 5px 11px;
-  font-size: 11px;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-  margin-bottom: 10px;
-}
-
-.market-home .release-title {
-  font-size: 22px;
-  font-weight: 800;
-  margin: 0;
-}
-
-.market-home .release-subline {
-  color: #d7deea;
-  margin-top: 4px;
-  font-size: 14px;
-}
-
-.market-home .release-cta {
-  margin-top: 12px;
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  font-weight: 700;
-  color: #8dfbea;
-  font-size: 13px;
-}
-
-.market-home .release-card:hover .release-art {
-  transform: scale(1.06);
-}
-
-.market-home .release-card:hover {
-  border-color: rgba(1, 212, 171, 0.55);
-}
-
-.market-home .how-grid,
-.market-home .benefit-grid {
-  display: grid;
-  gap: 16px;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-}
-
-.market-home .regional-pulse-grid {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 16px;
-}
-
-.market-home .pulse-card {
-  border-radius: 18px;
-  border: 1px solid var(--line);
-  padding: 22px;
-  background: rgba(24, 31, 44, 0.9);
-}
-
-.market-home .pulse-card h3 {
-  margin: 0;
+  left: 12px;
+  bottom: 12px;
+  z-index: 1;
+  font-size: 25px;
+  color: #f6f9ff;
   font-family: "Playfair Display", serif;
-  font-size: 23px;
 }
 
-.market-home .pulse-list {
-  margin: 16px 0 0;
-  padding: 0;
-  list-style: none;
+.product-grid {
   display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 10px;
 }
 
-.market-home .pulse-list li {
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 10px;
-  padding: 10px 12px;
-  color: #e0e6f2;
-  font-size: 14px;
+.product-card {
+  border-radius: 16px;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  background: rgba(16, 24, 39, 0.9);
+}
+
+.product-cover {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+  display: block;
+}
+
+.product-body {
+  padding: 10px;
+  display: grid;
+  gap: 6px;
+}
+
+.product-title {
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.25;
+}
+
+.product-meta {
+  margin: 0;
+  font-size: 11px;
+  color: var(--muted);
+}
+
+.product-foot {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 10px;
+  gap: 8px;
 }
 
-.market-home .pulse-list li.pulse-clickable {
-  cursor: pointer;
-}
-
-.market-home .pulse-list li.pulse-clickable:hover {
-  border-color: rgba(1, 212, 171, 0.48);
-  background: rgba(1, 212, 171, 0.08);
-}
-
-.market-home .pulse-list li.pulse-clickable:focus-visible {
-  outline: 2px solid rgba(1, 212, 171, 0.7);
-  outline-offset: 2px;
-}
-
-.market-home .pulse-list a {
-  color: inherit;
-  text-decoration: none;
-  min-width: 0;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-.market-home .pulse-meta {
-  color: #bac4d7;
+.product-price {
   font-size: 12px;
-  white-space: nowrap;
+  color: #89fde7;
+  font-weight: 700;
 }
 
-.market-home .journey {
+.card-btn {
+  min-height: 30px;
+  font-size: 11px;
+  padding: 0 10px;
+  color: #f6f8fd;
+  border: 1px solid rgba(255, 255, 255, 0.26);
+  background: rgba(255, 255, 255, 0.07);
+}
+
+.regional-grid {
+  display: grid;
+  gap: 10px;
+  grid-template-columns: 1fr;
+}
+
+.regional-card {
   border: 1px solid var(--line);
-  background: linear-gradient(180deg, rgba(29, 36, 50, 0.9), rgba(20, 25, 36, 0.9));
-  border-radius: 22px;
-  padding: 26px;
+  border-radius: 18px;
+  padding: 14px;
+  background: linear-gradient(160deg, rgba(20, 29, 46, 0.94), rgba(14, 21, 34, 0.94));
 }
 
-.market-home .journey h3,
-.market-home .benefit-title {
+.regional-title {
   margin: 0;
-  font-size: 24px;
   font-family: "Playfair Display", serif;
+  font-size: 21px;
 }
 
-.market-home .journey ul {
-  margin: 18px 0 0;
+.regional-list {
+  margin: 12px 0 0;
   padding: 0;
   list-style: none;
   display: grid;
-  gap: 11px;
+  gap: 8px;
 }
 
-.market-home .journey li {
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 12px;
-  padding: 12px 14px;
+.regional-list a {
+  text-decoration: none;
   display: flex;
-  gap: 12px;
-  align-items: baseline;
-}
-
-.market-home .journey li span {
-  color: #8dfbea;
-  font-weight: 700;
-  min-width: 22px;
-}
-
-.market-home .benefit {
-  border-radius: 18px;
-  border: 1px solid var(--line);
-  padding: 24px;
-  background: rgba(23, 29, 41, 0.9);
-  transition: transform 0.25s ease, border-color 0.25s ease;
-}
-
-.market-home .benefit:hover {
-  transform: translateY(-3px);
-  border-color: rgba(102, 216, 255, 0.45);
-}
-
-.market-home .benefit-title {
-  font-size: 20px;
-}
-
-.market-home .benefit p {
-  margin-top: 10px;
-  color: var(--ink-muted);
-  line-height: 1.55;
-  font-size: 14px;
-}
-
-.market-home .final-cta {
-  padding-bottom: 96px;
-}
-
-.market-home .artist-strip {
-  margin-top: 8px;
-}
-
-.market-home .artist-panel {
-  border-radius: 24px;
-  border: 1px solid rgba(1, 212, 171, 0.38);
-  background:
-    radial-gradient(680px 260px at 88% 2%, rgba(102, 216, 255, 0.24), transparent 65%),
-    radial-gradient(760px 300px at 8% 20%, rgba(76, 245, 214, 0.18), transparent 65%),
-    linear-gradient(180deg, rgba(23, 30, 43, 0.96), rgba(16, 21, 31, 0.98));
-  padding: clamp(24px, 4vw, 42px);
-}
-
-.market-home .artist-panel-grid {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) auto;
-  gap: 24px;
+  justify-content: space-between;
   align-items: center;
-}
-
-.market-home .artist-panel h2 {
-  margin: 0;
-}
-
-.market-home .artist-panel p {
-  margin-top: 12px;
-  color: #d5dcec;
-  max-width: 650px;
-  line-height: 1.6;
-}
-
-.market-home .artist-actions {
-  display: flex;
-  gap: 12px;
-  flex-wrap: wrap;
-  justify-content: flex-end;
-}
-
-.market-home .cta-panel {
-  border-radius: 28px;
-  border: 1px solid rgba(1, 212, 171, 0.38);
-  padding: clamp(30px, 5vw, 54px);
-  background:
-    radial-gradient(900px 280px at 75% 12%, rgba(1, 212, 171, 0.2), transparent 66%),
-    radial-gradient(750px 300px at 12% 20%, rgba(76, 245, 214, 0.16), transparent 60%),
-    linear-gradient(180deg, rgba(18, 22, 31, 0.98), rgba(9, 11, 16, 0.98));
-  text-align: center;
-}
-
-.market-home .cta-panel h2 {
-  margin: 0;
-}
-
-.market-home .cta-panel p {
-  margin: 12px auto 26px;
-  max-width: 660px;
-  color: #d6ddee;
-  line-height: 1.6;
-}
-
-.market-home .placeholder-msg {
-  border: 1px dashed rgba(255, 255, 255, 0.2);
-  border-radius: 18px;
-  padding: 36px 20px;
-  color: #c9d1e4;
-  text-align: center;
-}
-
-.market-home .lang,
-.market-home .profile-icon {
-  border: 0;
-}
-
-.market-home .menu-logout {
-  width: 100%;
-  text-align: left;
-  padding: 10px;
-  border-radius: 8px;
-  background: transparent;
-  color: #fff;
-  font-size: 14px;
-}
-
-.market-home .menu-logout:hover {
-  background: rgba(255, 255, 255, 0.05);
-}
-
-@keyframes rise {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@media (max-width: 980px) {
-  .market-home .hero {
-    min-height: 760px;
-  }
-
-  .market-home .hero-content {
-    grid-template-columns: 1fr;
-    padding-top: 44px;
-  }
-
-  .market-home .release-card,
-  .market-home .release-card:nth-child(1),
-  .market-home .release-card:nth-child(2) {
-    grid-column: span 6;
-  }
-
-  .market-home .how-grid,
-  .market-home .benefit-grid,
-  .market-home .regional-pulse-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .market-home .artist-panel-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .market-home .artist-actions {
-    justify-content: flex-start;
-  }
-}
-
-@media (max-width: 700px) {
-  .market-home .site-shell {
-    width: calc(100% - 28px);
-  }
-
-  .market-home .hero {
-    width: calc(100% - 12px);
-    border-radius: 18px;
-    margin-top: 8px;
-    min-height: 700px;
-  }
-
-  .market-home .hero::after {
-    background:
-      linear-gradient(100deg, rgba(12, 15, 22, 0.66) 18%, rgba(12, 15, 22, 0.24) 65%, rgba(12, 15, 22, 0.62) 100%),
-      linear-gradient(180deg, rgba(0, 0, 0, 0.03), rgba(0, 0, 0, 0.36));
-  }
-
-  .market-home .topbar {
-    padding: 16px;
-  }
-
-  .market-home .topbar .logo {
-    width: 132px;
-  }
-
-  .market-home .hero-content {
-    padding: 14px 16px 16px;
-    gap: 11px;
-  }
-
-  .market-home .hero-copy {
-    max-width: 34ch;
-  }
-
-  .market-home .eyebrow {
-    margin-bottom: 12px;
-    font-size: 10px;
-    padding: 6px 12px;
-  }
-
-  .market-home h1 {
-    font-size: clamp(23px, 6.9vw, 29px);
-    line-height: 0.98;
-    letter-spacing: -0.014em;
-    text-shadow: 0 3px 16px rgba(0, 0, 0, 0.32);
-    max-width: 15.2ch;
-  }
-
-  .market-home .hero-sub {
-    font-size: clamp(12px, 3vw, 13.5px);
-    font-weight: 590;
-    line-height: 1.38;
-    margin-top: 9px;
-    color: rgba(236, 242, 252, 0.95);
-    text-shadow: 0 2px 12px rgba(0, 0, 0, 0.28);
-    max-width: 34ch;
-  }
-
-  .market-home .hero-region-note {
-    font-size: 10.5px;
-    font-weight: 540;
-    margin-top: 8px;
-    line-height: 1.36;
-    color: rgba(221, 230, 245, 0.94);
-    max-width: 40ch;
-  }
-
-  .market-home .cta {
-    margin-top: 12px;
-    gap: 8px;
-  }
-
-  .market-home .btn-primary,
-  .market-home .btn-ghost {
-    min-height: 42px;
-    padding: 0 14px;
-    font-size: 12.5px;
-  }
-
-  .market-home .market-section {
-    padding: 66px 0;
-  }
-
-  .market-home .release-card,
-  .market-home .release-card:nth-child(1),
-  .market-home .release-card:nth-child(2) {
-    grid-column: span 12;
-    min-height: 285px;
-  }
-
-  .market-home .release-card:nth-child(1) {
-    min-height: 430px;
-  }
-
-  .market-home .release-meta {
-    inset: auto 14px 14px;
-  }
-
-  .market-home .release-title {
-    font-size: 20px;
-  }
-
-  .market-home .category-feature-card {
-    padding: 16px;
-  }
-
-  .market-home .category-feature-card li {
-    gap: 12px;
-  }
-
-  .market-home .category-feature-card li img {
-    width: 76px;
-    height: 108px;
-    border-radius: 10px;
-  }
-}
-
-@media (max-width: 540px) {
-  .market-home .release-card:nth-child(1) {
-    min-height: 390px;
-  }
-
-  .market-home .release-card,
-  .market-home .release-card:nth-child(2) {
-    min-height: 260px;
-  }
-
-  .market-home .release-type {
-    font-size: 10px;
-    padding: 4px 9px;
-  }
-
-  .market-home .release-meta {
-    inset: auto 12px 12px;
-  }
-
-  .market-home .release-title {
-    font-size: 19px;
-  }
-
-  .market-home .release-subline {
-    font-size: 12px;
-  }
-}
-
-@media (max-width: 380px) {
-  .market-home .hero {
-    min-height: 670px;
-  }
-
-  .market-home .hero-content {
-    padding: 12px 14px 14px;
-    gap: 9px;
-  }
-
-  .market-home .hero-copy {
-    max-width: 31ch;
-  }
-
-  .market-home .eyebrow {
-    margin-bottom: 9px;
-    font-size: 9.5px;
-    padding: 5px 10px;
-  }
-
-  .market-home h1 {
-    font-size: clamp(20px, 7.2vw, 25px);
-    line-height: 0.98;
-    max-width: 14.6ch;
-  }
-
-  .market-home .hero-sub {
-    font-size: 11.5px;
-    font-weight: 610;
-    line-height: 1.34;
-    margin-top: 8px;
-    max-width: 31ch;
-  }
-
-  .market-home .hero-region-note {
-    font-size: 9.8px;
-    margin-top: 7px;
-    line-height: 1.32;
-    max-width: 35ch;
-  }
-
-  .market-home .cta {
-    margin-top: 11px;
-    gap: 7px;
-  }
-
-  .market-home .btn-primary,
-  .market-home .btn-ghost {
-    min-height: 40px;
-    padding: 0 12px;
-    font-size: 12px;
-  }
-
-  .market-home .release-card:nth-child(1) {
-    min-height: 360px;
-  }
-
-  .market-home .release-card,
-  .market-home .release-card:nth-child(2) {
-    min-height: 270px;
-  }
-
-  .market-home .release-title {
-    font-size: 18px;
-  }
-
-  .market-home .release-subline {
-    font-size: 12.5px;
-  }
-
-  .market-home .category-feature-card li img {
-    width: 70px;
-    height: 100px;
-  }
-
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .market-home * {
-    transition: none !important;
-    animation: none !important;
-  }
-
-  .market-home .reveal-on-scroll,
-  .market-home .reveal-on-scroll.is-revealed {
-    opacity: 1 !important;
-    transform: none !important;
-  }
-}
-
-/* ---- ARTIST PRICING PROMO SECTION ---- */
-.market-home .plans-strip {
-  margin-top: 0;
-}
-
-.market-home .plans-panel {
-  border-radius: 24px;
-  border: 1px solid rgba(1, 212, 171, 0.32);
-  background:
-    radial-gradient(700px 280px at 88% 4%, rgba(67, 241, 208, 0.18), transparent 62%),
-    radial-gradient(600px 240px at 6% 84%, rgba(1, 212, 171, 0.14), transparent 60%),
-    linear-gradient(180deg, rgba(19, 26, 40, 0.97), rgba(13, 18, 28, 0.98));
-  padding: clamp(28px, 4vw, 48px);
-  display: grid;
-  grid-template-columns: 1fr auto;
-  gap: 28px;
-  align-items: center;
-}
-
-.market-home .mini-plans {
-  display: flex;
-  gap: 12px;
-  flex-wrap: wrap;
-  margin-top: 20px;
-}
-
-.market-home .mini-plan {
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 16px;
-  padding: 14px 16px;
-  min-width: 148px;
-  background: rgba(255, 255, 255, 0.03);
-}
-
-.market-home .mini-plan.mini-pro {
-  border-color: rgba(1, 212, 171, 0.42);
-  background: rgba(1, 212, 171, 0.06);
-}
-
-.market-home .mini-plan-name {
-  font-family: "Playfair Display", serif;
-  font-size: 15px;
-  font-weight: 700;
-  color: #f0f4fb;
-  margin: 0 0 5px;
-}
-
-.market-home .mini-plan.mini-pro .mini-plan-name {
-  color: #6dfae0;
-}
-
-.market-home .mini-plan-price {
-  font-size: 20px;
-  font-weight: 800;
-  line-height: 1;
-  letter-spacing: -0.02em;
-  color: #f6f7fb;
-  margin: 0 0 4px;
-}
-
-.market-home .mini-plan-fee {
+  color: #e6ecf7;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 10px;
+  padding: 9px 10px;
   font-size: 12px;
-  color: #9dafc8;
 }
 
-.market-home .mini-plan.mini-pro .mini-plan-fee {
-  color: #7be8d0;
+.creator-cta {
+  border: 1px solid rgba(1, 212, 171, 0.5);
+  border-radius: 20px;
+  padding: 22px 14px;
+  margin: 42px 0 24px;
+  text-align: center;
+  background:
+    radial-gradient(400px 140px at 50% 0%, rgba(1, 212, 171, 0.18), transparent 70%),
+    linear-gradient(180deg, rgba(18, 25, 39, 0.95), rgba(10, 15, 24, 0.95));
 }
 
-@media (max-width: 860px) {
-  .market-home .plans-panel {
-    grid-template-columns: 1fr;
+.creator-cta h3 {
+  margin: 0;
+  font-size: clamp(22px, 6vw, 34px);
+  font-family: "Playfair Display", serif;
+}
+
+@media (min-width: 780px) {
+  .home-shell {
+    width: min(1240px, calc(100% - 44px));
   }
-}
 
-@media (max-width: 700px) {
-  .market-home .mini-plan {
-    min-width: 130px;
-    padding: 12px 14px;
+  .home-nav {
+    display: flex;
+  }
+
+  .hero,
+  .hero-content {
+    min-height: 76vh;
+  }
+
+  .hero-content {
+    padding: 32px 30px;
+  }
+
+  .gateway-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 14px;
+  }
+
+  .gateway-card {
+    min-height: 190px;
+  }
+
+  .product-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 14px;
+  }
+
+  .regional-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 14px;
   }
 }
 </style>
 </head>
+<body class="home-v4">
+<div class="home-shell">
+  <header class="home-topbar">
+    <a href="/index.html" aria-label="Home"><img class="home-logo" src="/assets/logo.png" alt="JENGU"></a>
+    <nav class="home-nav" aria-label="Main">
+      <a href="/discover.html" data-i18n="discoverNav">Discover</a>
+      <a href="/browse.html" data-i18n="musicNav">Music</a>
+      <a href="/movies.html" data-i18n="moviesNav">Movies</a>
+      <a href="/events.html" data-i18n="eventsNav">Events</a>
+      <a href="/merch.html" data-i18n="merchNav">Merch</a>
+    </nav>
+    <button id="langBtn" class="lang-btn" type="button">FR ▾</button>
+  </header>
 
-<body class="market-home">
+  <section class="hero" aria-label="Hero">
+    <div id="heroBg" class="hero-bg" aria-hidden="true"></div>
+    <div class="hero-content">
+      <h1 id="heroTitle" data-i18n="homeV4HeroTitle">Own Music. Discover Culture.</h1>
+      <p id="heroSub" class="hero-sub" data-i18n="homeV4HeroSub">Premium marketplace for music, movies, events, and merch.</p>
+      <div class="hero-cta">
+        <a id="heroExplore" href="/discover.html" class="btn-main" data-i18n="exploreOne">Explore</a>
+        <a id="heroSell" href="/artist/signup.html" class="btn-ghost" data-i18n="sellOne">Sell</a>
+      </div>
+    </div>
+  </section>
 
-<div id="sideMenu" class="side-menu" aria-label="Site menu">
-  <a href="/discover.html" data-i18n="discoverNav">Decouvrir</a>
-  <a href="/browse.html" data-i18n="musicNav">Musique</a>
-  <a href="/movies.html" data-i18n="moviesNav">Films</a>
-  <a href="/events.html" data-i18n="eventsNav">Evenements</a>
-  <a href="/merch.html" data-i18n="merchNav">Merch</a>
-  <a href="/creators.html" data-i18n="creatorsNav">Createurs</a>
-  <a href="/user/library.html">Ma Bibliotheque</a>
-  <a href="/user/purchases.html">Mes Achats</a>
-  <a href="/settings.html">Parametres</a>
-  <hr style="border-color:rgba(255,255,255,0.08);margin:4px 0;">
-  <a href="/artist-pricing.html" style="color:#6dfae0;" data-i18n="artistPricingNav">Tarifs Artiste</a>
-  <a href="/artist/signup.html" data-i18n="sellOnJenguNav">Vendre sur JENGU</a>
+  <section class="section" aria-labelledby="gatewayTitle">
+    <div class="section-head">
+      <h2 id="gatewayTitle" data-i18n="homeV4Discover">Discover</h2>
+    </div>
+    <div class="gateway-grid">
+      <a class="gateway-card" href="/browse.html"><img src="/assets/covers/album1.png" alt="Music"><span>Music</span></a>
+      <a class="gateway-card" href="/movies.html"><img src="/assets/covers/cover3.png" alt="Movies"><span>Movies</span></a>
+      <a class="gateway-card" href="/events.html"><img src="/assets/covers/cover7.png" alt="Events"><span>Events</span></a>
+      <a class="gateway-card" href="/merch.html"><img src="/assets/covers/cover6.png" alt="Merch"><span>Merch</span></a>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="trendingTitle">
+    <div class="section-head">
+      <h2 id="trendingTitle" data-i18n="homeV4Trending">Trending</h2>
+      <a class="btn-view" href="/discover.html" data-i18n="view">View</a>
+    </div>
+    <div class="product-grid" id="trendingGrid"></div>
+  </section>
+
+  <section class="section" aria-labelledby="newTitle">
+    <div class="section-head">
+      <h2 id="newTitle" data-i18n="homeV4New">New</h2>
+      <a class="btn-view" href="/new-releases.html" data-i18n="view">View</a>
+    </div>
+    <div class="product-grid" id="newGrid"></div>
+  </section>
+
+  <section class="section" aria-labelledby="eventsTitle">
+    <div class="section-head">
+      <h2 id="eventsTitle" data-i18n="homeV4Events">Events</h2>
+      <a class="btn-view" href="/events.html" data-i18n="view">View</a>
+    </div>
+    <div class="product-grid" id="eventsGrid"></div>
+  </section>
+
+  <section class="section" aria-labelledby="moviesTitle">
+    <div class="section-head">
+      <h2 id="moviesTitle" data-i18n="homeV4Movies">Movies</h2>
+      <a class="btn-view" href="/movies.html" data-i18n="view">View</a>
+    </div>
+    <div class="product-grid" id="moviesGrid"></div>
+  </section>
+
+  <section class="section" aria-labelledby="merchTitle">
+    <div class="section-head">
+      <h2 id="merchTitle" data-i18n="homeV4Merch">Merch</h2>
+      <a class="btn-view" href="/merch.html" data-i18n="view">View</a>
+    </div>
+    <div class="product-grid" id="merchGrid"></div>
+  </section>
+
+  <section class="section" aria-labelledby="regionalTitle">
+    <div class="section-head">
+      <h2 id="regionalTitle" data-i18n="homeV4Regional">Regional</h2>
+    </div>
+    <div class="regional-grid">
+      <article class="regional-card">
+        <h3 id="cmTitle" class="regional-title" data-i18n="homeV4Cameroon">Cameroon Spotlight</h3>
+        <ul id="cmList" class="regional-list"></ul>
+      </article>
+      <article class="regional-card">
+        <h3 id="frTitle" class="regional-title" data-i18n="homeV4Francophone">Francophone Picks</h3>
+        <ul id="frList" class="regional-list"></ul>
+      </article>
+    </div>
+  </section>
+
+  <section class="creator-cta" aria-labelledby="creatorTitle">
+    <h3 id="creatorTitle" data-i18n="homeV4Creator">Sell your work</h3>
+    <div class="hero-cta" style="justify-content:center; margin-top:12px;">
+      <a id="creatorSell" class="btn-main" href="/artist/signup.html" data-i18n="sellOne">Sell</a>
+    </div>
+  </section>
 </div>
 
-<header class="hero" role="banner">
-  <div class="hero-bg" aria-hidden="true"></div>
-
-  <div class="topbar">
-    <button class="menu" id="menuBtn" aria-label="Open navigation menu">☰</button>
-
-    <div class="logo-center">
-      <a href="/index.html" aria-label="Go to homepage">
-        <img src="/assets/logo.png" class="logo" alt="JENGU logo">
-      </a>
-    </div>
-
-    <div class="topbar-right">
-      <button class="lang" id="langBtn" type="button">FR ▾</button>
-
-      <div class="profile-wrapper">
-        <button class="profile-icon" id="profileBtn" type="button" aria-label="Open account menu">👤</button>
-        <div id="profileMenu" class="profile-menu" role="menu">
-          <a href="/user/login.html" data-i18n="login" role="menuitem"></a>
-          <a href="/user/signup.html" data-i18n="signup" role="menuitem"></a>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <nav class="market-main-nav" aria-label="Main marketplace categories">
-    <a href="/discover.html" data-i18n="discoverNav">Decouvrir</a>
-    <a href="/browse.html" data-i18n="musicNav">Musique</a>
-    <a href="/movies.html" data-i18n="moviesNav">Films</a>
-    <a href="/events.html" data-i18n="eventsNav">Evenements</a>
-    <a href="/merch.html" data-i18n="merchNav">Merch</a>
-    <a href="/creators.html" data-i18n="creatorsNav">Createurs</a>
-    <a href="/artist-pricing.html" data-i18n="artistPricingNav">Tarifs Artiste</a>
-    <a href="/artist/signup.html" data-i18n="sellOnJenguNav">Vendre sur JENGU</a>
-  </nav>
-
-  <div class="hero-content">
-    <div class="hero-copy">
-      <div class="eyebrow" data-i18n="homeEyebrow">Marketplace Premium De Culture Numerique</div>
-      <h1 id="heroTitle">Marketplace Premium de Culture Numerique Africaine</h1>
-      <p class="hero-sub" id="heroSubtitle">Musique, films et evenements. Decouvrez et achetez en direct.</p>
-
-      <div class="cta">
-        <a href="/discover.html" class="btn-primary" id="heroPrimaryCta" aria-label="Explore the marketplace">Discover</a>
-        <a href="/artist/signup.html" class="btn-ghost" id="heroSecondaryCta" aria-label="Sell on JENGU as a creator">Sell</a>
-      </div>
-    </div>
-
-  </div>
-</header>
-
-<main>
-  <section class="market-section site-shell reveal-on-scroll" aria-labelledby="gateway-heading">
-    <div class="section-head">
-      <div>
-        <div class="section-kicker" data-i18n="homeGatewayKicker">Portes d'Entree</div>
-        <h2 id="gateway-heading" data-i18n="homeGatewayHeading">Commencez par une Categorie</h2>
-      </div>
-      <p class="section-desc" data-i18n="homeGatewaySub">Des points d'entree choisis pour acheter, regarder et sortir.</p>
-    </div>
-
-    <div class="gateway-grid">
-      <a class="gateway-card" href="/browse.html" aria-label="Go to Music category">
-        <span class="gateway-tag" data-i18n="musicNav">Musique</span>
-        <h3 data-i18n="homeGatewayMusicTitle">Musique en Vedette</h3>
-        <p data-i18n="homeGatewayMusicSub">Albums et morceaux a posseder maintenant.</p>
-      </a>
-      <a class="gateway-card" href="/movies.html" aria-label="Go to Movies category">
-        <span class="gateway-tag" data-i18n="moviesNav">Films</span>
-        <h3 data-i18n="homeGatewayMoviesTitle">Films en Vedette</h3>
-        <p data-i18n="homeGatewayMoviesSub">Nouveaux films, docs et courts formats.</p>
-      </a>
-      <a class="gateway-card" href="/events.html" aria-label="Go to Events category">
-        <span class="gateway-tag" data-i18n="eventsNav">Evenements</span>
-        <h3 data-i18n="homeGatewayEventsTitle">Evenements a Venir</h3>
-        <p data-i18n="homeGatewayEventsSub">Projections, sets et nuits creatrices.</p>
-      </a>
-      <a class="gateway-card" href="/merch.html" aria-label="Go to Merch category">
-        <span class="gateway-tag" data-i18n="merchNav">Merch</span>
-        <h3 data-i18n="homeGatewayMerchTitle">Merch en Vedette</h3>
-        <p data-i18n="homeGatewayMerchSub">Apparel, objets collector et drops physiques.</p>
-      </a>
-    </div>
-  </section>
-
-  <section class="market-section site-shell reveal-on-scroll" aria-labelledby="featured-heading">
-    <div class="section-head">
-      <div>
-        <div class="section-kicker" id="featuredKicker">Selection Principale</div>
-        <h2 id="featured-heading">Marketplace en Vedette</h2>
-      </div>
-      <p class="section-desc" id="featuredDesc">Nouvelles sorties choisies pour une decouverte rapide.</p>
-    </div>
-
-    <div class="featured-grid" id="featuredReleases" aria-live="polite">
-      <div class="placeholder-msg">Chargement des sorties en vedette...</div>
-    </div>
-
-    <div class="category-feature-grid">
-      <article class="category-feature-card">
-        <div class="category-feature-head">
-          <h3 data-i18n="homeFeaturedMoviesTitle">Films en Vedette</h3>
-          <a href="/movies.html" data-i18n="homeViewAll">Voir tout</a>
-        </div>
-        <ul>
-          <li><img src="/assets/covers/cover3.png" alt="Minuit a Douala"><div><strong data-i18n="homeMovieSpot1Title">Minuit a Douala</strong><span data-i18n="homeMovieSpot1Meta">Drame</span></div></li>
-          <li><img src="/assets/covers/cover5.png" alt="Les Voix du Marche"><div><strong data-i18n="homeMovieSpot2Title">Les Voix du Marche</strong><span data-i18n="homeMovieSpot2Meta">Documentaire</span></div></li>
-          <li><img src="/assets/covers/cover6.png" alt="Lever du Sahel"><div><strong data-i18n="homeMovieSpot3Title">Lever du Sahel</strong><span data-i18n="homeMovieSpot3Meta">Court metrage</span></div></li>
-        </ul>
-      </article>
-      <article class="category-feature-card">
-        <div class="category-feature-head">
-          <h3 data-i18n="homeFeaturedEventsTitle">Evenements en Vedette</h3>
-          <a href="/events.html" data-i18n="homeViewAll">Voir tout</a>
-        </div>
-        <ul>
-          <li><img src="/assets/covers/cover7.png" alt="Nuit des Createurs de Yaounde"><div><strong data-i18n="homeEventSpot1Title">Nuit des Createurs de Yaounde</strong><span data-i18n="homeEventSpot1Meta">14 Mai</span></div></li>
-          <li><img src="/assets/covers/cover2.png" alt="Week-end Afro-Cinema"><div><strong data-i18n="homeEventSpot2Title">Week-end Afro-Cinema</strong><span data-i18n="homeEventSpot2Meta">22 Mai</span></div></li>
-          <li><img src="/assets/covers/cover1.png" alt="Salon d'Ecoute JENGU"><div><strong data-i18n="homeEventSpot3Title">Salon d'Ecoute JENGU</strong><span data-i18n="homeEventSpot3Meta">31 Mai</span></div></li>
-        </ul>
-      </article>
-      <article class="category-feature-card">
-        <div class="category-feature-head">
-          <h3 data-i18n="homeFeaturedMerchTitle">Merch en Vedette</h3>
-          <a href="/merch.html" data-i18n="homeViewAll">Voir tout</a>
-        </div>
-        <ul>
-          <li><img src="/assets/covers/cover6.png" alt="T-shirt Signature JENGU Live"><div><strong data-i18n="homeMerchSpot1Title">T-shirt Signature JENGU Live</strong><span data-i18n="homeMerchSpot1Meta">Edition limitee</span></div></li>
-          <li><img src="/assets/covers/cover5.png" alt="Pack Collector Afro-Cinema"><div><strong data-i18n="homeMerchSpot2Title">Pack Collector Afro-Cinema</strong><span data-i18n="homeMerchSpot2Meta">Bundle physique</span></div></li>
-          <li><img src="/assets/covers/cover6.png" alt="Capsule Creator Night"><div><strong data-i18n="homeMerchSpot3Title">Capsule Creator Night</strong><span data-i18n="homeMerchSpot3Meta">Stock reduit</span></div></li>
-        </ul>
-      </article>
-    </div>
-  </section>
-
-  <section class="market-section site-shell reveal-on-scroll" aria-labelledby="curated-heading">
-    <div class="section-head">
-      <div>
-        <div class="section-kicker" data-i18n="homeCuratedKicker">Selection Editoriale</div>
-        <h2 id="curated-heading" data-i18n="homeCuratedHeading">Collections Curatees</h2>
-      </div>
-      <p class="section-desc" data-i18n="homeCuratedSub">Une selection breve signee par notre desk editorial.</p>
-    </div>
-
-    <div class="curated-grid">
-      <article class="curated-card">
-        <p class="curated-label" data-i18n="homeCollectionLabel">Collection</p>
-        <h3 data-i18n="homeCurated1Title">Nouvelles Voix Francophones</h3>
-        <p data-i18n="homeCurated1Sub">Nouveaux artistes et cineastes a collectionner.</p>
-      </article>
-      <article class="curated-card">
-        <p class="curated-label" data-i18n="homeStaffPicksLabel">Choix du Desk</p>
-        <h3 data-i18n="homeCurated2Title">Week-end Voir + Ecouter</h3>
-        <p data-i18n="homeCurated2Sub">Une selection rapide pour ce week-end.</p>
-      </article>
-      <article class="curated-card">
-        <p class="curated-label" data-i18n="homeCityEditLabel">Edit Ville</p>
-        <h3 data-i18n="homeCurated3Title">Douala Underground</h3>
-        <p data-i18n="homeCurated3Sub">Une coupe locale de sorties et de moments live.</p>
-      </article>
-      <article class="curated-card">
-        <p class="curated-label" data-i18n="homeCollectionLabel">Collection</p>
-        <h3 data-i18n="homeCuratedMerchTitle">Collector Shelf</h3>
-        <p data-i18n="homeCuratedMerchSub">Les drops merch a prendre avant rupture.</p>
-      </article>
-    </div>
-  </section>
-
-  <section class="market-section site-shell reveal-on-scroll" aria-labelledby="regional-pulse-heading">
-    <div class="section-head">
-      <div>
-        <div class="section-kicker" id="regionalPulseKicker">En Ce Moment</div>
-        <h2 id="regional-pulse-heading">Tendances Marketplace</h2>
-      </div>
-      <p class="section-desc" id="regionalPulseDesc">Musique, films et evenements a suivre maintenant.</p>
-    </div>
-
-    <div class="regional-pulse-grid">
-      <article class="pulse-card" aria-labelledby="pulse-artists-heading">
-        <h3 id="pulse-artists-heading" data-i18n="homePulseFeaturedMusic">Musique en Vedette</h3>
-        <ul class="pulse-list" id="regionalFeaturedArtists">
-          <li data-i18n="homeLoadingFeaturedMusic">Chargement de la musique...</li>
-        </ul>
-      </article>
-
-      <article class="pulse-card" aria-labelledby="pulse-trending-heading">
-        <h3 id="pulse-trending-heading" data-i18n="homePulseTrendingReleases">Sorties Tendance</h3>
-        <ul class="pulse-list" id="regionalTrending">
-          <li data-i18n="homeLoadingTrending">Chargement des tendances...</li>
-        </ul>
-      </article>
-
-      <article class="pulse-card" aria-labelledby="pulse-new-heading">
-        <h3 id="pulse-new-heading" data-i18n="homePulseFeaturedMovies">Films en Vedette</h3>
-        <ul class="pulse-list" id="regionalNewReleases">
-          <li data-i18n="homeLoadingMovies">Chargement des films...</li>
-        </ul>
-      </article>
-
-      <article class="pulse-card" aria-labelledby="pulse-events-heading">
-        <h3 id="pulse-events-heading" data-i18n="homePulseUpcomingEvents">Evenements a Venir</h3>
-        <ul class="pulse-list" id="regionalEvents">
-          <li data-i18n="homeLoadingEvents">Chargement des evenements...</li>
-        </ul>
-      </article>
-
-      <article class="pulse-card" aria-labelledby="pulse-merch-heading">
-        <h3 id="pulse-merch-heading" data-i18n="homePulseFeaturedMerch">Merch en Vedette</h3>
-        <ul class="pulse-list">
-          <li>T-shirt Signature JENGU Live</li>
-          <li>Pack Collector Afro-Cinema</li>
-          <li>Capsule Creator Night</li>
-        </ul>
-      </article>
-    </div>
-  </section>
-
-  <section class="market-section artist-strip site-shell reveal-on-scroll" aria-labelledby="artist-strip-heading">
-    <div class="artist-panel">
-      <div class="artist-panel-grid">
-        <div>
-          <div class="section-kicker" data-i18n="homeArtistStripKicker">Pour les artistes prets a vendre</div>
-          <h2 id="artist-strip-heading">Vendre sur JENGU</h2>
-          <p id="artistStripBody">Lancez votre storefront et publiez en quelques minutes.</p>
-        </div>
-        <div class="artist-actions">
-          <a href="/artist/publish-new-release.html" class="btn-primary" id="artistPrimaryCta" aria-label="Publier une nouvelle sortie">Publish</a>
-          <a href="/artist/creator-hub.html" class="btn-ghost" id="artistSecondaryCta" aria-label="Ouvrir le hub createur">Hub</a>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section class="market-section final-cta site-shell reveal-on-scroll" aria-labelledby="final-cta-heading">
-    <div class="cta-panel">
-      <h2 id="final-cta-heading" data-i18n="homeFinalHeading">Construisez Votre Storefront sur JENGU</h2>
-      <p data-i18n="homeFinalSub">Creez votre compte. Publiez. Commencez a vendre.</p>
-      <a href="/artist/signup.html" class="btn-primary" aria-label="Create artist account" data-i18n="homeArtistSignup">Inscription Artiste</a>
-    </div>
-  </section>
-</main>
-
 <script type="module">
-import { initLang, applyLang, translate } from "/js/lang.js";
-import { fetchBrowseResults } from "/js/api.js";
-import { getCurrentUser, logout } from "/js/auth.js";
+import { initLang, getLang, translate } from "/js/lang.js";
+import { marketplaceItems, getLocalizedValue } from "/js/marketplace-catalog.js";
+import { getCurrentUser } from "/js/auth.js";
 
 initLang();
-
-const copyVariants = {
-  A: {
-    en: {
-      heroTitle: "Premium Music Ownership For Cameroon And Francophone Africa",
-      heroSubtitle: "Discover and own music from Africa's leading artists. Preview instantly and buy with confidence.",
-      heroRegionNote: "Built for artists across Cameroon and French-speaking Africa, connecting exceptional talent to fans who buy direct.",
-      heroPrimaryCta: "Explore Music",
-      heroSecondaryCta: "Sell Your Music",
-      featuredKicker: "Featured African Artists",
-      featuredTitle: "Discover And Own Music From Africa's Leading Artists",
-      featuredDesc: "Curated selections from Cameroon and Francophone Africa. Every release supports artists directly through premium download ownership.",
-      regionalPulseKicker: "Marketplace Trust And Community",
-      regionalPulseTitle: "Support African Artists. Buy Music Direct.",
-      regionalPulseDesc: "Explore what is moving across the region with highlights tailored for Cameroon and the wider French-speaking African music scene.",
-      artistStripTitle: "Built For Artists Across Cameroon And French-Speaking Africa",
-      artistStripBody: "Upload tracks, set your prices, and sell direct to fans across the region with a premium download-first storefront.",
-      artistPrimaryCta: "Publish New Release",
-      artistSecondaryCta: "Open Creator Hub"
-    },
-    fr: {
-      heroTitle: "La Marketplace Premium Pour Posseder La Musique Du Cameroun Et De L'Afrique Francophone",
-      heroSubtitle: "Decouvrez et possedez la musique des meilleurs artistes d'Afrique. Extraits instantanes et achat en toute confiance.",
-      heroRegionNote: "Concue pour les artistes du Cameroun et de l'Afrique francophone, elle relie les talents d'exception aux fans qui achetent en direct.",
-      heroPrimaryCta: "Explorer La Musique",
-      heroSecondaryCta: "Vendre Votre Musique",
-      featuredKicker: "Artistes Africains A La Une",
-      featuredTitle: "Decouvrez Et Possedez La Musique Des Plus Grands Artistes Africains",
-      featuredDesc: "Une selection premium du Cameroun et de l'Afrique francophone. Chaque achat soutient directement les artistes.",
-      regionalPulseKicker: "Confiance Et Communaute Marketplace",
-      regionalPulseTitle: "Soutenez Les Artistes Africains. Achetez En Direct.",
-      regionalPulseDesc: "Suivez les temps forts regionaux avec des selections pensees pour le Cameroun et la scene musicale francophone.",
-      artistStripTitle: "Concue Pour Les Artistes Du Cameroun Et De L'Afrique Francophone",
-      artistStripBody: "Publiez vos titres, fixez vos prix et vendez en direct a vos fans grace a une vitrine premium orientee telechargement.",
-      artistPrimaryCta: "Publier Une Nouvelle Sortie",
-      artistSecondaryCta: "Ouvrir Le Hub Createur"
-    }
-  },
-  B: {
-    en: {
-      heroTitle: "Own The Sound Of Cameroon And Francophone Africa",
-      heroSubtitle: "Preview songs, buy direct from artists, and build a permanent collection from the region's defining voices.",
-      heroRegionNote: "A premium download-only home for African music culture, crafted for fans and artists across French-speaking Africa.",
-      heroPrimaryCta: "Shop Downloads",
-      heroSecondaryCta: "Start Selling",
-      featuredKicker: "Regional Editorial Selection",
-      featuredTitle: "Cameroon To Francophone Africa: Premium Releases To Own",
-      featuredDesc: "From rising independent names to established stars, buy music direct and support the culture that shapes the continent.",
-      regionalPulseKicker: "Regional Marketplace Signals",
-      regionalPulseTitle: "Trending In Cameroon. Rising Across Francophone Africa.",
-      regionalPulseDesc: "Track artist momentum, discover new releases, and browse regional genres in one premium marketplace view.",
-      artistStripTitle: "Turn Every Release Into Direct Artist Revenue",
-      artistStripBody: "Publish your catalog, control pricing, and sell exclusive digital drops directly to fans who value ownership.",
-      artistPrimaryCta: "Publish A Release",
-      artistSecondaryCta: "Open Creator Hub"
-    },
-    fr: {
-      heroTitle: "Possedez Le Son Du Cameroun Et De L'Afrique Francophone",
-      heroSubtitle: "Ecoutez des extraits, achetez en direct aux artistes et construisez une collection permanente des grandes voix de la region.",
-      heroRegionNote: "Une plateforme premium 100% telechargement pour la culture musicale africaine, pensee pour les artistes et les fans francophones.",
-      heroPrimaryCta: "Acheter Les Telechargements",
-      heroSecondaryCta: "Commencer A Vendre",
-      featuredKicker: "Selection Editoriale Regionale",
-      featuredTitle: "Du Cameroun A L'Afrique Francophone: Des Sorties Premium A Posseder",
-      featuredDesc: "Des talents independants aux artistes reconnus, achetez en direct et soutenez une culture musicale d'exception.",
-      regionalPulseKicker: "Signaux Marketplace Regionaux",
-      regionalPulseTitle: "Tendance Au Cameroun. En Essor En Afrique Francophone.",
-      regionalPulseDesc: "Suivez la dynamique des artistes, decouvrez les nouvelles sorties et explorez les genres regionaux dans une experience premium.",
-      artistStripTitle: "Transformez Chaque Sortie En Revenus Directs",
-      artistStripBody: "Publiez votre catalogue, gardez le controle des prix et vendez des sorties exclusives aux fans qui valorisent la possession.",
-      artistPrimaryCta: "Publier Une Sortie",
-      artistSecondaryCta: "Ouvrir Le Hub Artiste"
-    }
-  }
-};
-
-function getCopyVariant() {
-  const storageKey = "homeCopyVariant";
-  const existing = localStorage.getItem(storageKey);
-
-  if (existing && copyVariants[existing]) {
-    return existing;
-  }
-
-  const selected = Math.random() < 0.5 ? "A" : "B";
-  localStorage.setItem(storageKey, selected);
-  return selected;
-}
-
-function setText(id, value) {
-  const element = document.getElementById(id);
-  if (element && value) {
-    element.textContent = value;
-  }
-}
-
-function getUiLang() {
-  const lang = document.documentElement.lang || "en";
-  return lang.toLowerCase().startsWith("fr") ? "fr" : "en";
-}
-
-function t(key) {
-  return translate(key);
-}
-
-function applyCopyVariant() {
-  const variantName = getCopyVariant();
-  const lang = getUiLang();
-
-  const text = lang === "fr"
-    ? {
-        heroTitle: "Marketplace Premium De Culture Numerique Africaine",
-        heroSubtitle: "Musique, films, evenements et merch. Decouvrez et achetez en direct.",
-        heroRegionNote: "Cameroun et Afrique francophone, edition premium.",
-        heroPrimaryCta: "Decouvrir La Marketplace",
-        heroSecondaryCta: "Vendre Sur Jengu",
-        featuredKicker: "Selection Principale",
-        featuredTitle: "Marketplace En Vedette",
-        featuredDesc: "Nouvelles sorties pour decouverte rapide.",
-        regionalPulseKicker: "En Ce Moment",
-        regionalPulseTitle: "Tendances Marketplace",
-        regionalPulseDesc: "Musique, films, evenements et merch en progression.",
-        artistStripTitle: "Concue Pour Les Createurs Multi-Categories",
-        artistStripBody: "Lancez votre storefront et publiez en quelques minutes.",
-        artistPrimaryCta: "Publier Une Nouvelle Sortie",
-        artistSecondaryCta: "Ouvrir Le Hub Createur"
-      }
-    : {
-        heroTitle: "Premium African Digital Culture Marketplace",
-        heroSubtitle: "Music, movies, events, and merch. Discover and buy direct.",
-        heroRegionNote: "Curated for Cameroon and Francophone Africa.",
-        heroPrimaryCta: "Discover Marketplace",
-        heroSecondaryCta: "Sell On Jengu",
-        featuredKicker: "Main Selection",
-        featuredTitle: "Featured Marketplace",
-        featuredDesc: "New drops curated for fast discovery.",
-        regionalPulseKicker: "Now Trending",
-        regionalPulseTitle: "Marketplace Signals",
-        regionalPulseDesc: "Top music, movies, events, and merch drops.",
-        artistStripTitle: "Built For Multi-Category Creators",
-        artistStripBody: "Launch your storefront and publish in minutes.",
-        artistPrimaryCta: "Publish New Release",
-        artistSecondaryCta: "Open Creator Hub"
-      };
-
-  document.body.dataset.copyVariant = variantName;
-  document.body.dataset.copyLang = lang;
-
-  setText("heroTitle", text.heroTitle);
-  setText("heroSubtitle", text.heroSubtitle);
-  setText("heroRegionNote", text.heroRegionNote);
-  setText("heroPrimaryCta", text.heroPrimaryCta);
-  setText("heroSecondaryCta", text.heroSecondaryCta);
-  setText("featuredKicker", text.featuredKicker);
-  setText("featured-heading", text.featuredTitle);
-  setText("featuredDesc", text.featuredDesc);
-  setText("regionalPulseKicker", text.regionalPulseKicker);
-  setText("regional-pulse-heading", text.regionalPulseTitle);
-  setText("regionalPulseDesc", text.regionalPulseDesc);
-  setText("artist-strip-heading", text.artistStripTitle);
-  setText("artistStripBody", text.artistStripBody);
-  setText("artistPrimaryCta", text.artistPrimaryCta);
-  setText("artistSecondaryCta", text.artistSecondaryCta);
-}
-
-function getAbMetrics() {
-  const storageKey = "homeAbMetrics";
-  try {
-    const saved = JSON.parse(localStorage.getItem(storageKey) || "{}");
-    return {
-      views: saved.views || { A: 0, B: 0 },
-      clicks: saved.clicks || { A: {}, B: {} },
-      events: Array.isArray(saved.events) ? saved.events : []
-    };
-  } catch (error) {
-    return {
-      views: { A: 0, B: 0 },
-      clicks: { A: {}, B: {} },
-      events: []
-    };
-  }
-}
-
-function saveAbMetrics(metrics) {
-  localStorage.setItem("homeAbMetrics", JSON.stringify(metrics));
-}
-
-function trackAbEvent(eventName, metadata = {}) {
-  const variant = document.body.dataset.copyVariant || getCopyVariant();
-  const metrics = getAbMetrics();
-
-  if (eventName === "view") {
-    metrics.views[variant] = (metrics.views[variant] || 0) + 1;
-  }
-
-  if (eventName === "click") {
-    const ctaId = metadata.ctaId || "unknownCta";
-    const current = metrics.clicks[variant][ctaId] || 0;
-    metrics.clicks[variant][ctaId] = current + 1;
-  }
-
-  const event = {
-    type: eventName,
-    variant,
-    ts: new Date().toISOString(),
-    ...metadata
-  };
-
-  metrics.events.push(event);
-  if (metrics.events.length > 80) {
-    metrics.events = metrics.events.slice(-80);
-  }
-
-  saveAbMetrics(metrics);
-}
-
-function bindAbTracking() {
-  const trackedIds = [
-    "heroPrimaryCta",
-    "heroSecondaryCta",
-    "artistPrimaryCta",
-    "artistSecondaryCta"
-  ];
-
-  trackedIds.forEach((id) => {
-    const element = document.getElementById(id);
-    if (!element) return;
-
-    element.addEventListener("click", () => {
-      trackAbEvent("click", {
-        ctaId: id,
-        label: element.textContent?.trim() || ""
-      });
-    });
-  });
-
-  window.getHomepageAbMetrics = () => getAbMetrics();
-  window.resetHomepageAbMetrics = () => {
-    localStorage.removeItem("homeAbMetrics");
-  };
-}
-
-function bindArtistEntryCtas() {
-  const user = getCurrentUser();
-  const isArtist = user?.role === "artist";
-
-  const ctaTargets = {
-    heroSecondaryCta: "/artist/upload-track.html",
-    artistPrimaryCta: "/artist/publish-new-release.html",
-    artistSecondaryCta: "/artist/creator-hub.html"
-  };
-
-  Object.entries(ctaTargets).forEach(([id, artistTarget]) => {
-    const element = document.getElementById(id);
-    if (!element) return;
-
-    element.setAttribute("href", isArtist ? artistTarget : "/artist/signup.html");
-  });
-}
 
 const heroImages = [
   "/assets/hero/hero1.png",
@@ -1644,366 +500,122 @@ const heroImages = [
   "/assets/hero/hero3.png"
 ];
 
-let heroIndex = 0;
-const hero = document.querySelector(".hero-bg");
-
-if (hero) {
-  hero.style.backgroundImage = `url(${heroImages[0]})`;
-
-  setInterval(() => {
-    heroIndex = (heroIndex + 1) % heroImages.length;
-    hero.style.backgroundImage = `url(${heroImages[heroIndex]})`;
-    hero.style.transform = "scale(1.09)";
-    setTimeout(() => {
-      hero.style.transform = "scale(1.04)";
-    }, 500);
-  }, 5500);
+function uiLang() {
+  return getLang() === "fr" ? "fr" : "en";
 }
 
-function getRandomCover() {
-  const covers = [
-    "/assets/covers/album1.png",
-    "/assets/covers/album2.png",
-    "/assets/covers/album3.png",
-    "/assets/covers/cover.png",
-    "/assets/covers/cover02.png",
-    "/assets/covers/cover03.png",
-    "/assets/covers/cover1.png",
-    "/assets/covers/cover2.png",
-    "/assets/covers/cover3.png",
-    "/assets/covers/cover5.png",
-    "/assets/covers/cover6.png",
-    "/assets/covers/cover7.png"
-  ];
-
-  return covers[Math.floor(Math.random() * covers.length)];
+function fmtXaf(amount) {
+  return `${Number(amount || 0).toLocaleString("fr-FR")} XAF`;
 }
 
-function getCoverUrl(item) {
-  const fallback = getRandomCover();
-
-  if (!item.cover || item.cover.trim() === "") {
-    return fallback;
-  }
-
-  const cover = item.cover.trim();
-
-  if (cover.startsWith("http") || cover.startsWith("/assets/")) {
-    return cover;
-  }
-
-  if (cover.startsWith("assets/")) {
-    return `/${cover}`;
-  }
-
-  return `/assets/covers/${cover}`;
+function itemLink(item) {
+  if (item.category === "movies") return `/movie.html?id=${encodeURIComponent(item.id)}`;
+  if (item.category === "events") return `/event.html?id=${encodeURIComponent(item.id)}`;
+  if (item.category === "merch") return `/merch-product.html?id=${encodeURIComponent(item.id)}`;
+  if (item.kind === "album") return `/album.html?id=${encodeURIComponent(item.id)}`;
+  return `/track.html?id=${encodeURIComponent(item.id)}`;
 }
 
-function getItemLink(item) {
-  const itemName = item.name || t("homeUntitled");
-
-  return item.type === "album"
-    ? `/album.html?album=${encodeURIComponent(item.album || itemName)}`
-    : `/track.html?id=${item.id}`;
+function actionLabel(item) {
+  if (item.category === "merch") return translate("buy");
+  if (item.category === "music" || item.category === "movies") return translate("play");
+  return translate("view");
 }
 
-function getItemPrice(item) {
-  if (item.price) return `${item.price} XAF`;
-  if (item.amount) return `${item.amount} XAF`;
-  return item.type === "album" ? t("homeAlbumDownload") : t("homeTrackDownload");
-}
-
-function toAmount(value) {
-  const num = Number(value);
-  return Number.isFinite(num) ? num : 0;
-}
-
-function getReleaseDate(item) {
-  const parsed = Date.parse(item.createdAt || item.releaseDate || item.updatedAt || "");
-  return Number.isNaN(parsed) ? 0 : parsed;
-}
-
-function hasPreview(item) {
-  return Boolean(item.preview || item.previewUrl || item.sample || item.audio || item.audioUrl);
-}
-
-function rankFeaturedItems(items) {
-  return [...items].sort((a, b) => {
-    const aPaid = toAmount(a.price || a.amount) > 0 ? 1 : 0;
-    const bPaid = toAmount(b.price || b.amount) > 0 ? 1 : 0;
-    if (aPaid !== bPaid) return bPaid - aPaid;
-
-    const aDate = getReleaseDate(a);
-    const bDate = getReleaseDate(b);
-    if (aDate !== bDate) return bDate - aDate;
-
-    const aPreview = hasPreview(a) ? 1 : 0;
-    const bPreview = hasPreview(b) ? 1 : 0;
-    if (aPreview !== bPreview) return bPreview - aPreview;
-
-    return String(a.name || "").localeCompare(String(b.name || ""));
-  });
-}
-
-function createFeaturedCard(item, index = 0) {
-  const isAlbum = item.type === "album";
-  const label = isAlbum ? t("homeTypeAlbum") : t("homeTypeTrack");
-  const title = item.name || t("homeUntitled");
-  const subtitle = item.artist || item.genre || t("homeIndependentCreator");
-  const delay = Math.min(index * 70, 420);
-
+function renderCard(item, lang) {
+  const title = getLocalizedValue(item.title, lang) || translate("homeUntitled");
+  const creator = item.creator || translate("pdpCreator");
   return `
-    <a href="${getItemLink(item)}" class="release-card reveal-on-scroll" style="--reveal-delay:${delay}ms;" aria-label="${title} ${label} by ${subtitle}">
-      <img src="${getCoverUrl(item)}" class="release-art" alt="${title} artwork" onerror="this.onerror=null; this.src='/assets/logo.png';">
-      <div class="release-meta">
-        <span class="release-type">${label}</span>
-        <h3 class="release-title">${title}</h3>
-        <p class="release-subline">${subtitle} • ${getItemPrice(item)}</p>
-        <span class="release-cta">${t("homeReleaseCta")}</span>
+    <article class="product-card">
+      <a href="${itemLink(item)}"><img class="product-cover" src="${item.cover}" alt="${title}"></a>
+      <div class="product-body">
+        <p class="product-title">${title}</p>
+        <p class="product-meta">${creator}</p>
+        <div class="product-foot">
+          <span class="product-price">${fmtXaf(item.price)}</span>
+          <a class="card-btn" href="${itemLink(item)}">${actionLabel(item)}</a>
+        </div>
       </div>
-    </a>
+    </article>
   `;
 }
 
-function createPulseItem(label, href = "", meta = "") {
-  const safeLabel = label || t("homeUntitled");
-  const liAttrs = href
-    ? `class="pulse-clickable" data-href="${href}" role="link" tabindex="0"`
-    : "";
-  const anchor = href
-    ? `<a href="${href}">${safeLabel}</a>`
-    : `<span>${safeLabel}</span>`;
-
-  return `
-    <li ${liAttrs}>
-      ${anchor}
-      ${meta ? `<span class="pulse-meta">${meta}</span>` : ""}
-    </li>
-  `;
+function renderGrid(id, list, lang, limit = 4) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  el.innerHTML = list.slice(0, limit).map((item) => renderCard(item, lang)).join("");
 }
 
-function bindPulseListInteractions() {
-  document.querySelectorAll(".pulse-list").forEach((list) => {
-    list.addEventListener("click", (event) => {
-      const row = event.target.closest("li[data-href]");
-      if (!row) return;
-
-      // Let native anchors work when user clicks directly on the link text.
-      if (event.target.closest("a")) {
-        return;
-      }
-
-      const href = row.dataset.href;
-      if (href) {
-        window.location.href = href;
-      }
-    });
-
-    list.addEventListener("keydown", (event) => {
-      if (event.key !== "Enter" && event.key !== " ") return;
-
-      const row = event.target.closest("li[data-href]");
-      if (!row) return;
-
-      event.preventDefault();
-      const href = row.dataset.href;
-      if (href) {
-        window.location.href = href;
-      }
-    });
-  });
+function renderRegionalList(id, items, lang) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  el.innerHTML = items.slice(0, 4).map((item) => {
+    const title = getLocalizedValue(item.title, lang) || translate("homeUntitled");
+    return `<li><a href="${itemLink(item)}"><span>${title}</span><span>${translate("view")}</span></a></li>`;
+  }).join("");
 }
 
-function renderRegionalPulse(data) {
-  const artistsEl = document.getElementById("regionalFeaturedArtists");
-  const trendingEl = document.getElementById("regionalTrending");
-  const moviesEl = document.getElementById("regionalNewReleases");
-  const eventsEl = document.getElementById("regionalEvents");
+function buildHome() {
+  const lang = uiLang();
+  const all = [...marketplaceItems];
+  const byPopularity = [...all].sort((a, b) => (b.popularity || 0) - (a.popularity || 0));
+  const byNewest = [...all].sort((a, b) => Date.parse(b.releaseDate || "") - Date.parse(a.releaseDate || ""));
+  const events = all.filter((i) => i.category === "events").sort((a, b) => Date.parse(a.releaseDate || "") - Date.parse(b.releaseDate || ""));
+  const movies = all.filter((i) => i.category === "movies").sort((a, b) => (b.popularity || 0) - (a.popularity || 0));
+  const merch = all.filter((i) => i.category === "merch").sort((a, b) => (b.popularity || 0) - (a.popularity || 0));
+  const cameroon = all.filter((i) => ["Douala", "Yaounde", "Bafoussam", "Garoua", "Buea"].includes(i.city));
+  const franco = all.filter((i) => i.city !== "").sort((a, b) => (b.popularity || 0) - (a.popularity || 0));
 
-  if (!artistsEl || !trendingEl || !moviesEl || !eventsEl) return;
-
-  const tracks = data.filter((item) => item.type === "track");
-  const artistMap = new Map();
-
-  data.forEach((item) => {
-    const artist = (item.artist || "").trim();
-    if (!artist || artistMap.has(artist)) return;
-    artistMap.set(artist, item);
-  });
-
-  const featuredArtists = Array.from(artistMap.entries()).slice(0, 5);
-  const trendingTracks = rankFeaturedItems(tracks).slice(0, 5);
-  const featuredMovies = [
-    { name: t("homeMovieSpot1Title"), meta: t("homeMovieSpot1Meta"), href: "/movies.html" },
-    { name: t("homeMovieSpot2Title"), meta: t("homeMovieSpot2Meta"), href: "/movies.html" },
-    { name: t("homeMovieSpot3Title"), meta: t("homeMovieSpot3Meta"), href: "/movies.html" }
-  ];
-  const upcomingEvents = [
-    { name: t("homeEventSpot1Title"), meta: t("homeEventSpot1Meta"), href: "/events.html" },
-    { name: t("homeEventSpot2Title"), meta: t("homeEventSpot2Meta"), href: "/events.html" },
-    { name: t("homeEventSpot3Title"), meta: t("homeEventSpot3Meta"), href: "/events.html" }
-  ];
-
-  artistsEl.innerHTML = featuredArtists.length
-    ? featuredArtists
-        .map(([artist, item]) => createPulseItem(item.name || artist, getItemLink(item), artist))
-        .join("")
-    : createPulseItem(t("homeFeaturedMusicSoon"));
-
-  trendingEl.innerHTML = trendingTracks.length
-    ? trendingTracks
-        .map((item) => createPulseItem(item.name, getItemLink(item), item.artist || "Cameroon"))
-        .join("")
-    : createPulseItem(t("homeTrendingSoon"));
-
-  moviesEl.innerHTML = featuredMovies.length
-    ? featuredMovies
-        .map((item) => createPulseItem(item.name, item.href, item.meta))
-        .join("")
-    : createPulseItem(t("homeMoviesSoon"));
-
-  eventsEl.innerHTML = upcomingEvents.length
-    ? upcomingEvents
-      .map((item) => createPulseItem(item.name, item.href, item.meta))
-        .join("")
-    : createPulseItem(t("homeEventsSoon"));
+  renderGrid("trendingGrid", byPopularity, lang, 8);
+  renderGrid("newGrid", byNewest, lang, 8);
+  renderGrid("eventsGrid", events, lang, 4);
+  renderGrid("moviesGrid", movies, lang, 4);
+  renderGrid("merchGrid", merch, lang, 4);
+  renderRegionalList("cmList", cameroon, lang);
+  renderRegionalList("frList", franco, lang);
 }
 
-function setupScrollReveal() {
-  const revealElements = document.querySelectorAll(".reveal-on-scroll");
-  const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-
-  if (prefersReducedMotion) {
-    revealElements.forEach((element) => element.classList.add("is-revealed"));
-    return;
-  }
-
-  const observer = new IntersectionObserver(
-    (entries, instance) => {
-      entries.forEach((entry) => {
-        if (!entry.isIntersecting) return;
-        entry.target.classList.add("is-revealed");
-        instance.unobserve(entry.target);
-      });
-    },
-    {
-      threshold: 0.18,
-      rootMargin: "0px 0px -40px 0px"
-    }
-  );
-
-  revealElements.forEach((element) => {
-    observer.observe(element);
-  });
+function startHero() {
+  const bg = document.getElementById("heroBg");
+  if (!bg) return;
+  let idx = 0;
+  bg.style.backgroundImage = `url(${heroImages[idx]})`;
+  setInterval(() => {
+    idx = (idx + 1) % heroImages.length;
+    bg.style.backgroundImage = `url(${heroImages[idx]})`;
+    bg.style.transform = "scale(1.08)";
+    setTimeout(() => {
+      bg.style.transform = "scale(1.04)";
+    }, 420);
+  }, 5200);
 }
 
-function hydrateProfileMenu() {
-  const profileMenu = document.getElementById("profileMenu");
-  const user = getCurrentUser();
-
-  if (!profileMenu) return;
-
-  if (!user) {
-    profileMenu.innerHTML = `
-      <a href="/user/login.html" data-i18n="login" role="menuitem"></a>
-      <a href="/user/signup.html" data-i18n="signup" role="menuitem"></a>
-    `;
-    applyLang();
-    return;
-  }
-
-  const dashboardLink = user.role === "artist" ? "/artist/dashboard.html" : "/user/library.html";
-  const dashboardLabel = user.role === "artist" ? "Artist Dashboard" : "My Library";
-
-  profileMenu.innerHTML = `
-    <a href="${dashboardLink}" role="menuitem">${dashboardLabel}</a>
-    <button id="logoutBtn" type="button" class="menu-logout" role="menuitem">Logout</button>
-  `;
-
-  const logoutBtn = document.getElementById("logoutBtn");
-  if (logoutBtn) logoutBtn.onclick = logout;
-}
-
-async function initPage() {
-  const featuredEl = document.getElementById("featuredReleases");
-
-  hydrateProfileMenu();
-
-  let data = [];
-  try {
-    data = await fetchBrowseResults();
-  } catch (error) {
-    console.error(error);
-  }
-
-  if (!Array.isArray(data) || data.length === 0) {
-    featuredEl.innerHTML = `<div class='placeholder-msg'>${t("homeMoviesSoon")}</div>`;
-    return;
-  }
-
-  const featured = rankFeaturedItems(data).slice(0, 8);
-
-  featuredEl.innerHTML = featured.map((item, index) => createFeaturedCard(item, index)).join("");
-  renderRegionalPulse(data);
-  bindPulseListInteractions();
-
-  setupScrollReveal();
-}
-
-window.addEventListener("DOMContentLoaded", () => {
-  applyCopyVariant();
-  bindArtistEntryCtas();
-  bindAbTracking();
-  trackAbEvent("view", {
-    page: "homepage"
-  });
-  setupScrollReveal();
-  initPage();
-});
-
-const langBtn = document.getElementById("langBtn");
-if (langBtn) {
-  langBtn.addEventListener("click", () => {
-    window.setTimeout(() => {
-      applyCopyVariant();
+function bindLangRefresh() {
+  const btn = document.getElementById("langBtn");
+  if (!btn) return;
+  btn.addEventListener("click", () => {
+    setTimeout(() => {
+      buildHome();
     }, 0);
   });
 }
 
-const menuBtn = document.getElementById("menuBtn");
-const sideMenu = document.getElementById("sideMenu");
-
-if (menuBtn && sideMenu) {
-  menuBtn.onclick = (event) => {
-    event.stopPropagation();
-    sideMenu.classList.toggle("open");
-  };
-
-  document.addEventListener("click", (event) => {
-    if (!sideMenu.contains(event.target) && !menuBtn.contains(event.target)) {
-      sideMenu.classList.remove("open");
-    }
-  });
+function bindCreatorCta() {
+  const user = getCurrentUser();
+  if (user?.role === "artist") {
+    const sellA = document.getElementById("heroSell");
+    const cta = document.getElementById("creatorSell");
+    if (sellA) sellA.href = "/artist/upload-track.html";
+    if (cta) cta.href = "/artist/publish-new-release.html";
+  }
 }
 
-const profileBtn = document.getElementById("profileBtn");
-const profileMenu = document.getElementById("profileMenu");
-
-if (profileBtn && profileMenu) {
-  profileBtn.onclick = (event) => {
-    event.stopPropagation();
-    profileMenu.style.display = profileMenu.style.display === "flex" ? "none" : "flex";
-  };
-
-  document.addEventListener("click", () => {
-    profileMenu.style.display = "none";
-  });
-
-  profileMenu.addEventListener("click", (event) => {
-    event.stopPropagation();
-  });
-}
+window.addEventListener("DOMContentLoaded", () => {
+  buildHome();
+  bindLangRefresh();
+  bindCreatorCta();
+  startHero();
+});
 </script>
-
 </body>
 </html>
