@@ -43,22 +43,47 @@ body {
   position: sticky;
   top: 0;
   z-index: 30;
-  display: grid;
-  grid-template-columns: auto 1fr auto auto;
+  display: flex;
   align-items: center;
-  gap: 8px;
-  padding: 8px 0;
+  justify-content: center;
+  min-height: 118px;
+  padding: 12px 0;
   background: linear-gradient(180deg, rgba(6, 11, 20, 0.9), rgba(6, 11, 20, 0.56));
   backdrop-filter: blur(9px);
 }
 
-.logo {
-  width: 108px;
-  height: auto;
+.logo-link {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1;
 }
 
-.topbar-spacer {
-  min-height: 1px;
+.logo {
+  width: clamp(234px, 66vw, 430px);
+  height: auto;
+  filter: drop-shadow(0 14px 30px rgba(1, 212, 171, 0.42));
+  animation: logoPulse 5.4s ease-in-out infinite;
+}
+
+.topbar-actions {
+  margin-left: auto;
+  display: inline-flex;
+  gap: 8px;
+  z-index: 2;
+}
+
+@keyframes logoPulse {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.04);
+  }
 }
 
 .icon-btn {
@@ -371,25 +396,32 @@ body {
     gap: 12px;
   }
 }
+
+@media (prefers-reduced-motion: reduce) {
+  .logo {
+    animation: none;
+  }
+}
 </style>
 </head>
 <body>
   <main class="page">
     <header class="topbar">
-      <a href="/index.html" aria-label="Home"><img class="logo" src="/assets/logo.png" alt="JENGU"></a>
-      <div class="topbar-spacer"></div>
-      <a class="icon-btn" href="/discover.html" aria-label="Search">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-          <circle cx="11" cy="11" r="7"></circle>
-          <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-        </svg>
-      </a>
-      <a class="icon-btn" href="/user/login.html" aria-label="Profile">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-          <path d="M20 21a8 8 0 0 0-16 0"></path>
-          <circle cx="12" cy="7" r="4"></circle>
-        </svg>
-      </a>
+      <a class="logo-link" href="/index.html" aria-label="Home"><img class="logo" src="/assets/logo.png" alt="JENGU"></a>
+      <div class="topbar-actions">
+        <a class="icon-btn" href="/discover.html" aria-label="Search">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="11" cy="11" r="7"></circle>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+          </svg>
+        </a>
+        <a class="icon-btn" href="/user/login.html" aria-label="Profile">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M20 21a8 8 0 0 0-16 0"></path>
+            <circle cx="12" cy="7" r="4"></circle>
+          </svg>
+        </a>
+      </div>
     </header>
 
     <section class="hero" aria-label="Hero">
