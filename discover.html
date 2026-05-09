@@ -6,210 +6,726 @@
 <title>Decouvrir - JENGU</title>
 <link rel="stylesheet" href="/styles/app.css">
 <style>
+
+/* =====================
+   PAGE SHELL
+   ===================== */
 .discover-page {
   background:
-    radial-gradient(900px 420px at 88% -6%, rgba(98, 226, 255, 0.24), transparent 62%),
-    radial-gradient(700px 360px at 2% 8%, rgba(244, 183, 81, 0.14), transparent 58%),
-    #1b2432;
+    radial-gradient(900px 500px at 90% -8%, rgba(98, 226, 255, 0.18), transparent 60%),
+    radial-gradient(700px 400px at 0% 10%, rgba(244, 183, 81, 0.12), transparent 55%),
+    radial-gradient(600px 600px at 50% 100%, rgba(1, 212, 171, 0.06), transparent 70%),
+    #111820;
   color: #e8ecf7;
+  min-height: 100vh;
 }
 
-.discover-shell {
-  width: min(1120px, calc(100% - 28px));
-  margin: 0 auto;
-  padding: 104px 0 46px;
-}
-
-.discover-topbar {
+/* =====================
+   STICKY FILTER BAR
+   ===================== */
+.d-filterbar {
   position: fixed;
   inset: 0 0 auto 0;
-  z-index: 30;
+  z-index: 40;
+  background: rgba(10, 15, 25, 0.92);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+}
+
+.d-filterbar-inner {
+  display: flex;
+  align-items: center;
+  height: 60px;
+  gap: 12px;
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+.d-logo img {
+  width: 96px;
+  display: block;
+  flex-shrink: 0;
+}
+
+.d-tabs {
+  display: flex;
+  gap: 4px;
+  flex: 1;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.d-tabs::-webkit-scrollbar { display: none; }
+
+.d-tab {
+  white-space: nowrap;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: transparent;
+  color: #c2cfe0;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  padding: 7px 16px;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: all 0.16s;
+}
+.d-tab:hover { border-color: rgba(1, 212, 171, 0.4); color: #fff; }
+.d-tab.active { background: #01d4ab; border-color: #01d4ab; color: #061310; }
+
+.d-filters {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.d-select {
+  background: rgba(255, 255, 255, 0.05);
+  color: #c2cfe0;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 10px;
+  padding: 7px 28px 7px 10px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  outline: none;
+  appearance: none;
+  -webkit-appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' fill='none'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%23c2cfe0' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 8px center;
+  transition: border-color 0.16s;
+}
+.d-select:focus { border-color: rgba(1, 212, 171, 0.5); }
+
+/* =====================
+   SHELL
+   ===================== */
+.d-shell {
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 80px 24px 100px;
+}
+
+/* =====================
+   FEATURED STRIP
+   ===================== */
+.d-featured {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  margin-bottom: 52px;
+}
+
+.d-feat-card {
+  position: relative;
+  border-radius: 22px;
+  overflow: hidden;
+  aspect-ratio: 16 / 9;
+  background: #0d1520;
+  display: block;
+  text-decoration: none;
+}
+
+.d-feat-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.5s ease;
+}
+.d-feat-card:hover img { transform: scale(1.04); }
+
+.d-feat-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top,
+    rgba(4, 8, 16, 0.92) 0%,
+    rgba(4, 8, 16, 0.35) 50%,
+    transparent 100%);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 24px;
+  gap: 3px;
+}
+
+.d-feat-cat {
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #01d4ab;
+  margin-bottom: 4px;
+}
+
+.d-feat-title {
+  font-size: clamp(16px, 2vw, 22px);
+  font-weight: 700;
+  color: #fff;
+  margin: 0 0 4px;
+  line-height: 1.2;
+}
+
+.d-feat-creator { font-size: 13px; color: #92aac8; margin: 0; }
+
+.d-feat-row {
+  display: flex;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.d-btn-view {
+  border: none;
+  border-radius: 999px;
+  padding: 9px 20px;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  background: #01d4ab;
+  color: #061310;
+  transition: all 0.18s;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+}
+.d-btn-view:hover { transform: translateY(-1px); box-shadow: 0 6px 18px rgba(1,212,171,0.4); }
+
+/* =====================
+   SECTION HEADER
+   ===================== */
+.d-sec-head {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 14px;
-  padding: 14px;
-  background: rgba(16, 23, 34, 0.8);
-  backdrop-filter: blur(10px);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-}
-
-.discover-topbar nav {
-  display: flex;
-  gap: 8px;
-  flex-wrap: wrap;
-}
-
-.discover-topbar a {
-  text-decoration: none;
-  color: #d8e0f0;
-  font-size: 12px;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  border: 1px solid rgba(255, 255, 255, 0.14);
-  border-radius: 999px;
-  padding: 6px 10px;
-}
-
-.discover-head {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  gap: 14px;
   margin-bottom: 18px;
 }
 
-.discover-head h1 {
-  margin: 0;
-  font-size: clamp(28px, 5vw, 44px);
-}
-
-.filter-tabs {
+.d-sec-label {
+  font-size: 17px;
+  font-weight: 700;
+  color: #fff;
+  letter-spacing: -0.01em;
   display: flex;
-  flex-wrap: wrap;
+  align-items: center;
   gap: 8px;
 }
 
-.filter-tab {
-  border: 1px solid rgba(255, 255, 255, 0.16);
-  background: rgba(20, 29, 42, 0.7);
-  color: #d7deee;
+.d-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #01d4ab;
+  flex-shrink: 0;
+}
+
+.d-btn-see {
+  border: 1px solid rgba(255, 255, 255, 0.14);
   border-radius: 999px;
-  padding: 8px 14px;
-  cursor: pointer;
+  padding: 6px 16px;
+  font-size: 12px;
   font-weight: 700;
-}
-
-.filter-tab.active {
-  color: #061615;
-  background: linear-gradient(120deg, #01d4ab, #81ffe8);
-  border-color: transparent;
-}
-
-.discover-controls {
-  margin: 14px 0 18px;
-  display: flex;
-  justify-content: space-between;
+  color: #b4c8e0;
+  background: transparent;
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-flex;
   align-items: center;
-  gap: 14px;
+  transition: all 0.16s;
+  white-space: nowrap;
+}
+.d-btn-see:hover { border-color: rgba(1,212,171,0.5); color: #01d4ab; }
+
+/* =====================
+   CONTROLS ROW
+   ===================== */
+.d-controls {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+  gap: 12px;
   flex-wrap: wrap;
 }
 
-.discover-controls select {
-  background: rgba(16, 24, 36, 0.86);
-  color: #eef3ff;
-  border: 1px solid rgba(255, 255, 255, 0.18);
-  border-radius: 10px;
-  padding: 10px 12px;
+.d-meta {
+  font-size: 13px;
+  color: #5c728e;
+  margin: 0;
 }
 
-.market-grid {
+/* =====================
+   MAIN GRID
+   ===================== */
+.d-grid {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 14px;
+  margin-bottom: 52px;
 }
 
-.market-card {
+/* =====================
+   GRID CARD
+   ===================== */
+.d-card {
   border-radius: 16px;
   overflow: hidden;
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  background: rgba(23, 33, 48, 0.86);
+  background: rgba(16, 24, 38, 0.9);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  display: flex;
+  flex-direction: column;
+  text-decoration: none;
+  transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
+  cursor: pointer;
+}
+.d-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.5);
+  border-color: rgba(1, 212, 171, 0.2);
 }
 
-.market-card img {
+.d-card-img {
+  position: relative;
+  aspect-ratio: 1 / 1;
+  overflow: hidden;
+  background: #0d1520;
+}
+
+.d-card-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.4s;
+}
+.d-card:hover .d-card-img img { transform: scale(1.06); }
+
+.d-card-cat {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  background: rgba(6, 13, 24, 0.76);
+  border-radius: 6px;
+  padding: 3px 7px;
+}
+
+.d-card-play {
+  position: absolute;
+  right: 10px;
+  bottom: 10px;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: rgba(1, 212, 171, 0.95);
+  border: none;
+  color: #061310;
+  font-size: 11px;
+  font-weight: 900;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.18s;
+}
+.d-card:hover .d-card-play { opacity: 1; }
+
+.d-card-body {
+  padding: 12px 14px 14px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.d-card-title {
+  font-size: 14px;
+  font-weight: 700;
+  color: #eef2ff;
+  margin: 0 0 3px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.d-card-creator {
+  font-size: 12px;
+  color: #6e86a8;
+  margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.d-card-foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: auto;
+  padding-top: 10px;
+}
+
+.d-card-price {
+  font-size: 13px;
+  font-weight: 700;
+  color: #c8d8f0;
+}
+
+.d-card-cta {
+  border: none;
+  border-radius: 999px;
+  padding: 5px 12px;
+  font-size: 11px;
+  font-weight: 700;
+  cursor: pointer;
+  background: rgba(1, 212, 171, 0.12);
+  color: #01d4ab;
+  transition: all 0.16s;
+}
+.d-card-cta:hover { background: #01d4ab; color: #061310; }
+
+/* =====================
+   SECTION DIVIDER
+   ===================== */
+.d-divider {
+  height: 1px;
+  background: rgba(255, 255, 255, 0.055);
+  margin: 0 0 48px;
+}
+
+/* =====================
+   SCROLL SECTION
+   ===================== */
+.d-scroll-sec {
+  margin-bottom: 48px;
+}
+
+.d-scroll-row {
+  display: flex;
+  gap: 12px;
+  overflow-x: auto;
+  padding-bottom: 10px;
+  scrollbar-width: none;
+}
+.d-scroll-row::-webkit-scrollbar { display: none; }
+
+.d-scrl-card {
+  flex: 0 0 210px;
+  border-radius: 14px;
+  overflow: hidden;
+  background: rgba(16, 24, 38, 0.88);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  text-decoration: none;
+  display: block;
+  transition: transform 0.18s;
+}
+.d-scrl-card:hover { transform: translateY(-2px); }
+
+.d-scrl-img {
   width: 100%;
   aspect-ratio: 16/10;
   object-fit: cover;
+  display: block;
 }
 
-.market-card-body {
-  padding: 12px;
+.d-scrl-body { padding: 10px 12px 12px; }
+
+.d-scrl-title {
+  font-size: 13px;
+  font-weight: 700;
+  color: #eef2ff;
+  margin: 0 0 2px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
-.market-meta {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 8px;
-  font-size: 12px;
-  color: #95a7c7;
-  margin-bottom: 6px;
+.d-scrl-meta { font-size: 11px; color: #5c728e; }
+
+/* =====================
+   REGIONAL BLOCKS
+   ===================== */
+.d-regional {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  margin-bottom: 52px;
 }
 
-.market-tag {
+.d-region {
+  border-radius: 20px;
+  background: rgba(16, 24, 38, 0.8);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 24px 22px 20px;
+}
+
+.d-region-eyebrow {
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.13em;
   text-transform: uppercase;
-  letter-spacing: 0.07em;
-  color: #73f4df;
+  color: #01d4ab;
+  margin: 0 0 4px;
 }
 
-.market-empty {
-  border: 1px dashed rgba(255, 255, 255, 0.2);
+.d-region-heading {
+  font-size: 20px;
+  font-weight: 700;
+  color: #fff;
+  margin: 0 0 16px;
+}
+
+.d-region-row {
+  display: flex;
+  gap: 10px;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.d-region-row::-webkit-scrollbar { display: none; }
+
+.d-reg-card {
+  flex: 0 0 110px;
+  border-radius: 12px;
+  overflow: hidden;
+  background: #0d1520;
+  text-decoration: none;
+  display: block;
+  transition: transform 0.18s;
+}
+.d-reg-card:hover { transform: scale(1.04); }
+
+.d-reg-card img {
+  width: 100%;
+  aspect-ratio: 1;
+  object-fit: cover;
+  display: block;
+}
+
+.d-reg-label {
+  font-size: 11px;
+  font-weight: 600;
+  color: #c8d4e8;
+  padding: 6px 8px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* =====================
+   LOAD MORE
+   ===================== */
+.d-loadmore {
+  display: flex;
+  justify-content: center;
+  padding: 8px 0 48px;
+}
+
+.d-btn-load {
+  border: 1px solid rgba(1, 212, 171, 0.3);
+  border-radius: 999px;
+  background: transparent;
+  color: #01d4ab;
+  font-size: 14px;
+  font-weight: 700;
+  padding: 12px 40px;
+  cursor: pointer;
+  letter-spacing: 0.04em;
+  transition: all 0.2s;
+}
+.d-btn-load:hover { background: rgba(1,212,171,0.1); border-color: #01d4ab; box-shadow: 0 0 24px rgba(1,212,171,0.12); }
+.d-btn-load:disabled { opacity: 0.35; cursor: not-allowed; }
+
+/* =====================
+   EMPTY STATE
+   ===================== */
+.d-empty {
+  grid-column: 1 / -1;
+  border: 1px dashed rgba(255,255,255,0.1);
   border-radius: 16px;
-  padding: 18px;
-  color: #9eb0cd;
+  padding: 48px;
+  text-align: center;
+  color: #4e6480;
+  font-size: 14px;
 }
 
-@media (max-width: 980px) {
-  .market-grid {
-    grid-template-columns: 1fr 1fr;
-  }
+/* =====================
+   RESPONSIVE
+   ===================== */
+@media (max-width: 1024px) {
+  .d-grid { grid-template-columns: repeat(3, 1fr); }
 }
 
-@media (max-width: 700px) {
-  .market-grid {
-    grid-template-columns: 1fr;
-  }
+@media (max-width: 768px) {
+  .d-featured { grid-template-columns: 1fr; }
+  .d-regional { grid-template-columns: 1fr; }
+  .d-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 480px) {
+  .d-filterbar-inner { height: auto; padding: 10px 16px; flex-wrap: wrap; }
+  .d-logo { display: none; }
+  .d-filters { width: 100%; }
+  .d-select { flex: 1; }
+  .d-shell { padding-top: 108px; }
 }
 </style>
 </head>
 <body class="discover-page" data-i18n-title="discoverPageTitle">
-<header class="discover-topbar">
-  <a href="/index.html"><img src="/assets/logo.png" class="logo" alt="JENGU" style="width:140px;position:static;transform:none;"></a>
-  <nav>
-    <a href="/discover.html" data-i18n="discoverNav">Decouvrir</a>
-    <a href="/browse.html" data-i18n="musicNav">Musique</a>
-    <a href="/movies.html" data-i18n="moviesNav">Films</a>
-    <a href="/events.html" data-i18n="eventsNav">Evenements</a>
-    <a href="/merch.html" data-i18n="merchNav">Merch</a>
-    <a href="/creators.html" data-i18n="creatorsNav">Createurs</a>
-    <a href="/artist-pricing.html" data-i18n="artistPricingNav">Tarifs Artiste</a>
-    <a href="/artist/signup.html" data-i18n="sellOnJenguNav">Vendre sur JENGU</a>
-  </nav>
-</header>
 
-<main class="discover-shell">
-  <section class="discover-head">
-    <div>
-      <p style="margin:0;color:#82f8e4;text-transform:uppercase;letter-spacing:.1em;font-size:12px;" data-i18n="discoverKicker">Discovery Unifiee</p>
-      <h1 data-i18n="discoverHeading">Decouvrez La Musique, Les Films, Les Evenements Et Le Merch</h1>
-      <p style="max-width:650px;color:#b9c6de;" data-i18n="discoverSub">Parcourez chaque categorie dans un flux premium, puis filtrez et triez selon ce que vous voulez collectionner.</p>
+<!-- ========================
+     STICKY FILTER BAR
+     ======================== -->
+<div class="d-filterbar">
+  <div class="d-filterbar-inner">
+
+    <a href="/index.html" class="d-logo">
+      <img src="/assets/logo.png" alt="JENGU">
+    </a>
+
+    <div class="d-tabs" id="filterTabs" role="tablist">
+      <button class="d-tab active" type="button" data-tab="all"    role="tab" data-i18n="discoverTabAll">Tout</button>
+      <button class="d-tab"        type="button" data-tab="music"  role="tab" data-i18n="discoverTabMusic">Musique</button>
+      <button class="d-tab"        type="button" data-tab="movies" role="tab" data-i18n="discoverTabMovies">Films</button>
+      <button class="d-tab"        type="button" data-tab="events" role="tab" data-i18n="discoverTabEvents">Evenements</button>
+      <button class="d-tab"        type="button" data-tab="merch"  role="tab" data-i18n="discoverTabMerch">Merch</button>
     </div>
-  </section>
 
+    <div class="d-filters">
+      <select class="d-select" id="genreSelect" aria-label="Genre">
+        <option value="">Genre</option>
+        <option value="afrofusion">Afrofusion</option>
+        <option value="coupedecale">Coupé-Décalé</option>
+        <option value="makossa">Makossa</option>
+        <option value="jazz">Jazz</option>
+        <option value="documentary">Documentary</option>
+      </select>
+
+      <select class="d-select" id="regionSelect" aria-label="Region">
+        <option value="">Region</option>
+        <option value="douala">Douala</option>
+        <option value="yaounde">Yaoundé</option>
+        <option value="bafoussam">Bafoussam</option>
+        <option value="garoua">Garoua</option>
+      </select>
+
+      <select class="d-select" id="sortSelect" aria-label="Sort">
+        <option value="popular"    data-i18n="discoverSortPopular">Populaire</option>
+        <option value="newest"     data-i18n="discoverSortNewest">Nouveautes</option>
+        <option value="price-asc"  data-i18n="discoverSortPriceAsc">Prix ↑</option>
+        <option value="price-desc" data-i18n="discoverSortPriceDesc">Prix ↓</option>
+      </select>
+    </div>
+
+  </div>
+</div>
+
+<!-- ========================
+     MAIN CONTENT
+     ======================== -->
+<main class="d-shell">
+
+  <!-- FEATURED STRIP -->
+  <section id="featuredStrip" class="d-featured" aria-label="Featured"></section>
+
+  <!-- MAIN MARKETPLACE GRID -->
   <section>
-    <div class="filter-tabs" id="filterTabs">
-      <button class="filter-tab active" type="button" data-tab="all" data-i18n="discoverTabAll">All</button>
-      <button class="filter-tab" type="button" data-tab="music" data-i18n="discoverTabMusic">Music</button>
-      <button class="filter-tab" type="button" data-tab="movies" data-i18n="discoverTabMovies">Movies</button>
-      <button class="filter-tab" type="button" data-tab="events" data-i18n="discoverTabEvents">Events</button>
-      <button class="filter-tab" type="button" data-tab="merch" data-i18n="discoverTabMerch">Merch</button>
+    <div class="d-controls">
+      <p class="d-meta" id="resultsMeta"></p>
     </div>
-
-    <div class="discover-controls">
-      <p id="resultsMeta" style="margin:0;color:#9fb0cc;">0 resultats</p>
-      <label>
-        <span style="font-size:12px;color:#9fb0cc;margin-right:8px;" data-i18n="discoverSortLabel">Sort</span>
-        <select id="sortSelect">
-          <option value="popular" data-i18n="discoverSortPopular">Les Plus Populaires</option>
-          <option value="newest" data-i18n="discoverSortNewest">Les Plus Recents</option>
-          <option value="price-asc" data-i18n="discoverSortPriceAsc">Prix: Croissant</option>
-          <option value="price-desc" data-i18n="discoverSortPriceDesc">Prix: Decroissant</option>
-        </select>
-      </label>
-    </div>
-
-    <div class="market-grid" id="discoverGrid"></div>
+    <div class="d-grid" id="discoverGrid" role="list"></div>
   </section>
+
+  <div class="d-divider"></div>
+
+  <!-- TRENDING -->
+  <section class="d-scroll-sec" id="trendingSection">
+    <div class="d-sec-head">
+      <span class="d-sec-label">
+        <span class="d-dot" style="background:#01d4ab;"></span>
+        <span data-i18n="trending">Tendance</span>
+      </span>
+      <a href="/discover.html?sort=popular" class="d-btn-see" data-i18n="view">Voir</a>
+    </div>
+    <div class="d-scroll-row" id="trendingRow"></div>
+  </section>
+
+  <!-- NEW RELEASES -->
+  <section class="d-scroll-sec" id="newSection">
+    <div class="d-sec-head">
+      <span class="d-sec-label">
+        <span class="d-dot" style="background:#f4b751;"></span>
+        <span data-i18n="new">Nouveautes</span>
+      </span>
+      <a href="/new-releases.html" class="d-btn-see" data-i18n="view">Voir</a>
+    </div>
+    <div class="d-scroll-row" id="newRow"></div>
+  </section>
+
+  <!-- EVENTS -->
+  <section class="d-scroll-sec" id="eventsSection">
+    <div class="d-sec-head">
+      <span class="d-sec-label">
+        <span class="d-dot" style="background:#a78bfa;"></span>
+        <span data-i18n="discoverTabEvents">Evenements</span>
+      </span>
+      <a href="/events.html" class="d-btn-see" data-i18n="view">Voir</a>
+    </div>
+    <div class="d-scroll-row" id="eventsRow"></div>
+  </section>
+
+  <!-- FILMS -->
+  <section class="d-scroll-sec" id="filmsSection">
+    <div class="d-sec-head">
+      <span class="d-sec-label">
+        <span class="d-dot" style="background:#fb923c;"></span>
+        <span data-i18n="discoverTabMovies">Films</span>
+      </span>
+      <a href="/movies.html" class="d-btn-see" data-i18n="view">Voir</a>
+    </div>
+    <div class="d-scroll-row" id="filmsRow"></div>
+  </section>
+
+  <!-- MERCH -->
+  <section class="d-scroll-sec" id="merchSection">
+    <div class="d-sec-head">
+      <span class="d-sec-label">
+        <span class="d-dot" style="background:#f472b6;"></span>
+        <span data-i18n="discoverTabMerch">Merch</span>
+      </span>
+      <a href="/merch.html" class="d-btn-see" data-i18n="view">Voir</a>
+    </div>
+    <div class="d-scroll-row" id="merchRow"></div>
+  </section>
+
+  <div class="d-divider"></div>
+
+  <!-- REGIONAL SECTIONS -->
+  <div class="d-regional">
+
+    <div class="d-region">
+      <p class="d-region-eyebrow">Spotlight</p>
+      <h2 class="d-region-heading">Cameroun</h2>
+      <div class="d-region-row" id="cameroonRow"></div>
+    </div>
+
+    <div class="d-region">
+      <p class="d-region-eyebrow">Picks</p>
+      <h2 class="d-region-heading">Francophonie</h2>
+      <div class="d-region-row" id="francoRow"></div>
+    </div>
+
+  </div>
+
+  <!-- LOAD MORE -->
+  <div class="d-loadmore">
+    <button class="d-btn-load" id="loadMoreBtn" type="button" data-i18n="discoverLoadMore">Charger</button>
+  </div>
+
 </main>
 
 <script type="module">
@@ -218,107 +734,272 @@ import { marketplaceItems, filterItems, sortItems, getLocalizedValue } from "/js
 
 initLang();
 
-const grid = document.getElementById("discoverGrid");
-const resultsMeta = document.getElementById("resultsMeta");
-const sortSelect = document.getElementById("sortSelect");
-const tabs = [...document.querySelectorAll(".filter-tab")];
-
-let activeTab = "all";
+/* ==============================
+   STATE
+   ============================== */
+let activeTab  = "all";
 let activeSort = "popular";
+let activeRegion = "";
+let page = 0;
+const PAGE_SIZE = 8;
 
-const categoryLabelMap = {
-  music: "discoverTabMusic",
-  movies: "discoverTabMovies",
-  events: "discoverTabEvents",
-  merch: "discoverTabMerch"
+const CAT_COLORS = {
+  music:  "#01d4ab",
+  movies: "#fb923c",
+  events: "#a78bfa",
+  merch:  "#f472b6"
 };
 
-function t(key) {
-  return translate(key);
+/* ==============================
+   UTILS
+   ============================== */
+function t(key)      { return translate(key); }
+function title(item) { return getLocalizedValue(item.title, getLang()); }
+
+function catLabel(cat) {
+  const map = {
+    music:  "discoverTabMusic",
+    movies: "discoverTabMovies",
+    events: "discoverTabEvents",
+    merch:  "discoverTabMerch"
+  };
+  return t(map[cat] || "discoverTabAll");
 }
 
-function refreshResultsMeta(count) {
-  const key = count === 1 ? "discoverListingSingle" : "discoverListingPlural";
-  resultsMeta.textContent = `${count} ${t(key)}`;
+function itemLink(item) {
+  if (item.category === "merch")   return `/merch-product.html?id=${item.id}`;
+  if (item.category === "music")   return `/album.html?id=${item.id}`;
+  if (item.category === "movies")  return `/movies.html`;
+  if (item.category === "events")  return `/events.html`;
+  return "#";
 }
 
-function itemCard(item) {
-  const categoryKey = categoryLabelMap[item.category] || "discoverTabAll";
-  const title = getLocalizedValue(item.title, getLang());
-  const action = item.category === "merch"
-    ? `<a href="/merch-product.html?id=${item.id}" class="btn-ghost" style="display:inline-block;margin-top:10px;padding:8px 12px;">${t("view")}</a>`
+function getFiltered() {
+  let items = filterItems(marketplaceItems, activeTab);
+  if (activeRegion) {
+    items = items.filter(i => (i.city || "").toLowerCase().includes(activeRegion));
+  }
+  return sortItems(items, activeSort);
+}
+
+/* ==============================
+   FEATURED STRIP
+   ============================== */
+function renderFeatured() {
+  const top2 = sortItems([...marketplaceItems], "popular").slice(0, 2);
+  document.getElementById("featuredStrip").innerHTML = top2.map(item => `
+    <a href="${itemLink(item)}" class="d-feat-card">
+      <img src="${item.cover}" alt="${title(item)}" loading="lazy">
+      <div class="d-feat-overlay">
+        <span class="d-feat-cat">${catLabel(item.category)}</span>
+        <h2 class="d-feat-title">${title(item)}</h2>
+        <p class="d-feat-creator">${item.creator} &middot; ${item.city}</p>
+        <div class="d-feat-row">
+          <span class="d-btn-view">${t("view")}</span>
+        </div>
+      </div>
+    </a>
+  `).join("");
+}
+
+/* ==============================
+   GRID CARD
+   ============================== */
+function gridCard(item) {
+  const color   = CAT_COLORS[item.category] || "#01d4ab";
+  const link    = itemLink(item);
+  const label   = item.category === "merch" ? t("buy") : t("view");
+  const playBtn = item.category === "music"
+    ? `<button class="d-card-play" type="button"
+         aria-label="${t("preview")}"
+         onclick="event.preventDefault();event.stopPropagation();(new Audio('/assets/sample.wav')).play()">▶</button>`
     : "";
 
   return `
-    <article class="market-card">
-      <img src="${item.cover}" alt="${title}">
-      <div class="market-card-body">
-        <div class="market-meta">
-          <span class="market-tag">${t(categoryKey)}</span>
-          <span>${item.city}</span>
-        </div>
-        <h3 style="margin:0 0 6px;font-size:18px;">${title}</h3>
-        <p style="margin:0;color:#b7c4dc;">${item.creator}</p>
-        <p style="margin:8px 0 0;color:#d7e2f8;font-weight:700;">${item.price} XAF</p>
-        ${action}
+    <a href="${link}" class="d-card" role="listitem">
+      <div class="d-card-img">
+        <img src="${item.cover}" alt="${title(item)}" loading="lazy">
+        <span class="d-card-cat" style="color:${color};">${catLabel(item.category)}</span>
+        ${playBtn}
       </div>
-    </article>
+      <div class="d-card-body">
+        <p class="d-card-title">${title(item)}</p>
+        <p class="d-card-creator">${item.creator}</p>
+        <div class="d-card-foot">
+          <span class="d-card-price">${item.price.toLocaleString()} XAF</span>
+          <button class="d-card-cta" type="button"
+            onclick="event.preventDefault();window.location='${link}'">${label}</button>
+        </div>
+      </div>
+    </a>
   `;
 }
 
-function render() {
-  const filtered = filterItems(marketplaceItems, activeTab);
-  const sorted = sortItems(filtered, activeSort);
+/* ==============================
+   RENDER MAIN GRID
+   ============================== */
+function renderGrid(reset = false) {
+  if (reset) page = 0;
 
-  refreshResultsMeta(sorted.length);
+  const items = getFiltered();
+  const slice = items.slice(0, (page + 1) * PAGE_SIZE);
+  const grid  = document.getElementById("discoverGrid");
+  const meta  = document.getElementById("resultsMeta");
+  const btn   = document.getElementById("loadMoreBtn");
 
-  if (!sorted.length) {
-    grid.innerHTML = `<div class="market-empty">${t("discoverNoItems")}</div>`;
+  if (!slice.length) {
+    grid.innerHTML = `<div class="d-empty">${t("discoverNoItems")}</div>`;
+    if (meta) meta.textContent = `0 ${t("discoverListingPlural")}`;
+    if (btn) btn.disabled = true;
     return;
   }
 
-  grid.innerHTML = sorted.map(itemCard).join("");
+  grid.innerHTML = slice.map(gridCard).join("");
+
+  const cntKey = slice.length === 1 ? "discoverListingSingle" : "discoverListingPlural";
+  if (meta) meta.textContent = `${slice.length} ${t(cntKey)}`;
+  if (btn) btn.disabled = slice.length >= items.length;
 }
 
-tabs.forEach((tab) => {
+/* ==============================
+   SCROLL ROW CARD
+   ============================== */
+function scrollCard(item) {
+  return `
+    <a href="${itemLink(item)}" class="d-scrl-card">
+      <img class="d-scrl-img" src="${item.cover}" alt="${title(item)}" loading="lazy">
+      <div class="d-scrl-body">
+        <p class="d-scrl-title">${title(item)}</p>
+        <p class="d-scrl-meta">${item.creator} &middot; ${item.price.toLocaleString()} XAF</p>
+      </div>
+    </a>
+  `;
+}
+
+/* ==============================
+   REGION MINI CARD
+   ============================== */
+function regionCard(item) {
+  return `
+    <a href="${itemLink(item)}" class="d-reg-card">
+      <img src="${item.cover}" alt="${title(item)}" loading="lazy">
+      <p class="d-reg-label">${title(item)}</p>
+    </a>
+  `;
+}
+
+/* ==============================
+   DISCOVERY SECTIONS
+   ============================== */
+function renderSections() {
+  const all = marketplaceItems;
+
+  document.getElementById("trendingRow").innerHTML =
+    sortItems([...all], "popular").map(scrollCard).join("");
+
+  document.getElementById("newRow").innerHTML =
+    sortItems([...all], "newest").map(scrollCard).join("");
+
+  const events = all.filter(i => i.category === "events");
+  document.getElementById("eventsRow").innerHTML = events.length
+    ? events.map(scrollCard).join("")
+    : `<p style="color:#4e6480;font-size:13px;padding:8px 0;">${t("discoverNoItems")}</p>`;
+
+  const films = all.filter(i => i.category === "movies");
+  document.getElementById("filmsRow").innerHTML = films.length
+    ? films.map(scrollCard).join("")
+    : `<p style="color:#4e6480;font-size:13px;padding:8px 0;">${t("discoverNoItems")}</p>`;
+
+  const merch = all.filter(i => i.category === "merch");
+  document.getElementById("merchRow").innerHTML = merch.length
+    ? merch.map(scrollCard).join("")
+    : `<p style="color:#4e6480;font-size:13px;padding:8px 0;">${t("discoverNoItems")}</p>`;
+}
+
+/* ==============================
+   REGIONAL SECTIONS
+   ============================== */
+function renderRegional() {
+  const cameroon = marketplaceItems.filter(i => {
+    const c = (i.city || "").toLowerCase();
+    return c === "douala" || c === "yaounde";
+  });
+  document.getElementById("cameroonRow").innerHTML = cameroon.length
+    ? cameroon.map(regionCard).join("")
+    : `<p style="color:#4e6480;font-size:13px;">${t("discoverNoItems")}</p>`;
+
+  document.getElementById("francoRow").innerHTML =
+    sortItems([...marketplaceItems], "popular").map(regionCard).join("");
+}
+
+/* ==============================
+   TAB SWITCHING
+   ============================== */
+document.querySelectorAll(".d-tab").forEach(tab => {
   tab.addEventListener("click", () => {
     activeTab = tab.dataset.tab;
-    tabs.forEach((btn) => btn.classList.remove("active"));
+    document.querySelectorAll(".d-tab").forEach(b => b.classList.remove("active"));
     tab.classList.add("active");
-    render();
+    renderGrid(true);
   });
 });
 
-sortSelect.addEventListener("change", () => {
-  activeSort = sortSelect.value;
-  render();
+/* ==============================
+   FILTER CONTROLS
+   ============================== */
+document.getElementById("sortSelect").addEventListener("change", e => {
+  activeSort = e.target.value;
+  renderGrid(true);
 });
 
-function applyInitialTabFromUrl() {
-  const queryTab = new URLSearchParams(window.location.search).get("tab");
+document.getElementById("genreSelect").addEventListener("change", () => {
+  renderGrid(true);
+});
+
+document.getElementById("regionSelect").addEventListener("change", e => {
+  activeRegion = e.target.value;
+  renderGrid(true);
+});
+
+/* ==============================
+   LOAD MORE
+   ============================== */
+document.getElementById("loadMoreBtn").addEventListener("click", () => {
+  page += 1;
+  renderGrid(false);
+});
+
+/* ==============================
+   URL PARAM: ?tab= &sort=
+   ============================== */
+function applyUrlParams() {
+  const params  = new URLSearchParams(window.location.search);
+  const qTab    = params.get("tab");
+  const qSort   = params.get("sort");
   const allowed = new Set(["all", "music", "movies", "events", "merch"]);
-  if (!queryTab || !allowed.has(queryTab)) return;
 
-  activeTab = queryTab;
-  tabs.forEach((btn) => {
-    btn.classList.toggle("active", btn.dataset.tab === queryTab);
-  });
-}
-
-window.addEventListener("DOMContentLoaded", () => {
-  const langBtn = document.getElementById("langBtn");
-  if (langBtn) {
-    langBtn.addEventListener("click", () => {
-      window.setTimeout(() => {
-        refreshResultsMeta(grid.querySelectorAll(".market-card").length);
-        render();
-      }, 0);
+  if (qTab && allowed.has(qTab)) {
+    activeTab = qTab;
+    document.querySelectorAll(".d-tab").forEach(btn => {
+      btn.classList.toggle("active", btn.dataset.tab === qTab);
     });
   }
-});
 
-applyInitialTabFromUrl();
-render();
+  if (qSort) {
+    activeSort = qSort;
+    const sel = document.getElementById("sortSelect");
+    if (sel) sel.value = qSort;
+  }
+}
+
+/* ==============================
+   INIT
+   ============================== */
+applyUrlParams();
+renderFeatured();
+renderGrid(true);
+renderSections();
+renderRegional();
 </script>
 </body>
 </html>
