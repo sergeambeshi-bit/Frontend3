@@ -3,12 +3,12 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Genre - JENGU</title>
+<title data-i18n-title="genrePageTitle">Genre - JENGU</title>
 
 <link rel="stylesheet" href="/styles/app.css">
 </head>
 
-<body class="has-topbar-clearance">
+<body class="has-topbar-clearance" data-i18n-title="genrePageTitle">
 
 <div id="sideMenu" class="side-menu">
   <div class="menu-header">
@@ -26,17 +26,17 @@
 
 <div class="topbar">
   <span class="menu" id="menuBtn">☰</span>
-  <h3 id="genreHeading">Genre</h3>
+  <h3 id="genreHeading" data-i18n="genreDefaultHeading">Genre</h3>
   <span></span>
 </div>
 
 <section class="section">
-  <p id="genreSub" class="sub" style="margin-bottom:12px;">Chargement des sorties...</p>
+  <p id="genreSub" class="sub" style="margin-bottom:12px;" data-i18n="loading">Chargement des sorties...</p>
   <div id="genreTracks"></div>
 </section>
 
 <script type="module">
-import { initLang } from "/js/lang.js";
+import { initLang, translate } from "/js/lang.js";
 import { fetchBrowseResults } from "/js/api.js";
 
 initLang();
@@ -65,7 +65,7 @@ function normalizeGenre(value) {
 
 function prettyGenre(value) {
   const normalized = String(value || "").replace(/-/g, " ").trim();
-  if (!normalized) return "Genre";
+  if (!normalized) return translate("genreDefaultHeading");
   return normalized
     .split(" ")
     .filter(Boolean)
@@ -107,7 +107,7 @@ async function loadGenrePage() {
   const sub = document.getElementById("genreSub");
   const container = document.getElementById("genreTracks");
 
-  heading.textContent = prettyGenre(normalizedQuery || genreQuery);
+  heading.textContent = genreQuery ? prettyGenre(normalizedQuery || genreQuery) : translate("genreDefaultHeading");
 
   const items = await fetchBrowseResults();
   const genreItems = (Array.isArray(items) ? items : []).filter(item => {
@@ -116,12 +116,12 @@ async function loadGenrePage() {
   });
 
   if (!genreItems.length) {
-    sub.textContent = "Aucune sortie trouvee pour ce genre pour le moment.";
+    sub.textContent = translate("genreNoResults");
     container.innerHTML = "";
     return;
   }
 
-  sub.textContent = `${genreItems.length} sortie(s) disponibles`;
+  sub.textContent = `${genreItems.length} ${translate("genreResultsAvailable")}`;
   container.innerHTML = genreItems.map(renderTrackRow).join("");
 }
 

@@ -6,7 +6,7 @@
 <title data-i18n-title="checkoutPageTitle">Checkout - JENGU</title>
 <link rel="stylesheet" href="/styles/checkout.css?v=20260509">
 </head>
-<body class="checkout-page">
+<body class="checkout-page" data-i18n-title="checkoutPageTitle">
   <main class="checkout-wrap" data-cat="checkout">
     <h1 class="checkout-heading" data-i18n="payment">Paiement</h1>
 
@@ -33,9 +33,9 @@
       <input id="checkoutName" name="name" type="text" class="field-input" autocomplete="name">
 
       <h2 class="checkout-title checkout-pay-title" data-i18n="checkoutPaymentOptions">Payment Options</h2>
-      <div class="pay-options pay-options-3" role="radiogroup" aria-label="Payment options">
+      <div class="pay-options pay-options-3" role="radiogroup" data-i18n-aria="checkoutPaymentOptions">
         <button type="button" class="pay-option active" data-method="mtn" role="radio" aria-checked="true">MTN MoMo</button>
-        <button type="button" class="pay-option" data-method="orange" role="radio" aria-checked="false">Orange Money</button>
+        <button type="button" class="pay-option" data-method="orange" role="radio" aria-checked="false" data-i18n="checkoutOrangeMoney">Orange Money</button>
         <button type="button" class="pay-option" data-method="card" role="radio" aria-checked="false" data-i18n="card">Card</button>
       </div>
 

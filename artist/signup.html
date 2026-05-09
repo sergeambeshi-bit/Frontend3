@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Artist Signup - JENGU</title>
+<title>Inscription artiste - JENGU</title>
 
 <link rel="stylesheet" href="/styles/app.css">
 <script src="/js/premium-experience.js" defer></script>
@@ -66,46 +66,46 @@
 </style>
 </head>
 
-<body class="has-topbar-clearance artist-premium-page" data-i18n-title="signupPageTitle">
+<body class="has-topbar-clearance artist-premium-page" data-i18n-title="artistSignupTitle">
 
 <div id="sideMenu" class="side-menu">
   <div class="menu-header">
     <img src="/assets/logo.png" class="menu-logo" alt="JENGU logo">
   </div>
-  <a href="/index.html">Accueil</a>
-  <a href="/browse.html">Parcourir</a>
-  <a href="/genres.html">Genres</a>
-  <a href="/charts.html">Charts</a>
-  <a href="/artist/signup.html">Artist Signup</a>
-  <a href="/user/login.html">Connexion</a>
+  <a href="/index.html" data-i18n="home">Accueil</a>
+  <a href="/browse.html" data-i18n="browse">Parcourir</a>
+  <a href="/genres.html" data-i18n="genres">Genres</a>
+  <a href="/charts.html" data-i18n="charts">Charts</a>
+  <a href="/artist/signup.html" data-i18n="artistSignupTitle">Inscription artiste</a>
+  <a href="/user/login.html" data-i18n="login">Connexion</a>
 </div>
 
 <div class="topbar">
   <span class="menu" id="menuBtn">☰</span>
-  <h3>Artist Signup</h3>
+  <h3 data-i18n="artistSignupTitle">Inscription artiste</h3>
   <span></span>
 </div>
 
 <main class="artist-signup-wrap">
   <section class="artist-signup-card">
-    <div class="artist-role-chip">Artist Account Only</div>
-    <h2 style="margin:0 0 8px;">Create your artist account</h2>
+    <div class="artist-role-chip" data-i18n="artistSignupOnly">Compte artiste uniquement</div>
+    <h2 style="margin:0 0 8px;" data-i18n="createYourArtistAccount">Créez votre compte artiste</h2>
     <p class="artist-signup-note">
-      This signup is strictly for artists who want to publish and sell releases on JENGU.
+      <span data-i18n="artistSignupNote">Cette inscription est réservée aux artistes qui veulent publier et vendre leurs sorties sur JENGU.</span>
     </p>
 
     <form id="artistSignupForm">
       <div class="artist-input-group">
-        <input type="text" id="name" class="artist-input" placeholder="Artist name" required>
-        <input type="email" id="email" class="artist-input" placeholder="Email" required>
-        <input type="password" id="password" class="artist-input" placeholder="Password" required>
+        <input type="text" id="name" class="artist-input" placeholder="Nom de l'artiste" data-i18n-placeholder="artistName" required>
+        <input type="email" id="email" class="artist-input" placeholder="E-mail" data-i18n-placeholder="email" required>
+        <input type="password" id="password" class="artist-input" placeholder="Mot de passe" data-i18n-placeholder="password" required>
       </div>
-      <button class="btn-primary" style="width:100%; margin-top:8px;" type="submit">Join</button>
+      <button class="btn-primary" style="width:100%; margin-top:8px;" type="submit" data-i18n="artistSignupJoin">Rejoindre</button>
     </form>
 
     <p style="text-align:center; margin-top:14px;">
-      Already have an account?
-      <a href="/user/login.html" style="color:#01d4ab;">Login</a>
+      <span data-i18n="artistSignupAlreadyHaveAccount">Vous avez déjà un compte ?</span>
+      <a href="/user/login.html" style="color:#01d4ab;" data-i18n="login">Connexion</a>
     </p>
   </section>
 </main>

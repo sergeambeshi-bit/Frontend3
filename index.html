@@ -470,12 +470,12 @@ body {
 </head>
 <body>
   <aside id="sideMenu" class="side-menu" aria-label="Menu">
-    <a href="/discover.html">Discover</a>
-    <a href="/browse.html">Music</a>
-    <a href="/movies.html">Movies</a>
-    <a href="/events.html">Events</a>
-    <a href="/merch.html">Merch</a>
-    <a href="/artist/signup.html">Sell</a>
+    <a href="/discover.html" data-i18n="discoverNav">Discover</a>
+    <a href="/browse.html" data-i18n="musicNav">Music</a>
+    <a href="/movies.html" data-i18n="moviesNav">Movies</a>
+    <a href="/events.html" data-i18n="eventsNav">Events</a>
+    <a href="/merch.html" data-i18n="merchNav">Merch</a>
+    <a href="/artist/signup.html" data-i18n="sellOnJenguNav">Sell</a>
   </aside>
   <div id="menuBackdrop" class="menu-backdrop" aria-hidden="true"></div>
 
@@ -505,78 +505,78 @@ body {
     <section class="hero" aria-label="Hero">
       <div id="heroBg" class="hero-bg" aria-hidden="true"></div>
       <div class="hero-content">
-        <h1>Own Music. Discover Culture.</h1>
-        <p class="hero-sub" id="heroSub">Fast marketplace for music, movies, events, and merch.</p>
+        <h1 data-i18n="homeV4HeroTitle">Own Music. Discover Culture.</h1>
+        <p class="hero-sub" id="heroSub" data-i18n="homeV4HeroSub">Fast marketplace for music, movies, events, and merch.</p>
         <div class="row">
-          <a href="/discover.html" class="btn-main">Explore</a>
-          <a id="heroSell" href="/artist/signup.html" class="btn-ghost">Sell</a>
+          <a href="/discover.html" class="btn-main" data-i18n="homeV4Discover">Explore</a>
+          <a id="heroSell" href="/artist/signup.html" class="btn-ghost" data-i18n="sellOne">Sell</a>
         </div>
       </div>
     </section>
 
     <section class="section" aria-labelledby="categoriesTitle">
       <div class="section-head">
-        <h2 id="categoriesTitle">Discover</h2>
+        <h2 id="categoriesTitle" data-i18n="homeGatewayHeading">Discover</h2>
       </div>
       <div class="categories-scroll">
-        <a class="cat-card" href="/browse.html"><img loading="lazy" src="/assets/covers/album1.png" alt="Music"><span>Music</span></a>
-        <a class="cat-card" href="/movies.html"><img loading="lazy" src="/assets/covers/cover3.png" alt="Movies"><span>Movies</span></a>
-        <a class="cat-card" href="/events.html"><img loading="lazy" src="/assets/covers/cover7.png" alt="Events"><span>Events</span></a>
-        <a class="cat-card" href="/merch.html"><img loading="lazy" src="/assets/covers/cover6.png" alt="Merch"><span>Merch</span></a>
+        <a class="cat-card" href="/browse.html"><img loading="lazy" src="/assets/covers/album1.png" alt="Music"><span data-i18n="homeGatewayMusicTitle">Music</span></a>
+        <a class="cat-card" href="/movies.html"><img loading="lazy" src="/assets/covers/cover3.png" alt="Movies"><span data-i18n="homeGatewayMoviesTitle">Movies</span></a>
+        <a class="cat-card" href="/events.html"><img loading="lazy" src="/assets/covers/cover7.png" alt="Events"><span data-i18n="homeGatewayEventsTitle">Events</span></a>
+        <a class="cat-card" href="/merch.html"><img loading="lazy" src="/assets/covers/cover6.png" alt="Merch"><span data-i18n="homeGatewayMerchTitle">Merch</span></a>
       </div>
     </section>
 
     <section class="section" aria-labelledby="trendingTitle">
       <div class="section-head">
-        <h2 id="trendingTitle">Trending</h2>
-        <a href="/discover.html" class="btn-view">View</a>
+        <h2 id="trendingTitle" data-i18n="homeV4Trending">Trending</h2>
+        <a href="/discover.html" class="btn-view" data-i18n="view">View</a>
       </div>
       <div id="trendingGrid" class="grid-2"></div>
     </section>
 
     <section class="section" aria-labelledby="newTitle">
       <div class="section-head">
-        <h2 id="newTitle">New</h2>
-        <a href="/new-releases.html" class="btn-view">View</a>
+        <h2 id="newTitle" data-i18n="homeV4New">New</h2>
+        <a href="/new-releases.html" class="btn-view" data-i18n="view">View</a>
       </div>
       <div id="newRow" class="new-scroll"></div>
     </section>
 
     <section class="section" aria-labelledby="eventsTitle">
       <div class="section-head">
-        <h2 id="eventsTitle">Events</h2>
-        <a href="/events.html" class="btn-view">View</a>
+        <h2 id="eventsTitle" data-i18n="homeV4Events">Events</h2>
+        <a href="/events.html" class="btn-view" data-i18n="view">View</a>
       </div>
       <div id="eventsGrid" class="grid-2"></div>
     </section>
 
     <section class="section" aria-labelledby="filmsTitle">
       <div class="section-head">
-        <h2 id="filmsTitle">Films</h2>
-        <a href="/movies.html" class="btn-view">View</a>
+        <h2 id="filmsTitle" data-i18n="homeV4Movies">Films</h2>
+        <a href="/movies.html" class="btn-view" data-i18n="view">View</a>
       </div>
       <div id="filmsRow" class="film-scroll"></div>
     </section>
 
     <section class="section" aria-labelledby="merchTitle">
       <div class="section-head">
-        <h2 id="merchTitle">Merch</h2>
-        <a href="/merch.html" class="btn-view">View</a>
+        <h2 id="merchTitle" data-i18n="homeV4Merch">Merch</h2>
+        <a href="/merch.html" class="btn-view" data-i18n="view">View</a>
       </div>
       <div id="merchRow" class="merch-scroll"></div>
     </section>
 
     <section class="discover-cta" aria-labelledby="discoverCtaTitle">
-      <h3 id="discoverCtaTitle">Discover</h3>
-      <a href="/discover.html" class="btn-main">Discover</a>
+      <h3 id="discoverCtaTitle" data-i18n="homeV4Discover">Discover</h3>
+      <a href="/discover.html" class="btn-main" data-i18n="homeV4Discover">Discover</a>
     </section>
   </main>
 
   <nav class="bottom-nav" aria-label="Primary">
-    <a class="active" href="/index.html">Home</a>
-    <a href="/discover.html">Discover</a>
-    <a id="sellNav" href="/artist/signup.html">Sell</a>
-    <a href="/user/login.html">Profile</a>
+    <a class="active" href="/index.html" data-i18n="home">Home</a>
+    <a href="/discover.html" data-i18n="discoverNav">Discover</a>
+    <a id="sellNav" href="/artist/signup.html" data-i18n="sellOnJenguNav">Sell</a>
+    <a href="/user/login.html" data-i18n="profile">Profile</a>
   </nav>
 
 <script type="module">
@@ -644,7 +644,7 @@ function renderItemCard(item, options = {}) {
         <p class="item-meta">${sub}</p>
         <div class="item-foot">
           <span class="price">${fmtXaf(item.price)}</span>
-          <a class="item-btn" href="${linkFor(item)}">${actionFor(item)}</a>
+          <a class="item-btn" href="${linkFor(item)}">${translate(actionFor(item).toLowerCase())}</a>
         </div>
       </div>
     </article>

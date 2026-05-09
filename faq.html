@@ -1,34 +1,53 @@
 <!-- frontend/faq.html -->
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>FAQ – JENGU</title>
+<title data-i18n-title="faqPageTitle">FAQ – JENGU</title>
 <link rel="stylesheet" href="/styles/base.css">
 <link rel="stylesheet" href="/styles/layout.css">
 <link rel="stylesheet" href="/styles/components.css">
 <link rel="stylesheet" href="/styles/theme-afro.css">
-<script src="/js/ui.js" defer></script>
+<script type="module">
+  import { initLang } from "/js/lang.js";
+  initLang();
+</script>
 </head>
-<body class="dark-theme">
+<body class="dark-theme" data-i18n-title="faqPageTitle">
 <header>
-    <h1>Frequently Asked Questions</h1>
+    <h1 data-i18n="faqHeading">FAQ</h1>
 </header>
 <main>
     <section id="faq-list">
         <div class="faq-item">
-            <h3>How to download music?</h3>
-            <p>Answer goes here...</p>
+            <h3 data-i18n="faqQ1">Can I start selling without paying anything?</h3>
+            <p data-i18n="faqA1">Yes. The Free Artist plan costs nothing and lets you publish and sell music right away. JENGU only takes 15% when a fan buys your track or album, so you keep the rest without any upfront cost.</p>
         </div>
         <div class="faq-item">
-            <h3>Payment options?</h3>
-            <p>Answer goes here...</p>
+            <h3 data-i18n="faqQ2">What exactly does 8–10% mean for the Pro plan?</h3>
+            <p data-i18n="faqA2">The Pro plan commission ranges from 8% to 10% depending on the release type and price band. Compared with the standard 15%, a Pro artist earning 100,000 XAF a year keeps 5,000 to 7,000 XAF more, which is well above the annual 10,000 XAF fee.</p>
+        </div>
+        <div class="faq-item">
+            <h3 data-i18n="faqQ3">When will I be considered for Featured Artist placement?</h3>
+            <p data-i18n="faqA3">Pro artists are included in the editorial pool and considered for featured placements on the homepage, based on catalog quality, publishing activity, and fan engagement. It is not guaranteed, but Pro status significantly increases visibility.</p>
+        </div>
+        <div class="faq-item">
+            <h3 data-i18n="faqQ4">How do payouts work?</h3>
+            <p data-i18n="faqA4">Earnings from fan purchases accumulate in your artist dashboard. You can request a payout at any time. Payouts are processed in XAF via mobile money. Free and Pro artists use the same payout flow.</p>
+        </div>
+        <div class="faq-item">
+            <h3 data-i18n="faqQ5">Can I upgrade from Free to Pro anytime?</h3>
+            <p data-i18n="faqA5">Yes. You can upgrade to Pro anytime from your artist dashboard. Your catalog, sales history, and followers are kept automatically. The Pro plan costs 10,000 XAF per year, billed annually.</p>
+        </div>
+        <div class="faq-item">
+            <h3 data-i18n="faqQ6">Is the platform available across all of Francophone Africa?</h3>
+            <p data-i18n="faqA6">JENGU is built for artists and fans across Cameroon and Francophone Africa. Artists from any country can create an account, upload music, and start selling. Payment and payout coverage may vary by region, so check your account settings for country-specific details.</p>
         </div>
     </section>
 </main>
 <footer>
-    <p>&copy; 2026 Afro Music Platform</p>
+    <p data-i18n="faqFooter">© 2026 Afro Music Platform</p>
 </footer>
 </body>
 </html>

@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>JENGU Admin – Payouts</title>
+  <title data-i18n-title="adminPayoutsPageTitle">JENGU Admin – Payouts</title>
 
   <link rel="stylesheet" href="../styles/base.css">
   <link rel="stylesheet" href="../styles/layout.css">
@@ -11,34 +11,35 @@
   <link rel="stylesheet" href="../styles/theme-afro.css">
 </head>
 
-<body class="dark-theme admin-panel">
+<body class="dark-theme admin-panel" data-i18n-title="adminPayoutsPageTitle">
 
   <!-- HEADER -->
   <header class="admin-header">
     <a href="/index.html"><img src="../assets/logo.png" class="logo"></a>
 
     <nav>
-      <a href="dashboard.html">Dashboard</a>
-      <a href="users.html">Users</a>
-      <a href="artists.html">Artists</a>
-      <a href="catalog.html">Catalog</a>
-      <a href="transactions.html">Transactions</a>
-      <a href="payouts.html" class="active">Payouts</a>
-      <a href="promotions.html">Promotions</a>
-      <a href="fraud.html">Fraud</a>
+      <a href="dashboard.html" data-i18n="dashboard">Dashboard</a>
+      <a href="users.html" data-i18n="users">Users</a>
+      <a href="artists.html" data-i18n="artists">Artists</a>
+      <a href="catalog.html" data-i18n="catalogShort">Catalog</a>
+      <a href="transactions.html" data-i18n="transactions">Transactions</a>
+      <a href="payouts.html" class="active" data-i18n="payouts">Payouts</a>
+      <a href="promotions.html" data-i18n="promotions">Promotions</a>
+      <a href="fraud.html" data-i18n="fraudShort">Fraud</a>
     </nav>
   </header>
 
   <!-- MAIN -->
   <main class="admin-main">
 
-    <h1>Artist Payouts</h1>
+    <h1 data-i18n="adminPayoutsHeading">Artist Payouts</h1>
 
     <!-- SEARCH -->
     <input 
       type="text"
       id="searchPayout"
       placeholder="Search artist..."
+      data-i18n-placeholder="searchArtistPlaceholder"
       class="admin-search"
     >
 
@@ -46,12 +47,12 @@
     <table class="neon-table">
       <thead>
         <tr>
-          <th>ID</th>
-          <th>Artist</th>
-          <th>Amount</th>
-          <th>Date</th>
-          <th>Status</th>
-          <th>Actions</th>
+          <th data-i18n="idLabel">ID</th>
+          <th data-i18n="artist">Artist</th>
+          <th data-i18n="amountLabel">Amount</th>
+          <th data-i18n="dateLabel">Date</th>
+          <th data-i18n="status">Status</th>
+          <th data-i18n="actions">Actions</th>
         </tr>
       </thead>
 
@@ -91,8 +92,8 @@ function render(data){
       <td>
         ${
           p.status==="requested"
-          ? `<button class="pay" data-id="${p.id}">Paid</button>`
-          : "Done"
+          ? `<button class="pay" data-id="${p.id}">${document.documentElement.lang === 'fr' ? 'Paye' : 'Paid'}</button>`
+          : (document.documentElement.lang === 'fr' ? 'Termine' : 'Done')
         }
       </td>
     </tr>
