@@ -5,103 +5,264 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Createur - JENGU</title>
 <link rel="stylesheet" href="/styles/app.css">
+<link rel="stylesheet" href="/styles/components.css">
+<style>
+/* == CREATOR PROFILE == */
+.cp-banner-placeholder{width:100%;height:220px;background:linear-gradient(135deg,#0d1a2e 0%,#0a2a22 50%,#091520 100%);position:relative;overflow:hidden;}
+.cp-banner-placeholder::after{content:"";position:absolute;inset:0;background:radial-gradient(ellipse 60% 80% at 20% 60%,rgba(1,212,171,.18),transparent 70%),radial-gradient(ellipse 50% 60% at 80% 30%,rgba(167,139,250,.12),transparent 60%);}
+.cp-header{padding:0 16px 20px;}
+.cp-avatar-row{display:flex;align-items:flex-end;justify-content:space-between;margin-top:-36px;margin-bottom:14px;}
+.cp-avatar{width:80px;height:80px;border-radius:50%;border:3px solid #101826;background:#1a2536;flex-shrink:0;font-size:32px;display:flex;align-items:center;justify-content:center;color:#01d4ab;overflow:hidden;}
+.cp-avatar img{width:100%;height:100%;object-fit:cover;}
+.cp-actions{display:flex;gap:8px;align-items:center;padding-bottom:4px;}
+.cp-btn-follow{border:none;border-radius:999px;padding:8px 20px;font-size:13px;font-weight:700;cursor:pointer;background:#01d4ab;color:#061310;transition:transform .16s,box-shadow .16s;}
+.cp-btn-follow:hover{transform:translateY(-1px);box-shadow:0 6px 18px rgba(1,212,171,.35);}
+.cp-btn-share{border:1px solid rgba(255,255,255,.18);border-radius:999px;padding:8px 16px;font-size:13px;font-weight:600;cursor:pointer;background:transparent;color:#e0e8ff;transition:border-color .16s;}
+.cp-btn-share:hover{border-color:rgba(1,212,171,.5);color:#01d4ab;}
+.cp-name{font-size:22px;font-weight:800;color:#eef2ff;margin:0 0 4px;letter-spacing:-.3px;}
+.cp-city{font-size:13px;color:#6e86a8;margin:0 0 12px;}
+.cp-stats{display:flex;gap:20px;}
+.cp-stat{display:flex;flex-direction:column;gap:1px;}
+.cp-stat-val{font-size:17px;font-weight:800;color:#eef2ff;}
+.cp-stat-lbl{font-size:10px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:#6e86a8;}
+.cp-tabs{display:flex;gap:6px;overflow-x:auto;padding:0 16px;scrollbar-width:none;border-bottom:1px solid rgba(255,255,255,.06);margin-bottom:20px;}
+.cp-tabs::-webkit-scrollbar{display:none;}
+.cp-tab{flex-shrink:0;border:none;background:transparent;color:#6e86a8;font-size:13px;font-weight:600;padding:10px 14px;cursor:pointer;border-bottom:2px solid transparent;transition:color .16s,border-color .16s;}
+.cp-tab:hover{color:#c8d8f0;}
+.cp-tab.active{color:#01d4ab;border-bottom-color:#01d4ab;}
+.cp-featured{margin:0 16px 28px;border-radius:18px;overflow:hidden;position:relative;background:#0d1520;border:1px solid rgba(1,212,171,.15);display:flex;min-height:130px;text-decoration:none;transition:box-shadow .2s;}
+.cp-featured:hover{box-shadow:0 12px 36px rgba(0,0,0,.5);}
+.cp-featured-img{width:130px;flex-shrink:0;object-fit:cover;display:block;}
+.cp-featured-body{padding:16px;display:flex;flex-direction:column;justify-content:center;}
+.cp-featured-eyebrow{font-size:9px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:#01d4ab;margin:0 0 6px;}
+.cp-featured-title{font-size:16px;font-weight:800;color:#eef2ff;margin:0 0 6px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;}
+.cp-featured-price{font-size:13px;font-weight:700;color:#c8d8f0;margin:0 0 10px;}
+.cp-featured-cta{align-self:flex-start;border:none;border-radius:999px;padding:6px 16px;font-size:11px;font-weight:700;cursor:pointer;background:rgba(1,212,171,.12);color:#01d4ab;transition:all .16s;}
+.cp-featured-cta:hover{background:#01d4ab;color:#061310;}
+.cp-grid-wrap{padding:0 16px;}
+.cp-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+@media(min-width:600px){.cp-grid{grid-template-columns:repeat(3,1fr);}}
+@media(min-width:900px){.cp-grid{grid-template-columns:repeat(4,1fr);}}
+.cp-about{margin:28px 16px 80px;padding:20px;border-radius:16px;background:rgba(16,24,38,.7);border:1px solid rgba(255,255,255,.07);}
+.cp-about-title{font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#6e86a8;margin:0 0 8px;}
+.cp-about-bio{font-size:14px;line-height:1.65;color:#b0c4e0;margin:0;}
+</style>
 </head>
 <body class="has-topbar-clearance fan-premium-page" data-i18n-title="creatorPageTitle">
+
 <div class="topbar">
-  <span class="menu" id="menuBtn">☰</span>
+  <span class="menu" id="menuBtn">&#9776;</span>
   <a href="/index.html"><img src="/assets/logo.png" class="logo" alt="JENGU"></a>
 </div>
 
 <div id="sideMenu" class="side-menu">
   <a href="/discover.html" data-i18n="discoverNav">Decouvrir</a>
-  <a href="/browse.html" data-i18n="musicNav">Musique</a>
-  <a href="/movies.html" data-i18n="moviesNav">Films</a>
-  <a href="/events.html" data-i18n="eventsNav">Evenements</a>
-  <a href="/merch.html" data-i18n="merchNav">Merch</a>
+  <a href="/browse.html"   data-i18n="musicNav">Musique</a>
+  <a href="/movies.html"   data-i18n="moviesNav">Films</a>
+  <a href="/events.html"   data-i18n="eventsNav">Evenements</a>
+  <a href="/merch.html"    data-i18n="merchNav">Merch</a>
   <a href="/creators.html" data-i18n="creatorsNav">Createurs</a>
   <a href="/artist-pricing.html" data-i18n="artistPricingNav">Tarifs Artiste</a>
-  <a href="/artist/signup.html" data-i18n="sellOnJenguNav">Vendre sur JENGU</a>
+  <a href="/artist/signup.html"  data-i18n="sellOnJenguNav">Vendre sur JENGU</a>
 </div>
 
-<section class="section">
-  <div id="creatorHeader"></div>
-  <h3 style="margin-top:18px;" data-i18n="creatorOfferings">Offres Marketplace</h3>
-  <div id="creatorListings" class="regional-pulse-grid"></div>
-</section>
+<div class="cp-banner-placeholder" id="creatorBanner"></div>
+
+<div class="cp-header">
+  <div class="cp-avatar-row">
+    <div class="cp-avatar" id="creatorAvatar">&#127925;</div>
+    <div class="cp-actions">
+      <button class="cp-btn-follow" id="followBtn" data-i18n="creatorFollow">Suivre</button>
+      <button class="cp-btn-share"  id="shareBtn"  data-i18n="creatorShare">Partager</button>
+    </div>
+  </div>
+  <h1 class="cp-name" id="creatorName">&#8212;</h1>
+  <p  class="cp-city" id="creatorCity">&#8212;</p>
+  <div class="cp-stats">
+    <div class="cp-stat">
+      <span class="cp-stat-val" id="statProducts">0</span>
+      <span class="cp-stat-lbl" data-i18n="creatorProducts">Produits</span>
+    </div>
+    <div class="cp-stat">
+      <span class="cp-stat-val">&#8212;</span>
+      <span class="cp-stat-lbl" data-i18n="creatorFollowers">Abonnes</span>
+    </div>
+  </div>
+</div>
+
+<div class="cp-tabs" id="cpTabs">
+  <button class="cp-tab active" data-tab="all"    data-i18n="discoverTabAll">Tout</button>
+  <button class="cp-tab"        data-tab="music"  data-i18n="discoverTabMusic">Musique</button>
+  <button class="cp-tab"        data-tab="movies" data-i18n="discoverTabMovies">Films</button>
+  <button class="cp-tab"        data-tab="events" data-i18n="discoverTabEvents">Evenements</button>
+  <button class="cp-tab"        data-tab="merch"  data-i18n="discoverTabMerch">Merch</button>
+</div>
+
+<a class="cp-featured" id="cpFeatured" href="#" style="display:none">
+  <img class="cp-featured-img" id="featuredImg" src="" alt="">
+  <div class="cp-featured-body">
+    <p class="cp-featured-eyebrow" id="featuredEyebrow"></p>
+    <p class="cp-featured-title"   id="featuredTitle"></p>
+    <p class="cp-featured-price"   id="featuredPrice"></p>
+    <button class="cp-featured-cta" data-i18n="view">Voir</button>
+  </div>
+</a>
+
+<div class="cp-grid-wrap">
+  <div class="cp-grid" id="cpGrid"></div>
+</div>
+
+<div class="cp-about" id="cpAbout" style="display:none">
+  <p class="cp-about-title" data-i18n="creatorOfferings">Offres Marketplace</p>
+  <p class="cp-about-bio" id="cpBio"></p>
+</div>
 
 <script type="module">
-import { initLang, getLang, translate } from "/js/lang.js";
+import { initLang, getLang, translate, applyLang } from "/js/lang.js";
 import { creatorProfiles, marketplaceItems, getLocalizedValue } from "/js/marketplace-catalog.js";
 
 initLang();
 
-const params = new URLSearchParams(window.location.search);
-const id = params.get("id");
-const creator = creatorProfiles.find((item) => item.id === id) || creatorProfiles[0];
+const params  = new URLSearchParams(window.location.search);
+const id      = params.get("id");
+const creator = creatorProfiles.find(p => p.id === id) || creatorProfiles[0];
 
-const categoryLabelMap = {
-  music: "discoverTabMusic",
-  movies: "discoverTabMovies",
-  events: "discoverTabEvents",
-  merch: "discoverTabMerch"
+const catLabelKey = {
+  music:"discoverTabMusic", movies:"discoverTabMovies",
+  events:"discoverTabEvents", merch:"discoverTabMerch"
 };
 
-const kindLabelMap = {
-  track: "kindTrack",
-  album: "kindAlbum",
-  film: "kindFilm",
-  documentary: "kindDocumentary",
-  live: "kindLive",
-  screening: "kindScreening",
-  apparel: "kindApparel",
-  collectible: "kindCollectible"
-};
+const allItems = marketplaceItems.filter(
+  item => item.creator === creator.name || creator.categories.includes(item.category)
+);
 
-const creatorHeader = document.getElementById("creatorHeader");
+let activeTab = "all";
 
-function renderCreatorHeader() {
-  creatorHeader.innerHTML = `
-    <h2>${creator.name}</h2>
-    <p class="sub">${creator.city}</p>
-    <p>${getLocalizedValue(creator.bio, getLang())}</p>
-  `;
+function renderHeader() {
+  document.getElementById("creatorName").textContent = creator.name;
+  document.getElementById("creatorCity").textContent = creator.city;
+  const av = document.getElementById("creatorAvatar");
+  if (creator.avatar) {
+    av.innerHTML = `<img src="${creator.avatar}" alt="${creator.name}">`;
+  } else {
+    av.textContent = creator.name.charAt(0).toUpperCase();
+  }
+  const bio = getLocalizedValue(creator.bio, getLang());
+  if (bio) {
+    document.getElementById("cpBio").textContent = bio;
+    document.getElementById("cpAbout").style.display = "";
+  }
 }
 
-renderCreatorHeader();
-
-const listings = marketplaceItems.filter((item) => item.creator === creator.name || creator.categories.includes(item.category));
-const creatorListings = document.getElementById("creatorListings");
-
-function renderListings() {
-  creatorListings.innerHTML = listings.map((item) => `
-    <article class="pulse-card">
-      <h3>${getLocalizedValue(item.title, getLang())}</h3>
-      <p>${translate(categoryLabelMap[item.category] || "discoverTabAll")} • ${translate(kindLabelMap[item.kind] || "kindTrack")}</p>
-      <p>${item.price} XAF</p>
-    </article>
-  `).join("");
+function renderFeatured(items) {
+  const el = document.getElementById("cpFeatured");
+  if (!items.length) { el.style.display = "none"; return; }
+  const item = items[0];
+  el.style.display = "flex";
+  el.href = item.category === "music"  ? `/track.html?id=${item.id}`
+          : item.category === "movies" ? `/movies.html`
+          : item.category === "events" ? `/events.html`
+          : `/merch-product.html?id=${item.id}`;
+  const img = document.getElementById("featuredImg");
+  img.src = item.cover || "/assets/placeholders/cover.jpg";
+  img.alt = getLocalizedValue(item.title, getLang());
+  document.getElementById("featuredEyebrow").textContent = translate(catLabelKey[item.category] || "discoverTabAll");
+  document.getElementById("featuredTitle").textContent   = getLocalizedValue(item.title, getLang());
+  document.getElementById("featuredPrice").textContent   = `${item.price.toLocaleString()} XAF`;
 }
 
-renderListings();
+function makeCard(item) {
+  const lang  = getLang();
+  const title = getLocalizedValue(item.title, lang);
+  const cat   = item.category;
+  const href  = cat === "music"  ? `/track.html?id=${item.id}`
+              : cat === "movies" ? `/movies.html`
+              : cat === "events" ? `/events.html`
+              : `/merch-product.html?id=${item.id}`;
+  const isNew   = item.releaseDate && (Date.now() - new Date(item.releaseDate)) < 30*24*3600*1000;
+  const badge   = isNew
+    ? `<span class="mc-card-badge badge-new">NEW</span>`
+    : `<span class="mc-card-badge">${translate(catLabelKey[cat] || "discoverTabAll")}</span>`;
+  const playBtn = cat === "music"
+    ? `<button class="mc-card-play" aria-label="preview">&#9654;</button>`
+    : "";
+  const meta    = cat === "events" && item.city
+    ? `<p class="mc-card-meta">&#128205; ${item.city}</p>` : "";
+  const ctaTxt  = cat === "merch" ? translate("buy") : translate("view");
+  return `<a class="mc-card" href="${href}" data-cat="${cat}" data-id="${item.id}">
+  <div class="mc-card-img">
+    <img src="${item.cover || "/assets/placeholders/cover.jpg"}" alt="${title}" loading="lazy">
+    ${badge}${playBtn}
+  </div>
+  <div class="mc-card-body">
+    <p class="mc-card-title">${title}</p>
+    <p class="mc-card-creator">${item.creator}</p>
+    ${meta}
+    <div class="mc-card-foot">
+      <span class="mc-card-price">${item.price.toLocaleString()} XAF</span>
+      <button class="mc-card-cta">${ctaTxt}</button>
+    </div>
+  </div>
+</a>`;
+}
 
-const langBtn = document.getElementById("langBtn");
-if (langBtn) {
-  langBtn.addEventListener("click", () => {
-    window.setTimeout(() => {
-      renderCreatorHeader();
-      renderListings();
-    }, 0);
+function renderGrid() {
+  const visible  = activeTab === "all" ? allItems : allItems.filter(i => i.category === activeTab);
+  document.getElementById("statProducts").textContent = allItems.length;
+  renderFeatured(visible);
+  const gridItems = activeTab === "all" ? visible.slice(1) : visible;
+  const grid = document.getElementById("cpGrid");
+  grid.innerHTML = gridItems.map(makeCard).join("");
+  grid.querySelectorAll(".mc-card-play").forEach(btn => {
+    btn.addEventListener("click", e => {
+      e.preventDefault(); e.stopPropagation();
+      new Audio("/assets/sample.wav").play().catch(() => {});
+    });
   });
 }
 
-const menuBtn = document.getElementById("menuBtn");
-const sideMenu = document.getElementById("sideMenu");
-menuBtn.onclick = () => sideMenu.classList.toggle("open");
-document.addEventListener("click", (e) => {
-  if (!sideMenu.contains(e.target) && !menuBtn.contains(e.target)) {
-    sideMenu.classList.remove("open");
+document.getElementById("cpTabs").addEventListener("click", e => {
+  const btn = e.target.closest(".cp-tab");
+  if (!btn) return;
+  document.querySelectorAll(".cp-tab").forEach(t => t.classList.remove("active"));
+  btn.classList.add("active");
+  activeTab = btn.dataset.tab;
+  renderGrid();
+});
+
+document.getElementById("followBtn").addEventListener("click", () => {
+  const btn = document.getElementById("followBtn");
+  const on  = btn.dataset.following === "1";
+  btn.dataset.following = on ? "0" : "1";
+  btn.textContent       = on ? translate("creatorFollow") : "\u2713";
+  btn.style.background  = on ? "#01d4ab" : "rgba(1,212,171,.12)";
+  btn.style.color       = on ? "#061310" : "#01d4ab";
+});
+
+document.getElementById("shareBtn").addEventListener("click", () => {
+  if (navigator.share) {
+    navigator.share({ title: creator.name, url: window.location.href }).catch(() => {});
+  } else {
+    navigator.clipboard.writeText(window.location.href).catch(() => {});
   }
 });
+
+const menuBtn  = document.getElementById("menuBtn");
+const sideMenu = document.getElementById("sideMenu");
+menuBtn.onclick = () => sideMenu.classList.toggle("open");
+document.addEventListener("click", e => {
+  if (!sideMenu.contains(e.target) && !menuBtn.contains(e.target))
+    sideMenu.classList.remove("open");
+});
+
+document.addEventListener("langchange", () => {
+  applyLang(document);
+  renderHeader();
+  renderGrid();
+});
+
+renderHeader();
+renderGrid();
 </script>
 </body>
 </html>
