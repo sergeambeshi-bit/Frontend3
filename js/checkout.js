@@ -2,43 +2,9 @@
 
 import { cart } from "./cart.js";
 import { savePurchase } from "./store.js";
-import { getLang } from "./lang.js";
+import { translate } from "./lang.js";
 
 const PAYMENT_API = "https://jengupay.vercel.app";
-
-const messages = {
-  fr: {
-    gatewayChecking: "Verification de la passerelle de paiement...",
-    gatewayOnline: "JenguPay est en ligne. Paiement actif.",
-    gatewayOffline: "JenguPay est indisponible. Verifiez le serveur puis reessayez.",
-    cartEmpty: "Panier vide",
-    chooseMethod: "Choisissez un moyen de paiement",
-    mobilePrompt: "Entrez votre numero Mobile Money",
-    mobileRequired: "Numero requis pour Mobile Money",
-    paymentStarted: "Paiement en ligne initialise",
-    paymentConfirmed: "Paiement confirme",
-    gatewayUnavailable: "Paiement impossible: JenguPay est hors ligne.",
-    paymentFailed: "Paiement echoue. Veuillez reessayer."
-  },
-  en: {
-    gatewayChecking: "Checking payment gateway...",
-    gatewayOnline: "JenguPay is online. Payments are active.",
-    gatewayOffline: "JenguPay is unavailable. Start the server and try again.",
-    cartEmpty: "Cart is empty",
-    chooseMethod: "Choose a payment method",
-    mobilePrompt: "Enter your Mobile Money number",
-    mobileRequired: "Mobile number is required for Mobile Money",
-    paymentStarted: "Online payment initialized",
-    paymentConfirmed: "Payment confirmed",
-    gatewayUnavailable: "Payment unavailable: JenguPay is offline.",
-    paymentFailed: "Payment failed. Please try again."
-  }
-};
-
-function t(key){
-  const lang = getLang() === "en" ? "en" : "fr";
-  return messages[lang][key] || key;
-}
 
 function updateGatewayStatus(state){
   const el = document.getElementById("paymentGatewayStatus");
@@ -47,16 +13,16 @@ function updateGatewayStatus(state){
   el.dataset.state = state;
 
   if(state === "online"){
-    el.textContent = t("gatewayOnline");
+    el.textContent = translate("gatewayStatusOnline");
     return;
   }
 
   if(state === "offline"){
-    el.textContent = t("gatewayOffline");
+    el.textContent = translate("gatewayStatusOffline");
     return;
   }
 
-  el.textContent = t("gatewayChecking");
+  el.textContent = translate("gatewayStatusChecking");
 }
 
 async function fetchWithTimeout(url, options = {}, timeoutMs = 2500){
@@ -138,7 +104,7 @@ function completeCheckout(selectedMethod){
   });
 
   cart.clear();
-  alert(t("paymentConfirmed"));
+  alert(translate("paymentConfirmed"));
   window.location.href = "/user/purchases.html";
 }
 
@@ -151,7 +117,7 @@ async function tryOnlinePayment(amount, selectedMethod){
     phone = input ? input.value.trim() : "";
     if(!phone){
       if(input) input.focus();
-      throw new Error(t("mobileRequired"));
+      throw new Error(translate("mobileRequired"));
     }
   }
 
@@ -166,7 +132,7 @@ async function tryOnlinePayment(amount, selectedMethod){
   });
 
   if(!res.ok){
-    throw new Error(t("paymentFailed"));
+    throw new Error(translate("paymentFailed"));
   }
 
   const data = await res.json();
@@ -236,12 +202,12 @@ export function initCheckout() {
     e.preventDefault();
 
     if(cart.items.length === 0){
-      alert(t("cartEmpty"));
+      alert(translate("cartEmpty"));
       return;
     }
 
     if(!selectedMethod){
-      alert(t("chooseMethod"));
+      alert(translate("chooseMethod"));
       return;
     }
 
@@ -255,16 +221,16 @@ export function initCheckout() {
       try {
         const gatewayUp = await probeGateway();
         if(!gatewayUp){
-          throw new Error(t("gatewayUnavailable"));
+          throw new Error(translate("gatewayUnavailable"));
         }
 
         await tryOnlinePayment(total, selectedMethod);
-        alert(t("paymentStarted"));
+        alert(translate("paymentStarted"));
         completeCheckout(selectedMethod);
       } catch(error){
         console.warn("Payment failed:", error);
         updateGatewayStatus("offline");
-        alert(error?.message || t("paymentFailed"));
+        alert(error?.message || translate("paymentFailed"));
       } finally {
         if(submitBtn){
           submitBtn.disabled = false;

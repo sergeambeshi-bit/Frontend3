@@ -21,11 +21,12 @@ function handlePayouts(){
     btn.addEventListener("click", (e) => {
 
       const row = e.target.closest("tr");
-      const artist = row.querySelector("td:nth-child(2)").textContent;
+      const artistCell = row ? row.querySelector("td:nth-child(2)") : null;
+      const artist = artistCell ? artistCell.textContent : "";
 
       // Update UI
-      const statusCell = row.querySelector("td:nth-child(5)");
-      statusCell.textContent = "Paid";
+      const statusCell = row ? row.querySelector("td:nth-child(5)") : null;
+      if (statusCell) statusCell.textContent = "Paid";
       statusCell.classList.add("status-paid");
 
       // Save to storage
@@ -48,7 +49,8 @@ function handlePromotions(){
   document.querySelectorAll("#promo-list .btn-neon-outline").forEach(btn => {
     btn.addEventListener("click", (e) => {
       const row = e.target.closest("tr");
-      const promo = row.querySelector("td:nth-child(2)").textContent;
+      const promoCell = row ? row.querySelector("td:nth-child(2)") : null;
+      const promo = promoCell ? promoCell.textContent : "";
 
       alert(`Edit promotion: ${promo}`);
     });
@@ -80,7 +82,8 @@ function handleFraud(){
   document.querySelectorAll("#fraud-list .btn-neon-outline").forEach(btn => {
     btn.addEventListener("click", (e) => {
       const row = e.target.closest("tr");
-      const user = row.querySelector("td:nth-child(2)").textContent;
+      const investigateCell = row ? row.querySelector("td:nth-child(2)") : null;
+      const user = investigateCell ? investigateCell.textContent : "";
 
       alert(`Investigating user: ${user}`);
     });
@@ -91,10 +94,11 @@ function handleFraud(){
     btn.addEventListener("click", (e) => {
 
       const row = e.target.closest("tr");
-      const user = row.querySelector("td:nth-child(2)").textContent;
+      const resolveCell = row ? row.querySelector("td:nth-child(2)") : null;
+      const user = resolveCell ? resolveCell.textContent : "";
 
-      const statusCell = row.querySelector("td:nth-child(5)");
-      statusCell.textContent = "Resolved";
+      const statusCell = row ? row.querySelector("td:nth-child(5)") : null;
+      if (statusCell) statusCell.textContent = "Resolved";
       statusCell.classList.add("status-resolved");
 
       let fraud = getData("fraud");

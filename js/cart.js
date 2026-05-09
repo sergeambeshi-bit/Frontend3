@@ -117,7 +117,7 @@ export const cart = {
     document.querySelectorAll(".cart-count").forEach(el => {
       el.textContent = count;
       // Show/hide the badge bubble based on count
-      el.style.display = count > 0 ? "" : "";
+      el.style.display = count > 0 ? "inline-block" : "none";
     });
   }
 
