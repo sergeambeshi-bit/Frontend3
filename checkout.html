@@ -3,72 +3,65 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Paiement - JENGU</title>
-
-<link rel="stylesheet" href="/styles/app.css?v=20260430">
+<title data-i18n-title="checkoutPageTitle">Checkout - JENGU</title>
+<link rel="stylesheet" href="/styles/checkout.css?v=20260509">
 </head>
+<body class="checkout-page">
+  <main class="checkout-wrap" data-cat="checkout">
+    <h1 class="checkout-heading" data-i18n="payment">Paiement</h1>
 
-<body>
+    <section class="checkout-section" aria-labelledby="summaryTitle">
+      <h2 id="summaryTitle" class="checkout-title" data-i18n="checkoutSummary">Product Summary</h2>
+      <article id="checkoutSummaryCard" class="summary-card" hidden>
+        <img id="summaryImage" class="summary-image" src="" alt="">
+        <div class="summary-content">
+          <h3 id="summaryName" class="summary-name"></h3>
+          <p id="summaryCreator" class="summary-creator"></p>
+          <p id="summaryPrice" class="summary-price"></p>
+        </div>
+      </article>
+      <p id="checkoutEmpty" class="checkout-empty" data-i18n="checkoutEmpty" hidden>Cart is empty.</p>
+    </section>
 
-<a href="/checkout.html" class="cart-btn checkout-cart-btn" aria-label="Voir le panier" data-i18n-aria="viewCartAria">
-  <span class="cart-icon">🛒</span><span class="cart-count">0</span>
-</a>
+    <form id="checkoutForm" class="checkout-section checkout-form" novalidate>
+      <h2 class="checkout-title" data-i18n="checkoutUserInput">User Input</h2>
 
-<section class="section">
+      <label for="checkoutEmail" class="field-label" data-i18n="email">E-mail</label>
+      <input id="checkoutEmail" name="email" type="email" class="field-input" autocomplete="email" required>
 
-  <h3 data-i18n="payment">Paiement</h3>
+      <label for="checkoutName" class="field-label" data-i18n="checkoutNameOptional">Name (optional)</label>
+      <input id="checkoutName" name="name" type="text" class="field-input" autocomplete="name">
 
-  <p id="paymentGatewayStatus" class="gateway-status" data-state="checking" data-i18n="gatewayStatusChecking">
-    Verification de la passerelle de paiement...
-  </p>
+      <h2 class="checkout-title checkout-pay-title" data-i18n="checkoutPaymentOptions">Payment Options</h2>
+      <div class="pay-options pay-options-3" role="radiogroup" aria-label="Payment options">
+        <button type="button" class="pay-option active" data-method="mtn" role="radio" aria-checked="true">MTN MoMo</button>
+        <button type="button" class="pay-option" data-method="orange" role="radio" aria-checked="false">Orange Money</button>
+        <button type="button" class="pay-option" data-method="card" role="radio" aria-checked="false" data-i18n="card">Card</button>
+      </div>
 
-  <div id="checkoutItems"></div>
+      <div id="phoneBlock" class="phone-block">
+        <label for="checkoutPhone" class="field-label" data-i18n="checkoutPhone">Phone</label>
+        <input id="checkoutPhone" name="phone" type="tel" class="field-input" autocomplete="tel" placeholder="6XXXXXXXX / +2376XXXXXXXX">
+        <p id="networkHint" class="network-hint" aria-live="polite"></p>
+      </div>
 
-  <h3>Total: <span id="checkoutTotal">0 XAF</span></h3>
+      <div id="checkoutSpinner" class="checkout-spinner" hidden>
+        <span class="spinner-dot" aria-hidden="true"></span>
+        <span data-i18n="checkoutWaiting">Waiting for confirmation...</span>
+      </div>
 
-  <form id="checkout-form">
-    <p class="sub" data-i18n="paymentMethod">Methode de paiement</p>
+      <p id="checkoutFeedback" class="checkout-feedback" role="status" aria-live="polite"></p>
+      <button id="checkoutPayBtn" type="submit" class="checkout-cta" data-i18n="pay">Pay</button>
+      <button id="checkoutBackBtn" type="button" class="checkout-back" data-i18n="back">Back</button>
+    </form>
+  </main>
 
-    <button type="button" class="pay-btn momo" data-method="mtn">
-      MTN MoMo
-    </button>
+  <script type="module">
+    import { initLang } from "/js/lang.js?v=20260509";
+    import { initCheckout } from "/js/checkout.js?v=20260509";
 
-    <button type="button" class="pay-btn momo" data-method="orange">
-      Orange Money
-    </button>
-
-    <button type="button" class="pay-btn bank-card" data-method="card">
-      Carte bancaire
-    </button>
-
-    <div id="mobile-phone-field" style="display:none; margin-top:12px;">
-      <label for="mobilePhone" style="display:block; font-size:0.9rem; color:#aaa; margin-bottom:6px;" data-i18n="mobilePrompt">
-        Entrez votre numero Mobile Money
-      </label>
-      <input
-        type="tel"
-        id="mobilePhone"
-        name="mobilePhone"
-        placeholder="Ex: 6XXXXXXXX"
-        autocomplete="tel"
-        style="width:100%; padding:10px 12px; background:#111; color:#fff; border:1px solid #333; border-radius:8px; font-size:1rem; box-sizing:border-box;"
-      >
-    </div>
-
-    <button type="submit" class="btn-primary" style="width:100%; margin-top:10px;" data-i18n="payNow">
-      Payer maintenant
-    </button>
-  </form>
-
-</section>
-
-<script type="module">
-import { initLang } from "/js/lang.js?v=20260430";
-import { initCheckout } from "/js/checkout.js?v=20260430";
-
-initLang();
-initCheckout();
-</script>
-
+    initLang();
+    initCheckout();
+  </script>
 </body>
 </html>

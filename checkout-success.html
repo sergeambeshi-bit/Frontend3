@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title data-i18n-title="checkoutSuccessTitle">Payment Successful - JENGU</title>
+<link rel="stylesheet" href="/styles/checkout.css?v=20260509">
+</head>
+<body class="checkout-page">
+  <main class="checkout-wrap checkout-success-wrap" data-cat="checkout">
+    <h1 class="checkout-heading" data-i18n="checkoutSuccess">Payment Successful</h1>
+
+    <section class="checkout-section" aria-labelledby="successSummaryTitle">
+      <h2 id="successSummaryTitle" class="checkout-title" data-i18n="checkoutSummary">Product Summary</h2>
+      <article class="summary-card" id="successSummaryCard" hidden>
+        <img id="successImage" class="summary-image" src="" alt="">
+        <div class="summary-content">
+          <h3 id="successName" class="summary-name"></h3>
+          <p id="successCreator" class="summary-creator"></p>
+          <p id="successPrice" class="summary-price"></p>
+        </div>
+      </article>
+    </section>
+
+    <section id="successTypePanel" class="checkout-section"></section>
+
+    <div class="checkout-actions">
+      <a href="/discover.html" class="checkout-back" data-i18n="back">Back</a>
+    </div>
+  </main>
+
+  <script type="module">
+    import { initLang } from "/js/lang.js?v=20260509";
+    import { initCheckoutSuccess } from "/js/checkout-success.js?v=20260509";
+
+    initLang();
+    initCheckoutSuccess();
+  </script>
+</body>
+</html>
