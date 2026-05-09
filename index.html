@@ -76,6 +76,63 @@ body {
   z-index: 2;
 }
 
+.topbar-left {
+  margin-right: auto;
+  z-index: 2;
+}
+
+.lang-btn {
+  min-width: 36px;
+  padding: 0 10px;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.03em;
+}
+
+.side-menu {
+  position: fixed;
+  inset: 0 auto 0 0;
+  width: min(78vw, 320px);
+  background: rgba(10, 15, 24, 0.98);
+  border-right: 1px solid var(--line);
+  z-index: 45;
+  transform: translateX(-100%);
+  transition: transform 0.22s ease;
+  padding: 18px 14px;
+  display: grid;
+  gap: 10px;
+}
+
+.side-menu.open {
+  transform: translateX(0);
+}
+
+.side-menu a {
+  text-decoration: none;
+  color: #e5edf8;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 10px;
+  min-height: 40px;
+  padding: 0 12px;
+  display: inline-flex;
+  align-items: center;
+}
+
+.menu-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(4, 8, 14, 0.5);
+  z-index: 44;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease;
+}
+
+.menu-backdrop.show {
+  opacity: 1;
+  pointer-events: auto;
+}
+
 @keyframes logoPulse {
   0%,
   100% {
@@ -405,16 +462,30 @@ body {
 </style>
 </head>
 <body>
+  <aside id="sideMenu" class="side-menu" aria-label="Menu">
+    <a href="/discover.html">Discover</a>
+    <a href="/browse.html">Music</a>
+    <a href="/movies.html">Movies</a>
+    <a href="/events.html">Events</a>
+    <a href="/merch.html">Merch</a>
+    <a href="/artist/signup.html">Sell</a>
+  </aside>
+  <div id="menuBackdrop" class="menu-backdrop" aria-hidden="true"></div>
+
   <main class="page">
     <header class="topbar">
+      <div class="topbar-left">
+        <button id="menuBtn" class="icon-btn" type="button" aria-label="Menu">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <line x1="3" y1="6" x2="21" y2="6"></line>
+            <line x1="3" y1="12" x2="21" y2="12"></line>
+            <line x1="3" y1="18" x2="21" y2="18"></line>
+          </svg>
+        </button>
+      </div>
       <a class="logo-link" href="/index.html" aria-label="Home"><img class="logo" src="/assets/logo.png" alt="JENGU"></a>
       <div class="topbar-actions">
-        <a class="icon-btn" href="/discover.html" aria-label="Search">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-            <circle cx="11" cy="11" r="7"></circle>
-            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-          </svg>
-        </a>
+        <button id="langBtn" class="icon-btn lang-btn" type="button" aria-label="Language">FR</button>
         <a class="icon-btn" href="/user/login.html" aria-label="Profile">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
             <path d="M20 21a8 8 0 0 0-16 0"></path>
@@ -645,6 +716,27 @@ window.addEventListener("DOMContentLoaded", () => {
   mount();
   bindRoleLinks();
   startHero();
+
+  const menuBtn = document.getElementById("menuBtn");
+  const sideMenu = document.getElementById("sideMenu");
+  const backdrop = document.getElementById("menuBackdrop");
+
+  function closeMenu() {
+    if (sideMenu) sideMenu.classList.remove("open");
+    if (backdrop) backdrop.classList.remove("show");
+  }
+
+  if (menuBtn && sideMenu && backdrop) {
+    menuBtn.addEventListener("click", () => {
+      sideMenu.classList.toggle("open");
+      backdrop.classList.toggle("show");
+    });
+
+    backdrop.addEventListener("click", closeMenu);
+    sideMenu.querySelectorAll("a").forEach((link) => {
+      link.addEventListener("click", closeMenu);
+    });
+  }
 
   const langBtn = document.getElementById("langBtn");
   if (langBtn) {
