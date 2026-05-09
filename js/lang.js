@@ -1456,7 +1456,14 @@ export function toggleLang(){
   attachLangButton();
 }
 
+function isHomepage(){
+  const path = window.location.pathname || "/";
+  return path === "/" || path === "/index.html";
+}
+
 function ensureLangButton(){
+  if(!isHomepage()) return null;
+
   let btn = document.getElementById("langBtn");
   if(btn) return btn;
 
@@ -1488,6 +1495,8 @@ function ensureLangButton(){
    ATTACH BUTTON HANDLER
 ========================= */
 export function attachLangButton(){
+  if(!isHomepage()) return;
+
   const btn = ensureLangButton();
   if(btn){
     btn.onclick = toggleLang;
@@ -1504,6 +1513,8 @@ export function initLang(){
   applyLang();
 
   // attach click handler
+  if(!isHomepage()) return;
+
   if(document.readyState === "loading"){
     document.addEventListener("DOMContentLoaded", attachLangButton);
   } else {

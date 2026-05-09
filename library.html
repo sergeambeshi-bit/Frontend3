@@ -14,7 +14,7 @@
 <div class="topbar">
   <span class="menu" id="menuBtn">☰</span>
   <h3 id="title">Library</h3>
-  <span id="langBtn">FR ▾</span>
+  <span></span>
 </div>
 
 <!-- SIDE MENU -->
@@ -54,15 +54,7 @@ let lang = localStorage.getItem("lang") || "fr";
 
 function applyLang(){
   document.getElementById("title").textContent = translations[lang].title;
-  document.getElementById("langBtn").textContent = lang.toUpperCase()+" ▾";
 }
-
-document.getElementById("langBtn").onclick = ()=>{
-  lang = lang === "fr" ? "en" : "fr";
-  localStorage.setItem("lang", lang);
-  renderLibrary();
-  applyLang();
-};
 
 applyLang();
 
