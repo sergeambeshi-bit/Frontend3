@@ -2,87 +2,89 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>JENGU</title>
-<link rel="stylesheet" href="/styles/app.css">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;600;700;800&family=Playfair+Display:wght@700;800&display=swap" rel="stylesheet">
 <style>
-body.home-v4 {
-  --bg-0: #060b14;
-  --bg-1: #0c1423;
-  --surface: #111c2f;
+:root {
+  --bg: #060b14;
+  --surface: #0f1726;
+  --surface-2: #111b2d;
   --line: rgba(255, 255, 255, 0.12);
-  --ink: #f6f8fc;
-  --muted: #a9b6cd;
+  --text: #f5f7fb;
+  --muted: #a5b2c9;
   --accent: #01d4ab;
-  --accent-2: #53f6d7;
+  --accent-2: #62f7db;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
   margin: 0;
-  padding-bottom: 24px;
-  color: var(--ink);
+  color: var(--text);
   font-family: "Manrope", sans-serif;
   background:
-    radial-gradient(1200px 360px at 50% -12%, rgba(1, 212, 171, 0.2), transparent 56%),
-    radial-gradient(700px 300px at 88% 20%, rgba(88, 162, 255, 0.12), transparent 62%),
-    linear-gradient(180deg, var(--bg-1), var(--bg-0));
+    radial-gradient(1200px 340px at 50% -16%, rgba(1, 212, 171, 0.18), transparent 60%),
+    linear-gradient(180deg, #0b1322 0%, #070d18 45%, #060a13 100%);
+  padding-bottom: calc(84px + env(safe-area-inset-bottom));
 }
 
-.home-shell {
-  width: min(1200px, calc(100% - 24px));
+.page {
+  width: min(760px, 100%);
   margin: 0 auto;
+  padding: 0 12px;
 }
 
-.home-topbar {
+.topbar {
   position: sticky;
   top: 0;
-  z-index: 20;
-  display: flex;
+  z-index: 30;
+  display: grid;
+  grid-template-columns: auto 1fr auto auto;
   align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-  padding: 10px 0;
-  background: linear-gradient(180deg, rgba(6, 11, 20, 0.86), rgba(6, 11, 20, 0.5));
-  backdrop-filter: blur(10px);
+  gap: 8px;
+  padding: 8px 0;
+  background: linear-gradient(180deg, rgba(6, 11, 20, 0.9), rgba(6, 11, 20, 0.56));
+  backdrop-filter: blur(9px);
 }
 
-.home-logo {
-  width: 122px;
+.logo {
+  width: 108px;
   height: auto;
 }
 
-.home-nav {
-  display: none;
-  align-items: center;
-  gap: 8px;
+.topbar-spacer {
+  min-height: 1px;
 }
 
-.home-nav a {
-  text-decoration: none;
-  color: #dce4f3;
-  border: 1px solid rgba(255, 255, 255, 0.18);
+.icon-btn {
+  width: 36px;
+  height: 36px;
   border-radius: 999px;
-  padding: 6px 10px;
-  font-size: 12px;
-}
-
-.lang-btn {
   border: 1px solid var(--line);
-  background: rgba(255, 255, 255, 0.04);
-  color: #e8edf7;
-  border-radius: 999px;
-  min-height: 34px;
-  padding: 0 11px;
-  font-weight: 700;
+  background: rgba(255, 255, 255, 0.06);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: #dce6f7;
+}
+
+.icon-btn svg {
+  width: 18px;
+  height: 18px;
 }
 
 .hero {
-  position: relative;
-  margin-top: 6px;
-  min-height: 68vh;
-  border-radius: 22px;
+  margin-top: 4px;
+  min-height: 46vh;
+  border-radius: 18px;
   overflow: hidden;
   border: 1px solid var(--line);
+  position: relative;
 }
 
 .hero-bg {
@@ -90,402 +92,382 @@ body.home-v4 {
   inset: 0;
   background: center/cover no-repeat;
   transform: scale(1.04);
-  transition: transform 3.5s ease, background-image 0.6s ease;
+  transition: transform 2.8s ease, background-image 0.5s ease;
 }
 
 .hero::after {
   content: "";
   position: absolute;
   inset: 0;
-  background:
-    linear-gradient(110deg, rgba(10, 16, 28, 0.84) 8%, rgba(10, 16, 28, 0.28) 68%, rgba(10, 16, 28, 0.84) 100%),
-    linear-gradient(180deg, rgba(0, 0, 0, 0.08), rgba(0, 0, 0, 0.42));
+  background: linear-gradient(145deg, rgba(8, 12, 20, 0.72) 14%, rgba(8, 12, 20, 0.26) 64%, rgba(8, 12, 20, 0.72) 100%);
 }
 
 .hero-content {
   position: relative;
   z-index: 1;
-  padding: 22px 16px 20px;
+  min-height: 46vh;
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
-  min-height: 68vh;
+  gap: 10px;
+  padding: 16px;
 }
 
 .hero h1 {
   margin: 0;
   font-family: "Playfair Display", serif;
-  font-size: clamp(30px, 9.5vw, 62px);
-  line-height: 0.97;
+  font-size: clamp(29px, 8.8vw, 52px);
+  line-height: 0.98;
   letter-spacing: -0.02em;
-  max-width: 13ch;
-  text-wrap: balance;
+  max-width: 12.5ch;
 }
 
 .hero-sub {
-  margin: 12px 0 0;
-  color: #dbe3f2;
-  max-width: 33ch;
-  font-size: clamp(13px, 3.6vw, 17px);
+  margin: 0;
+  font-size: clamp(12px, 3.2vw, 15px);
+  color: #d7dfee;
+  max-width: 32ch;
 }
 
-.hero-cta {
-  margin-top: 14px;
+.row {
   display: flex;
   gap: 8px;
+  align-items: center;
+  flex-wrap: wrap;
 }
 
 .btn-main,
 .btn-ghost,
 .btn-view,
-.card-btn {
+.item-btn {
+  text-decoration: none;
+  border-radius: 999px;
+  min-height: 38px;
+  padding: 0 14px;
+  font-size: 12px;
+  font-weight: 800;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  text-decoration: none;
-  border-radius: 999px;
-  min-height: 40px;
-  padding: 0 14px;
-  font-size: 13px;
-  font-weight: 800;
-  border: 0;
 }
 
 .btn-main {
-  color: #061914;
+  color: #041612;
   background: linear-gradient(120deg, var(--accent), var(--accent-2));
 }
 
-.btn-ghost {
-  color: #f5f8fc;
-  border: 1px solid rgba(255, 255, 255, 0.34);
-  background: rgba(255, 255, 255, 0.06);
+.btn-ghost,
+.btn-view,
+.item-btn {
+  color: #edf2fb;
+  background: rgba(255, 255, 255, 0.07);
+  border: 1px solid rgba(255, 255, 255, 0.22);
 }
 
 .section {
-  margin-top: 34px;
+  margin-top: 24px;
+  content-visibility: auto;
+  contain-intrinsic-size: 420px;
 }
 
 .section-head {
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  gap: 10px;
-  margin-bottom: 12px;
+  justify-content: space-between;
+  margin-bottom: 10px;
 }
 
 .section h2 {
   margin: 0;
-  font-size: clamp(21px, 5.6vw, 34px);
+  font-size: clamp(20px, 5.6vw, 30px);
   font-family: "Playfair Display", serif;
   letter-spacing: -0.02em;
 }
 
-.btn-view {
-  color: #d9e2f2;
-  border: 1px solid var(--line);
-  background: rgba(255, 255, 255, 0.03);
-  min-height: 32px;
-  padding: 0 12px;
-}
-
-.gateway-grid {
-  display: grid;
+.categories-scroll,
+.new-scroll,
+.film-scroll,
+.merch-scroll {
+  display: flex;
   gap: 10px;
-  grid-template-columns: 1fr;
+  overflow-x: auto;
+  scrollbar-width: none;
+  padding-bottom: 2px;
+  scroll-snap-type: x proximity;
 }
 
-.gateway-card {
-  min-height: 130px;
-  border-radius: 18px;
+.categories-scroll::-webkit-scrollbar,
+.new-scroll::-webkit-scrollbar,
+.film-scroll::-webkit-scrollbar,
+.merch-scroll::-webkit-scrollbar {
+  display: none;
+}
+
+.cat-card {
+  flex: 0 0 44%;
+  min-height: 96px;
+  border-radius: 14px;
   overflow: hidden;
   border: 1px solid var(--line);
   position: relative;
   text-decoration: none;
+  scroll-snap-align: start;
 }
 
-.gateway-card img {
-  position: absolute;
-  inset: 0;
+.cat-card img {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  filter: saturate(1.1);
 }
 
-.gateway-card::after {
+.cat-card::after {
   content: "";
   position: absolute;
   inset: 0;
-  background: linear-gradient(180deg, rgba(7, 11, 20, 0.18), rgba(7, 11, 20, 0.78));
+  background: linear-gradient(180deg, rgba(7, 12, 20, 0.2), rgba(7, 12, 20, 0.8));
 }
 
-.gateway-card span {
+.cat-card span {
   position: absolute;
-  left: 12px;
-  bottom: 12px;
+  left: 10px;
+  bottom: 10px;
   z-index: 1;
-  font-size: 25px;
-  color: #f6f9ff;
   font-family: "Playfair Display", serif;
+  font-size: 22px;
+  color: #f8fbff;
 }
 
-.product-grid {
+.grid-2 {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 10px;
 }
 
-.product-card {
-  border-radius: 16px;
+.item-card {
+  border-radius: 14px;
   overflow: hidden;
   border: 1px solid var(--line);
-  background: rgba(16, 24, 39, 0.9);
+  background: linear-gradient(160deg, rgba(16, 24, 38, 0.94), rgba(11, 18, 30, 0.94));
 }
 
-.product-cover {
+.item-cover {
   width: 100%;
   aspect-ratio: 1 / 1;
   object-fit: cover;
   display: block;
 }
 
-.product-body {
-  padding: 10px;
+.item-cover.poster {
+  aspect-ratio: 2 / 3;
+}
+
+.item-body {
+  padding: 9px;
   display: grid;
   gap: 6px;
 }
 
-.product-title {
+.item-title {
   margin: 0;
-  font-size: 13px;
-  line-height: 1.25;
+  font-size: 12px;
+  line-height: 1.28;
 }
 
-.product-meta {
+.item-meta {
   margin: 0;
   font-size: 11px;
   color: var(--muted);
 }
 
-.product-foot {
+.item-foot {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 8px;
+  gap: 6px;
 }
 
-.product-price {
-  font-size: 12px;
-  color: #89fde7;
+.price {
+  color: #8efde8;
+  font-size: 11px;
   font-weight: 700;
 }
 
-.card-btn {
-  min-height: 30px;
-  font-size: 11px;
-  padding: 0 10px;
-  color: #f6f8fd;
-  border: 1px solid rgba(255, 255, 255, 0.26);
-  background: rgba(255, 255, 255, 0.07);
+.scroll-card {
+  flex: 0 0 42%;
+  scroll-snap-align: start;
 }
 
-.regional-grid {
-  display: grid;
-  gap: 10px;
-  grid-template-columns: 1fr;
-}
-
-.regional-card {
-  border: 1px solid var(--line);
-  border-radius: 18px;
-  padding: 14px;
-  background: linear-gradient(160deg, rgba(20, 29, 46, 0.94), rgba(14, 21, 34, 0.94));
-}
-
-.regional-title {
+.event-meta {
   margin: 0;
-  font-family: "Playfair Display", serif;
-  font-size: 21px;
+  font-size: 11px;
+  color: #9ee9db;
 }
 
-.regional-list {
-  margin: 12px 0 0;
-  padding: 0;
-  list-style: none;
-  display: grid;
-  gap: 8px;
-}
-
-.regional-list a {
-  text-decoration: none;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  color: #e6ecf7;
-  border: 1px solid rgba(255, 255, 255, 0.14);
-  border-radius: 10px;
-  padding: 9px 10px;
-  font-size: 12px;
-}
-
-.creator-cta {
-  border: 1px solid rgba(1, 212, 171, 0.5);
-  border-radius: 20px;
-  padding: 22px 14px;
-  margin: 42px 0 24px;
+.discover-cta {
+  margin: 30px 0 8px;
+  border: 1px solid rgba(1, 212, 171, 0.45);
+  border-radius: 18px;
+  padding: 18px 12px;
   text-align: center;
   background:
-    radial-gradient(400px 140px at 50% 0%, rgba(1, 212, 171, 0.18), transparent 70%),
-    linear-gradient(180deg, rgba(18, 25, 39, 0.95), rgba(10, 15, 24, 0.95));
+    radial-gradient(360px 120px at 50% 0%, rgba(1, 212, 171, 0.2), transparent 70%),
+    linear-gradient(180deg, rgba(16, 23, 36, 0.95), rgba(10, 14, 22, 0.95));
 }
 
-.creator-cta h3 {
-  margin: 0;
-  font-size: clamp(22px, 6vw, 34px);
+.discover-cta h3 {
+  margin: 0 0 12px;
   font-family: "Playfair Display", serif;
+  font-size: clamp(21px, 6vw, 30px);
 }
 
-@media (min-width: 780px) {
-  .home-shell {
-    width: min(1240px, calc(100% - 44px));
+.bottom-nav {
+  position: fixed;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: 8px;
+  width: min(760px, calc(100% - 16px));
+  z-index: 40;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background: rgba(9, 14, 24, 0.9);
+  backdrop-filter: blur(12px);
+  padding: 6px;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 4px;
+}
+
+.bottom-nav a {
+  text-decoration: none;
+  color: #dfe7f5;
+  min-height: 38px;
+  border-radius: 12px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.bottom-nav a.active {
+  background: rgba(1, 212, 171, 0.2);
+  color: #e9fffa;
+}
+
+@media (min-width: 640px) {
+  .page {
+    padding: 0 16px;
   }
 
-  .home-nav {
-    display: flex;
+  .cat-card {
+    flex-basis: 28%;
   }
 
-  .hero,
-  .hero-content {
-    min-height: 76vh;
+  .scroll-card {
+    flex-basis: 26%;
   }
 
-  .hero-content {
-    padding: 32px 30px;
-  }
-
-  .gateway-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 14px;
-  }
-
-  .gateway-card {
-    min-height: 190px;
-  }
-
-  .product-grid {
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-    gap: 14px;
-  }
-
-  .regional-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 14px;
+  .grid-2 {
+    gap: 12px;
   }
 }
 </style>
 </head>
-<body class="home-v4">
-<div class="home-shell">
-  <header class="home-topbar">
-    <a href="/index.html" aria-label="Home"><img class="home-logo" src="/assets/logo.png" alt="JENGU"></a>
-    <nav class="home-nav" aria-label="Main">
-      <a href="/discover.html" data-i18n="discoverNav">Discover</a>
-      <a href="/browse.html" data-i18n="musicNav">Music</a>
-      <a href="/movies.html" data-i18n="moviesNav">Movies</a>
-      <a href="/events.html" data-i18n="eventsNav">Events</a>
-      <a href="/merch.html" data-i18n="merchNav">Merch</a>
-    </nav>
-    <button id="langBtn" class="lang-btn" type="button">FR ▾</button>
-  </header>
+<body>
+  <main class="page">
+    <header class="topbar">
+      <a href="/index.html" aria-label="Home"><img class="logo" src="/assets/logo.png" alt="JENGU"></a>
+      <div class="topbar-spacer"></div>
+      <a class="icon-btn" href="/discover.html" aria-label="Search">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <circle cx="11" cy="11" r="7"></circle>
+          <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+        </svg>
+      </a>
+      <a class="icon-btn" href="/user/login.html" aria-label="Profile">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M20 21a8 8 0 0 0-16 0"></path>
+          <circle cx="12" cy="7" r="4"></circle>
+        </svg>
+      </a>
+    </header>
 
-  <section class="hero" aria-label="Hero">
-    <div id="heroBg" class="hero-bg" aria-hidden="true"></div>
-    <div class="hero-content">
-      <h1 id="heroTitle" data-i18n="homeV4HeroTitle">Own Music. Discover Culture.</h1>
-      <p id="heroSub" class="hero-sub" data-i18n="homeV4HeroSub">Premium marketplace for music, movies, events, and merch.</p>
-      <div class="hero-cta">
-        <a id="heroExplore" href="/discover.html" class="btn-main" data-i18n="exploreOne">Explore</a>
-        <a id="heroSell" href="/artist/signup.html" class="btn-ghost" data-i18n="sellOne">Sell</a>
+    <section class="hero" aria-label="Hero">
+      <div id="heroBg" class="hero-bg" aria-hidden="true"></div>
+      <div class="hero-content">
+        <h1>Own Music. Discover Culture.</h1>
+        <p class="hero-sub" id="heroSub">Fast marketplace for music, movies, events, and merch.</p>
+        <div class="row">
+          <a href="/discover.html" class="btn-main">Explore</a>
+          <a id="heroSell" href="/artist/signup.html" class="btn-ghost">Sell</a>
+        </div>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <section class="section" aria-labelledby="gatewayTitle">
-    <div class="section-head">
-      <h2 id="gatewayTitle" data-i18n="homeV4Discover">Discover</h2>
-    </div>
-    <div class="gateway-grid">
-      <a class="gateway-card" href="/browse.html"><img src="/assets/covers/album1.png" alt="Music"><span>Music</span></a>
-      <a class="gateway-card" href="/movies.html"><img src="/assets/covers/cover3.png" alt="Movies"><span>Movies</span></a>
-      <a class="gateway-card" href="/events.html"><img src="/assets/covers/cover7.png" alt="Events"><span>Events</span></a>
-      <a class="gateway-card" href="/merch.html"><img src="/assets/covers/cover6.png" alt="Merch"><span>Merch</span></a>
-    </div>
-  </section>
+    <section class="section" aria-labelledby="categoriesTitle">
+      <div class="section-head">
+        <h2 id="categoriesTitle">Discover</h2>
+      </div>
+      <div class="categories-scroll">
+        <a class="cat-card" href="/browse.html"><img loading="lazy" src="/assets/covers/album1.png" alt="Music"><span>Music</span></a>
+        <a class="cat-card" href="/movies.html"><img loading="lazy" src="/assets/covers/cover3.png" alt="Movies"><span>Movies</span></a>
+        <a class="cat-card" href="/events.html"><img loading="lazy" src="/assets/covers/cover7.png" alt="Events"><span>Events</span></a>
+        <a class="cat-card" href="/merch.html"><img loading="lazy" src="/assets/covers/cover6.png" alt="Merch"><span>Merch</span></a>
+      </div>
+    </section>
 
-  <section class="section" aria-labelledby="trendingTitle">
-    <div class="section-head">
-      <h2 id="trendingTitle" data-i18n="homeV4Trending">Trending</h2>
-      <a class="btn-view" href="/discover.html" data-i18n="view">View</a>
-    </div>
-    <div class="product-grid" id="trendingGrid"></div>
-  </section>
+    <section class="section" aria-labelledby="trendingTitle">
+      <div class="section-head">
+        <h2 id="trendingTitle">Trending</h2>
+        <a href="/discover.html" class="btn-view">View</a>
+      </div>
+      <div id="trendingGrid" class="grid-2"></div>
+    </section>
 
-  <section class="section" aria-labelledby="newTitle">
-    <div class="section-head">
-      <h2 id="newTitle" data-i18n="homeV4New">New</h2>
-      <a class="btn-view" href="/new-releases.html" data-i18n="view">View</a>
-    </div>
-    <div class="product-grid" id="newGrid"></div>
-  </section>
+    <section class="section" aria-labelledby="newTitle">
+      <div class="section-head">
+        <h2 id="newTitle">New</h2>
+        <a href="/new-releases.html" class="btn-view">View</a>
+      </div>
+      <div id="newRow" class="new-scroll"></div>
+    </section>
 
-  <section class="section" aria-labelledby="eventsTitle">
-    <div class="section-head">
-      <h2 id="eventsTitle" data-i18n="homeV4Events">Events</h2>
-      <a class="btn-view" href="/events.html" data-i18n="view">View</a>
-    </div>
-    <div class="product-grid" id="eventsGrid"></div>
-  </section>
+    <section class="section" aria-labelledby="eventsTitle">
+      <div class="section-head">
+        <h2 id="eventsTitle">Events</h2>
+        <a href="/events.html" class="btn-view">View</a>
+      </div>
+      <div id="eventsGrid" class="grid-2"></div>
+    </section>
 
-  <section class="section" aria-labelledby="moviesTitle">
-    <div class="section-head">
-      <h2 id="moviesTitle" data-i18n="homeV4Movies">Movies</h2>
-      <a class="btn-view" href="/movies.html" data-i18n="view">View</a>
-    </div>
-    <div class="product-grid" id="moviesGrid"></div>
-  </section>
+    <section class="section" aria-labelledby="filmsTitle">
+      <div class="section-head">
+        <h2 id="filmsTitle">Films</h2>
+        <a href="/movies.html" class="btn-view">View</a>
+      </div>
+      <div id="filmsRow" class="film-scroll"></div>
+    </section>
 
-  <section class="section" aria-labelledby="merchTitle">
-    <div class="section-head">
-      <h2 id="merchTitle" data-i18n="homeV4Merch">Merch</h2>
-      <a class="btn-view" href="/merch.html" data-i18n="view">View</a>
-    </div>
-    <div class="product-grid" id="merchGrid"></div>
-  </section>
+    <section class="section" aria-labelledby="merchTitle">
+      <div class="section-head">
+        <h2 id="merchTitle">Merch</h2>
+        <a href="/merch.html" class="btn-view">View</a>
+      </div>
+      <div id="merchRow" class="merch-scroll"></div>
+    </section>
 
-  <section class="section" aria-labelledby="regionalTitle">
-    <div class="section-head">
-      <h2 id="regionalTitle" data-i18n="homeV4Regional">Regional</h2>
-    </div>
-    <div class="regional-grid">
-      <article class="regional-card">
-        <h3 id="cmTitle" class="regional-title" data-i18n="homeV4Cameroon">Cameroon Spotlight</h3>
-        <ul id="cmList" class="regional-list"></ul>
-      </article>
-      <article class="regional-card">
-        <h3 id="frTitle" class="regional-title" data-i18n="homeV4Francophone">Francophone Picks</h3>
-        <ul id="frList" class="regional-list"></ul>
-      </article>
-    </div>
-  </section>
+    <section class="discover-cta" aria-labelledby="discoverCtaTitle">
+      <h3 id="discoverCtaTitle">Discover</h3>
+      <a href="/discover.html" class="btn-main">Discover</a>
+    </section>
+  </main>
 
-  <section class="creator-cta" aria-labelledby="creatorTitle">
-    <h3 id="creatorTitle" data-i18n="homeV4Creator">Sell your work</h3>
-    <div class="hero-cta" style="justify-content:center; margin-top:12px;">
-      <a id="creatorSell" class="btn-main" href="/artist/signup.html" data-i18n="sellOne">Sell</a>
-    </div>
-  </section>
-</div>
+  <nav class="bottom-nav" aria-label="Primary">
+    <a class="active" href="/index.html">Home</a>
+    <a href="/discover.html">Discover</a>
+    <a id="sellNav" href="/artist/signup.html">Sell</a>
+    <a href="/user/login.html">Profile</a>
+  </nav>
 
 <script type="module">
 import { initLang, getLang, translate } from "/js/lang.js";
@@ -500,15 +482,7 @@ const heroImages = [
   "/assets/hero/hero3.png"
 ];
 
-function uiLang() {
-  return getLang() === "fr" ? "fr" : "en";
-}
-
-function fmtXaf(amount) {
-  return `${Number(amount || 0).toLocaleString("fr-FR")} XAF`;
-}
-
-function itemLink(item) {
+function linkFor(item) {
   if (item.category === "movies") return `/movie.html?id=${encodeURIComponent(item.id)}`;
   if (item.category === "events") return `/event.html?id=${encodeURIComponent(item.id)}`;
   if (item.category === "merch") return `/merch-product.html?id=${encodeURIComponent(item.id)}`;
@@ -516,105 +490,138 @@ function itemLink(item) {
   return `/track.html?id=${encodeURIComponent(item.id)}`;
 }
 
-function actionLabel(item) {
-  if (item.category === "merch") return translate("buy");
-  if (item.category === "music" || item.category === "movies") return translate("play");
-  return translate("view");
+function actionFor(item) {
+  if (item.category === "merch") return "Buy";
+  if (item.category === "music" || item.category === "movies") return "Play";
+  return "View";
 }
 
-function renderCard(item, lang) {
-  const title = getLocalizedValue(item.title, lang) || translate("homeUntitled");
+function fmtXaf(value) {
+  return `${Number(value || 0).toLocaleString("fr-FR")} XAF`;
+}
+
+function sortByPopularity(items) {
+  return [...items].sort((a, b) => (b.popularity || 0) - (a.popularity || 0));
+}
+
+function sortByNewest(items) {
+  return [...items].sort((a, b) => Date.parse(b.releaseDate || "") - Date.parse(a.releaseDate || ""));
+}
+
+function shortDate(dateText) {
+  const lang = getLang() === "fr" ? "fr-FR" : "en-US";
+  const d = new Date(dateText || "");
+  if (Number.isNaN(d.getTime())) return "";
+  return d.toLocaleDateString(lang, { day: "2-digit", month: "short" });
+}
+
+function tTitle(item) {
+  const lang = getLang() === "fr" ? "fr" : "en";
+  return getLocalizedValue(item.title, lang) || translate("homeUntitled");
+}
+
+function renderItemCard(item, options = {}) {
+  const title = tTitle(item);
   const creator = item.creator || translate("pdpCreator");
+  const poster = options.poster ? " poster" : "";
+  const sub = options.subline || creator;
+
   return `
-    <article class="product-card">
-      <a href="${itemLink(item)}"><img class="product-cover" src="${item.cover}" alt="${title}"></a>
-      <div class="product-body">
-        <p class="product-title">${title}</p>
-        <p class="product-meta">${creator}</p>
-        <div class="product-foot">
-          <span class="product-price">${fmtXaf(item.price)}</span>
-          <a class="card-btn" href="${itemLink(item)}">${actionLabel(item)}</a>
+    <article class="item-card ${options.scroll ? "scroll-card" : ""}">
+      <a href="${linkFor(item)}"><img loading="lazy" class="item-cover${poster}" src="${item.cover}" alt="${title}"></a>
+      <div class="item-body">
+        <p class="item-title">${title}</p>
+        <p class="item-meta">${sub}</p>
+        <div class="item-foot">
+          <span class="price">${fmtXaf(item.price)}</span>
+          <a class="item-btn" href="${linkFor(item)}">${actionFor(item)}</a>
         </div>
       </div>
     </article>
   `;
 }
 
-function renderGrid(id, list, lang, limit = 4) {
-  const el = document.getElementById(id);
-  if (!el) return;
-  el.innerHTML = list.slice(0, limit).map((item) => renderCard(item, lang)).join("");
-}
-
-function renderRegionalList(id, items, lang) {
-  const el = document.getElementById(id);
-  if (!el) return;
-  el.innerHTML = items.slice(0, 4).map((item) => {
-    const title = getLocalizedValue(item.title, lang) || translate("homeUntitled");
-    return `<li><a href="${itemLink(item)}"><span>${title}</span><span>${translate("view")}</span></a></li>`;
-  }).join("");
-}
-
-function buildHome() {
-  const lang = uiLang();
+function mount() {
   const all = [...marketplaceItems];
-  const byPopularity = [...all].sort((a, b) => (b.popularity || 0) - (a.popularity || 0));
-  const byNewest = [...all].sort((a, b) => Date.parse(b.releaseDate || "") - Date.parse(a.releaseDate || ""));
+  const trending = sortByPopularity(all).slice(0, 6);
+  const newest = sortByNewest(all).slice(0, 8);
   const events = all.filter((i) => i.category === "events").sort((a, b) => Date.parse(a.releaseDate || "") - Date.parse(b.releaseDate || ""));
-  const movies = all.filter((i) => i.category === "movies").sort((a, b) => (b.popularity || 0) - (a.popularity || 0));
+  const films = all.filter((i) => i.category === "movies").sort((a, b) => (b.popularity || 0) - (a.popularity || 0));
   const merch = all.filter((i) => i.category === "merch").sort((a, b) => (b.popularity || 0) - (a.popularity || 0));
-  const cameroon = all.filter((i) => ["Douala", "Yaounde", "Bafoussam", "Garoua", "Buea"].includes(i.city));
-  const franco = all.filter((i) => i.city !== "").sort((a, b) => (b.popularity || 0) - (a.popularity || 0));
 
-  renderGrid("trendingGrid", byPopularity, lang, 8);
-  renderGrid("newGrid", byNewest, lang, 8);
-  renderGrid("eventsGrid", events, lang, 4);
-  renderGrid("moviesGrid", movies, lang, 4);
-  renderGrid("merchGrid", merch, lang, 4);
-  renderRegionalList("cmList", cameroon, lang);
-  renderRegionalList("frList", franco, lang);
+  const trendingEl = document.getElementById("trendingGrid");
+  const newEl = document.getElementById("newRow");
+  const eventsEl = document.getElementById("eventsGrid");
+  const filmsEl = document.getElementById("filmsRow");
+  const merchEl = document.getElementById("merchRow");
+
+  if (trendingEl) {
+    trendingEl.innerHTML = trending.map((item) => renderItemCard(item)).join("");
+  }
+
+  if (newEl) {
+    newEl.innerHTML = newest.map((item) => renderItemCard(item, { scroll: true })).join("");
+  }
+
+  if (eventsEl) {
+    eventsEl.innerHTML = events.slice(0, 4).map((item) => {
+      const date = shortDate(item.releaseDate);
+      const city = item.city || "";
+      return renderItemCard(item, {
+        subline: `${date}${date && city ? " - " : ""}${city}`
+      });
+    }).join("");
+  }
+
+  if (filmsEl) {
+    filmsEl.innerHTML = films.map((item) => renderItemCard(item, { scroll: true, poster: true })).join("");
+  }
+
+  if (merchEl) {
+    merchEl.innerHTML = merch.map((item) => renderItemCard(item, { scroll: true })).join("");
+  }
+}
+
+function bindRoleLinks() {
+  const user = getCurrentUser();
+  if (user?.role === "artist") {
+    const heroSell = document.getElementById("heroSell");
+    const sellNav = document.getElementById("sellNav");
+    if (heroSell) heroSell.href = "/artist/upload-track.html";
+    if (sellNav) sellNav.href = "/artist/creator-hub.html";
+  }
 }
 
 function startHero() {
   const bg = document.getElementById("heroBg");
   if (!bg) return;
-  let idx = 0;
-  bg.style.backgroundImage = `url(${heroImages[idx]})`;
+
+  let index = 0;
+  bg.style.backgroundImage = `url(${heroImages[index]})`;
+
   setInterval(() => {
-    idx = (idx + 1) % heroImages.length;
-    bg.style.backgroundImage = `url(${heroImages[idx]})`;
+    index = (index + 1) % heroImages.length;
+    bg.style.backgroundImage = `url(${heroImages[index]})`;
     bg.style.transform = "scale(1.08)";
     setTimeout(() => {
       bg.style.transform = "scale(1.04)";
-    }, 420);
-  }, 5200);
-}
-
-function bindLangRefresh() {
-  const btn = document.getElementById("langBtn");
-  if (!btn) return;
-  btn.addEventListener("click", () => {
-    setTimeout(() => {
-      buildHome();
-    }, 0);
-  });
-}
-
-function bindCreatorCta() {
-  const user = getCurrentUser();
-  if (user?.role === "artist") {
-    const sellA = document.getElementById("heroSell");
-    const cta = document.getElementById("creatorSell");
-    if (sellA) sellA.href = "/artist/upload-track.html";
-    if (cta) cta.href = "/artist/publish-new-release.html";
-  }
+    }, 320);
+  }, 5600);
 }
 
 window.addEventListener("DOMContentLoaded", () => {
-  buildHome();
-  bindLangRefresh();
-  bindCreatorCta();
+  mount();
+  bindRoleLinks();
   startHero();
+
+  const langBtn = document.getElementById("langBtn");
+  if (langBtn) {
+    langBtn.addEventListener("click", () => {
+      setTimeout(() => {
+        mount();
+      }, 0);
+    });
+  }
 });
 </script>
 </body>
