@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>JENGU Admin – Promotions</title>
+  <title>Promotions admin - JENGU</title>
 
   <link rel="stylesheet" href="../styles/base.css">
   <link rel="stylesheet" href="../styles/layout.css">
@@ -11,34 +11,34 @@
   <link rel="stylesheet" href="../styles/theme-afro.css">
 </head>
 
-<body class="dark-theme admin-panel">
+<body class="dark-theme admin-panel" data-i18n-title="promotionsPageTitle">
 
   <!-- HEADER -->
   <header class="admin-header">
     <a href="/index.html"><img src="../assets/logo.png" class="logo"></a>
 
     <nav>
-      <a href="dashboard.html">Dashboard</a>
-      <a href="users.html">Users</a>
-      <a href="artists.html">Artists</a>
-      <a href="catalog.html">Catalog</a>
-      <a href="transactions.html">Transactions</a>
-      <a href="payouts.html">Payouts</a>
-      <a href="promotions.html" class="active">Promotions</a>
-      <a href="fraud.html">Fraud</a>
+      <a href="dashboard.html" data-i18n="dashboard">Tableau de bord</a>
+      <a href="users.html" data-i18n="users">Utilisateurs</a>
+      <a href="artists.html" data-i18n="artists">Artistes</a>
+      <a href="catalog.html" data-i18n="catalogShort">Catalogue</a>
+      <a href="transactions.html" data-i18n="transactions">Transactions</a>
+      <a href="payouts.html" data-i18n="payouts">Paiements</a>
+      <a href="promotions.html" class="active" data-i18n="promotions">Promotions</a>
+      <a href="fraud.html" data-i18n="fraudShort">Fraude</a>
     </nav>
   </header>
 
   <!-- MAIN -->
   <main class="admin-main">
 
-    <h1>Promotions & Campaigns</h1>
+    <h1 data-i18n="promotions">Promotions</h1>
 
     <!-- SEARCH -->
     <input 
       type="text"
       id="searchPromo"
-      placeholder="Search campaigns..."
+      placeholder="Rechercher des campagnes..."
       class="admin-search"
     >
 
@@ -47,11 +47,11 @@
       <thead>
         <tr>
           <th>ID</th>
-          <th>Title</th>
+          <th>Titre</th>
           <th>Type</th>
-          <th>Start</th>
-          <th>End</th>
-          <th>Status</th>
+          <th>Debut</th>
+          <th>Fin</th>
+          <th>Statut</th>
           <th>Actions</th>
         </tr>
       </thead>
@@ -80,8 +80,8 @@ initLang();
       const s = new Date(start);
       const e = new Date(end);
 
-      if(today < s) return "Upcoming";
-      if(today > e) return "Ended";
+      if(today < s) return "A venir";
+      if(today > e) return "Terminee";
       return "Active";
     }
 
@@ -107,14 +107,14 @@ initLang();
           </td>
 
           <td>
-            <button class="btn btn-neon-outline edit">Edit</button>
-            <button class="btn btn-neon delete">Delete</button>
+            <button class="btn btn-neon-outline edit">Modifier</button>
+            <button class="btn btn-neon delete">Supprimer</button>
           </td>
         `;
 
         /* EDIT */
         row.querySelector('.edit').addEventListener('click', () => {
-          alert(`Editing: ${p.title}`);
+          alert(`Modification : ${p.title}`);
         });
 
         /* DELETE */

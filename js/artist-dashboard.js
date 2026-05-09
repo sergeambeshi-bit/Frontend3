@@ -12,6 +12,35 @@ function saveCatalog(data){
   localStorage.setItem("artist_catalog", JSON.stringify(data));
 }
 
+function getLang(){
+  return localStorage.getItem("lang") || "fr";
+}
+
+function translateArtist(key){
+  const messages = {
+    fr: {
+      artistPromptTrackName: "Nom du morceau ?",
+      artistPromptArtistName: "Nom de l'artiste ?",
+      artistPromptAlbumName: "Nom de l'album ?",
+      artistTrackAdded: "Morceau ajoute !",
+      artistAlbumAdded: "Album ajoute !",
+      artistPromptNewName: "Nouveau nom :",
+      analyticsLabel: "Analytique"
+    },
+    en: {
+      artistPromptTrackName: "Track name?",
+      artistPromptArtistName: "Artist name?",
+      artistPromptAlbumName: "Album name?",
+      artistTrackAdded: "Track added!",
+      artistAlbumAdded: "Album added!",
+      artistPromptNewName: "New name:",
+      analyticsLabel: "Analytics"
+    }
+  };
+
+  return messages[getLang()]?.[key] || key;
+}
+
 /* =========================
    UPLOAD TRACK
 ========================= */
@@ -21,9 +50,9 @@ function handleUploadTrack(){
   document.querySelectorAll(".btn-upload-track").forEach(btn => {
     btn.addEventListener("click", () => {
 
-      const name = prompt("Nom du morceau ?");
-      const artist = prompt("Nom de l'artiste ?");
-      const album = prompt("Nom de l'album ?");
+      const name = prompt(translateArtist("artistPromptTrackName"));
+      const artist = prompt(translateArtist("artistPromptArtistName"));
+      const album = prompt(translateArtist("artistPromptAlbumName"));
 
       if(!name) return;
 
@@ -38,7 +67,7 @@ function handleUploadTrack(){
       catalog.push(newTrack);
       saveCatalog(catalog);
 
-      alert("Morceau ajouté !");
+      alert(translateArtist("artistTrackAdded"));
       renderCatalog();
     });
   });
@@ -54,8 +83,8 @@ function handleUploadAlbum(){
   document.querySelectorAll(".btn-upload-album").forEach(btn => {
     btn.addEventListener("click", () => {
 
-      const album = prompt("Nom de l'album ?");
-      const artist = prompt("Nom de l'artiste ?");
+      const album = prompt(translateArtist("artistPromptAlbumName"));
+      const artist = prompt(translateArtist("artistPromptArtistName"));
 
       if(!album) return;
 
@@ -70,7 +99,7 @@ function handleUploadAlbum(){
       catalog.push(newAlbum);
       saveCatalog(catalog);
 
-      alert("Album ajouté !");
+      alert(translateArtist("artistAlbumAdded"));
       renderCatalog();
     });
   });
@@ -121,7 +150,7 @@ function attachCatalogActions(){
       const index = e.target.dataset.index;
       const catalog = getCatalog();
 
-      const newName = prompt("Nouveau nom :", catalog[index].name);
+      const newName = prompt(translateArtist("artistPromptNewName"), catalog[index].name);
       if(!newName) return;
 
       catalog[index].name = newName;
@@ -154,7 +183,7 @@ function attachCatalogActions(){
 function handleStats(){
   document.querySelectorAll(".artist-stat").forEach(stat => {
     stat.addEventListener("click", () => {
-      alert(`Analytics: ${stat.dataset.statName}`);
+      alert(`${translateArtist("analyticsLabel")}: ${stat.dataset.statName}`);
     });
   });
 }

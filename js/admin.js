@@ -12,6 +12,34 @@ function saveData(key, data){
   localStorage.setItem(key, JSON.stringify(data));
 }
 
+function getLang(){
+  return localStorage.getItem("lang") || "fr";
+}
+
+function translateAdmin(key, params = {}){
+  const messages = {
+    fr: {
+      adminPayoutMarkedPaid: "Paiement de {artist} marque comme paye",
+      adminEditPromotion: "Modifier la promotion : {promo}",
+      adminPromotionDeleted: "Promotion supprimee",
+      adminInvestigatingUser: "Investigation de l'utilisateur : {user}",
+      adminFraudResolved: "Cas de fraude resolu pour {user}"
+    },
+    en: {
+      adminPayoutMarkedPaid: "Payout for {artist} marked as paid",
+      adminEditPromotion: "Edit promotion: {promo}",
+      adminPromotionDeleted: "Promotion deleted",
+      adminInvestigatingUser: "Investigating user: {user}",
+      adminFraudResolved: "Fraud case for {user} resolved"
+    }
+  };
+
+  const template = messages[getLang()]?.[key] || key;
+  return Object.entries(params).reduce((message, [name, value]) => {
+    return message.replace(`{${name}}`, value);
+  }, template);
+}
+
 /* =========================
    PAYOUT SYSTEM
 ========================= */
@@ -34,7 +62,7 @@ function handlePayouts(){
       payouts[index] = { artist, status: "paid" };
       saveData("payouts", payouts);
 
-      alert(`Payout for ${artist} marked as Paid`);
+      alert(translateAdmin("adminPayoutMarkedPaid", { artist }));
     });
   });
 }
@@ -52,7 +80,7 @@ function handlePromotions(){
       const promoCell = row ? row.querySelector("td:nth-child(2)") : null;
       const promo = promoCell ? promoCell.textContent : "";
 
-      alert(`Edit promotion: ${promo}`);
+      alert(translateAdmin("adminEditPromotion", { promo }));
     });
   });
 
@@ -67,7 +95,7 @@ function handlePromotions(){
       promos.splice(index, 1);
       saveData("promotions", promos);
 
-      alert("Promotion deleted");
+      alert(translateAdmin("adminPromotionDeleted"));
     });
   });
 }
@@ -85,7 +113,7 @@ function handleFraud(){
       const investigateCell = row ? row.querySelector("td:nth-child(2)") : null;
       const user = investigateCell ? investigateCell.textContent : "";
 
-      alert(`Investigating user: ${user}`);
+      alert(translateAdmin("adminInvestigatingUser", { user }));
     });
   });
 
@@ -105,7 +133,7 @@ function handleFraud(){
       fraud[index] = { user, status: "resolved" };
       saveData("fraud", fraud);
 
-      alert(`Fraud case for ${user} resolved`);
+      alert(translateAdmin("adminFraudResolved", { user }));
     });
   });
 }

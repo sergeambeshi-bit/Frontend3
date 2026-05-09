@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>JENGU Admin – Fraud Monitoring</title>
+  <title>Fraude admin - JENGU</title>
 
   <link rel="stylesheet" href="../styles/base.css">
   <link rel="stylesheet" href="../styles/layout.css">
@@ -11,34 +11,34 @@
   <link rel="stylesheet" href="../styles/theme-afro.css">
 </head>
 
-<body class="dark-theme admin-panel">
+<body class="dark-theme admin-panel" data-i18n-title="fraudPageTitle">
 
   <!-- HEADER -->
   <header class="admin-header">
     <a href="/index.html"><img src="../assets/logo.png" class="logo"></a>
 
     <nav>
-      <a href="dashboard.html">Dashboard</a>
-      <a href="users.html">Users</a>
-      <a href="artists.html">Artists</a>
-      <a href="catalog.html">Catalog</a>
-      <a href="transactions.html">Transactions</a>
-      <a href="payouts.html">Payouts</a>
-      <a href="promotions.html">Promotions</a>
-      <a href="fraud.html" class="active">Fraud</a>
+      <a href="dashboard.html" data-i18n="dashboard">Tableau de bord</a>
+      <a href="users.html" data-i18n="users">Utilisateurs</a>
+      <a href="artists.html" data-i18n="artists">Artistes</a>
+      <a href="catalog.html" data-i18n="catalogShort">Catalogue</a>
+      <a href="transactions.html" data-i18n="transactions">Transactions</a>
+      <a href="payouts.html" data-i18n="payouts">Paiements</a>
+      <a href="promotions.html" data-i18n="promotions">Promotions</a>
+      <a href="fraud.html" class="active" data-i18n="fraudShort">Fraude</a>
     </nav>
   </header>
 
   <!-- MAIN -->
   <main class="admin-main">
 
-    <h1>Fraud Monitoring</h1>
+    <h1>Fraude</h1>
 
     <!-- SEARCH -->
     <input 
       type="text"
       id="searchFraud"
-      placeholder="Search users or activity..."
+      placeholder="Rechercher des utilisateurs ou une activite..."
       class="admin-search"
     >
 
@@ -47,10 +47,10 @@
       <thead>
         <tr>
           <th>ID</th>
-          <th>User</th>
-          <th>Activity</th>
+          <th>Utilisateur</th>
+          <th>Activite</th>
           <th>Date</th>
-          <th>Status</th>
+          <th>Statut</th>
           <th>Actions</th>
         </tr>
       </thead>
@@ -67,9 +67,9 @@
 
 initLang();
     let fraudReports = [
-      {id: 1, user: 'afrofan', activity: 'Multiple failed logins', date: '2026-03-01', status: 'Under Review'},
-      {id: 2, user: 'beatking', activity: 'Suspicious payment', date: '2026-03-03', status: 'Investigating'},
-      {id: 3, user: 'songbird', activity: 'Abnormal download pattern', date: '2026-03-05', status: 'Resolved'},
+      {id: 1, user: 'afrofan', activity: 'Connexions echouees multiples', date: '2026-03-01', status: 'En revue'},
+      {id: 2, user: 'beatking', activity: 'Paiement suspect', date: '2026-03-03', status: 'Investigation'},
+      {id: 3, user: 'songbird', activity: 'Schema de telechargement anormal', date: '2026-03-05', status: 'Resolue'},
     ];
 
     const tbody = document.getElementById('fraud-list');
@@ -94,10 +94,10 @@ initLang();
 
           <td>
 
-            ${f.status !== 'Resolved' ? `
-              <button class="btn btn-neon-outline investigate">Investigate</button>
-              <button class="btn btn-neon resolve">Resolve</button>
-            ` : '<span style="color:#aaa; font-size:12px;">Closed</span>'}
+            ${f.status !== 'Resolue' ? `
+              <button class="btn btn-neon-outline investigate">Investiguer</button>
+              <button class="btn btn-neon resolve">Resoudre</button>
+            ` : '<span style="color:#aaa; font-size:12px;">Ferme</span>'}
 
           </td>
         `;
@@ -106,7 +106,7 @@ initLang();
         const investigateBtn = row.querySelector('.investigate');
         if(investigateBtn){
           investigateBtn.addEventListener('click', () => {
-            f.status = 'Investigating';
+            f.status = 'Investigation';
             render(fraudReports);
           });
         }
@@ -114,7 +114,7 @@ initLang();
         const resolveBtn = row.querySelector('.resolve');
         if(resolveBtn){
           resolveBtn.addEventListener('click', () => {
-            f.status = 'Resolved';
+            f.status = 'Resolue';
             render(fraudReports);
           });
         }

@@ -43,16 +43,16 @@
 <section class="section discovery-access">
   <div class="discovery-access-head">
     <div>
-      <h3 style="margin:0 0 4px;" data-i18n="exploreMoreHeading">Explore More</h3>
-      <p data-i18n="exploreMoreEventsBody">Browse events here, then open the full marketplace stream when you want more.</p>
+      <h3 style="margin:0 0 4px;" data-i18n="exploreMoreHeading">Explorer</h3>
+      <p data-i18n="exploreMoreEventsBody">Parcourez les evenements ici, puis ouvrez le flux global pour decouvrir plus.</p>
     </div>
     <a href="/discover.html" class="btn-ghost" data-i18n="discoverNav">Discover</a>
   </div>
   <div class="explore-strip">
-    <a href="/browse.html" class="explore-chip">Music</a>
-    <a href="/movies.html" class="explore-chip">Movies</a>
-    <a href="/events.html" class="explore-chip active">Events</a>
-    <a href="/merch.html" class="explore-chip">Merch</a>
+    <a href="/browse.html" class="explore-chip" data-i18n="musicNav">Musique</a>
+    <a href="/movies.html" class="explore-chip" data-i18n="moviesNav">Films</a>
+    <a href="/events.html" class="explore-chip active" data-i18n="eventsNav">Evenements</a>
+    <a href="/merch.html" class="explore-chip" data-i18n="merchNav">Merch</a>
   </div>
 </section>
 
@@ -120,13 +120,6 @@ document.addEventListener("click", (e) => {
     window.location.href = "/checkout.html";
   }
 });
-
-const langBtn = document.getElementById("langBtn");
-if (langBtn) {
-  langBtn.addEventListener("click", () => {
-    window.setTimeout(renderTickets, 0);
-  });
-}
 
 const menuBtn = document.getElementById("menuBtn");
 const sideMenu = document.getElementById("sideMenu");

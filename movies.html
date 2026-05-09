@@ -34,23 +34,23 @@
 </section>
 
 <section class="section">
-  <h3 style="margin-top:0;">Films</h3>
+  <h3 style="margin-top:0;" data-i18n="moviesNav">Films</h3>
   <div id="moviesGrid" class="regional-pulse-grid"></div>
 </section>
 
 <section class="section discovery-access">
   <div class="discovery-access-head">
     <div>
-      <h3 style="margin:0 0 4px;" data-i18n="exploreMoreHeading">Explore More</h3>
-      <p data-i18n="exploreMoreMoviesBody">Keep this page focused on films, then jump into the full marketplace feed.</p>
+      <h3 style="margin:0 0 4px;" data-i18n="exploreMoreHeading">Explorer</h3>
+      <p data-i18n="exploreMoreMoviesBody">Gardez cette page centree sur les films, puis passez au flux global pour decouvrir plus.</p>
     </div>
     <a href="/discover.html" class="btn-ghost" data-i18n="discoverNav">Discover</a>
   </div>
   <div class="explore-strip">
-    <a href="/browse.html" class="explore-chip">Music</a>
-    <a href="/movies.html" class="explore-chip active">Movies</a>
-    <a href="/events.html" class="explore-chip">Events</a>
-    <a href="/merch.html" class="explore-chip">Merch</a>
+    <a href="/browse.html" class="explore-chip" data-i18n="musicNav">Musique</a>
+    <a href="/movies.html" class="explore-chip active" data-i18n="moviesNav">Films</a>
+    <a href="/events.html" class="explore-chip" data-i18n="eventsNav">Evenements</a>
+    <a href="/merch.html" class="explore-chip" data-i18n="merchNav">Merch</a>
   </div>
 </section>
 
@@ -93,13 +93,6 @@ function renderMovies() {
 }
 
 renderMovies();
-
-const langBtn = document.getElementById("langBtn");
-if (langBtn) {
-  langBtn.addEventListener("click", () => {
-    window.setTimeout(renderMovies, 0);
-  });
-}
 
 const menuBtn = document.getElementById("menuBtn");
 const sideMenu = document.getElementById("sideMenu");

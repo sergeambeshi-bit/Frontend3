@@ -108,13 +108,6 @@ function renderCreators() {
 
 renderCreators();
 
-const langBtn = document.getElementById("langBtn");
-if (langBtn) {
-  langBtn.addEventListener("click", () => {
-    window.setTimeout(renderCreators, 0);
-  });
-}
-
 const menuBtn = document.getElementById("menuBtn");
 const sideMenu = document.getElementById("sideMenu");
 menuBtn.onclick = () => sideMenu.classList.toggle("open");
