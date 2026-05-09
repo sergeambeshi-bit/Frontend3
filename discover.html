@@ -769,8 +769,8 @@ function catLabel(cat) {
 function itemLink(item) {
   if (item.category === "merch")   return `/merch-product.html?id=${item.id}`;
   if (item.category === "music")   return `/album.html?id=${item.id}`;
-  if (item.category === "movies")  return `/movies.html`;
-  if (item.category === "events")  return `/events.html`;
+  if (item.category === "movies")  return `/movie.html?id=${item.id}`;
+  if (item.category === "events")  return `/event.html?id=${item.id}`;
   return "#";
 }
 

@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Film - JENGU</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/styles/app.css">
+<link rel="stylesheet" href="/styles/pdp.css">
+<style>
+  body { font-family: "Outfit", sans-serif; }
+  .movie-trailer-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 20px;
+    border-radius: 14px;
+    border: 1px solid rgba(251,146,60,.4);
+    background: rgba(251,146,60,.08);
+    color: #fb923c;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background .18s, border-color .18s;
+  }
+  .movie-trailer-btn:hover {
+    background: rgba(251,146,60,.18);
+    border-color: #fb923c;
+  }
+</style>
+</head>
+<body class="pdp-page" data-cat="movies" data-i18n-title="moviePageTitle">
+
+<div id="sideMenu" class="side-menu">
+  <div class="menu-header">
+    <a href="/index.html"><img src="/assets/logo.png" class="menu-logo" alt="JENGU"></a>
+  </div>
+  <a href="/discover.html" data-i18n="discoverNav">Decouvrir</a>
+  <a href="/browse.html" data-i18n="musicNav">Musique</a>
+  <a href="/movies.html" data-i18n="moviesNav">Films</a>
+  <a href="/events.html" data-i18n="eventsNav">Evenements</a>
+  <a href="/merch.html" data-i18n="merchNav">Merch</a>
+  <a href="/creators.html" data-i18n="creatorsNav">Createurs</a>
+  <a href="/artist-pricing.html" data-i18n="artistPricingNav">Tarifs Artiste</a>
+  <a href="/artist/signup.html" data-i18n="sellOnJenguNav">Vendre sur JENGU</a>
+</div>
+
+<!-- HERO -->
+<section class="pdp-hero">
+  <div class="pdp-hero-bg" id="movieHeroBg"></div>
+  <div class="pdp-hero-fg"></div>
+  <div class="topbar">
+    <span class="menu" id="menuBtn">☰</span>
+    <a href="/index.html"><img src="/assets/logo.png" class="logo" alt="JENGU"></a>
+    <a href="/checkout.html" class="cart-btn" aria-label="Voir le panier" data-i18n-aria="viewCartAria"><span class="cart-icon">🛒</span><span class="cart-count">0</span></a>
+  </div>
+</section>
+
+<!-- SHELL -->
+<main class="pdp-shell">
+
+  <!-- Top: poster + details -->
+  <div class="pdp-top">
+    <div class="pdp-image">
+      <span class="pdp-cat-badge" data-i18n="moviesNav">Films</span>
+      <img id="moviePoster" src="" alt="Movie poster">
+    </div>
+    <div class="pdp-details">
+      <p class="pdp-eyebrow" id="movieKind"></p>
+      <h1 class="pdp-title" id="movieTitle" style="font-family:'Space Grotesk',sans-serif;"></h1>
+      <a class="pdp-creator-link" id="movieCreatorLink" href="#tab-creator"></a>
+      <p class="pdp-price" id="moviePrice"></p>
+      <div class="pdp-cta-row">
+        <button class="pdp-btn-buy" id="movieBuyBtn" data-i18n="buy">Acheter</button>
+        <button class="movie-trailer-btn" id="movieTrailerBtn">▶ Trailer</button>
+        <button class="pdp-btn-share" id="movieShareBtn" data-i18n="creatorShare">Partager</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Info strip -->
+  <div class="pdp-infostrip" id="movieInfostrip">
+    <span class="pdp-info-pill"><span class="pdp-info-pill-icon">🎬</span> <span id="movieKindPill"></span></span>
+    <span class="pdp-info-pill"><span class="pdp-info-pill-icon">⏱</span> <span id="movieDurPill"><span data-i18n="pdpDuration">Duree</span>: 90 min</span></span>
+    <span class="pdp-info-pill"><span class="pdp-info-pill-icon">📍</span> <span id="movieCityPill"></span></span>
+    <span class="pdp-info-pill"><span class="pdp-info-pill-icon">📅</span> <span id="movieDatePill"></span></span>
+    <span class="pdp-info-pill"><span class="pdp-info-pill-icon">🔒</span> <span data-i18n="trackMetaSecure">Secure Checkout</span></span>
+  </div>
+
+  <!-- Tabs -->
+  <div class="pdp-tabs-bar">
+    <button class="pdp-tab-btn active" data-tab="synopsis" data-i18n="pdpSynopsis">Synopsis</button>
+    <button class="pdp-tab-btn" data-tab="creator" data-i18n="pdpCreator">Createur</button>
+    <button class="pdp-tab-btn" data-tab="related" data-i18n="pdpRelated">Similaires</button>
+  </div>
+
+  <!-- Synopsis tab -->
+  <div class="pdp-tab-panel active" id="tab-synopsis">
+    <p class="pdp-section-label" data-i18n="pdpSynopsis">Synopsis</p>
+    <p id="movieSynopsis" style="color:#8a9ab5;font-size:14px;line-height:1.65;max-width:60ch;"></p>
+  </div>
+
+  <!-- Creator tab -->
+  <div class="pdp-tab-panel" id="tab-creator">
+    <div id="movieCreatorCard"></div>
+  </div>
+
+  <!-- Related tab -->
+  <div class="pdp-tab-panel" id="tab-related">
+    <p class="pdp-section-label" data-i18n="pdpYouMayLike">Vous aimerez aussi</p>
+    <div class="pdp-related-grid" id="movieRelatedGrid"></div>
+  </div>
+
+</main>
+
+<!-- PAYMENT MODAL -->
+<div class="pdp-modal hidden" id="moviePayModal">
+  <div class="pdp-modal-box">
+    <h3 class="pdp-modal-title" data-i18n="payment">Paiement</h3>
+    <p class="pdp-modal-sub" id="moviePaySub"></p>
+    <div class="pdp-pay-grid">
+      <button class="pdp-pay-btn" type="button" data-method="mtn">📱 MTN Mobile Money</button>
+      <button class="pdp-pay-btn" type="button" data-method="orange">🟠 Orange Money</button>
+      <button class="pdp-pay-btn" type="button" data-method="card">💳 Card</button>
+    </div>
+    <div class="pdp-modal-actions">
+      <button class="pdp-modal-cancel" id="moviePayCancel" type="button" data-i18n="cancel">Annuler</button>
+      <button class="pdp-modal-confirm" id="moviePayConfirm" type="button" data-i18n="confirm">Confirmer</button>
+    </div>
+  </div>
+</div>
+
+<script type="module">
+import { initLang, getLang, applyLang, translate } from "/js/lang.js";
+import { marketplaceItems, creatorProfiles, getLocalizedValue } from "/js/marketplace-catalog.js";
+import { cart } from "/js/cart.js";
+
+initLang();
+
+// ── ITEM LOOKUP ───────────────────────────────────────────────
+const params  = new URLSearchParams(window.location.search);
+const movieId = params.get("id");
+const movies  = marketplaceItems.filter(i => i.category === "movies");
+const film    = movies.find(m => m.id === movieId) || movies[0];
+
+// ── KIND MAP ──────────────────────────────────────────────────
+const kindMap = { film: { fr:"Film", en:"Film" }, documentary: { fr:"Documentaire", en:"Documentary" } };
+
+// ── SYNOPSIS STUBS (fill where catalog has none) ──────────────
+const synopsisStubs = {
+  "movie-1": {
+    fr: "Dans les ruelles de Douala apres minuit, trois jeunes createurs cherchent a transformer leur quartier en espace d'expression. Un film sur l'identite, la creativite et la resilience urbaine.",
+    en: "In the alleys of Douala after midnight, three young creators seek to transform their neighbourhood into a space of expression. A film about identity, creativity and urban resilience."
+  },
+  "movie-2": {
+    fr: "Une plongee immersive dans les dynamiques du Grand Marche de Bafoussam, racontant les histoires des vendeurs, acheteurs et la culture qui se tisse entre eux chaque jour.",
+    en: "An immersive dive into the dynamics of the Grand Market of Bafoussam, telling the stories of sellers, buyers, and the culture woven between them each day."
+  }
+};
+
+// ── TAB SWITCHING ─────────────────────────────────────────────
+document.querySelectorAll(".pdp-tab-btn").forEach(btn => {
+  btn.addEventListener("click", () => {
+    document.querySelectorAll(".pdp-tab-btn").forEach(b => b.classList.remove("active"));
+    document.querySelectorAll(".pdp-tab-panel").forEach(p => p.classList.remove("active"));
+    btn.classList.add("active");
+    document.getElementById(`tab-${btn.dataset.tab}`)?.classList.add("active");
+  });
+});
+
+// ── MENU ──────────────────────────────────────────────────────
+const menuBtn  = document.getElementById("menuBtn");
+const sideMenu = document.getElementById("sideMenu");
+menuBtn.addEventListener("click", () => sideMenu.classList.toggle("open"));
+document.addEventListener("click", e => {
+  if (!sideMenu.contains(e.target) && !menuBtn.contains(e.target)) sideMenu.classList.remove("open");
+});
+
+// ── RENDER ────────────────────────────────────────────────────
+function render() {
+  if (!film) return;
+
+  const lang  = getLang();
+  const title = getLocalizedValue(film.title, lang);
+  const kind  = getLocalizedValue(kindMap[film.kind] || { fr:"Film", en:"Film" }, lang);
+
+  // Hero BG
+  const heroBg = document.getElementById("movieHeroBg");
+  if (heroBg) heroBg.style.backgroundImage = `url(${film.cover})`;
+  document.title = `${title} - JENGU`;
+
+  // Poster
+  const posterEl = document.getElementById("moviePoster");
+  if (posterEl) { posterEl.src = film.cover; posterEl.alt = title; }
+
+  // Kind eyebrow
+  const kindEl = document.getElementById("movieKind");
+  if (kindEl) kindEl.textContent = kind.toUpperCase();
+
+  // Title
+  const titleEl = document.getElementById("movieTitle");
+  if (titleEl) titleEl.textContent = title;
+
+  // Creator link
+  const creator = creatorProfiles.find(c => c.name === film.creator);
+  const creatorLink = document.getElementById("movieCreatorLink");
+  if (creatorLink) {
+    creatorLink.textContent = film.creator;
+    creatorLink.href = creator ? `/creator.html?id=${creator.id}` : "#tab-creator";
+  }
+
+  // Price
+  const priceEl = document.getElementById("moviePrice");
+  if (priceEl) priceEl.textContent = `${film.price} XAF`;
+
+  // Info pills
+  const kindPill = document.getElementById("movieKindPill");
+  if (kindPill) kindPill.textContent = kind;
+
+  const cityPill = document.getElementById("movieCityPill");
+  if (cityPill) cityPill.textContent = film.city || "";
+
+  const datePill = document.getElementById("movieDatePill");
+  if (datePill) datePill.textContent = film.releaseDate || "";
+
+  // Synopsis
+  const synEl = document.getElementById("movieSynopsis");
+  if (synEl) {
+    const stub = synopsisStubs[film.id];
+    synEl.textContent = stub ? getLocalizedValue(stub, lang) : `${title} — ${translate("pdpSynopsis")}`;
+  }
+
+  // Creator card
+  const creatorCardEl = document.getElementById("movieCreatorCard");
+  if (creatorCardEl && creator) {
+    const bio = getLocalizedValue(creator.bio, lang) || "";
+    creatorCardEl.innerHTML = `
+      <a class="pdp-creator-card" href="/creator.html?id=${creator.id}">
+        <div class="pdp-creator-avatar"><img src="${creator.avatar}" alt="${creator.name}"></div>
+        <div class="pdp-creator-info">
+          <p class="pdp-creator-name">${creator.name}</p>
+          <p class="pdp-creator-city">${creator.city || ""}</p>
+        </div>
+        <button class="pdp-btn-follow-sm" data-i18n="creatorFollow">Suivre</button>
+      </a>
+      ${bio ? `<p style="color:#6e86a8;font-size:13px;margin-top:12px;line-height:1.55;">${bio}</p>` : ""}
+    `;
+  } else if (creatorCardEl) {
+    creatorCardEl.innerHTML = `<div class="pdp-creator-card" style="cursor:default;"><div class="pdp-creator-avatar" style="font-size:22px;">🎬</div><div class="pdp-creator-info"><p class="pdp-creator-name">${film.creator}</p></div></div>`;
+  }
+
+  // Related
+  const relGrid = document.getElementById("movieRelatedGrid");
+  if (relGrid) {
+    const related = movies.filter(m => m.id !== film.id).concat(
+      marketplaceItems.filter(i => i.category !== "movies")
+    ).slice(0, 4);
+    relGrid.innerHTML = related.map(item => {
+      const t = getLocalizedValue(item.title, lang);
+      const href = item.category === "movies" ? `/movie.html?id=${item.id}`
+                 : item.category === "events" ? `/event.html?id=${item.id}`
+                 : item.category === "merch"  ? `/merch-product.html?id=${item.id}`
+                 : (item.kind === "album"      ? `/album.html?id=${item.id}` : `/track.html?id=${item.id}`);
+      return `
+        <a class="mc-card" href="${href}">
+          <div class="mc-card-img" style="background-image:url(${item.cover})">
+            <span class="mc-card-badge badge-new">${item.kind || item.category}</span>
+            <button class="mc-card-play" aria-label="View">▶</button>
+          </div>
+          <div class="mc-card-body">
+            <p class="mc-card-title">${t}</p>
+            <p class="mc-card-creator">${item.creator}</p>
+            <div class="mc-card-foot">
+              <span class="mc-card-price">${item.price} XAF</span>
+              <button class="mc-card-cta" data-i18n="buy">Acheter</button>
+            </div>
+          </div>
+        </a>`;
+    }).join("");
+  }
+
+  // Pay modal sub text
+  const paySub = document.getElementById("moviePaySub");
+  if (paySub) paySub.textContent = `${title} — ${film.price} XAF`;
+}
+
+render();
+
+// ── PAYMENT MODAL ─────────────────────────────────────────────
+const modal      = document.getElementById("moviePayModal");
+const payBtns    = modal?.querySelectorAll(".pdp-pay-btn") ?? [];
+const cancelBtn  = document.getElementById("moviePayCancel");
+const confirmBtn = document.getElementById("moviePayConfirm");
+let selectedMethod = null;
+
+payBtns.forEach(btn => btn.addEventListener("click", () => {
+  payBtns.forEach(b => b.classList.remove("active"));
+  btn.classList.add("active");
+  selectedMethod = btn.dataset.method;
+}));
+
+function closeModal() {
+  modal?.classList.add("hidden");
+  selectedMethod = null;
+  payBtns.forEach(b => b.classList.remove("active"));
+}
+
+cancelBtn?.addEventListener("click", closeModal);
+modal?.addEventListener("click", e => { if (e.target === modal) closeModal(); });
+document.addEventListener("keydown", e => { if (e.key === "Escape") closeModal(); });
+
+document.getElementById("movieBuyBtn")?.addEventListener("click", () => {
+  if (!film) return;
+  modal?.classList.remove("hidden");
+});
+
+document.getElementById("movieTrailerBtn")?.addEventListener("click", () => {
+  // Play sample preview audio as trailer surrogate
+  const audio = new Audio("/assets/sample.wav");
+  audio.play().catch(() => {});
+  setTimeout(() => audio.pause(), 30000);
+});
+
+document.getElementById("movieShareBtn")?.addEventListener("click", () => {
+  if (navigator.share) {
+    navigator.share({ title: document.title, url: location.href }).catch(() => {});
+  } else {
+    navigator.clipboard?.writeText(location.href);
+  }
+});
+
+confirmBtn?.addEventListener("click", () => {
+  if (!selectedMethod) { alert(translate("choosePayment")); return; }
+  if (!film) return;
+  const lang  = getLang();
+  const title = getLocalizedValue(film.title, lang);
+  cart.add({ id: film.id, name: title, artist: film.creator, cover: film.cover, price: film.price, type: "movie" });
+  closeModal();
+  window.location.href = "/checkout.html";
+});
+
+applyLang();
+</script>
+</body>
+</html>

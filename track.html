@@ -9,6 +9,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/styles/app.css">
+<link rel="stylesheet" href="/styles/pdp.css">
 
 <style>
   body.track-page {
@@ -362,6 +363,30 @@
   </div>
 </section>
 
+<div class="pdp-shell" style="margin-top:16px;" data-cat="music">
+  <div class="pdp-infostrip" style="margin-bottom:14px;">
+    <span class="pdp-info-pill"><span class="pdp-info-pill-icon">🎵</span> <span data-i18n="trackMetaHQ">High Quality MP3</span></span>
+    <span class="pdp-info-pill"><span class="pdp-info-pill-icon">⚡</span> <span data-i18n="trackMetaDelivery">Instant Delivery</span></span>
+    <span class="pdp-info-pill"><span class="pdp-info-pill-icon">🔒</span> <span data-i18n="trackMetaSecure">Secure Checkout</span></span>
+  </div>
+  <div class="pdp-tabs-bar">
+    <button class="pdp-tab-btn active" data-tab="details" data-i18n="pdpDetails">Détails</button>
+    <button class="pdp-tab-btn" data-tab="creator" data-i18n="pdpCreator">Créateur</button>
+    <button class="pdp-tab-btn" data-tab="related" data-i18n="pdpRelated">Similaires</button>
+  </div>
+  <div class="pdp-tab-panel active" id="tab-details">
+    <p class="pdp-section-label" style="margin-top:4px;" data-i18n="trackExclusive">Exclusive</p>
+    <p style="color:#6e86a8;font-size:13.5px;line-height:1.6;" data-i18n="trackPaymentHint">Choisissez une methode de paiement pour continuer vers le checkout.</p>
+  </div>
+  <div class="pdp-tab-panel" id="tab-creator">
+    <div id="trackCreatorCard"><p style="color:#6e86a8;font-size:13.5px;">...</p></div>
+  </div>
+  <div class="pdp-tab-panel" id="tab-related">
+    <p class="pdp-section-label" style="margin-top:4px;" data-i18n="pdpYouMayLike">Vous aimerez aussi</p>
+    <div class="pdp-related-grid" id="trackRelatedGrid"></div>
+  </div>
+</div>
+
 <div id="paymentModal" class="modal hidden">
   <div class="modal-content">
     <h3 data-i18n="payment">Paiement</h3>
@@ -382,8 +407,9 @@
 
 <script type="module">
 import { fetchBrowseResults } from "/js/api.js";
-import { initLang, applyLang, translate } from "/js/lang.js";
+import { initLang, applyLang, getLang, translate } from "/js/lang.js";
 import { cart } from "/js/cart.js";
+import { marketplaceItems, creatorProfiles, getLocalizedValue } from "/js/marketplace-catalog.js";
 
 initLang();
 
@@ -467,6 +493,9 @@ async function loadTrack() {
   document.getElementById("trackArtist2").removeAttribute("data-i18n");
   document.getElementById("trackCover").removeAttribute("data-i18n");
   document.getElementById("trackCover").alt = `${translate("trackCoverAlt")} - ${track.name}`;
+
+  renderTrackCreator(track.artist || "");
+  renderTrackRelated(String(track.id || ""));
 }
 
 function setPreviewState(isPlaying) {
@@ -636,6 +665,76 @@ document.addEventListener("keydown", (e) => {
     closePaymentModal();
   }
 });
+
+// ── TAB SWITCHING ────────────────────────────────────────
+document.querySelectorAll(".pdp-tab-btn").forEach(btn => {
+  btn.addEventListener("click", () => {
+    document.querySelectorAll(".pdp-tab-btn").forEach(b => b.classList.remove("active"));
+    document.querySelectorAll(".pdp-tab-panel").forEach(p => p.classList.remove("active"));
+    btn.classList.add("active");
+    document.getElementById(`tab-${btn.dataset.tab}`)?.classList.add("active");
+  });
+});
+
+// ── CREATOR CARD ──────────────────────────────────────────
+function renderTrackCreator(artistName) {
+  const card = document.getElementById("trackCreatorCard");
+  if (!card) return;
+  const creator = creatorProfiles.find(c => c.name === artistName);
+  if (creator) {
+    const bio = getLocalizedValue(creator.bio, getLang()) || "";
+    card.innerHTML = `
+      <a class="pdp-creator-card" href="/creator.html?id=${creator.id}" style="text-decoration:none;">
+        <div class="pdp-creator-avatar"><img src="${creator.avatar}" alt="${creator.name}"></div>
+        <div class="pdp-creator-info">
+          <p class="pdp-creator-name">${creator.name}</p>
+          <p class="pdp-creator-city">${creator.city || ""}</p>
+        </div>
+        <button class="pdp-btn-follow-sm" data-i18n="creatorFollow">Suivre</button>
+      </a>
+      ${bio ? `<p style="color:#6e86a8;font-size:13px;margin-top:12px;line-height:1.55;">${bio}</p>` : ""}
+    `;
+  } else {
+    card.innerHTML = `
+      <div class="pdp-creator-card" style="cursor:default;">
+        <div class="pdp-creator-avatar" style="font-size:22px;">🎵</div>
+        <div class="pdp-creator-info">
+          <p class="pdp-creator-name">${artistName}</p>
+        </div>
+      </div>
+    `;
+  }
+}
+
+// ── RELATED GRID ──────────────────────────────────────────
+function renderTrackRelated(currentId) {
+  const grid = document.getElementById("trackRelatedGrid");
+  if (!grid) return;
+  const lang = getLang();
+  const related = marketplaceItems
+    .filter(item => item.category === "music" && item.id !== currentId)
+    .slice(0, 4);
+  if (!related.length) { grid.innerHTML = ""; return; }
+  grid.innerHTML = related.map(item => {
+    const title = getLocalizedValue(item.title, lang);
+    const href = item.kind === "album" ? `/album.html?id=${item.id}` : `/track.html?id=${item.id}`;
+    return `
+      <a class="mc-card" href="${href}">
+        <div class="mc-card-img" style="background-image:url(${item.cover})">
+          <span class="mc-card-badge badge-new">${item.kind || "track"}</span>
+          <button class="mc-card-play" aria-label="Play">▶</button>
+        </div>
+        <div class="mc-card-body">
+          <p class="mc-card-title">${title}</p>
+          <p class="mc-card-creator">${item.creator}</p>
+          <div class="mc-card-foot">
+            <span class="mc-card-price">${item.price} XAF</span>
+            <button class="mc-card-cta" data-i18n="buy">Acheter</button>
+          </div>
+        </div>
+      </a>`;
+  }).join("");
+}
 
 loadTrack();
 applyLang();

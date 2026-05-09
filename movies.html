@@ -86,7 +86,7 @@ function renderMovies() {
         <p>${item.creator} • ${item.city}</p>
         <p>${kind} • ${item.releaseDate}</p>
         <p><strong>${item.price} XAF</strong></p>
-        <a href="/discover.html?tab=movies" class="btn-primary" style="display:block;text-align:center;margin-top:10px;">View</a>
+        <a href="/movie.html?id=${item.id}" class="btn-primary" style="display:block;text-align:center;margin-top:10px;" data-i18n="view">View</a>
       </article>
     `;
   }).join("");

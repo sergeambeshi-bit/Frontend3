@@ -3,286 +3,293 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Album – JENGU</title>
-
+<title>Album - JENGU</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/styles/app.css">
+<link rel="stylesheet" href="/styles/pdp.css">
+<style>
+  body { font-family: "Outfit", sans-serif; }
+  .album-hero-title {
+    font-family: "Space Grotesk", sans-serif;
+    font-size: clamp(1.8rem, 4.5vw, 3rem);
+    letter-spacing: -.03em;
+    color: #faf8f4;
+    margin: 0 0 10px;
+  }
+  .album-hero-artist { font-size: 1rem; color: #d4a047; margin: 0; }
+</style>
 </head>
+<body class="pdp-page" data-cat="music" data-i18n-title="albumPageTitle">
 
-<body>
-
-<!-- SIDE MENU -->
 <div id="sideMenu" class="side-menu">
   <div class="menu-header">
-    <img src="/assets/logo.png" class="menu-logo">
+    <a href="/index.html"><img src="/assets/logo.png" class="menu-logo" alt="JENGU"></a>
   </div>
-
-  <a href="/index.html">Accueil</a>
-  <a href="/browse.html">Parcourir</a>
-  <a href="/genres.html">Genres</a>
-  <a href="/charts.html">Top Charts</a>
-  <a href="/new-releases.html">Nouveautés</a>
-
-  <a href="/user/library.html">Ma Bibliothèque</a>
-  <a href="/user/purchases.html">Mes Achats</a>
-  <a href="/settings.html">Paramètres</a>
+  <a href="/discover.html" data-i18n="discoverNav">Decouvrir</a>
+  <a href="/browse.html" data-i18n="musicNav">Musique</a>
+  <a href="/movies.html" data-i18n="moviesNav">Films</a>
+  <a href="/events.html" data-i18n="eventsNav">Evenements</a>
+  <a href="/merch.html" data-i18n="merchNav">Merch</a>
+  <a href="/creators.html" data-i18n="creatorsNav">Createurs</a>
+  <a href="/artist-pricing.html" data-i18n="artistPricingNav">Tarifs Artiste</a>
+  <a href="/artist/signup.html" data-i18n="sellOnJenguNav">Vendre sur JENGU</a>
 </div>
 
 <!-- HERO -->
-<section class="hero" style="height:60vh;">
-  <div class="hero-bg" id="albumBg"></div>
-  <div class="hero-patterns"></div>
-
+<section class="pdp-hero">
+  <div class="pdp-hero-bg" id="albumHeroBg"></div>
+  <div class="pdp-hero-fg"></div>
   <div class="topbar">
     <span class="menu" id="menuBtn">☰</span>
-    <a href="/index.html"><img src="/assets/logo.png" class="logo"></a>
-    <span></span>
-  </div>
-
-  <div class="hero-content">
-    <h1 id="albumTitle">Album</h1>
-    <p id="albumArtist" class="sub">Artiste</p>
+    <a href="/index.html"><img src="/assets/logo.png" class="logo" alt="JENGU"></a>
+    <a href="/checkout.html" class="cart-btn" aria-label="Voir le panier" data-i18n-aria="viewCartAria"><span class="cart-icon">🛒</span><span class="cart-count">0</span></a>
   </div>
 </section>
 
-<!-- ALBUM INFO -->
-<section class="section">
+<!-- SHELL -->
+<main class="pdp-shell">
 
-  <div class="cover" style="max-width:200px; margin:auto;">
-    <img id="albumCover" src="">
+  <!-- Top: cover + details -->
+  <div class="pdp-top">
+    <div class="pdp-image">
+      <span class="pdp-cat-badge" data-i18n="musicNav">Musique</span>
+      <img id="albumCover" src="" alt="Album cover">
+    </div>
+    <div class="pdp-details">
+      <p class="pdp-eyebrow" id="albumEyebrow" data-i18n="tracklist">Album</p>
+      <h1 class="pdp-title" id="albumName" style="font-family:'Space Grotesk',sans-serif;"></h1>
+      <a class="pdp-creator-link" id="albumCreatorLink" href="#tab-creator"></a>
+      <p class="pdp-price" id="albumPrice"></p>
+      <div class="pdp-cta-row">
+        <button class="pdp-btn-buy" id="albumBuyBtn" data-i18n="buy">Acheter</button>
+        <button class="pdp-btn-share" id="albumShareBtn" data-i18n="creatorShare">Partager</button>
+      </div>
+    </div>
   </div>
 
-  <h3 id="albumName" style="text-align:center;" data-i18n="albumNamePlaceholder">Nom de l'album</h3>
-  <p id="albumArtist2" class="sub" style="text-align:center;" data-i18n="artist">Artiste</p>
-
-  <p class="price" style="text-align:center; margin-top:10px;">
-    1500 XAF
-  </p>
-
-  <div class="cta" style="justify-content:center;">
-    <button class="btn-primary buy-album" data-i18n="buyAlbum">Acheter</button>
+  <!-- Info strip -->
+  <div class="pdp-infostrip">
+    <span class="pdp-info-pill"><span class="pdp-info-pill-icon">🎵</span> <span data-i18n="trackMetaHQ">High Quality</span></span>
+    <span class="pdp-info-pill"><span class="pdp-info-pill-icon">⚡</span> <span data-i18n="trackMetaDelivery">Instant Delivery</span></span>
+    <span class="pdp-info-pill"><span class="pdp-info-pill-icon">🔒</span> <span data-i18n="trackMetaSecure">Secure Checkout</span></span>
+    <span class="pdp-info-pill"><span class="pdp-info-pill-icon">📅</span> <span id="albumRelease"></span></span>
   </div>
 
-</section>
+  <!-- Tabs -->
+  <div class="pdp-tabs-bar">
+    <button class="pdp-tab-btn active" data-tab="details" data-i18n="pdpDetails">Details</button>
+    <button class="pdp-tab-btn" data-tab="creator" data-i18n="pdpCreator">Createur</button>
+    <button class="pdp-tab-btn" data-tab="related" data-i18n="pdpRelated">Similaires</button>
+  </div>
 
-<!-- TRACKLIST -->
-<section class="section">
-  <h3 data-i18n="tracklist">Tracklist</h3>
-  <div id="albumTracks"></div>
-</section>
+  <!-- Details tab -->
+  <div class="pdp-tab-panel active" id="tab-details">
+    <p class="pdp-section-label" data-i18n="tracklist">Tracklist</p>
+    <ol class="pdp-tracklist" id="albumTracklist"></ol>
+  </div>
+
+  <!-- Creator tab -->
+  <div class="pdp-tab-panel" id="tab-creator">
+    <div id="albumCreatorCard"></div>
+  </div>
+
+  <!-- Related tab -->
+  <div class="pdp-tab-panel" id="tab-related">
+    <p class="pdp-section-label" data-i18n="pdpYouMayLike">Vous aimerez aussi</p>
+    <div class="pdp-related-grid" id="albumRelatedGrid"></div>
+  </div>
+
+</main>
 
 <!-- PAYMENT MODAL -->
-<div id="paymentModal" class="modal hidden">
-  <div class="modal-content">
-    <h3>Paiement</h3>
-
-    <div class="pay-section">
-      <p class="label">🇨🇲 Mobile Money</p>
-      <button class="pay-btn momo" data-method="mtn">MTN</button>
-      <button class="pay-btn momo" data-method="orange">Orange</button>
+<div class="pdp-modal hidden" id="albumPayModal">
+  <div class="pdp-modal-box">
+    <h3 class="pdp-modal-title" data-i18n="payment">Paiement</h3>
+    <p class="pdp-modal-sub" data-i18n="trackPaymentHint">Choisissez une methode pour continuer.</p>
+    <div class="pdp-pay-grid">
+      <button class="pdp-pay-btn" type="button" data-method="mtn">📱 MTN Mobile Money</button>
+      <button class="pdp-pay-btn" type="button" data-method="orange">🟠 Orange Money</button>
+      <button class="pdp-pay-btn" type="button" data-method="card">💳 Card</button>
     </div>
-
-    <div class="pay-section">
-      <p class="label">💳 Carte</p>
-      <button class="pay-btn card" data-method="card">Card</button>
+    <div class="pdp-modal-actions">
+      <button class="pdp-modal-cancel" id="albumPayCancel" type="button" data-i18n="cancel">Annuler</button>
+      <button class="pdp-modal-confirm" id="albumPayConfirm" type="button" data-i18n="confirm">Confirmer</button>
     </div>
-
-    <input type="text" id="phone" placeholder="6XXXXXXXX">
-    <button class="confirm" data-i18n="confirm">Confirmer</button>
   </div>
 </div>
 
 <script type="module">
-import { initLang, applyLang, translate } from "/js/lang.js";
-import { fetchBrowseResults } from "/js/api.js";
-  import { cart } from "/js/cart.js";
+import { initLang, getLang, applyLang, translate } from "/js/lang.js";
+import { marketplaceItems, creatorProfiles, getLocalizedValue } from "/js/marketplace-catalog.js";
+import { cart } from "/js/cart.js";
 
 initLang();
 
-/* UTILITY FUNCTIONS */
-function getRandomCover() {
-  const covers = [
-    '/assets/covers/album1.png',
-    '/assets/covers/album2.png',
-    '/assets/covers/album3.png',
-    '/assets/covers/cover.png',
-    '/assets/covers/cover02.png',
-    '/assets/covers/cover03.png',
-    '/assets/covers/cover1.png',
-    '/assets/covers/cover2.png',
-    '/assets/covers/cover3.png',
-    '/assets/covers/cover5.png',
-    '/assets/covers/cover6.png',
-    '/assets/covers/cover7.png'
-  ];
-  return covers[Math.floor(Math.random() * covers.length)];
-}
+// ── ITEM LOOKUP ───────────────────────────────────────────────
+const params   = new URLSearchParams(window.location.search);
+const albumId  = params.get("id");
+const albums   = marketplaceItems.filter(i => i.category === "music" && i.kind === "album");
+const album    = albums.find(a => a.id === albumId) || albums[0];
 
-/* MENU */
-const menuBtn = document.getElementById("menuBtn");
-const sideMenu = document.getElementById("sideMenu");
-
-menuBtn.addEventListener("click", () => {
-  sideMenu.classList.toggle("open");
-});
-
-document.addEventListener("click", (e) => {
-  if (!sideMenu.contains(e.target) && !menuBtn.contains(e.target)) {
-    sideMenu.classList.remove("open");
-  }
-});
-
-/* GET ALBUM FROM URL */
-const params = new URLSearchParams(window.location.search);
-const albumName = params.get("album");
-  let currentAlbum = null;
-
-/* CREATE TRACK */
-function createTrack(item, index){
-  return `
-    <div class="chart-item">
-      <span>${String(index+1).padStart(2,'0')}</span>
-      <img src="${item.cover || getRandomCover()}">
-      <div class="info">
-        <b>${item.name}</b>
-        <p>${item.artist}</p>
-      </div>
-      <button class="play">▶</button>
-      <div class="price">${Math.floor(Math.random()*300)} XAF</div>
-    </div>
-  `;
-}
-
-/* LOAD ALBUM */
-async function loadAlbum(){
-  const data = await fetchBrowseResults();
-
-  if(!data || !data.length){
-    document.getElementById("albumName").textContent = "Album not found";
-    return;
-  }
-
-  const tracks = data.filter(item =>
-    (item.album || "").toLowerCase() === (albumName || "").toLowerCase()
-  );
-
-  if(tracks.length === 0){
-    document.getElementById("albumName").textContent = "Album not found";
-    return;
-  }
-
-  const album = tracks[0];
-  currentAlbum = album;
-
-  document.getElementById("albumTitle").textContent = album.album;
-  document.getElementById("albumName").textContent = album.album;
-  document.getElementById("albumArtist").textContent = album.artist;
-  document.getElementById("albumArtist2").textContent = album.artist;
-
-  document.getElementById("albumName").removeAttribute("data-i18n");
-  document.getElementById("albumArtist2").removeAttribute("data-i18n");
-
-  document.getElementById("albumCover").src =
-    album.cover || getRandomCover();
-
-  document.getElementById("albumBg").style.backgroundImage =
-    `url(${album.cover || getRandomCover()})`;
-
-  const container = document.getElementById("albumTracks");
-  container.innerHTML = "";
-
-  tracks.forEach((track, i)=>{
-    container.innerHTML += createTrack(track, i);
+// ── TAB SWITCHING ─────────────────────────────────────────────
+document.querySelectorAll(".pdp-tab-btn").forEach(btn => {
+  btn.addEventListener("click", () => {
+    document.querySelectorAll(".pdp-tab-btn").forEach(b => b.classList.remove("active"));
+    document.querySelectorAll(".pdp-tab-panel").forEach(p => p.classList.remove("active"));
+    btn.classList.add("active");
+    document.getElementById(`tab-${btn.dataset.tab}`)?.classList.add("active");
   });
-}
-
-/* PREVIEW */
-document.addEventListener("click", e=>{
-  if(e.target.classList.contains("play")){
-    const audio = new Audio("/assets/sample.wav");
-    audio.play();
-    setTimeout(()=>audio.pause(),30000);
-  }
 });
 
-/* PAYMENT */
+// ── MENU ──────────────────────────────────────────────────────
+const menuBtn  = document.getElementById("menuBtn");
+const sideMenu = document.getElementById("sideMenu");
+menuBtn.addEventListener("click", () => sideMenu.classList.toggle("open"));
+document.addEventListener("click", e => {
+  if (!sideMenu.contains(e.target) && !menuBtn.contains(e.target)) sideMenu.classList.remove("open");
+});
+
+// ── STUB TRACKLIST ────────────────────────────────────────────
+const STUB_TRACKS = [
+  {name:{fr:"Intro",en:"Intro"}, dur:"1:24"},
+  {name:{fr:"Premier Eclat",en:"First Light"}, dur:"3:41"},
+  {name:{fr:"Marche du Soir",en:"Evening Walk"}, dur:"4:02"},
+  {name:{fr:"Saisons",en:"Seasons"}, dur:"3:57"},
+  {name:{fr:"Flamme Lente",en:"Slow Flame"}, dur:"5:12"},
+  {name:{fr:"Outro",en:"Outro"}, dur:"2:08"}
+];
+
+// ── RENDER ────────────────────────────────────────────────────
+function render() {
+  if (!album) return;
+
+  const lang   = getLang();
+  const title  = getLocalizedValue(album.title, lang);
+  const heroBg = document.getElementById("albumHeroBg");
+  if (heroBg) heroBg.style.backgroundImage = `url(${album.cover})`;
+  document.title = `${title} - JENGU`;
+
+  const coverEl = document.getElementById("albumCover");
+  if (coverEl) { coverEl.src = album.cover; coverEl.alt = title; }
+
+  const nameEl = document.getElementById("albumName");
+  if (nameEl) nameEl.textContent = title;
+
+  const creatorLink = document.getElementById("albumCreatorLink");
+  const creator = creatorProfiles.find(c => c.name === album.creator);
+  if (creatorLink) {
+    creatorLink.textContent = album.creator;
+    creatorLink.href = creator ? `/creator.html?id=${creator.id}` : "#tab-creator";
+  }
+
+  const priceEl = document.getElementById("albumPrice");
+  if (priceEl) priceEl.textContent = `${album.price} XAF`;
+
+  const releaseEl = document.getElementById("albumRelease");
+  if (releaseEl) releaseEl.textContent = album.releaseDate || "";
+
+  // Tracklist
+  const tracklistEl = document.getElementById("albumTracklist");
+  if (tracklistEl) {
+    tracklistEl.innerHTML = STUB_TRACKS.map((t,i) => `
+      <li class="pdp-tracklist">
+        <span class="pdp-track-num">${i+1}</span>
+        <span class="pdp-track-name">${getLocalizedValue(t.name, lang)}</span>
+        <span class="pdp-track-dur">${t.dur}</span>
+        <button class="pdp-track-play" aria-label="Play">▶</button>
+      </li>`).join("");
+  }
+
+  // Creator card
+  const creatorCardEl = document.getElementById("albumCreatorCard");
+  if (creatorCardEl && creator) {
+    const bio = getLocalizedValue(creator.bio, lang) || "";
+    creatorCardEl.innerHTML = `
+      <a class="pdp-creator-card" href="/creator.html?id=${creator.id}">
+        <div class="pdp-creator-avatar"><img src="${creator.avatar}" alt="${creator.name}"></div>
+        <div class="pdp-creator-info">
+          <p class="pdp-creator-name">${creator.name}</p>
+          <p class="pdp-creator-city">${creator.city || ""}</p>
+        </div>
+        <button class="pdp-btn-follow-sm" data-i18n="creatorFollow">Suivre</button>
+      </a>
+      ${bio ? `<p style="color:#6e86a8;font-size:13px;margin-top:12px;line-height:1.55;">${bio}</p>` : ""}
+    `;
+  } else if (creatorCardEl) {
+    creatorCardEl.innerHTML = `<div class="pdp-creator-card" style="cursor:default;"><div class="pdp-creator-avatar" style="font-size:22px;">🎵</div><div class="pdp-creator-info"><p class="pdp-creator-name">${album.creator}</p></div></div>`;
+  }
+
+  // Related grid
+  const relGrid = document.getElementById("albumRelatedGrid");
+  if (relGrid) {
+    const related = marketplaceItems.filter(i => i.category === "music" && i.id !== album.id).slice(0, 4);
+    relGrid.innerHTML = related.map(item => {
+      const t = getLocalizedValue(item.title, lang);
+      const href = item.kind === "album" ? `/album.html?id=${item.id}` : `/track.html?id=${item.id}`;
+      return `
+        <a class="mc-card" href="${href}">
+          <div class="mc-card-img" style="background-image:url(${item.cover})">
+            <span class="mc-card-badge badge-new">${item.kind || "track"}</span>
+            <button class="mc-card-play" aria-label="Play">▶</button>
+          </div>
+          <div class="mc-card-body">
+            <p class="mc-card-title">${t}</p>
+            <p class="mc-card-creator">${item.creator}</p>
+            <div class="mc-card-foot">
+              <span class="mc-card-price">${item.price} XAF</span>
+              <button class="mc-card-cta" data-i18n="buy">Acheter</button>
+            </div>
+          </div>
+        </a>`;
+    }).join("");
+  }
+}
+
+render();
+
+// ── PAYMENT MODAL ─────────────────────────────────────────────
+const modal      = document.getElementById("albumPayModal");
+const payBtns    = modal?.querySelectorAll(".pdp-pay-btn") ?? [];
+const cancelBtn  = document.getElementById("albumPayCancel");
+const confirmBtn = document.getElementById("albumPayConfirm");
 let selectedMethod = null;
 
-document.addEventListener("click", e => {
+payBtns.forEach(btn => btn.addEventListener("click", () => {
+  payBtns.forEach(b => b.classList.remove("active"));
+  btn.classList.add("active");
+  selectedMethod = btn.dataset.method;
+}));
 
-  if(e.target.classList.contains("buy-album")){
-    document.getElementById("paymentModal").classList.remove("hidden");
-  }
+function closeModal() { modal?.classList.add("hidden"); selectedMethod = null; payBtns.forEach(b => b.classList.remove("active")); }
+cancelBtn?.addEventListener("click", closeModal);
+modal?.addEventListener("click", e => { if (e.target === modal) closeModal(); });
+document.addEventListener("keydown", e => { if (e.key === "Escape") closeModal(); });
 
-  if(e.target.classList.contains("pay-btn")){
-    selectedMethod = e.target.dataset.method;
-
-    document.querySelectorAll(".pay-btn").forEach(btn=>{
-      btn.style.background = "#222";
-      btn.style.color = "white";
-    });
-
-    e.target.style.background = "#01d4ab";
-    e.target.style.color = "black";
-  }
-
-  if(e.target.classList.contains("confirm")){
-    if(!selectedMethod){
-      alert(translate("choosePayment"));
-      return;
-    }
-
-      if(!currentAlbum){
-        alert("Album introuvable");
-        return;
-      }
-
-      cart.add({
-        id: currentAlbum.id || Date.now(),
-        name: currentAlbum.album || document.getElementById("albumName").textContent,
-        artist: currentAlbum.artist || "Artist",
-        cover: currentAlbum.cover || document.getElementById("albumCover").src,
-        price: 1500,
-        paymentMethod: selectedMethod,
-        type: "album"
-      });
-
-    document.getElementById("paymentModal").classList.add("hidden");
-      window.location.href = "/checkout.html";
-  }
-
+document.getElementById("albumBuyBtn")?.addEventListener("click", () => {
+  if (!album) { alert(translate("trackNotFound")); return; }
+  modal?.classList.remove("hidden");
 });
 
-/* DOWNLOAD */
-function showDownloadModal(){
-  const modal = document.createElement("div");
+document.getElementById("albumShareBtn")?.addEventListener("click", () => {
+  if (navigator.share) {
+    navigator.share({ title: document.title, url: location.href }).catch(() => {});
+  } else {
+    navigator.clipboard?.writeText(location.href);
+  }
+});
 
-  modal.className = "modal";
+confirmBtn?.addEventListener("click", () => {
+  if (!selectedMethod) { alert(translate("choosePayment")); return; }
+  const lang  = getLang();
+  const title = getLocalizedValue(album.title, lang);
+  cart.add({ id: album.id, name: title, artist: album.creator, cover: album.cover, price: album.price, type: "album" });
+  closeModal();
+  window.location.href = "/checkout.html";
+});
 
-  modal.innerHTML = `
-    <div class="modal-content">
-      <h3 data-i18n="readyDownload">Album prêt</h3>
-      <p data-i18n="purchaseConfirmed">Téléchargement disponible.</p>
-
-      <a href="/assets/sample.wav" download class="download-btn" data-i18n="downloadZip">
-        Télécharger ZIP
-      </a>
-
-      <button class="close-download" data-i18n="close">Fermer</button>
-    </div>
-  `;
-
-  document.body.appendChild(modal);
-  applyLang();
-
-  modal.addEventListener("click", e=>{
-    if(e.target.classList.contains("close-download")){
-      modal.remove();
-    }
-  });
-}
-
-loadAlbum();
+applyLang();
 </script>
-
 </body>
 </html>

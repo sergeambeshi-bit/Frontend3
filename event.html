@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Evenement - JENGU</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/styles/app.css">
+<link rel="stylesheet" href="/styles/pdp.css">
+<style>
+  body { font-family: "Outfit", sans-serif; }
+  .event-total-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 0;
+    border-top: 1px solid rgba(255,255,255,.08);
+    margin-top: 8px;
+  }
+  .event-total-label { font-size: 13px; color: #6e86a8; }
+  .event-total-price { font-size: 1.3rem; font-weight: 800; color: var(--cat-accent); }
+</style>
+</head>
+<body class="pdp-page" data-cat="events" data-i18n-title="eventPageTitle">
+
+<div id="sideMenu" class="side-menu">
+  <div class="menu-header">
+    <a href="/index.html"><img src="/assets/logo.png" class="menu-logo" alt="JENGU"></a>
+  </div>
+  <a href="/discover.html" data-i18n="discoverNav">Decouvrir</a>
+  <a href="/browse.html" data-i18n="musicNav">Musique</a>
+  <a href="/movies.html" data-i18n="moviesNav">Films</a>
+  <a href="/events.html" data-i18n="eventsNav">Evenements</a>
+  <a href="/merch.html" data-i18n="merchNav">Merch</a>
+  <a href="/creators.html" data-i18n="creatorsNav">Createurs</a>
+  <a href="/artist-pricing.html" data-i18n="artistPricingNav">Tarifs Artiste</a>
+  <a href="/artist/signup.html" data-i18n="sellOnJenguNav">Vendre sur JENGU</a>
+</div>
+
+<!-- HERO -->
+<section class="pdp-hero">
+  <div class="pdp-hero-bg" id="eventHeroBg"></div>
+  <div class="pdp-hero-fg"></div>
+  <div class="topbar">
+    <span class="menu" id="menuBtn">☰</span>
+    <a href="/index.html"><img src="/assets/logo.png" class="logo" alt="JENGU"></a>
+    <a href="/checkout.html" class="cart-btn" aria-label="Voir le panier" data-i18n-aria="viewCartAria"><span class="cart-icon">🛒</span><span class="cart-count">0</span></a>
+  </div>
+</section>
+
+<!-- SHELL -->
+<main class="pdp-shell">
+
+  <!-- Top: poster + details -->
+  <div class="pdp-top">
+    <div class="pdp-image">
+      <span class="pdp-cat-badge" data-i18n="eventsNav">Evenements</span>
+      <img id="eventPoster" src="" alt="Event poster">
+    </div>
+    <div class="pdp-details">
+      <p class="pdp-eyebrow" id="eventKind"></p>
+      <h1 class="pdp-title" id="eventTitle" style="font-family:'Space Grotesk',sans-serif;"></h1>
+      <a class="pdp-creator-link" id="eventCreatorLink" href="#tab-info"></a>
+      <p class="pdp-price" id="eventUnitPrice"></p>
+
+      <!-- Ticket qty selector -->
+      <label class="pdp-variant-label" data-i18n="pdpTickets">Billets</label>
+      <div class="pdp-qty-row">
+        <button class="pdp-qty-btn" id="eventQtyMinus" aria-label="Moins">−</button>
+        <span class="pdp-qty-val" id="eventQtyVal">1</span>
+        <button class="pdp-qty-btn" id="eventQtyPlus" aria-label="Plus">+</button>
+      </div>
+      <div class="event-total-row">
+        <span class="event-total-label" data-i18n="payment">Total</span>
+        <span class="event-total-price" id="eventTotal"></span>
+      </div>
+
+      <div class="pdp-cta-row" style="margin-top:16px;">
+        <button class="pdp-btn-buy" id="eventBuyBtn" data-i18n="buy">Acheter</button>
+        <button class="pdp-btn-share" id="eventShareBtn" data-i18n="creatorShare">Partager</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Info strip -->
+  <div class="pdp-infostrip">
+    <span class="pdp-info-pill"><span class="pdp-info-pill-icon">📅</span> <span id="eventDatePill"></span></span>
+    <span class="pdp-info-pill"><span class="pdp-info-pill-icon">📍</span> <span id="eventCityPill"></span></span>
+    <span class="pdp-info-pill"><span class="pdp-info-pill-icon">🎫</span> <span id="eventKindPill"></span></span>
+    <span class="pdp-info-pill"><span class="pdp-info-pill-icon">🔒</span> <span data-i18n="trackMetaSecure">Secure Checkout</span></span>
+  </div>
+
+  <!-- Tabs -->
+  <div class="pdp-tabs-bar">
+    <button class="pdp-tab-btn active" data-tab="info" data-i18n="pdpEventInfo">Infos</button>
+    <button class="pdp-tab-btn" data-tab="creator" data-i18n="pdpCreator">Createur</button>
+    <button class="pdp-tab-btn" data-tab="related" data-i18n="pdpRelated">Similaires</button>
+  </div>
+
+  <!-- Info tab -->
+  <div class="pdp-tab-panel active" id="tab-info">
+    <p class="pdp-section-label" data-i18n="pdpEventInfo">Infos</p>
+    <div class="pdp-infostrip" style="padding:0;border:none;background:none;margin-bottom:12px;">
+      <span class="pdp-info-pill"><span class="pdp-info-pill-icon">📅</span> <strong data-i18n="pdpDate">Date</strong>: <span id="eventInfoDate"></span></span>
+      <span class="pdp-info-pill"><span class="pdp-info-pill-icon">📍</span> <strong data-i18n="pdpLocation">Lieu</strong>: <span id="eventInfoCity"></span></span>
+    </div>
+    <p id="eventInfoDesc" style="color:#8a9ab5;font-size:14px;line-height:1.65;max-width:60ch;"></p>
+  </div>
+
+  <!-- Creator tab -->
+  <div class="pdp-tab-panel" id="tab-creator">
+    <div id="eventCreatorCard"></div>
+  </div>
+
+  <!-- Related tab -->
+  <div class="pdp-tab-panel" id="tab-related">
+    <p class="pdp-section-label" data-i18n="pdpYouMayLike">Vous aimerez aussi</p>
+    <div class="pdp-related-grid" id="eventRelatedGrid"></div>
+  </div>
+
+</main>
+
+<!-- PAYMENT MODAL -->
+<div class="pdp-modal hidden" id="eventPayModal">
+  <div class="pdp-modal-box">
+    <h3 class="pdp-modal-title" data-i18n="payment">Paiement</h3>
+    <p class="pdp-modal-sub" id="eventPaySub"></p>
+    <div class="pdp-pay-grid">
+      <button class="pdp-pay-btn" type="button" data-method="mtn">📱 MTN Mobile Money</button>
+      <button class="pdp-pay-btn" type="button" data-method="orange">🟠 Orange Money</button>
+      <button class="pdp-pay-btn" type="button" data-method="card">💳 Card</button>
+    </div>
+    <div class="pdp-modal-actions">
+      <button class="pdp-modal-cancel" id="eventPayCancel" type="button" data-i18n="cancel">Annuler</button>
+      <button class="pdp-modal-confirm" id="eventPayConfirm" type="button" data-i18n="confirm">Confirmer</button>
+    </div>
+  </div>
+</div>
+
+<script type="module">
+import { initLang, getLang, applyLang, translate } from "/js/lang.js";
+import { marketplaceItems, creatorProfiles, getLocalizedValue } from "/js/marketplace-catalog.js";
+import { cart } from "/js/cart.js";
+import { getCurrentUser } from "/js/auth.js";
+
+initLang();
+
+// ── ITEM LOOKUP ───────────────────────────────────────────────
+const params  = new URLSearchParams(window.location.search);
+const eventId = params.get("id");
+const events  = marketplaceItems.filter(i => i.category === "events");
+const evt     = events.find(e => e.id === eventId) || events[0];
+
+// ── KIND MAP ──────────────────────────────────────────────────
+const kindMap = { live: { fr:"Live", en:"Live" }, screening: { fr:"Projection", en:"Screening" } };
+
+// ── INFO STUBS ────────────────────────────────────────────────
+const descStubs = {
+  "event-1": {
+    fr: "La Nuit des Createurs de Yaounde rassemble les artistes, cineastes et makers independants pour une soiree de performances live, projections et networking. Entree avec billet numerique JENGU.",
+    en: "Yaounde Creator Night brings together independent artists, filmmakers and makers for an evening of live performances, screenings and networking. Entry with JENGU digital ticket."
+  },
+  "event-2": {
+    fr: "Deux jours de cinema africain contemporain : selections courts-metrages, discussions avec les realisateurs et avant-premieres exclusives. Festival incontournable pour les cinephiles.",
+    en: "Two days of contemporary African cinema: short film selections, director Q&As and exclusive premieres. A must-attend for film lovers."
+  }
+};
+
+// ── STATE ─────────────────────────────────────────────────────
+let ticketQty = 1;
+
+// ── TAB SWITCHING ─────────────────────────────────────────────
+document.querySelectorAll(".pdp-tab-btn").forEach(btn => {
+  btn.addEventListener("click", () => {
+    document.querySelectorAll(".pdp-tab-btn").forEach(b => b.classList.remove("active"));
+    document.querySelectorAll(".pdp-tab-panel").forEach(p => p.classList.remove("active"));
+    btn.classList.add("active");
+    document.getElementById(`tab-${btn.dataset.tab}`)?.classList.add("active");
+  });
+});
+
+// ── MENU ──────────────────────────────────────────────────────
+const menuBtn  = document.getElementById("menuBtn");
+const sideMenu = document.getElementById("sideMenu");
+menuBtn.addEventListener("click", () => sideMenu.classList.toggle("open"));
+document.addEventListener("click", e => {
+  if (!sideMenu.contains(e.target) && !menuBtn.contains(e.target)) sideMenu.classList.remove("open");
+});
+
+// ── TOTAL CALCULATION ─────────────────────────────────────────
+function updateTotal() {
+  const totalEl = document.getElementById("eventTotal");
+  if (totalEl && evt) totalEl.textContent = `${(evt.price * ticketQty).toLocaleString()} XAF`;
+  const qtyEl = document.getElementById("eventQtyVal");
+  if (qtyEl) qtyEl.textContent = String(ticketQty);
+  const paySub = document.getElementById("eventPaySub");
+  if (paySub && evt) {
+    paySub.textContent = `${ticketQty} × ${evt.price} XAF = ${(evt.price * ticketQty).toLocaleString()} XAF`;
+  }
+}
+
+document.getElementById("eventQtyPlus")?.addEventListener("click", () => {
+  if (ticketQty < 10) { ticketQty++; updateTotal(); }
+});
+document.getElementById("eventQtyMinus")?.addEventListener("click", () => {
+  if (ticketQty > 1) { ticketQty--; updateTotal(); }
+});
+
+// ── RENDER ────────────────────────────────────────────────────
+function render() {
+  if (!evt) return;
+
+  const lang  = getLang();
+  const title = getLocalizedValue(evt.title, lang);
+  const kind  = getLocalizedValue(kindMap[evt.kind] || { fr:"Live", en:"Live" }, lang);
+
+  // Hero BG
+  const heroBg = document.getElementById("eventHeroBg");
+  if (heroBg) heroBg.style.backgroundImage = `url(${evt.cover})`;
+  document.title = `${title} - JENGU`;
+
+  // Poster
+  const posterEl = document.getElementById("eventPoster");
+  if (posterEl) { posterEl.src = evt.cover; posterEl.alt = title; }
+
+  // Kind eyebrow
+  const kindEl = document.getElementById("eventKind");
+  if (kindEl) kindEl.textContent = kind.toUpperCase();
+
+  // Title
+  const titleEl = document.getElementById("eventTitle");
+  if (titleEl) titleEl.textContent = title;
+
+  // Creator link
+  const creator = creatorProfiles.find(c => c.name === evt.creator);
+  const creatorLink = document.getElementById("eventCreatorLink");
+  if (creatorLink) {
+    creatorLink.textContent = evt.creator;
+    creatorLink.href = creator ? `/creator.html?id=${creator.id}` : "#tab-info";
+  }
+
+  // Unit price
+  const unitPriceEl = document.getElementById("eventUnitPrice");
+  if (unitPriceEl) unitPriceEl.textContent = `${evt.price} XAF / billet`;
+
+  updateTotal();
+
+  // Info strip pills
+  const datePill = document.getElementById("eventDatePill");
+  if (datePill) datePill.textContent = evt.releaseDate || "";
+
+  const cityPill = document.getElementById("eventCityPill");
+  if (cityPill) cityPill.textContent = evt.city || "";
+
+  const kindPill = document.getElementById("eventKindPill");
+  if (kindPill) kindPill.textContent = kind;
+
+  // Info tab
+  const infoDate = document.getElementById("eventInfoDate");
+  if (infoDate) infoDate.textContent = evt.releaseDate || "";
+
+  const infoCity = document.getElementById("eventInfoCity");
+  if (infoCity) infoCity.textContent = evt.city || "";
+
+  const descEl = document.getElementById("eventInfoDesc");
+  if (descEl) {
+    const stub = descStubs[evt.id];
+    descEl.textContent = stub ? getLocalizedValue(stub, lang) : title;
+  }
+
+  // Creator card
+  const creatorCardEl = document.getElementById("eventCreatorCard");
+  if (creatorCardEl && creator) {
+    const bio = getLocalizedValue(creator.bio, lang) || "";
+    creatorCardEl.innerHTML = `
+      <a class="pdp-creator-card" href="/creator.html?id=${creator.id}">
+        <div class="pdp-creator-avatar"><img src="${creator.avatar}" alt="${creator.name}"></div>
+        <div class="pdp-creator-info">
+          <p class="pdp-creator-name">${creator.name}</p>
+          <p class="pdp-creator-city">${creator.city || ""}</p>
+        </div>
+        <button class="pdp-btn-follow-sm" data-i18n="creatorFollow">Suivre</button>
+      </a>
+      ${bio ? `<p style="color:#6e86a8;font-size:13px;margin-top:12px;line-height:1.55;">${bio}</p>` : ""}
+    `;
+  } else if (creatorCardEl) {
+    creatorCardEl.innerHTML = `<div class="pdp-creator-card" style="cursor:default;"><div class="pdp-creator-avatar" style="font-size:22px;">🎫</div><div class="pdp-creator-info"><p class="pdp-creator-name">${evt.creator}</p></div></div>`;
+  }
+
+  // Related
+  const relGrid = document.getElementById("eventRelatedGrid");
+  if (relGrid) {
+    const related = events.filter(e => e.id !== evt.id).concat(
+      marketplaceItems.filter(i => i.category !== "events")
+    ).slice(0, 4);
+    relGrid.innerHTML = related.map(item => {
+      const t = getLocalizedValue(item.title, lang);
+      const href = item.category === "events" ? `/event.html?id=${item.id}`
+                 : item.category === "movies" ? `/movie.html?id=${item.id}`
+                 : item.category === "merch"  ? `/merch-product.html?id=${item.id}`
+                 : (item.kind === "album"     ? `/album.html?id=${item.id}` : `/track.html?id=${item.id}`);
+      return `
+        <a class="mc-card" href="${href}">
+          <div class="mc-card-img" style="background-image:url(${item.cover})">
+            <span class="mc-card-badge badge-live">${item.kind || item.category}</span>
+            <button class="mc-card-play" aria-label="View">▶</button>
+          </div>
+          <div class="mc-card-body">
+            <p class="mc-card-title">${t}</p>
+            <p class="mc-card-creator">${item.creator}</p>
+            <div class="mc-card-foot">
+              <span class="mc-card-price">${item.price} XAF</span>
+              <button class="mc-card-cta" data-i18n="buy">Acheter</button>
+            </div>
+          </div>
+        </a>`;
+    }).join("");
+  }
+}
+
+render();
+
+// ── PAYMENT MODAL ─────────────────────────────────────────────
+const modal      = document.getElementById("eventPayModal");
+const payBtns    = modal?.querySelectorAll(".pdp-pay-btn") ?? [];
+const cancelBtn  = document.getElementById("eventPayCancel");
+const confirmBtn = document.getElementById("eventPayConfirm");
+let selectedMethod = null;
+
+payBtns.forEach(btn => btn.addEventListener("click", () => {
+  payBtns.forEach(b => b.classList.remove("active"));
+  btn.classList.add("active");
+  selectedMethod = btn.dataset.method;
+}));
+
+function closeModal() {
+  modal?.classList.add("hidden");
+  selectedMethod = null;
+  payBtns.forEach(b => b.classList.remove("active"));
+}
+
+cancelBtn?.addEventListener("click", closeModal);
+modal?.addEventListener("click", e => { if (e.target === modal) closeModal(); });
+document.addEventListener("keydown", e => { if (e.key === "Escape") closeModal(); });
+
+document.getElementById("eventBuyBtn")?.addEventListener("click", () => {
+  const user = getCurrentUser();
+  if (!user) { window.location.href = "/user/login.html"; return; }
+  if (!evt) return;
+  modal?.classList.remove("hidden");
+});
+
+document.getElementById("eventShareBtn")?.addEventListener("click", () => {
+  if (navigator.share) {
+    navigator.share({ title: document.title, url: location.href }).catch(() => {});
+  } else {
+    navigator.clipboard?.writeText(location.href);
+  }
+});
+
+confirmBtn?.addEventListener("click", () => {
+  if (!selectedMethod) { alert(translate("choosePayment")); return; }
+  if (!evt) return;
+  const lang  = getLang();
+  const title = getLocalizedValue(evt.title, lang);
+  const total = evt.price * ticketQty;
+  for (let i = 0; i < ticketQty; i++) {
+    cart.add({ id: `${evt.id}-${i}`, name: title, artist: evt.creator, cover: evt.cover, price: evt.price, type: "event-ticket" });
+  }
+  closeModal();
+  window.location.href = "/checkout.html";
+});
+
+applyLang();
+</script>
+</body>
+</html>

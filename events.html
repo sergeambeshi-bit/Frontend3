@@ -87,6 +87,7 @@ function renderTickets() {
       <p>${translate(kindLabelMap[item.kind] || "kindLive")} • ${item.releaseDate}</p>
       <p><strong>${item.price} XAF</strong></p>
       <button type="button" class="btn-primary event-buy" data-id="${item.id}" style="width:100%;margin-top:10px;" data-i18n="buy">${translate("buy")}</button>
+      <a href="/event.html?id=${item.id}" class="btn-ghost" style="display:block;text-align:center;margin-top:6px;" data-i18n="view">${translate("view")}</a>
     </article>
   `).join("");
 }

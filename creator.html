@@ -160,8 +160,8 @@ function renderFeatured(items) {
   const item = items[0];
   el.style.display = "flex";
   el.href = item.category === "music"  ? `/track.html?id=${item.id}`
-          : item.category === "movies" ? `/movies.html`
-          : item.category === "events" ? `/events.html`
+          : item.category === "movies" ? `/movie.html?id=${item.id}`
+          : item.category === "events" ? `/event.html?id=${item.id}`
           : `/merch-product.html?id=${item.id}`;
   const img = document.getElementById("featuredImg");
   img.src = item.cover || "/assets/placeholders/cover.jpg";
@@ -176,8 +176,8 @@ function makeCard(item) {
   const title = getLocalizedValue(item.title, lang);
   const cat   = item.category;
   const href  = cat === "music"  ? `/track.html?id=${item.id}`
-              : cat === "movies" ? `/movies.html`
-              : cat === "events" ? `/events.html`
+              : cat === "movies" ? `/movie.html?id=${item.id}`
+              : cat === "events" ? `/event.html?id=${item.id}`
               : `/merch-product.html?id=${item.id}`;
   const isNew   = item.releaseDate && (Date.now() - new Date(item.releaseDate)) < 30*24*3600*1000;
   const badge   = isNew
