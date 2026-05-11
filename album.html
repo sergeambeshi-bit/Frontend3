@@ -20,12 +20,13 @@
   }
   .album-hero-artist { font-size: 1rem; color: #d4a047; margin: 0; }
 </style>
+<script src="/js/performance-lite.js" defer></script>
 </head>
 <body class="pdp-page" data-cat="music" data-i18n-title="albumPageTitle">
 
 <div id="sideMenu" class="side-menu">
   <div class="menu-header">
-    <a href="/index.html"><img src="/assets/logo.png" class="menu-logo" alt="JENGU"></a>
+    <a href="/index.html"><img loading="lazy" decoding="async" src="/assets/logo.png" class="menu-logo" alt="JENGU"></a>
   </div>
   <a href="/discover.html" data-i18n="discoverNav">Decouvrir</a>
   <a href="/browse.html" data-i18n="musicNav">Musique</a>
@@ -43,7 +44,7 @@
   <div class="pdp-hero-fg"></div>
   <div class="topbar">
     <span class="menu" id="menuBtn">☰</span>
-    <a href="/index.html"><img src="/assets/logo.png" class="logo" alt="JENGU"></a>
+    <a href="/index.html"><img loading="lazy" decoding="async" src="/assets/logo.png" class="logo" alt="JENGU"></a>
     <a href="/checkout.html" class="cart-btn" aria-label="Voir le panier" data-i18n-aria="viewCartAria"><span class="cart-icon">🛒</span><span class="cart-count">0</span></a>
   </div>
 </section>
@@ -55,7 +56,7 @@
   <div class="pdp-top">
     <div class="pdp-image">
       <span class="pdp-cat-badge" data-i18n="musicNav">Musique</span>
-      <img id="albumCover" src="" alt="Album cover">
+      <img loading="lazy" decoding="async" id="albumCover" src="" alt="Album cover">
     </div>
     <div class="pdp-details">
       <p class="pdp-eyebrow" id="albumEyebrow" data-i18n="tracklist">Album</p>
@@ -208,7 +209,7 @@ function render() {
     const bio = getLocalizedValue(creator.bio, lang) || "";
     creatorCardEl.innerHTML = `
       <a class="pdp-creator-card" href="/creator.html?id=${creator.id}">
-        <div class="pdp-creator-avatar"><img src="${creator.avatar}" alt="${creator.name}"></div>
+        <div class="pdp-creator-avatar"><img loading="lazy" decoding="async" src="${creator.avatar}" alt="${creator.name}"></div>
         <div class="pdp-creator-info">
           <p class="pdp-creator-name">${creator.name}</p>
           <p class="pdp-creator-city">${creator.city || ""}</p>

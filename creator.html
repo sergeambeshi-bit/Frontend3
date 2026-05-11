@@ -47,12 +47,13 @@
 .cp-about-title{font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#6e86a8;margin:0 0 8px;}
 .cp-about-bio{font-size:14px;line-height:1.65;color:#b0c4e0;margin:0;}
 </style>
+<script src="/js/performance-lite.js" defer></script>
 </head>
 <body class="has-topbar-clearance fan-premium-page" data-i18n-title="creatorPageTitle">
 
 <div class="topbar">
   <span class="menu" id="menuBtn">&#9776;</span>
-  <a href="/index.html"><img src="/assets/logo.png" class="logo" alt="JENGU"></a>
+  <a href="/index.html"><img loading="lazy" decoding="async" src="/assets/logo.png" class="logo" alt="JENGU"></a>
 </div>
 
 <div id="sideMenu" class="side-menu">
@@ -99,7 +100,7 @@
 </div>
 
 <a class="cp-featured" id="cpFeatured" href="#" style="display:none">
-  <img class="cp-featured-img" id="featuredImg" src="" alt="">
+  <img loading="lazy" decoding="async" class="cp-featured-img" id="featuredImg" src="" alt="">
   <div class="cp-featured-body">
     <p class="cp-featured-eyebrow" id="featuredEyebrow"></p>
     <p class="cp-featured-title"   id="featuredTitle"></p>
@@ -143,7 +144,7 @@ function renderHeader() {
   document.getElementById("creatorCity").textContent = creator.city;
   const av = document.getElementById("creatorAvatar");
   if (creator.avatar) {
-    av.innerHTML = `<img src="${creator.avatar}" alt="${creator.name}">`;
+    av.innerHTML = `<img loading="lazy" decoding="async" src="${creator.avatar}" alt="${creator.name}">`;
   } else {
     av.textContent = creator.name.charAt(0).toUpperCase();
   }
@@ -191,7 +192,7 @@ function makeCard(item) {
   const ctaTxt  = cat === "merch" ? translate("buy") : translate("view");
   return `<a class="mc-card" href="${href}" data-cat="${cat}" data-id="${item.id}">
   <div class="mc-card-img">
-    <img src="${item.cover || "/assets/placeholders/cover.jpg"}" alt="${title}" loading="lazy">
+    <img decoding="async" src="${item.cover || "/assets/placeholders/cover.jpg"}" alt="${title}" loading="lazy">
     ${badge}${playBtn}
   </div>
   <div class="mc-card-body">

@@ -7,6 +7,7 @@
 
 <link rel="stylesheet" href="/styles/app.css">
 <script src="/js/premium-experience.js" defer></script>
+<script src="/js/performance-lite.js" defer></script>
 </head>
 
 <body class="has-topbar-clearance fan-premium-page">
@@ -14,7 +15,7 @@
 <!-- SIDE MENU -->
 <div id="sideMenu" class="side-menu">
   <div class="menu-header">
-    <img src="/assets/logo.png" class="menu-logo">
+    <img loading="lazy" decoding="async" src="/assets/logo.png" class="menu-logo">
   </div>
 
   <a href="/index.html">Accueil</a>
@@ -112,7 +113,7 @@ function renderLibraryItems(items){
 
   container.innerHTML = items.map(item => `
     <div class="chart-item">
-      <img src="${item.cover}" loading="lazy">
+      <img decoding="async" src="${item.cover}" loading="lazy">
 
       <div class="info">
         <b>${item.name}</b>

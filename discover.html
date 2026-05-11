@@ -574,6 +574,7 @@
   .d-shell { padding-top: 108px; }
 }
 </style>
+<script src="/js/performance-lite.js" defer></script>
 </head>
 <body class="discover-page" data-i18n-title="discoverPageTitle">
 
@@ -584,7 +585,7 @@
   <div class="d-filterbar-inner">
 
     <a href="/index.html" class="d-logo">
-      <img src="/assets/logo.png" alt="JENGU">
+      <img loading="lazy" decoding="async" src="/assets/logo.png" alt="JENGU">
     </a>
 
     <div class="d-tabs" id="filterTabs" role="tablist">
@@ -800,7 +801,7 @@ function renderFeatured() {
   const top2 = sortItems([...marketplaceItems], "popular").slice(0, 2);
   document.getElementById("featuredStrip").innerHTML = top2.map(item => `
     <a href="${itemLink(item)}" class="d-feat-card">
-      <img src="${item.cover}" alt="${title(item)}" loading="lazy">
+      <img decoding="async" src="${item.cover}" alt="${title(item)}" loading="lazy">
       <div class="d-feat-overlay">
         <span class="d-feat-cat">${catLabel(item.category)}</span>
         <h2 class="d-feat-title">${title(item)}</h2>
@@ -829,7 +830,7 @@ function gridCard(item) {
   return `
     <a href="${link}" class="d-card" role="listitem">
       <div class="d-card-img">
-        <img src="${item.cover}" alt="${title(item)}" loading="lazy">
+        <img decoding="async" src="${item.cover}" alt="${title(item)}" loading="lazy">
         <span class="d-card-cat" style="color:${color};">${catLabel(item.category)}</span>
         ${playBtn}
       </div>
@@ -878,7 +879,7 @@ function renderGrid(reset = false) {
 function scrollCard(item) {
   return `
     <a href="${itemLink(item)}" class="d-scrl-card">
-      <img class="d-scrl-img" src="${item.cover}" alt="${title(item)}" loading="lazy">
+      <img decoding="async" class="d-scrl-img" src="${item.cover}" alt="${title(item)}" loading="lazy">
       <div class="d-scrl-body">
         <p class="d-scrl-title">${title(item)}</p>
         <p class="d-scrl-meta">${item.creator} &middot; ${item.price.toLocaleString()} XAF</p>

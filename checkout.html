@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title data-i18n-title="checkoutPageTitle">Checkout - JENGU</title>
 <link rel="stylesheet" href="/styles/checkout.css?v=20260509">
+<script src="/js/performance-lite.js" defer></script>
 </head>
 <body class="checkout-page" data-i18n-title="checkoutPageTitle">
   <main class="checkout-wrap" data-cat="checkout">
@@ -13,7 +14,7 @@
     <section class="checkout-section" aria-labelledby="summaryTitle">
       <h2 id="summaryTitle" class="checkout-title" data-i18n="checkoutSummary">Product Summary</h2>
       <article id="checkoutSummaryCard" class="summary-card" hidden>
-        <img id="summaryImage" class="summary-image" src="" alt="">
+        <img loading="lazy" decoding="async" id="summaryImage" class="summary-image" src="" alt="">
         <div class="summary-content">
           <h3 id="summaryName" class="summary-name"></h3>
           <p id="summaryCreator" class="summary-creator"></p>

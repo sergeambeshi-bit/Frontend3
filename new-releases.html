@@ -6,6 +6,7 @@
 <title>Nouveautés – JENGU</title>
 
 <link rel="stylesheet" href="/styles/app.css">
+<script src="/js/performance-lite.js" defer></script>
 </head>
 
 <body class="has-topbar-clearance new-releases-page">
@@ -13,7 +14,7 @@
 <!-- SIDE MENU -->
 <div id="sideMenu" class="side-menu">
   <div class="menu-header">
-    <img src="/assets/logo.png" class="menu-logo">
+    <img loading="lazy" decoding="async" src="/assets/logo.png" class="menu-logo">
   </div>
 
   <a href="/index.html">Accueil</a>
@@ -30,7 +31,7 @@
 <!-- HEADER -->
 <div class="topbar">
   <span class="menu" id="menuBtn">☰</span>
-  <a href="/index.html"><img src="/assets/logo.png" class="logo"></a>
+  <a href="/index.html"><img loading="lazy" decoding="async" src="/assets/logo.png" class="logo"></a>
   <a href="/checkout.html" class="cart-btn" aria-label="Voir le panier" data-i18n-aria="viewCartAria"><span class="cart-icon">🛒</span><span class="cart-count">0</span></a>
 </div>
 
@@ -79,7 +80,7 @@ function createCard(item){
   return `
     <div class="card" data-id="${itemId}">
       <div class="cover">
-        <img src="${safeCover(item.cover)}" alt="${item.title || item.name || "release"}">
+        <img loading="lazy" decoding="async" src="${safeCover(item.cover)}" alt="${item.title || item.name || "release"}">
         <button class="play">▶</button>
       </div>
 

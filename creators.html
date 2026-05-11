@@ -53,11 +53,12 @@
   }
 }
 </style>
+<script src="/js/performance-lite.js" defer></script>
 </head>
 <body class="has-topbar-clearance fan-premium-page" data-i18n-title="creatorsPageTitle">
 <div class="topbar">
   <span class="menu" id="menuBtn">☰</span>
-  <a href="/index.html"><img src="/assets/logo.png" class="logo" alt="JENGU"></a>
+  <a href="/index.html"><img loading="lazy" decoding="async" src="/assets/logo.png" class="logo" alt="JENGU"></a>
 </div>
 
 <div id="sideMenu" class="side-menu">
@@ -95,7 +96,7 @@ const categoryLabelMap = {
 function renderCreators() {
   creatorGrid.innerHTML = creatorProfiles.map((creator) => `
     <a class="creator-card" href="/creator.html?id=${creator.id}">
-      <img src="${creator.avatar}" alt="${creator.name}">
+      <img loading="lazy" decoding="async" src="${creator.avatar}" alt="${creator.name}">
       <h3>${creator.name}</h3>
       <p class="sub">${creator.city}</p>
       <p>${getLocalizedValue(creator.bio, getLang())}</p>

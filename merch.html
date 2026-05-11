@@ -6,13 +6,14 @@
 <title>Merch - JENGU</title>
 <link rel="stylesheet" href="/styles/app.css">
 <link rel="stylesheet" href="/styles/components.css">
+<script src="/js/performance-lite.js" defer></script>
 </head>
 <body class="has-topbar-clearance fan-premium-page" data-i18n-title="merchPageTitle">
 <a href="/checkout.html" class="cart-btn" aria-label="Voir le panier" data-i18n-aria="viewCartAria"><span class="cart-icon">🛒</span><span class="cart-count">0</span></a>
 
 <div class="topbar">
   <span class="menu" id="menuBtn">☰</span>
-  <a href="/index.html"><img src="/assets/logo.png" class="logo" alt="JENGU"></a>
+  <a href="/index.html"><img loading="lazy" decoding="async" src="/assets/logo.png" class="logo" alt="JENGU"></a>
 </div>
 
 <div id="sideMenu" class="side-menu">
@@ -81,7 +82,7 @@ function renderMerch() {
     return `
       <a class="mc-card" href="/merch-product.html?id=${item.id}" data-cat="merch">
         <div class="mc-card-img">
-          <img src="${item.cover}" alt="${title}">
+          <img loading="lazy" decoding="async" src="${item.cover}" alt="${title}">
           <span class="mc-card-badge">${translate("merchNav")}</span>
         </div>
         <div class="mc-card-body">

@@ -6,11 +6,12 @@
 <title>Films - JENGU</title>
 <link rel="stylesheet" href="/styles/app.css">
 <link rel="stylesheet" href="/styles/components.css">
+<script src="/js/performance-lite.js" defer></script>
 </head>
 <body class="has-topbar-clearance fan-premium-page" data-i18n-title="moviesPageTitle">
 <div class="topbar">
   <span class="menu" id="menuBtn">☰</span>
-  <a href="/index.html"><img src="/assets/logo.png" class="logo" alt="JENGU"></a>
+  <a href="/index.html"><img loading="lazy" decoding="async" src="/assets/logo.png" class="logo" alt="JENGU"></a>
 </div>
 
 <div id="sideMenu" class="side-menu">
@@ -80,7 +81,7 @@ function renderMovies() {
     return `
       <a class="mc-card" href="/movie.html?id=${item.id}" data-cat="movies">
         <div class="mc-card-img">
-          <img src="${item.cover}" alt="${title}">
+          <img loading="lazy" decoding="async" src="${item.cover}" alt="${title}">
           <span class="mc-card-badge">${kind}</span>
         </div>
         <div class="mc-card-body">

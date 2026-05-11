@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title data-i18n-title="checkoutSuccessTitle">Payment Successful - JENGU</title>
 <link rel="stylesheet" href="/styles/checkout.css?v=20260509">
+<script src="/js/performance-lite.js" defer></script>
 </head>
 <body class="checkout-page">
   <main class="checkout-wrap checkout-success-wrap" data-cat="checkout">
@@ -13,7 +14,7 @@
     <section class="checkout-section" aria-labelledby="successSummaryTitle">
       <h2 id="successSummaryTitle" class="checkout-title" data-i18n="checkoutSummary">Product Summary</h2>
       <article class="summary-card" id="successSummaryCard" hidden>
-        <img id="successImage" class="summary-image" src="" alt="">
+        <img loading="lazy" decoding="async" id="successImage" class="summary-image" src="" alt="">
         <div class="summary-content">
           <h3 id="successName" class="summary-name"></h3>
           <p id="successCreator" class="summary-creator"></p>

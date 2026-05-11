@@ -231,13 +231,14 @@
     }
   }
 </style>
+<script src="/js/performance-lite.js" defer></script>
 </head>
 
 <body class="has-topbar-clearance charts-page" data-i18n-title="chartsPageTitle">
 
 <div id="sideMenu" class="side-menu">
   <div class="menu-header">
-    <img src="/assets/logo.png" class="menu-logo">
+    <img loading="lazy" decoding="async" src="/assets/logo.png" class="menu-logo">
   </div>
 
   <a href="/index.html">Accueil</a>
@@ -252,7 +253,7 @@
 
 <div class="topbar">
   <span class="menu" id="menuBtn">☰</span>
-  <a href="/index.html"><img src="/assets/logo.png" class="logo"></a>
+  <a href="/index.html"><img loading="lazy" decoding="async" src="/assets/logo.png" class="logo"></a>
   <span></span>
 </div>
 
@@ -420,7 +421,7 @@ function createChartItem(item, rank) {
     <div class="chart-row" data-name="${item.name}" data-artist="${artist}" data-cover="${cover}" data-price="${price}">
       <div class="rank">${String(rank).padStart(2, "0")}</div>
       <div class="cover-wrap">
-        <img src="${cover}" alt="${item.name}">
+        <img loading="lazy" decoding="async" src="${cover}" alt="${item.name}">
       </div>
       <div class="track-main">
         <b>${item.name}</b>

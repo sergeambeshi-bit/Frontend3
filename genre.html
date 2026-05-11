@@ -6,13 +6,14 @@
 <title data-i18n-title="genrePageTitle">Genre - JENGU</title>
 
 <link rel="stylesheet" href="/styles/app.css">
+<script src="/js/performance-lite.js" defer></script>
 </head>
 
 <body class="has-topbar-clearance" data-i18n-title="genrePageTitle">
 
 <div id="sideMenu" class="side-menu">
   <div class="menu-header">
-    <img src="/assets/logo.png" class="menu-logo" alt="JENGU logo">
+    <img loading="lazy" decoding="async" src="/assets/logo.png" class="menu-logo" alt="JENGU logo">
   </div>
 
   <a href="/index.html">Accueil</a>
@@ -89,7 +90,7 @@ function getItemLink(item) {
 function renderTrackRow(item) {
   return `
     <a href="${getItemLink(item)}" class="chart-item">
-      <img src="${getCoverUrl(item)}" loading="lazy" alt="${item.name}">
+      <img decoding="async" src="${getCoverUrl(item)}" loading="lazy" alt="${item.name}">
       <div class="info">
         <b>${item.name || "Untitled"}</b>
         <p>${item.artist || "Unknown Artist"} • ${(item.price || 300)} XAF</p>

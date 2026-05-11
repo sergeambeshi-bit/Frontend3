@@ -299,13 +299,14 @@
     }
   }
 </style>
+<script src="/js/performance-lite.js" defer></script>
 </head>
 
 <body class="track-page" data-i18n-title="trackPageTitle">
 
 <div id="sideMenu" class="side-menu">
   <div class="menu-header">
-    <a href="/index.html"><img src="/assets/logo.png" class="menu-logo"></a>
+    <a href="/index.html"><img loading="lazy" decoding="async" src="/assets/logo.png" class="menu-logo"></a>
   </div>
 
   <a href="/index.html">Accueil</a>
@@ -324,7 +325,7 @@
 
   <div class="topbar">
     <span class="menu" id="menuBtn">☰</span>
-    <a href="/index.html"><img src="/assets/logo.png" class="logo"></a>
+    <a href="/index.html"><img loading="lazy" decoding="async" src="/assets/logo.png" class="logo"></a>
     <a href="/checkout.html" class="cart-btn" aria-label="Voir le panier" data-i18n-aria="viewCartAria"><span class="cart-icon">🛒</span><span class="cart-count">0</span></a>
   </div>
 
@@ -338,7 +339,7 @@
   <div class="track-main">
     <div class="track-art">
       <span class="track-badge" data-i18n="trackExclusive">Exclusive</span>
-      <img id="trackCover" src="" alt="Track cover" data-i18n="trackCoverAlt">
+      <img loading="lazy" decoding="async" id="trackCover" src="" alt="Track cover" data-i18n="trackCoverAlt">
     </div>
 
     <div class="track-details">
@@ -685,7 +686,7 @@ function renderTrackCreator(artistName) {
     const bio = getLocalizedValue(creator.bio, getLang()) || "";
     card.innerHTML = `
       <a class="pdp-creator-card" href="/creator.html?id=${creator.id}" style="text-decoration:none;">
-        <div class="pdp-creator-avatar"><img src="${creator.avatar}" alt="${creator.name}"></div>
+        <div class="pdp-creator-avatar"><img loading="lazy" decoding="async" src="${creator.avatar}" alt="${creator.name}"></div>
         <div class="pdp-creator-info">
           <p class="pdp-creator-name">${creator.name}</p>
           <p class="pdp-creator-city">${creator.city || ""}</p>

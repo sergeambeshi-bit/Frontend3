@@ -6,7 +6,10 @@
 <title>JENGU</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;600;700;800&family=Playfair+Display:wght@700;800&display=swap" rel="stylesheet">
+<link rel="preload" as="image" href="/assets/hero/optimized/hero1-960.jpg" fetchpriority="high">
+<link rel="preload" as="image" href="/assets/logo.png" fetchpriority="high">
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@600;700;800&display=swap" rel="stylesheet">
+<script src="/js/performance-lite.js" defer></script>
 <style>
 :root {
   --bg: #060b14;
@@ -67,6 +70,10 @@ body {
   height: auto;
   filter: drop-shadow(0 14px 30px rgba(1, 212, 171, 0.42));
   animation: logoPulse 5.4s ease-in-out infinite;
+}
+
+.slow-net .logo {
+  animation: none;
 }
 
 .topbar-actions {
@@ -176,6 +183,10 @@ body {
   position: relative;
 }
 
+.slow-net .hero {
+  min-height: 36vh;
+}
+
 .hero-bg {
   position: absolute;
   inset: 0;
@@ -202,9 +213,13 @@ body {
   padding: 16px;
 }
 
+.slow-net .hero-content {
+  min-height: 36vh;
+}
+
 .hero h1 {
   margin: 0;
-  font-family: "Playfair Display", serif;
+  font-family: "Manrope", sans-serif;
   font-size: clamp(29px, 8.8vw, 52px);
   line-height: 0.98;
   letter-spacing: -0.02em;
@@ -292,7 +307,7 @@ body {
 .section h2 {
   margin: 0;
   font-size: clamp(20px, 5.6vw, 30px);
-  font-family: "Playfair Display", serif;
+  font-family: "Manrope", sans-serif;
   letter-spacing: -0.02em;
 }
 
@@ -344,7 +359,7 @@ body {
   left: 10px;
   bottom: 10px;
   z-index: 1;
-  font-family: "Playfair Display", serif;
+  font-family: "Manrope", sans-serif;
   font-size: 22px;
   color: #f8fbff;
 }
@@ -428,7 +443,7 @@ body {
 
 .discover-cta h3 {
   margin: 0 0 12px;
-  font-family: "Playfair Display", serif;
+  font-family: "Manrope", sans-serif;
   font-size: clamp(21px, 6vw, 30px);
 }
 
@@ -484,6 +499,15 @@ body {
   }
 }
 
+@media (max-width: 640px) {
+  .hero,
+  .hero-content,
+  .slow-net .hero,
+  .slow-net .hero-content {
+    min-height: 38vh;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .logo {
     animation: none;
@@ -513,7 +537,7 @@ body {
           </svg>
         </button>
       </div>
-      <a class="logo-link" href="/index.html" data-i18n-aria="home" aria-label="Home"><img class="logo" src="/assets/logo.png" alt="JENGU"></a>
+      <a class="logo-link" href="/index.html" data-i18n-aria="home" aria-label="Home"><img loading="lazy" decoding="async" class="logo" src="/assets/logo.png" alt="JENGU"></a>
       <div class="topbar-actions">
         <button id="langBtn" class="icon-btn lang-btn" type="button" aria-label="Language">FR</button>
         <a class="icon-btn" href="/user/login.html" data-i18n-aria="profile" aria-label="Profile">
@@ -542,10 +566,10 @@ body {
         <h2 id="categoriesTitle" data-i18n="homeGatewayHeading">Discover</h2>
       </div>
       <div class="categories-scroll">
-        <a class="cat-card" href="/browse.html"><img loading="lazy" src="/assets/covers/album1.png" alt="Music"><span data-i18n="homeGatewayMusicTitle">Music</span></a>
-        <a class="cat-card" href="/movies.html"><img loading="lazy" src="/assets/covers/cover3.png" alt="Movies"><span data-i18n="homeGatewayMoviesTitle">Movies</span></a>
-        <a class="cat-card" href="/events.html"><img loading="lazy" src="/assets/covers/cover7.png" alt="Events"><span data-i18n="homeGatewayEventsTitle">Events</span></a>
-        <a class="cat-card" href="/merch.html"><img loading="lazy" src="/assets/covers/cover6.png" alt="Merch"><span data-i18n="homeGatewayMerchTitle">Merch</span></a>
+        <a class="cat-card" href="/browse.html"><img decoding="async" loading="lazy" src="/assets/covers/album1.png" alt="Music"><span data-i18n="homeGatewayMusicTitle">Music</span></a>
+        <a class="cat-card" href="/movies.html"><img decoding="async" loading="lazy" src="/assets/covers/cover3.png" alt="Movies"><span data-i18n="homeGatewayMoviesTitle">Movies</span></a>
+        <a class="cat-card" href="/events.html"><img decoding="async" loading="lazy" src="/assets/covers/cover7.png" alt="Events"><span data-i18n="homeGatewayEventsTitle">Events</span></a>
+        <a class="cat-card" href="/merch.html"><img decoding="async" loading="lazy" src="/assets/covers/cover6.png" alt="Merch"><span data-i18n="homeGatewayMerchTitle">Merch</span></a>
       </div>
     </section>
 
@@ -609,10 +633,16 @@ import { getCurrentUser } from "/js/auth.js";
 
 initLang();
 
+const IS_SLOW_NET = Boolean(
+  navigator.connection &&
+  (navigator.connection.saveData || /(slow-2g|2g|3g)/i.test(navigator.connection.effectiveType || ""))
+);
+
+const HERO_SIZE = IS_SLOW_NET ? "640" : "960";
 const heroImages = [
-  "/assets/hero/hero1.png",
-  "/assets/hero/hero2.png",
-  "/assets/hero/hero3.png"
+  `/assets/hero/optimized/hero1-${HERO_SIZE}.jpg`,
+  `/assets/hero/optimized/hero2-${HERO_SIZE}.jpg`,
+  `/assets/hero/optimized/hero3-${HERO_SIZE}.jpg`
 ];
 
 function linkFor(item) {
@@ -661,7 +691,7 @@ function renderItemCard(item, options = {}) {
 
   return `
     <article class="item-card ${options.scroll ? "scroll-card" : ""}">
-      <a href="${linkFor(item)}"><img loading="lazy" class="item-cover${poster}" src="${item.cover}" alt="${title}"></a>
+      <a href="${linkFor(item)}"><img decoding="async" loading="lazy" class="item-cover${poster}" src="${item.cover}" alt="${title}"></a>
       <div class="item-body">
         <p class="item-title">${title}</p>
         <p class="item-meta">${sub}</p>
@@ -676,8 +706,12 @@ function renderItemCard(item, options = {}) {
 
 function mount() {
   const all = [...marketplaceItems];
-  const trending = sortByPopularity(all).slice(0, 6);
-  const newest = sortByNewest(all).slice(0, 8);
+  const limits = IS_SLOW_NET
+    ? { trending: 4, newest: 4, events: 2, films: 6, merch: 6 }
+    : { trending: 6, newest: 8, events: 4, films: 999, merch: 999 };
+
+  const trending = sortByPopularity(all).slice(0, limits.trending);
+  const newest = sortByNewest(all).slice(0, limits.newest);
   const events = all.filter((i) => i.category === "events").sort((a, b) => Date.parse(a.releaseDate || "") - Date.parse(b.releaseDate || ""));
   const films = all.filter((i) => i.category === "movies").sort((a, b) => (b.popularity || 0) - (a.popularity || 0));
   const merch = all.filter((i) => i.category === "merch").sort((a, b) => (b.popularity || 0) - (a.popularity || 0));
@@ -696,22 +730,32 @@ function mount() {
     newEl.innerHTML = newest.map((item) => renderItemCard(item, { scroll: true })).join("");
   }
 
-  if (eventsEl) {
-    eventsEl.innerHTML = events.slice(0, 4).map((item) => {
-      const date = shortDate(item.releaseDate);
-      const city = item.city || "";
-      return renderItemCard(item, {
-        subline: `${date}${date && city ? " - " : ""}${city}`
-      });
-    }).join("");
-  }
+  const renderSecondaryRows = () => {
+    if (eventsEl) {
+      eventsEl.innerHTML = events.slice(0, limits.events).map((item) => {
+        const date = shortDate(item.releaseDate);
+        const city = item.city || "";
+        return renderItemCard(item, {
+          subline: `${date}${date && city ? " - " : ""}${city}`
+        });
+      }).join("");
+    }
 
-  if (filmsEl) {
-    filmsEl.innerHTML = films.map((item) => renderItemCard(item, { scroll: true, poster: true })).join("");
-  }
+    if (filmsEl) {
+      filmsEl.innerHTML = films.slice(0, limits.films).map((item) => renderItemCard(item, { scroll: true, poster: true })).join("");
+    }
 
-  if (merchEl) {
-    merchEl.innerHTML = merch.map((item) => renderItemCard(item, { scroll: true })).join("");
+    if (merchEl) {
+      merchEl.innerHTML = merch.slice(0, limits.merch).map((item) => renderItemCard(item, { scroll: true })).join("");
+    }
+  };
+
+  if (IS_SLOW_NET && "requestIdleCallback" in window) {
+    window.requestIdleCallback(renderSecondaryRows, { timeout: 1200 });
+  } else if (IS_SLOW_NET) {
+    setTimeout(renderSecondaryRows, 300);
+  } else {
+    renderSecondaryRows();
   }
 }
 

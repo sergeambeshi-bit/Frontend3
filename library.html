@@ -6,6 +6,7 @@
 <title>Library – JENGU</title>
 
 <link rel="stylesheet" href="/styles/app.css">
+<script src="/js/performance-lite.js" defer></script>
 </head>
 
 <body class="has-topbar-clearance">
@@ -115,7 +116,7 @@ function renderLibrary(){
     container.innerHTML += `
       <div class="chart-item">
 
-        <img src="${item.cover}">
+        <img loading="lazy" decoding="async" src="${item.cover}">
 
         <div class="info">
           <b>${item.name}</b>

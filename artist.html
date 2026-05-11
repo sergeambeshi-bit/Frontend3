@@ -6,6 +6,7 @@
 <title>Artiste – JENGU</title>
 
 <link rel="stylesheet" href="/styles/app.css">
+<script src="/js/performance-lite.js" defer></script>
 </head>
 
 <body>
@@ -13,7 +14,7 @@
 <!-- SIDE MENU -->
 <div id="sideMenu" class="side-menu">
   <div class="menu-header">
-    <img src="/assets/logo.png" class="menu-logo">
+    <img loading="lazy" decoding="async" src="/assets/logo.png" class="menu-logo">
   </div>
 
   <a href="/index.html">Accueil</a>
@@ -34,7 +35,7 @@
 
   <div class="topbar">
     <span class="menu" id="menuBtn">☰</span>
-    <a href="/index.html"><img src="/assets/logo.png" class="logo"></a>
+    <a href="/index.html"><img loading="lazy" decoding="async" src="/assets/logo.png" class="logo"></a>
     <span></span>
   </div>
 
@@ -85,7 +86,7 @@ function createTrack(item, index){
   return `
     <div class="chart-item">
       <span>${String(index+1).padStart(2,'0')}</span>
-      <img src="${item.cover}">
+      <img loading="lazy" decoding="async" src="${item.cover}">
       <div class="info">
         <b>${item.name}</b>
         <p>${item.artist}</p>

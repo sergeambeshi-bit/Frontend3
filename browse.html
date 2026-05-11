@@ -6,6 +6,7 @@
 <title>Browse – JENGU</title>
 <link rel="stylesheet" href="/styles/app.css">
 <link rel="stylesheet" href="/styles/components.css">
+<script src="/js/performance-lite.js" defer></script>
 </head>
 
 <body class="has-topbar-clearance fan-premium-page">
@@ -15,7 +16,7 @@
   <span class="menu" id="menuBtn">☰</span>
 
   <a href="/index.html">
-    <img src="/assets/logo.png" class="logo">
+    <img loading="lazy" decoding="async" src="/assets/logo.png" class="logo">
   </a>
 
   <a href="/checkout.html" class="cart-btn" aria-label="Voir le panier" data-i18n-aria="viewCartAria">
@@ -150,7 +151,7 @@ window.addEventListener("DOMContentLoaded", async () => {
     return `
       <a href="${link}" class="mc-card" data-cat="music" data-id="${item.id}">
         <div class="mc-card-img">
-          <img src="${item.cover || getRandomCover()}" alt="${item.name}">
+          <img loading="lazy" decoding="async" src="${item.cover || getRandomCover()}" alt="${item.name}">
           <span class="mc-card-badge">${item.type === "album" ? "ALBUM" : "TRACK"}</span>
           <button class="mc-card-play" type="button" aria-label="${translate("play")}">▶</button>
         </div>
@@ -190,7 +191,7 @@ window.addEventListener("DOMContentLoaded", async () => {
 
     suggestionsBox.innerHTML = matches.map(item => `
       <div class="suggestion-item" data-name="${item.name}">
-        <img src="${item.cover || getRandomCover()}">
+        <img loading="lazy" decoding="async" src="${item.cover || getRandomCover()}">
         <div>
           <div>${item.name}</div>
           <small>${item.artist || ""}</small>

@@ -6,6 +6,7 @@
 <title>Blog – JENGU</title>
 
 <link rel="stylesheet" href="/styles/app.css">
+<script src="/js/performance-lite.js" defer></script>
 </head>
 
 <body class="has-topbar-clearance">
@@ -13,7 +14,7 @@
 <!-- SIDE MENU -->
 <div id="sideMenu" class="side-menu">
   <div class="menu-header">
-    <img src="/assets/logo.png" class="menu-logo">
+    <img loading="lazy" decoding="async" src="/assets/logo.png" class="menu-logo">
   </div>
 
   <a href="/index.html">Accueil</a>
@@ -30,7 +31,7 @@
 <!-- HEADER -->
 <div class="topbar">
   <span class="menu" id="menuBtn">☰</span>
-  <a href="/index.html"><img src="/assets/logo.png" class="logo"></a>
+  <a href="/index.html"><img loading="lazy" decoding="async" src="/assets/logo.png" class="logo"></a>
   <span></span>
 </div>
 
@@ -64,7 +65,7 @@ document.addEventListener("click", (e) => {
 function createPost(post){
   return `
     <div class="card" style="margin-bottom:15px;">
-      <img src="${post.image}" style="border-radius:12px;">
+      <img loading="lazy" decoding="async" src="${post.image}" style="border-radius:12px;">
       <div class="title">${post.title}</div>
       <p class="sub">${post.excerpt || ""}</p>
 
