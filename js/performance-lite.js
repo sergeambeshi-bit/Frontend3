@@ -103,7 +103,7 @@
       }
       if (img.getAttribute("loading") === "eager") eagerBudget -= 1;
 
-      if (img.complete) return;
+      if (img.complete || isCriticalLogo) return;
       img.classList.add("img-blur-up");
       img.addEventListener(
         "load",

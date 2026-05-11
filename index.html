@@ -68,8 +68,8 @@ body {
 .logo {
   width: clamp(234px, 66vw, 430px);
   height: auto;
-  filter: drop-shadow(0 14px 30px rgba(1, 212, 171, 0.42));
-  animation: logoPulse 5.4s ease-in-out infinite;
+  filter: drop-shadow(0 6px 14px rgba(1, 212, 171, 0.26));
+  animation: none;
 }
 
 .slow-net .logo {
@@ -145,16 +145,6 @@ body {
 .menu-backdrop.show {
   opacity: 1;
   pointer-events: auto;
-}
-
-@keyframes logoPulse {
-  0%,
-  100% {
-    transform: scale(1);
-  }
-  50% {
-    transform: scale(1.04);
-  }
 }
 
 .icon-btn {
@@ -537,7 +527,7 @@ body {
           </svg>
         </button>
       </div>
-      <a class="logo-link" href="/index.html" data-i18n-aria="home" aria-label="Home"><img loading="lazy" decoding="async" class="logo" src="/assets/logo.png" alt="JENGU"></a>
+      <a class="logo-link" href="/index.html" data-i18n-aria="home" aria-label="Home"><img loading="eager" fetchpriority="high" decoding="async" class="logo" src="/assets/logo.png" alt="JENGU"></a>
       <div class="topbar-actions">
         <button id="langBtn" class="icon-btn lang-btn" type="button" aria-label="Language">FR</button>
         <a class="icon-btn" href="/user/login.html" data-i18n-aria="profile" aria-label="Profile">
