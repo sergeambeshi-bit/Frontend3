@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Browse – JENGU</title>
 <link rel="stylesheet" href="/styles/app.css">
+<link rel="stylesheet" href="/styles/components.css">
 </head>
 
 <body class="has-topbar-clearance fan-premium-page">
@@ -24,13 +25,13 @@
 
 <!-- SIDE MENU -->
 <div id="sideMenu" class="side-menu">
-  <a href="/" data-i18n="browse"></a>
-  <a href="/browse.html" data-i18n="browse"></a>
-  <a href="/genres.html" data-i18n="genres"></a>
-  <a href="/charts.html" data-i18n="charts"></a>
-  <a href="/new-releases.html" data-i18n="new"></a>
-  <a href="/user/library.html" data-i18n="library">Bibliotheque</a>
-  <a href="/user/purchases.html" data-i18n="purchases">Achats</a>
+  <a href="/discover.html" data-i18n="discoverNav">Decouvrir</a>
+  <a href="/browse.html" data-i18n="musicNav">Musique</a>
+  <a href="/movies.html" data-i18n="moviesNav">Films</a>
+  <a href="/events.html" data-i18n="eventsNav">Evenements</a>
+  <a href="/merch.html" data-i18n="merchNav">Merch</a>
+  <a href="/creators.html" data-i18n="creatorsNav">Createurs</a>
+  <a href="/artist/signup.html" data-i18n="sellOnJenguNav">Vendre</a>
 </div>
 
 <!-- SEARCH -->
@@ -70,8 +71,15 @@
   </div>
 </section>
 
+<nav class="bottom-nav" aria-label="Primary">
+  <a href="/index.html" data-i18n="home">Home</a>
+  <a class="active" href="/discover.html" data-i18n="discoverNav">Discover</a>
+  <a href="/artist/signup.html" data-i18n="sellOnJenguNav">Sell</a>
+  <a href="/user/login.html" data-i18n="profile">Profile</a>
+</nav>
+
 <script type="module">
-import { initLang, applyLang } from "/js/lang.js";
+import { initLang, applyLang, translate } from "/js/lang.js";
 import { supabase } from "/js/supabase.js";
 import { getCurrentUser } from "/js/auth.js";
 import { cart } from "/js/cart.js";
@@ -140,11 +148,20 @@ window.addEventListener("DOMContentLoaded", async () => {
       : `/track.html?id=${item.id}`;
 
     return `
-      <a href="${link}" class="card" data-id="${item.id}">
-        <img src="${item.cover || getRandomCover()}">
-        <div>${item.name}</div>
-        <div>${item.price} XAF</div>
-        <button class="buy" data-i18n="buy"></button>
+      <a href="${link}" class="mc-card" data-cat="music" data-id="${item.id}">
+        <div class="mc-card-img">
+          <img src="${item.cover || getRandomCover()}" alt="${item.name}">
+          <span class="mc-card-badge">${item.type === "album" ? "ALBUM" : "TRACK"}</span>
+          <button class="mc-card-play" type="button" aria-label="${translate("play")}">▶</button>
+        </div>
+        <div class="mc-card-body">
+          <p class="mc-card-title">${item.name}</p>
+          <p class="mc-card-creator">${item.artist}</p>
+          <div class="mc-card-foot">
+            <span class="mc-card-price">${item.price} XAF</span>
+            <button class="mc-card-cta buy" type="button">${translate("buy")}</button>
+          </div>
+        </div>
       </a>
     `;
   }
@@ -236,6 +253,14 @@ window.addEventListener("DOMContentLoaded", async () => {
 
   /* ADD TO CART */
   document.addEventListener("click", e => {
+    const previewBtn = e.target.closest(".mc-card-play");
+    if (previewBtn) {
+      e.preventDefault();
+      e.stopPropagation();
+      new Audio("/assets/sample.wav").play().catch(() => {});
+      return;
+    }
+
     if (!e.target.classList.contains("buy")) return;
 
     e.preventDefault();
@@ -246,7 +271,7 @@ window.addEventListener("DOMContentLoaded", async () => {
       return;
     }
 
-    const card = e.target.closest(".card");
+    const card = e.target.closest(".mc-card");
     if (!card) return;
 
     const id = card.dataset.id;

@@ -106,7 +106,7 @@
 .d-shell {
   max-width: 1240px;
   margin: 0 auto;
-  padding: 80px 24px 100px;
+  padding: 80px 24px 124px;
 }
 
 /* =====================
@@ -704,29 +704,19 @@
 
   <div class="d-divider"></div>
 
-  <!-- REGIONAL SECTIONS -->
-  <div class="d-regional">
-
-    <div class="d-region">
-      <p class="d-region-eyebrow">Spotlight</p>
-      <h2 class="d-region-heading">Cameroun</h2>
-      <div class="d-region-row" id="cameroonRow"></div>
-    </div>
-
-    <div class="d-region">
-      <p class="d-region-eyebrow">Picks</p>
-      <h2 class="d-region-heading">Francophonie</h2>
-      <div class="d-region-row" id="francoRow"></div>
-    </div>
-
-  </div>
-
   <!-- LOAD MORE -->
   <div class="d-loadmore">
     <button class="d-btn-load" id="loadMoreBtn" type="button" data-i18n="discoverLoadMore">Charger</button>
   </div>
 
 </main>
+
+<nav class="bottom-nav" aria-label="Primary">
+  <a href="/index.html" data-i18n="home">Home</a>
+  <a class="active" href="/discover.html" data-i18n="discoverNav">Discover</a>
+  <a href="/artist/signup.html" data-i18n="sellOnJenguNav">Sell</a>
+  <a href="/user/login.html" data-i18n="profile">Profile</a>
+</nav>
 
 <script type="module">
 import { initLang, getLang, translate } from "/js/lang.js";
@@ -740,6 +730,7 @@ initLang();
 let activeTab  = "all";
 let activeSort = "popular";
 let activeRegion = "";
+let activeGenre = "";
 let page = 0;
 const PAGE_SIZE = 8;
 
@@ -774,8 +765,28 @@ function itemLink(item) {
   return "#";
 }
 
+function matchesGenre(item, genre) {
+  if (!genre) return true;
+
+  const key = String(genre).toLowerCase();
+  const kind = String(item.kind || "").toLowerCase();
+
+  if (key === "documentary") {
+    return item.category === "movies" && kind === "documentary";
+  }
+
+  if (["afrofusion", "coupedecale", "makossa", "jazz"].includes(key)) {
+    return item.category === "music";
+  }
+
+  return false;
+}
+
 function getFiltered() {
   let items = filterItems(marketplaceItems, activeTab);
+  if (activeGenre) {
+    items = items.filter(i => matchesGenre(i, activeGenre));
+  }
   if (activeRegion) {
     items = items.filter(i => (i.city || "").toLowerCase().includes(activeRegion));
   }
@@ -877,18 +888,6 @@ function scrollCard(item) {
 }
 
 /* ==============================
-   REGION MINI CARD
-   ============================== */
-function regionCard(item) {
-  return `
-    <a href="${itemLink(item)}" class="d-reg-card">
-      <img src="${item.cover}" alt="${title(item)}" loading="lazy">
-      <p class="d-reg-label">${title(item)}</p>
-    </a>
-  `;
-}
-
-/* ==============================
    DISCOVERY SECTIONS
    ============================== */
 function renderSections() {
@@ -919,19 +918,6 @@ function renderSections() {
 /* ==============================
    REGIONAL SECTIONS
    ============================== */
-function renderRegional() {
-  const cameroon = marketplaceItems.filter(i => {
-    const c = (i.city || "").toLowerCase();
-    return c === "douala" || c === "yaounde";
-  });
-  document.getElementById("cameroonRow").innerHTML = cameroon.length
-    ? cameroon.map(regionCard).join("")
-    : `<p style="color:#4e6480;font-size:13px;">${t("discoverNoItems")}</p>`;
-
-  document.getElementById("francoRow").innerHTML =
-    sortItems([...marketplaceItems], "popular").map(regionCard).join("");
-}
-
 /* ==============================
    TAB SWITCHING
    ============================== */
@@ -953,6 +939,8 @@ document.getElementById("sortSelect").addEventListener("change", e => {
 });
 
 document.getElementById("genreSelect").addEventListener("change", () => {
+  const genre = document.getElementById("genreSelect");
+  activeGenre = genre?.value || "";
   renderGrid(true);
 });
 
@@ -999,7 +987,6 @@ applyUrlParams();
 renderFeatured();
 renderGrid(true);
 renderSections();
-renderRegional();
 </script>
 </body>
 </html>

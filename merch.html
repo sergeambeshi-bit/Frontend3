@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Merch - JENGU</title>
 <link rel="stylesheet" href="/styles/app.css">
+<link rel="stylesheet" href="/styles/components.css">
 </head>
 <body class="has-topbar-clearance fan-premium-page" data-i18n-title="merchPageTitle">
 <a href="/checkout.html" class="cart-btn" aria-label="Voir le panier" data-i18n-aria="viewCartAria"><span class="cart-icon">🛒</span><span class="cart-count">0</span></a>
@@ -21,19 +22,12 @@
   <a href="/events.html" data-i18n="eventsNav">Evenements</a>
   <a href="/merch.html" data-i18n="merchNav">Merch</a>
   <a href="/creators.html" data-i18n="creatorsNav">Createurs</a>
-  <a href="/artist-pricing.html" data-i18n="artistPricingNav">Tarifs Artiste</a>
-  <a href="/artist/signup.html" data-i18n="sellOnJenguNav">Vendre sur JENGU</a>
+  <a href="/artist-pricing.html" data-i18n="artistPricingNav">Tarifs</a>
+  <a href="/artist/signup.html" data-i18n="sellOnJenguNav">Vendre</a>
 </div>
 
 <section class="section">
   <h2 data-i18n="merchHeading">Marketplace Merch</h2>
-  <p class="sub" data-i18n="merchSub">Vetements, collector packs et objets physiques vendus directement par les createurs.</p>
-  <div class="regional-pulse-grid" style="margin-bottom:16px;">
-    <article class="pulse-card"><h3 data-i18n="merchFeaturedTitle">Merch en vedette</h3><p data-i18n="merchFeaturedBody">Drops limites et editions signatures.</p></article>
-    <article class="pulse-card"><h3 data-i18n="merchCreatorDropsTitle">Drops createurs</h3><p data-i18n="merchCreatorDropsBody">Pieces exclusives liees a vos artistes favoris.</p></article>
-    <article class="pulse-card"><h3 data-i18n="merchDeliveryTitle">Livraison premium</h3><p data-i18n="merchDeliveryBody">Expedition suivie et disponibilites en temps reel.</p></article>
-  </div>
-
   <div id="merchGrid" class="regional-pulse-grid"></div>
 </section>
 
@@ -52,6 +46,13 @@
     <a href="/merch.html" class="explore-chip active" data-i18n="merchNav">Merch</a>
   </div>
 </section>
+
+<nav class="bottom-nav" aria-label="Primary">
+  <a href="/index.html" data-i18n="home">Home</a>
+  <a class="active" href="/discover.html" data-i18n="discoverNav">Discover</a>
+  <a href="/artist/signup.html" data-i18n="sellOnJenguNav">Sell</a>
+  <a href="/user/login.html" data-i18n="profile">Profile</a>
+</nav>
 
 <script type="module">
 import { initLang, getLang, translate } from "/js/lang.js";
@@ -78,13 +79,21 @@ function renderMerch() {
   merchGrid.innerHTML = merchItems.map((item) => {
     const title = getLocalizedValue(item.title, getLang());
     return `
-      <article class="pulse-card">
-        <img src="${item.cover}" alt="${title}" style="width:100%;aspect-ratio:16/10;object-fit:cover;border-radius:12px;margin-bottom:10px;">
-        <h3>${title}</h3>
-        <p>${item.creator} • ${item.city}</p>
-        <p>${item.price} XAF • ${translate("stockLabel")}: ${getStock(item)}</p>
-        <a class="btn-primary" style="display:block;text-align:center;margin-top:10px;" href="/merch-product.html?id=${item.id}" data-i18n="view">${translate("view")}</a>
-      </article>
+      <a class="mc-card" href="/merch-product.html?id=${item.id}" data-cat="merch">
+        <div class="mc-card-img">
+          <img src="${item.cover}" alt="${title}">
+          <span class="mc-card-badge">${translate("merchNav")}</span>
+        </div>
+        <div class="mc-card-body">
+          <p class="mc-card-title">${title}</p>
+          <p class="mc-card-creator">${item.creator}</p>
+          <p class="mc-card-meta">${item.city || ""} • ${translate("stockLabel")}: ${getStock(item)}</p>
+          <div class="mc-card-foot">
+            <span class="mc-card-price">${item.price} XAF</span>
+            <span class="mc-card-cta">${translate("view")}</span>
+          </div>
+        </div>
+      </a>
     `;
   }).join("");
 }

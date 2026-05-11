@@ -396,12 +396,50 @@ button {
 .side-menu a {
   color: #e5e7eb;
   text-decoration: none;
-  font-size: 15px;
-  opacity: 0.8;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  line-height: 1.2;
+  min-height: 40px;
+  padding: 10px 12px;
+  border-radius: 10px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  opacity: 0.86;
+  transition: background 0.18s ease, opacity 0.18s ease, color 0.18s ease;
 }
 
 .side-menu a:hover {
+  background: rgba(255,255,255,0.06);
   opacity: 1;
+}
+
+.side-menu a[data-icon]::before,
+body.artist-premium-page .action-btn[data-icon]::before {
+  content: attr(data-icon);
+  width: 1.15em;
+  min-width: 1.15em;
+  margin-right: 0.32em;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+  transform: translateY(-0.5px);
+}
+
+body.artist-premium-page .icon-label[data-icon] {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.34em;
+}
+
+body.artist-premium-page .icon-label[data-icon]::before,
+body.artist-premium-page .edit-btn[data-icon]::before,
+body.artist-premium-page .delete-btn[data-icon]::before {
+  content: attr(data-icon);
+  line-height: 1;
+  transform: translateY(-0.4px);
 }
 
 .menu-logo {
@@ -969,6 +1007,34 @@ button {
   backdrop-filter: blur(10px);
 }
 
+.bottom-nav a {
+  text-decoration: none;
+  color: #dce4f3;
+  font-size: 12px;
+  font-weight: 700;
+  padding: 8px 10px;
+  border-radius: 999px;
+  transition: background 0.16s ease, color 0.16s ease;
+}
+
+.bottom-nav a.active {
+  background: rgba(1, 212, 171, 0.22);
+  color: #e9fffa;
+}
+
+.bottom-nav .nav-item[data-icon] {
+  min-width: 34px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.bottom-nav .nav-item[data-icon]::before {
+  content: attr(data-icon);
+  line-height: 1;
+  transform: translateY(-0.4px);
+}
+
 /* =========================
    SEARCH
 ========================= */
@@ -1238,8 +1304,10 @@ body.artist-premium-page .actions {
 }
 
 body.artist-premium-page .action-btn {
-  padding: 10px 14px;
+  padding: 10px 16px;
+  min-width: 118px;
   font-weight: 600;
+  letter-spacing: 0.01em;
 }
 
 .discovery-access {
@@ -1493,12 +1561,13 @@ body.fan-premium-page .premium-busy::after {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  padding: 8px 14px;
+  padding: 9px 16px;
   border-radius: 999px;
   background: linear-gradient(120deg, #01d4ab, #4cf5d6 55%, #84ffea);
   color: #041211;
   font-size: 12px;
   font-weight: 700;
+  letter-spacing: 0.01em;
   text-decoration: none;
   white-space: nowrap;
   transition: transform 0.2s ease, box-shadow 0.2s ease;

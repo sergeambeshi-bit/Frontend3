@@ -368,6 +368,23 @@
   padding: 24px 18px 36px;
 }
 
+.admin-btn[data-icon] {
+  display: inline-flex;
+  align-items: center;
+}
+
+.admin-btn[data-icon]::before {
+  content: attr(data-icon);
+  width: 1.15em;
+  min-width: 1.15em;
+  margin-right: 0.34em;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+  transform: translateY(-0.5px);
+}
+
 .neon-table {
   width: 100%;
   border-collapse: collapse;

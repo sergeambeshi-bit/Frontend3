@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Evenements - JENGU</title>
 <link rel="stylesheet" href="/styles/app.css">
+<link rel="stylesheet" href="/styles/components.css">
 </head>
 <body class="has-topbar-clearance fan-premium-page" data-i18n-title="eventsPageTitle">
 <a href="/checkout.html" class="cart-btn" aria-label="Voir le panier" data-i18n-aria="viewCartAria"><span class="cart-icon">🛒</span><span class="cart-count">0</span></a>
@@ -21,22 +22,12 @@
   <a href="/events.html" data-i18n="eventsNav">Evenements</a>
   <a href="/merch.html" data-i18n="merchNav">Merch</a>
   <a href="/creators.html" data-i18n="creatorsNav">Createurs</a>
-  <a href="/artist-pricing.html" data-i18n="artistPricingNav">Tarifs Artiste</a>
-  <a href="/artist/signup.html" data-i18n="sellOnJenguNav">Vendre sur JENGU</a>
+  <a href="/artist-pricing.html" data-i18n="artistPricingNav">Tarifs</a>
+  <a href="/artist/signup.html" data-i18n="sellOnJenguNav">Vendre</a>
 </div>
 
 <section class="section">
   <h2 data-i18n="eventsHeading">Marketplace Evenements</h2>
-  <p class="sub" data-i18n="eventsSub">Decouvrez les prochaines soirees creatives, projections et experiences culturelles live.</p>
-  <div class="regional-pulse-grid">
-    <article class="pulse-card"><h3 data-i18n="eventsCard1Title">A Venir</h3><p data-i18n="eventsCard1Body">Nuit des Createurs de Yaounde • 14 Mai</p></article>
-    <article class="pulse-card"><h3 data-i18n="eventsCard2Title">Evenement Cinema</h3><p data-i18n="eventsCard2Body">Week-end Afro-Cinema • 22 Mai</p></article>
-    <article class="pulse-card"><h3 data-i18n="eventsCard3Title">Session Musique</h3><p data-i18n="eventsCard3Body">Salon d'Ecoute JENGU • 31 Mai</p></article>
-  </div>
-</section>
-
-<section class="section">
-  <h3 data-i18n="eventsTicketsHeading">Billets disponibles</h3>
   <div id="eventsTicketGrid" class="regional-pulse-grid"></div>
 </section>
 
@@ -55,6 +46,13 @@
     <a href="/merch.html" class="explore-chip" data-i18n="merchNav">Merch</a>
   </div>
 </section>
+
+<nav class="bottom-nav" aria-label="Primary">
+  <a href="/index.html" data-i18n="home">Home</a>
+  <a class="active" href="/discover.html" data-i18n="discoverNav">Discover</a>
+  <a href="/artist/signup.html" data-i18n="sellOnJenguNav">Sell</a>
+  <a href="/user/login.html" data-i18n="profile">Profile</a>
+</nav>
 
 <script type="module">
 import { initLang, getLang, translate } from "/js/lang.js";
@@ -80,15 +78,21 @@ function renderTickets() {
   }
 
   ticketGrid.innerHTML = tickets.map((item) => `
-    <article class="pulse-card" data-id="${item.id}">
-      <img src="${item.cover}" alt="${getLocalizedValue(item.title, getLang())}" style="width:100%;aspect-ratio:16/10;object-fit:cover;border-radius:12px;margin-bottom:10px;">
-      <h3>${getLocalizedValue(item.title, getLang())}</h3>
-      <p>${item.creator} • ${item.city}</p>
-      <p>${translate(kindLabelMap[item.kind] || "kindLive")} • ${item.releaseDate}</p>
-      <p><strong>${item.price} XAF</strong></p>
-      <button type="button" class="btn-primary event-buy" data-id="${item.id}" style="width:100%;margin-top:10px;" data-i18n="buy">${translate("buy")}</button>
-      <a href="/event.html?id=${item.id}" class="btn-ghost" style="display:block;text-align:center;margin-top:6px;" data-i18n="view">${translate("view")}</a>
-    </article>
+    <a class="mc-card" href="/event.html?id=${item.id}" data-cat="events" data-id="${item.id}">
+      <div class="mc-card-img">
+        <img src="${item.cover}" alt="${getLocalizedValue(item.title, getLang())}">
+        <span class="mc-card-badge badge-live">${translate(kindLabelMap[item.kind] || "kindLive")}</span>
+      </div>
+      <div class="mc-card-body">
+        <p class="mc-card-title">${getLocalizedValue(item.title, getLang())}</p>
+        <p class="mc-card-creator">${item.creator}</p>
+        <p class="mc-card-meta">${item.city || ""} • ${item.releaseDate || ""}</p>
+        <div class="mc-card-foot">
+          <span class="mc-card-price">${item.price} XAF</span>
+          <button type="button" class="mc-card-cta event-buy" data-id="${item.id}">${translate("buy")}</button>
+        </div>
+      </div>
+    </a>
   `).join("");
 }
 

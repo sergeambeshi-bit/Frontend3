@@ -282,7 +282,7 @@ function handlePhoneDetection(method) {
     return;
   }
 
-  const label = detected === "mtn" ? "MTN MoMo" : "Orange Money";
+  const label = detected === "mtn" ? "MTN" : "Orange";
   setNetworkHint(`${translate("checkoutNetwork")}: ${label}`, "ok");
 
   if (isMobileMoney(method) && detected !== method) {

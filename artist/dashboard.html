@@ -25,10 +25,10 @@
 
   <hr>
 
-  <a href="/artist/dashboard.html" data-i18n="dashboard">Tableau de bord</a>
+  <a href="/artist/dashboard.html" data-i18n="dashboard">Dashboard</a>
   <a href="/artist/catalog.html" data-i18n="catalog">Catalogue</a>
-  <a href="/artist/upload-track.html" data-i18n="uploadTrack">Televerser un morceau</a>
-  <a href="/artist/upload-album.html" data-i18n="uploadAlbum">Televerser un album</a>
+  <a href="/artist/upload-track.html" data-i18n="uploadTrack">Televerser</a>
+  <a href="/artist/upload-album.html" data-i18n="uploadAlbum">Televerser</a>
   <a href="/settings.html" data-i18n="settings">Paramètres</a>
 
 </div>
@@ -47,13 +47,13 @@
     <p class="upgrade-banner-title" data-i18n="upgradeBannerFreePlanTitle">You&rsquo;re on the Free plan &mdash; 15% commission per sale</p>
     <p class="upgrade-banner-sub" data-i18n="upgradeBannerFreePlanSub">Upgrade to Pro for 8&ndash;10% commission + featured placement + advanced analytics.</p>
   </div>
-  <a href="/artist-pricing.html" class="upgrade-banner-cta" data-i18n="upgradeBannerCta">View Pro Plan &rarr;</a>
+  <a href="/artist-pricing.html" class="upgrade-banner-cta" data-i18n="upgradeBannerCta">Upgrade &rarr;</a>
   <button class="upgrade-banner-dismiss" id="upgradeBannerDismiss" aria-label="Dismiss upgrade banner">&times;</button>
 </div>
 
 <!-- EARNINGS -->
 <section class="section">
-  <h3 data-i18n="earnings">💰 Earnings</h3>
+  <h3 class="icon-label" data-i18n="earnings" data-icon="💰">Earnings</h3>
 
   <div id="earningsBox" class="card" style="padding:20px;">
     <h2 id="totalEarnings">Loading...</h2>
@@ -63,7 +63,7 @@
 
 <!-- PAYOUT HISTORY -->
 <section class="section">
-  <h3 data-i18n="payoutHistory">📤 Payout History</h3>
+  <h3 class="icon-label" data-i18n="payoutHistory" data-icon="📤">Payout History</h3>
   <div id="payoutList"></div>
 </section>
 
@@ -72,14 +72,14 @@
   <h3 data-i18n="quickActions">Actions rapides</h3>
 
   <div class="actions">
-    <a href="/artist/upload-track.html" class="action-btn" data-i18n="uploadTrack">⬆ Upload</a>
-    <a href="/artist/upload-album.html" class="action-btn" data-i18n="uploadAlbum">💿 Upload</a>
-    <a href="/artist/catalog.html" class="action-btn" data-i18n="viewCatalog">🎶 Catalogue</a>
+    <a href="/artist/upload-track.html" class="action-btn" data-i18n="uploadTrack" data-icon="⬆">Upload</a>
+    <a href="/artist/upload-album.html" class="action-btn" data-i18n="uploadAlbum" data-icon="💿">Upload</a>
+    <a href="/artist/catalog.html" class="action-btn" data-i18n="viewCatalog" data-icon="🎶">Catalogue</a>
   </div>
 </section>
 
 <script type="module">
-import { initLang, translate } from "/js/lang.js";
+import { initLang, getLang, translate } from "/js/lang.js";
 
 initLang();
   import { requireRole } from "/js/auth.js";
@@ -89,37 +89,69 @@ import { supabase } from "/js/supabase.js";
   if(!user) throw new Error(translate("artistAccountRequired"));
 
 async function load(){
+  const earningsEl = document.getElementById("totalEarnings");
+  const payoutList = document.getElementById("payoutList");
+  let total = 0;
 
   const { data: tracks } = await supabase
     .from("tracks")
     .select("id")
     .eq("artist", user.name);
 
-  if(!tracks.length){
-    document.getElementById("totalEarnings").innerText="0 XAF";
-    return;
+  const trackRows = Array.isArray(tracks) ? tracks : [];
+
+  if(trackRows.length){
+    const ids = trackRows.map(t => t.id);
+
+    const { data: purchases } = await supabase
+      .from("purchases")
+      .select("price")
+      .in("track_id", ids);
+
+    const purchaseRows = Array.isArray(purchases) ? purchases : [];
+    total = purchaseRows.reduce((s, p) => s + Number(p.price || 0), 0);
   }
 
-  const ids = tracks.map(t=>t.id);
+  if (earningsEl) {
+    earningsEl.innerText = `${total.toLocaleString("fr-FR")} XAF`;
+    earningsEl.dataset.amount = String(total);
+  }
 
-  const { data: purchases } = await supabase
-    .from("purchases")
-    .select("*")
-    .in("track_id", ids);
+  const { data: payouts } = await supabase
+    .from("payouts")
+    .select("amount,status,created_at")
+    .eq("artist", user.name)
+    .order("created_at", { ascending: false })
+    .limit(8);
 
-  let total = purchases.reduce((s,p)=>s+p.price,0);
+  const payoutRows = Array.isArray(payouts) ? payouts : [];
 
-  document.getElementById("totalEarnings").innerText = total+" XAF";
+  if (payoutList) {
+    if (!payoutRows.length) {
+      payoutList.innerHTML = `<p class="sub" style="margin:0;">${translate("noPayoutsFound")}</p>`;
+    } else {
+      payoutList.innerHTML = payoutRows.map((row) => {
+        const amount = Number(row.amount || 0).toLocaleString("fr-FR");
+        const date = new Date(row.created_at || Date.now()).toLocaleDateString(getLang() === "fr" ? "fr-FR" : "en-US");
+        return `<div class="card" style="padding:12px;margin-bottom:8px;display:flex;justify-content:space-between;gap:8px;align-items:center;">
+          <span>${amount} XAF</span>
+          <span class="sub">${row.status || "requested"} • ${date}</span>
+        </div>`;
+      }).join("");
+    }
+  }
 }
 
 document.getElementById("withdrawBtn").onclick = async ()=>{
-
-  const amount = parseInt(document.getElementById("totalEarnings").innerText);
+  const btn = document.getElementById("withdrawBtn");
+  const amount = Number(document.getElementById("totalEarnings")?.dataset.amount || 0);
 
   if(!amount){
     alert(translate("noEarnings"));
     return;
   }
+
+  if (btn) btn.disabled = true;
 
   await supabase.from("payouts").insert([{
     artist: user.name,
@@ -128,6 +160,8 @@ document.getElementById("withdrawBtn").onclick = async ()=>{
   }]);
 
   alert(translate("withdrawalRequested"));
+  if (btn) btn.disabled = false;
+  await load();
 };
 
 load();
