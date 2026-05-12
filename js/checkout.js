@@ -1,8 +1,23 @@
 import { cart } from "./cart.js";
 import { savePurchase } from "./store.js";
 import { translate } from "./lang.js";
+import {
+  detectMobileNetwork,
+  validateMobileMoneyPhone,
+  getNetworkConfig,
+  getMobileMoneyInstruction,
+  calculatePaymentTimeout,
+  validatePaymentAmount,
+  logMobileMoneyEvent,
+  getMobileMoneyErrorMessage,
+  estimatePaymentTime,
+  getPaymentMethodPriority,
+  detectSlowNetwork,
+  getBandwidthOptimization
+} from "./mobile-money.js";
 
 const PAYMENT_API = window.JENGU_PAYMENT_API || "https://jengupay.vercel.app";
+const BACKEND_API = window.JENGU_BACKEND_API || PAYMENT_API;
 const LAST_CHECKOUT_KEY = "jenguLastCheckout";
 
 function isMobileMoney(method) {
@@ -10,17 +25,14 @@ function isMobileMoney(method) {
 }
 
 function normalizePhone(raw) {
-  const digits = String(raw || "").replace(/\D/g, "");
-  if (/^6\d{8}$/.test(digits)) return `+237${digits}`;
-  if (/^2376\d{8}$/.test(digits)) return `+${digits}`;
-  return "";
+  const result = validateMobileMoneyPhone(raw);
+  return result.valid ? result.normalized : "";
 }
 
 function detectNetwork(normalizedPhone) {
-  const local = String(normalizedPhone || "").replace(/^\+237/, "");
-  if (local.startsWith("67") || local.startsWith("68")) return "mtn";
-  if (local.startsWith("69")) return "orange";
-  return "unknown";
+  const detected = detectMobileNetwork(normalizedPhone);
+  logMobileMoneyEvent("network_detected", { phone: normalizedPhone, network: detected });
+  return detected;
 }
 
 function fmtPrice(value) {
@@ -132,18 +144,25 @@ async function initiatePayment({ amount, method, email, name }) {
     throw new Error(translate("checkoutPhoneInvalid"));
   }
 
+  // Generate idempotency key to prevent duplicate charges
+  const idempotencyKey = `jengu-${Date.now()}-${Math.random().toString(36).slice(2, 9)}`;
+
   const payload = {
     amount,
     provider: method,
     email,
     name,
     currency: "XAF",
-    phone: isMomo ? normalizedPhone : undefined
+    phone: isMomo ? normalizedPhone : undefined,
+    itemIds: cart.items.map((item) => String(item.id || item.name || ""))
   };
 
   const res = await fetch(`${PAYMENT_API}/api/payments/initiate`, {
     method: "POST",
-    headers: { "Content-Type": "application/json" },
+    headers: { 
+      "Content-Type": "application/json",
+      "Idempotency-Key": idempotencyKey
+    },
     body: JSON.stringify(payload)
   });
 
@@ -179,6 +198,41 @@ async function pollPaymentStatus(reference, timeoutMs = 90000) {
   return "timeout";
 }
 
+async function verifyOrderConfirmation(reference, timeoutMs = 120000) {
+  /**
+   * Query backend to verify order is actually confirmed by payment provider.
+   * This prevents the race condition where frontend thinks payment succeeded
+   * but webhook hasn't been processed yet.
+   */
+  const startedAt = Date.now();
+  
+  while (Date.now() - startedAt < timeoutMs) {
+    try {
+      const res = await fetch(`${BACKEND_API}/api/orders/${encodeURIComponent(reference)}`, {
+        method: "GET"
+      });
+
+      if (res.ok) {
+        const data = await res.json().catch(() => ({}));
+        if (data.success && data.status === "confirmed") {
+          return { confirmed: true, order: data };
+        }
+        if (data.success && data.status === "failed") {
+          return { confirmed: false, order: data };
+        }
+      }
+    } catch (_err) {
+      // Network error, continue retrying
+    }
+
+    // Wait before next poll
+    await new Promise((resolve) => setTimeout(resolve, 2000));
+  }
+
+  // Timeout reached - backend never confirmed
+  return { confirmed: false, reason: "timeout" };
+}
+
 function resolveCheckoutType(items) {
   const first = items[0] || {};
   const category = String(first.category || "").toLowerCase();
@@ -200,7 +254,7 @@ function resolveViewLink(item, type) {
   return `/track.html?id=${encodeURIComponent(item.id)}`;
 }
 
-function persistCheckout(email, name, method) {
+function persistCheckout(email, name, method, reference) {
   const items = [...cart.items];
   const total = items.reduce((sum, item) => sum + Number(item.price || 0), 0);
   const type = resolveCheckoutType(items);
@@ -208,6 +262,7 @@ function persistCheckout(email, name, method) {
 
   const payload = {
     ts: Date.now(),
+    reference,
     email,
     name,
     method,
@@ -291,10 +346,29 @@ function handlePhoneDetection(method) {
 }
 
 export function initCheckout() {
+  // Detect if user is on slow network for optimization
+  const isSlowNetwork = detectSlowNetwork();
+  if (isSlowNetwork) {
+    const body = document.body;
+    if (body) body.classList.add("slow-network");
+  }
+
+  // Start with MTN (primary Mobile Money method)
   let selectedMethod = "mtn";
+  logMobileMoneyEvent("checkout_started", { method: selectedMethod, slowNetwork: isSlowNetwork });
+
   renderSummary();
   applyPayMethod(selectedMethod);
   updatePhoneUI(selectedMethod);
+
+  // Show network performance hint if slow connection
+  if (isSlowNetwork) {
+    const hint = document.getElementById("networkHint");
+    if (hint) {
+      hint.textContent = translate("checkoutConnectionSlow");
+      hint.dataset.tone = "info";
+    }
+  }
 
   const backBtn = document.getElementById("checkoutBackBtn");
   if (backBtn) {
@@ -306,6 +380,7 @@ export function initCheckout() {
   document.querySelectorAll(".pay-option").forEach((btn) => {
     btn.addEventListener("click", () => {
       selectedMethod = btn.dataset.method || "mtn";
+      logMobileMoneyEvent("payment_method_changed", { method: selectedMethod });
       applyPayMethod(selectedMethod);
       updatePhoneUI(selectedMethod);
       handlePhoneDetection(selectedMethod);
@@ -328,6 +403,7 @@ export function initCheckout() {
 
     if (!cart.items.length) {
       setFeedback(translate("cartEmpty"), "error");
+      logMobileMoneyEvent("payment_error", { reason: "empty_cart" });
       return;
     }
 
@@ -342,24 +418,47 @@ export function initCheckout() {
     if (!email) {
       setFeedback(translate("checkoutEmailRequired"), "error");
       if (emailInput) emailInput.focus();
+      logMobileMoneyEvent("payment_error", { reason: "no_email" });
       return;
     }
 
     if (isMobileMoney(selectedMethod) && !normalizedPhone) {
       setFeedback(translate("checkoutPhoneInvalid"), "error");
       if (phoneInputRef) phoneInputRef.focus();
+      logMobileMoneyEvent("payment_error", { reason: "invalid_phone", method: selectedMethod });
       return;
     }
 
+    // Validate amount for Mobile Money
+    const total = cart.items.reduce((sum, item) => sum + Number(item.price || 0), 0);
     if (isMobileMoney(selectedMethod)) {
-      setFeedback(translate("checkoutConfirmPhone"), "loading");
+      const amountCheck = validatePaymentAmount(selectedMethod, total);
+      if (!amountCheck.valid) {
+        setFeedback(amountCheck.error, "error");
+        logMobileMoneyEvent("payment_error", { reason: "invalid_amount", method: selectedMethod, amount: total });
+        return;
+      }
     }
 
-    const total = cart.items.reduce((sum, item) => sum + Number(item.price || 0), 0);
+    if (isMobileMoney(selectedMethod)) {
+      const network = detectNetwork(normalizedPhone);
+      const instruction = getMobileMoneyInstruction(selectedMethod, normalizedPhone);
+      setFeedback(instruction, "loading");
+      logMobileMoneyEvent("payment_initiated", {
+        method: selectedMethod,
+        network,
+        amount: total,
+        email,
+        slowNetwork: isSlowNetwork
+      });
+    }
 
     setLoading(true);
     setSpinner(true);
-    setFeedback(translate("checkoutWaiting"), "loading");
+    
+    const timeout = calculatePaymentTimeout(isSlowNetwork);
+    const timeEstimate = estimatePaymentTime(isSlowNetwork);
+    setFeedback(`${translate("checkoutWaiting")} (${timeEstimate})`, "loading");
 
     try {
       const online = await probeGateway();
@@ -370,23 +469,51 @@ export function initCheckout() {
       const paymentData = await initiatePayment({ amount: total, method: selectedMethod, email, name });
       const reference = paymentData?.reference || paymentData?.transactionId || paymentData?.id || "";
 
-      if (isMobileMoney(selectedMethod)) {
-        setFeedback(translate("checkoutConfirmPhone"), "loading");
-      }
-
-      const status = await pollPaymentStatus(reference);
-      if (status === "timeout") {
-        throw new Error(translate("checkoutTimeout"));
-      }
-      if (status === "failed") {
+      if (!reference) {
         throw new Error(translate("paymentFailed"));
       }
 
-      persistCheckout(email, name, selectedMethod);
+      logMobileMoneyEvent("payment_request_sent", { reference, method: selectedMethod });
+
+      if (isMobileMoney(selectedMethod)) {
+        const network = detectNetwork(normalizedPhone);
+        const confirm = network === "mtn" ? translate("checkoutConfirmMTN") : translate("checkoutConfirmOrange");
+        setFeedback(confirm, "loading");
+      }
+
+      // Important: Wait for webhook confirmation from backend before finishing checkout
+      setFeedback(translate("checkoutWaitingConfirmation") || "Awaiting payment confirmation...", "loading");
+      
+      const verification = await verifyOrderConfirmation(reference, timeout);
+      
+      if (!verification.confirmed) {
+        if (verification.reason === "timeout") {
+          logMobileMoneyEvent("payment_timeout", { reference, method: selectedMethod });
+          throw new Error(translate("mobileMoneyTimeout") || translate("checkoutTimeout"));
+        } else {
+          logMobileMoneyEvent("payment_failed", { reference, method: selectedMethod });
+          throw new Error(translate("paymentFailed") || "Payment was not confirmed");
+        }
+      }
+
+      logMobileMoneyEvent("payment_confirmed", { reference, method: selectedMethod });
+
+      // Only NOW that backend has confirmed the payment, save the purchase locally
+      persistCheckout(email, name, selectedMethod, reference);
       completeCheckout(selectedMethod);
-      window.location.href = "/checkout-success.html";
+      
+      window.location.href = `/checkout-success.html?reference=${encodeURIComponent(reference)}`;
     } catch (error) {
-      setFeedback(error?.message || translate("paymentFailed"), "error");
+      const userMessage = isMobileMoney(selectedMethod)
+        ? getMobileMoneyErrorMessage(error?.message || "", selectedMethod)
+        : error?.message || translate("paymentFailed");
+      
+      setFeedback(userMessage, "error");
+      logMobileMoneyEvent("payment_error", {
+        method: selectedMethod,
+        error: error?.message,
+        slowNetwork: isSlowNetwork
+      });
     } finally {
       setSpinner(false);
       setLoading(false);

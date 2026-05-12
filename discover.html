@@ -721,6 +721,7 @@
 
 <script type="module">
 import { initLang, getLang, translate } from "/js/lang.js";
+import { fetchBrowseResults } from "/js/api.js";
 import { marketplaceItems, filterItems, sortItems, getLocalizedValue } from "/js/marketplace-catalog.js";
 
 initLang();
@@ -734,6 +735,7 @@ let activeRegion = "";
 let activeGenre = "";
 let page = 0;
 const PAGE_SIZE = 8;
+let liveItems = [];
 
 const CAT_COLORS = {
   music:  "#01d4ab",
@@ -747,6 +749,28 @@ const CAT_COLORS = {
    ============================== */
 function t(key)      { return translate(key); }
 function title(item) { return getLocalizedValue(item.title, getLang()); }
+
+function getCatalog() {
+  return [...liveItems, ...marketplaceItems];
+}
+
+function toDiscoverItem(track, index) {
+  return {
+    id: `live-${track.id || index}`,
+    category: "music",
+    kind: String(track.type || "track").toLowerCase(),
+    title: {
+      fr: track.name || "Sans titre",
+      en: track.name || "Untitled"
+    },
+    creator: track.artist || "Unknown Artist",
+    price: Number(track.price || 300),
+    releaseDate: track.createdAt || new Date().toISOString(),
+    popularity: 75,
+    cover: track.cover || "/assets/covers/cover1.png",
+    city: "Cameroon"
+  };
+}
 
 function catLabel(cat) {
   const map = {
@@ -784,7 +808,7 @@ function matchesGenre(item, genre) {
 }
 
 function getFiltered() {
-  let items = filterItems(marketplaceItems, activeTab);
+  let items = filterItems(getCatalog(), activeTab);
   if (activeGenre) {
     items = items.filter(i => matchesGenre(i, activeGenre));
   }
@@ -798,7 +822,7 @@ function getFiltered() {
    FEATURED STRIP
    ============================== */
 function renderFeatured() {
-  const top2 = sortItems([...marketplaceItems], "popular").slice(0, 2);
+  const top2 = sortItems([...getCatalog()], "popular").slice(0, 2);
   document.getElementById("featuredStrip").innerHTML = top2.map(item => `
     <a href="${itemLink(item)}" class="d-feat-card">
       <img decoding="async" src="${item.cover}" alt="${title(item)}" loading="lazy">
@@ -892,7 +916,7 @@ function scrollCard(item) {
    DISCOVERY SECTIONS
    ============================== */
 function renderSections() {
-  const all = marketplaceItems;
+  const all = getCatalog();
 
   document.getElementById("trendingRow").innerHTML =
     sortItems([...all], "popular").map(scrollCard).join("");
@@ -985,6 +1009,16 @@ function applyUrlParams() {
    INIT
    ============================== */
 applyUrlParams();
+
+try {
+  const tracks = await fetchBrowseResults();
+  if (Array.isArray(tracks)) {
+    liveItems = tracks.map(toDiscoverItem);
+  }
+} catch (_err) {
+  liveItems = [];
+}
+
 renderFeatured();
 renderGrid(true);
 renderSections();

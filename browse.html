@@ -101,9 +101,14 @@ window.addEventListener("DOMContentLoaded", async () => {
 
   /* LOAD DATA */
   async function load(){
-    const { data } = await supabase.from("tracks").select("*");
-    allData = normalizeData(data || []);
-    render(allData);
+    try {
+      const { data, error } = await supabase.from("tracks").select("*");
+      if (error) throw error;
+      allData = normalizeData(data || []);
+      render(allData);
+    } catch (_err) {
+      grid.innerHTML = `<p class="sub">${translate("loadingError") || "Unable to load products right now."}</p>`;
+    }
   }
 
   /* GET RANDOM COVER */

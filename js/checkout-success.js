@@ -1,6 +1,7 @@
 import { applyLang, translate } from "./lang.js";
 
 const LAST_CHECKOUT_KEY = "jenguLastCheckout";
+const BACKEND_API = window.JENGU_BACKEND_API || window.JENGU_PAYMENT_API || "http://localhost:8080";
 
 function fmtPrice(value) {
   const amount = Number(value || 0);
@@ -17,9 +18,28 @@ function getCheckoutPayload() {
   }
 }
 
+/**
+ * Fetch actual order confirmation from backend
+ * This ensures we show real delivery details, not just browser state
+ */
+async function fetchOrderConfirmation(reference) {
+  try {
+    const res = await fetch(`${BACKEND_API}/api/orders/${encodeURIComponent(reference)}`);
+    if (!res.ok) return null;
+    return await res.json().catch(() => null);
+  } catch (_err) {
+    return null;
+  }
+}
+
 function seedFromQuery() {
   const params = new URLSearchParams(window.location.search);
   const type = String(params.get("type") || "music").toLowerCase();
+  const reference =
+    params.get("reference") ||
+    params.get("transaction_id") ||
+    params.get("transactionId") ||
+    "";
   const item = {
     id: params.get("id") || "",
     name: params.get("name") || "",
@@ -29,6 +49,7 @@ function seedFromQuery() {
   };
 
   return {
+    reference,
     type,
     item,
     total: item.price,
@@ -63,50 +84,53 @@ function mountSummary(payload) {
   card.hidden = false;
 }
 
-function hashCode(str) {
-  let hash = 0;
-  for (let i = 0; i < str.length; i += 1) {
-    hash = ((hash << 5) - hash) + str.charCodeAt(i);
-    hash |= 0;
-  }
-  return Math.abs(hash);
-}
-
-function buildTicketQr(seed) {
-  const grid = document.createElement("div");
-  grid.className = "ticket-qr";
-
-  const base = hashCode(seed || "JENGU");
-  for (let i = 0; i < 289; i += 1) {
-    const cell = document.createElement("span");
-    const bit = ((base >> (i % 24)) ^ (i * 73)) & 1;
-    if (bit) cell.className = "on";
-    grid.appendChild(cell);
-  }
-
-  return grid;
-}
-
-function mountTypePanel(payload) {
+function mountTypePanel(payload, orderData) {
   const panel = document.getElementById("successTypePanel");
   if (!panel) return;
 
   const type = String(payload?.type || "music").toLowerCase();
   const viewLink = payload?.viewLink || "/discover.html";
+  const ticketCode = payload?.ticketCode || orderData?.reference || "JENGU-TICKET";
+  const hasReference = Boolean(payload?.reference);
+  const orderStatus = String(orderData?.status || "").toLowerCase();
+  const isPaid = ["confirmed", "success", "paid"].includes(orderStatus);
+
+  if (hasReference && !orderData) {
+    panel.innerHTML = `
+      <h2 class="checkout-title">Order Verification</h2>
+      <p class="success-note">We could not verify your order with the backend right now.</p>
+      <p class="success-note">Please check your purchases page in a moment or retry from your order link.</p>
+    `;
+    return;
+  }
+
+  if (hasReference && orderData && !isPaid) {
+    panel.innerHTML = `
+      <h2 class="checkout-title">Order Status</h2>
+      <p class="success-note">Payment status: ${orderStatus || "pending"}</p>
+      <p class="success-note">Your purchase will unlock automatically once payment is confirmed.</p>
+    `;
+    return;
+  }
+
+  if (!hasReference) {
+    panel.innerHTML = `
+      <h2 class="checkout-title">Order Verification</h2>
+      <p class="success-note">Order reference is missing, so delivery cannot be verified.</p>
+      <p class="success-note">Please complete checkout again from your cart to unlock this purchase.</p>
+    `;
+    return;
+  }
 
   if (type === "events") {
     panel.innerHTML = `
       <h2 class="checkout-title" data-i18n="checkoutTicket">Ticket</h2>
       <div class="ticket-box">
-        <p class="ticket-code">${payload.ticketCode || "JNG-TICKET"}</p>
+        <p class="ticket-code">${ticketCode}</p>
+        <p class="ticket-note">✓ Ticket confirmed and linked to your paid order</p>
         <button class="checkout-mini" id="ticketViewBtn" data-i18n="view">View</button>
       </div>
     `;
-
-    const box = panel.querySelector(".ticket-box");
-    if (box) {
-      box.prepend(buildTicketQr(payload.ticketCode || "JNG-TICKET"));
-    }
 
     const viewBtn = document.getElementById("ticketViewBtn");
     if (viewBtn) {
@@ -121,35 +145,45 @@ function mountTypePanel(payload) {
   if (type === "merch") {
     panel.innerHTML = `
       <h2 class="checkout-title" data-i18n="checkoutOrder">Order</h2>
-      <p class="success-note" data-i18n="checkoutOrderConfirmed">Order confirmed. We will notify you with delivery updates.</p>
+      <p class="success-note">✓ Order confirmed. Confirmation email sent to your inbox.</p>
+      <p class="success-note">📦 Expected delivery: 5-7 business days</p>
     `;
     return;
   }
 
+  // Music/Movies/Albums
   panel.innerHTML = `
     <h2 class="checkout-title" data-i18n="checkoutDownload">Download</h2>
-    <button class="checkout-mini" id="downloadBtn" data-i18n="download">Download</button>
+    <p class="success-note">✓ Your paid order is confirmed.</p>
+    <p class="success-note">Download delivery is handled from backend fulfillment links and your email receipt.</p>
+    <button class="checkout-mini" id="downloadViewBtn" data-i18n="view">View</button>
   `;
 
-  const btn = document.getElementById("downloadBtn");
+  const btn = document.getElementById("downloadViewBtn");
   if (btn) {
     btn.addEventListener("click", () => {
-      const blob = new Blob(["JENGU purchase confirmed"], { type: "text/plain;charset=utf-8" });
-      const url = URL.createObjectURL(blob);
-      const anchor = document.createElement("a");
-      anchor.href = url;
-      anchor.download = "jengu-download.txt";
-      document.body.appendChild(anchor);
-      anchor.click();
-      anchor.remove();
-      URL.revokeObjectURL(url);
+      window.location.href = viewLink;
     });
   }
 }
 
-export function initCheckoutSuccess() {
+export async function initCheckoutSuccess() {
   const payload = getCheckoutPayload() || seedFromQuery();
+  
+  // Try to fetch actual order data from backend for real confirmation details
+  let orderData = null;
+  if (payload?.reference) {
+    orderData = await fetchOrderConfirmation(payload.reference);
+  }
+
+  const heading = document.querySelector(".checkout-heading");
+  const orderStatus = String(orderData?.status || "").toLowerCase();
+  const isPaid = ["confirmed", "success", "paid"].includes(orderStatus);
+  if (heading) {
+    heading.textContent = isPaid ? translate("checkoutSuccess") : "Order Verification";
+  }
+
   mountSummary(payload);
-  mountTypePanel(payload);
+  mountTypePanel(payload, orderData);
   applyLang();
 }

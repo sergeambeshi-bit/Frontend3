@@ -1,8 +1,16 @@
 // js/api.js
 
 import { getUploads } from "/js/store.js";
+import { supabase } from "/js/supabase.js";
 
 const API_BASE = '/api';
+
+const TRACK_ENDPOINTS = new Set([
+  "/browse",
+  "/new-releases",
+  "/top-artists",
+  "/genres"
+]);
 
 /* =========================================
    UTILITY FUNCTIONS
@@ -165,6 +173,16 @@ function mergeMarketplaceData(apiData = []) {
    SAFE FETCH
 ========================================= */
 async function safeFetch(endpoint) {
+
+  if (TRACK_ENDPOINTS.has(endpoint) || endpoint.startsWith("/trending")) {
+    try {
+      const { data, error } = await supabase.from("tracks").select("*");
+      if (error) throw error;
+      return mergeMarketplaceData(data || []);
+    } catch (supabaseErr) {
+      console.warn("Supabase fetch failed, falling back to API:", supabaseErr.message || supabaseErr);
+    }
+  }
 
   try {
     const res = await fetch(`${API_BASE}${endpoint}`);

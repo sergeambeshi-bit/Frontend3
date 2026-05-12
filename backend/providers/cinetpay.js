@@ -1,3 +1,5 @@
+import crypto from "crypto";
+
 const CINETPAY_BASE = "https://api-checkout.cinetpay.com/v2/payment";
 
 function mapPhoneForProvider(phone) {
@@ -61,7 +63,37 @@ export async function createPaymentIntent({
 }
 
 export function verifyWebhookSignature(reqBody, signature, secret) {
-  if (!secret) return true;
-  if (!signature) return false;
-  return signature === secret;
+  // If no secret configured, accept all webhooks (for testing only)
+  if (!secret) {
+    console.warn('[PAYMENT] No webhook secret configured - accepting all webhooks');
+    return true;
+  }
+  
+  if (!signature) {
+    console.warn('[PAYMENT] Webhook signature missing');
+    return false;
+  }
+
+  // CinetPay signs the raw JSON request body
+  // Signature is HMAC-SHA256(secret, body) encoded as hex
+  try {
+    const expected = crypto
+      .createHmac('sha256', secret)
+      .update(String(reqBody || ''))
+      .digest('hex');
+
+    const result = crypto.timingSafeEqual(
+      Buffer.from(signature, 'hex'),
+      Buffer.from(expected, 'hex')
+    );
+    
+    if (!result) {
+      console.warn('[PAYMENT] Webhook signature mismatch - potential fraudulent request');
+    }
+    
+    return result;
+  } catch (err) {
+    console.error('[PAYMENT] Webhook signature verification failed:', err.message);
+    return false;
+  }
 }
